@@ -41,7 +41,7 @@ const readConfig = node({
     position: [220, 300],
     parameters: {
       method: 'GET',
-      url: 'https://api.github.com/repos/Louis-50/spotler-mia-loader/contents/config/config.json?ref=main',
+      url: 'https://api.github.com/repos/Spotler-Data-Science/spotler-mia-loader/contents/config/config.json?ref=main',
       authentication: 'predefinedCredentialType',
       nodeCredentialType: 'githubApi',
       sendHeaders: true,
@@ -135,7 +135,7 @@ const commit = node({
     onError: 'continueErrorOutput',
     parameters: {
       method: 'PUT',
-      url: 'https://api.github.com/repos/Louis-50/spotler-mia-loader/contents/config/config.json',
+      url: 'https://api.github.com/repos/Spotler-Data-Science/spotler-mia-loader/contents/config/config.json',
       authentication: 'predefinedCredentialType',
       nodeCredentialType: 'githubApi',
       sendHeaders: true,
@@ -148,7 +148,7 @@ const commit = node({
     },
     credentials: { githubApi: newCredential('GitHub: spotler-mia-loader config') }
   },
-  output: [{ commit: { sha: 'def456', html_url: 'https://github.com/Louis-50/spotler-mia-loader/commit/def456' } }]
+  output: [{ commit: { sha: 'def456', html_url: 'https://github.com/Spotler-Data-Science/spotler-mia-loader/commit/def456' } }]
 });
 
 const purgeNow = node({
@@ -158,7 +158,7 @@ const purgeNow = node({
     name: 'Purge jsDelivr cache',
     position: [1760, 100],
     onError: 'continueRegularOutput',
-    parameters: { method: 'GET', url: 'https://purge.jsdelivr.net/gh/Louis-50/spotler-mia-loader@main/config/config.json' }
+    parameters: { method: 'GET', url: 'https://purge.jsdelivr.net/gh/Spotler-Data-Science/spotler-mia-loader@main/config/config.json' }
   },
   output: [{ status: 'finished' }]
 });
@@ -197,7 +197,7 @@ const purgeAgain = node({
     name: 'Purge jsDelivr again',
     position: [1980, 300],
     onError: 'continueRegularOutput',
-    parameters: { method: 'GET', url: 'https://purge.jsdelivr.net/gh/Louis-50/spotler-mia-loader@main/config/config.json' }
+    parameters: { method: 'GET', url: 'https://purge.jsdelivr.net/gh/Spotler-Data-Science/spotler-mia-loader@main/config/config.json' }
   },
   output: [{ status: 'finished' }]
 });
@@ -233,7 +233,7 @@ const rejected = node({
   output: [{}]
 });
 
-const note = sticky('## Mia chat: page settings\nMarketing edits `config/config.json` in GitHub (Louis-50/spotler-mia-loader) through this form. The GTM tag reads that file from jsDelivr.\n\n1. The form asks for a page, then shows its current settings.\n2. **Apply and check** runs the same checks as `scripts/check-config.mjs`; nothing is published if one fails.\n3. The change is committed to `main` and the jsDelivr cache is purged (again after 90s, once GitHub has caught up).\n\nSetup: add a fine-grained GitHub token (this repo only, Contents read + write) as the **GitHub: spotler-mia-loader config** credential. The form needs an n8n login.', [readConfig, findRow, applyChange], { color: 5 });
+const note = sticky('## Mia chat: page settings\nMarketing edits `config/config.json` in GitHub (Spotler-Data-Science/spotler-mia-loader) through this form. The GTM tag reads that file from jsDelivr.\n\n1. The form asks for a page, then shows its current settings.\n2. **Apply and check** runs the same checks as `scripts/check-config.mjs`; nothing is published if one fails.\n3. The change is committed to `main` and the jsDelivr cache is purged (again after 90s, once GitHub has caught up).\n\nSetup: add a fine-grained GitHub token (this repo only, Contents read + write) as the **GitHub: spotler-mia-loader config** credential. The form needs an n8n login.', [readConfig, findRow, applyChange], { color: 5 });
 
 export default workflow('mia-page-editor', 'Mia chat: page settings (marketing)')
   .add(choosePage)

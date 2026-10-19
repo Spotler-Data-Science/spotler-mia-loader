@@ -20,7 +20,7 @@ for (const f of files) {
 }
 
 const stamp = new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC";
-const banner = `/* Spotler Mia lazy loader v${pkg.version} · built ${stamp} · source: github.com/Louis-50/spotler-mia-loader */`;
+const banner = `/* Spotler Mia lazy loader v${pkg.version} · built ${stamp} · source: github.com/Spotler-Data-Science/spotler-mia-loader */`;
 const body = `(function () {\n"use strict";\nvar CSS = ${JSON.stringify(css)};\nvar HTML = ${JSON.stringify(html)};\n${js.join("\n")}\n})();`;
 
 // Rough GTM-safety check: no ES6 syntax in our own source.

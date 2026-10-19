@@ -6,7 +6,7 @@
    are only the fallback used when config.json can't be loaded.
    ================================================================== */
 var SETTINGS = {
-  VERSION: "1.6.2",
+  VERSION: "1.6.3",
 
   // ---- Page table (published by n8n) ----
   // Tried in order. GitHub's own copy is live within ~5 minutes of a commit;
@@ -193,8 +193,8 @@ var SETTINGS = {
 };
 
 SETTINGS.CONFIG_URLS = [
-  "https://raw.githubusercontent.com/Louis-50/spotler-mia-loader/" + SETTINGS.CONFIG_BRANCH + "/config/config.json",
-  "https://cdn.jsdelivr.net/gh/Louis-50/spotler-mia-loader@" + SETTINGS.CONFIG_BRANCH + "/config/config.json"
+  "https://raw.githubusercontent.com/Spotler-Data-Science/spotler-mia-loader/" + SETTINGS.CONFIG_BRANCH + "/config/config.json",
+  "https://cdn.jsdelivr.net/gh/Spotler-Data-Science/spotler-mia-loader@" + SETTINGS.CONFIG_BRANCH + "/config/config.json"
 ];
 
 // English-language locales outside the UK: the INT labels and fallback row.

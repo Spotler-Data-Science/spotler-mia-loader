@@ -214,7 +214,7 @@ async def main():
         txt = await shell_text(page) or ""
         check("7e live config wins over an older cached copy on the first load", "OLD CACHED OPENER" not in txt and "Spotler Agent" in txt, txt[:120])
         check("7e config read from GitHub first, with a cache-busting stamp", any("raw.githubusercontent.com" in u and "config.json?t=" in u for u in reqs) and not any("cdn.jsdelivr.net" in u for u in reqs))
-        check(f"7e config read from the CONFIG_BRANCH branch ({CONFIG_BRANCH})", any(u.startswith(f"https://raw.githubusercontent.com/Louis-50/spotler-mia-loader/{CONFIG_BRANCH}/config/config.json?t=") for u in reqs), [u for u in reqs if "config.json" in u])
+        check(f"7e config read from the CONFIG_BRANCH branch ({CONFIG_BRANCH})", any(u.startswith(f"https://raw.githubusercontent.com/Spotler-Data-Science/spotler-mia-loader/{CONFIG_BRANCH}/config/config.json?t=") for u in reqs), [u for u in reqs if "config.json" in u])
         await ctx.close()
 
         # slow network: the page starts on an old cached copy, then catches up when the live file lands
@@ -245,7 +245,7 @@ async def main():
         page.on("console", lambda m: logs.append(m.text))
         await page.goto("https://www.spotler.com/en-gb/pricing/compare"); await page.wait_for_timeout(900)
         check("7f GitHub down: config comes from the jsDelivr backup", any("config from network" in l for l in logs) and any("cdn.jsdelivr.net" in u for u in reqs), logs)
-        check(f"7f jsDelivr backup on the same branch (@{CONFIG_BRANCH})", any(f"cdn.jsdelivr.net/gh/Louis-50/spotler-mia-loader@{CONFIG_BRANCH}/config/config.json" in u for u in reqs), [u for u in reqs if "config.json" in u])
+        check(f"7f jsDelivr backup on the same branch (@{CONFIG_BRANCH})", any(f"cdn.jsdelivr.net/gh/Spotler-Data-Science/spotler-mia-loader@{CONFIG_BRANCH}/config/config.json" in u for u in reqs), [u for u in reqs if "config.json" in u])
         await ctx.close()
 
         # ---------- 8. config down: built-in default ----------
