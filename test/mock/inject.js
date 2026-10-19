@@ -44,12 +44,32 @@
         document.body.appendChild(fab);
         return Promise.resolve();
       }
-      root = document.createElement("div"); root.id = "webchat-root"; root.className = "bpEmbeddedWebchat";
-      host.appendChild(root);
-      var sr = root.attachShadow({ mode: "open" });
-      sr.innerHTML = '<div class="bpContainer" style="height:100%;background:#fdfdfd;font:14px sans-serif"><div class="bpHeader"><b></b> <span class="desc"></span></div><div class="list" style="padding:12px"><div class="bpDate">Today</div></div><textarea class="bpComposer"></textarea><div class="bpFooter"></div></div>';
+      // Like v3.7 with a v2 config: an unnamed host (no #webchat-root), a
+      // header bar with the bot's tagline and a close button, and an intro
+      // in the empty chat. window.__bpRender picks where it renders:
+      // "shadow" (default), "iframe" (same origin) or "light" (no shadow).
+      // window.__bpHeaderClass renames the header bar (the tag must then
+      // find it by shape).
+      root = document.createElement("div");
+      var mode = window.__bpRender || "shadow", sr;
+      if (mode === "iframe") {
+        var fr = document.createElement("iframe"); fr.style.cssText = "border:0;width:100%;height:100%";
+        host.appendChild(fr);
+        sr = fr.contentDocument.body; sr.style.margin = "0";
+      } else {
+        host.appendChild(root);
+        sr = mode === "light" ? root : root.attachShadow({ mode: "open" });
+      }
+      window.__bpShadow = sr;
+      var hc = window.__bpHeaderClass || "bpHeaderContainer";
+      sr.innerHTML = '<div class="bpContainer" style="height:100%;background:#fdfdfd;font:14px sans-serif">' +
+        '<div class="' + hc + '" style="display:flex;align-items:center;gap:8px;height:56px;padding:0 12px"><b></b> <span class="desc"></span><button aria-label="close"><svg width="12" height="12"></svg></button></div>' +
+        '<div class="list" style="padding:12px"><div class="bpIntro"><b class="introName"></b><span class="introDesc"></span></div><div class="bpDate">Today</div></div>' +
+        '<textarea class="bpComposer"></textarea><div class="bpFooter"></div></div>';
+      sr.querySelector(".introName").textContent = cfg.botName || "";
+      sr.querySelector(".introDesc").textContent = cfg.botDescription || "";
       list = sr.querySelector(".list");
-      sr.querySelector(".bpHeader b").textContent = cfg.botName || "";
+      sr.querySelector("." + hc + " b").textContent = cfg.botName || "";
       sr.querySelector(".desc").textContent = cfg.botDescription || "";
       sr.querySelector(".bpComposer").setAttribute("placeholder", cfg.composerPlaceholder || "");
       var ft = sr.querySelector(".bpFooter"), md = cfg.footer || "", re = /\[([^\]]+)\]\(([^)]+)\)/g, last = 0, mm;

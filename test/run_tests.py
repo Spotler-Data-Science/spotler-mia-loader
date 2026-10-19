@@ -105,7 +105,7 @@ async def main():
                                    "footer": "AI assistant · [Privacy](https://spotler.com/en-gb/privacy-statement)", "storageLocation": "localStorage",
                                    "proactiveMessageEnabled": False, "conversationHistory": True,
                                    "color": "#002A4D", "themeMode": "light", "variant": "solid", "headerVariant": "solid", "radius": 4, "fontFamily": "inter"}, icfg)
-        mount = await page.evaluate("() => ({ inHost: !!document.querySelector('#bp-embedded-webchat > #webchat-root'), fab: !!document.querySelector('body > .bpChatContainer, #fab-root') })")
+        mount = await page.evaluate("() => ({ inHost: !!window.__bpShadow && document.getElementById('bp-embedded-webchat').contains(window.__bpShadow.host), fab: !!document.querySelector('body > .bpChatContainer, #fab-root') })")
         check("2m live chat mounts inside #bp-embedded-webchat (no floating .bpChatContainer on body)", mount["inHost"] and not mount["fab"], mount)
         on_names = [e[1] for e in bplog if e[0] == "on"]
         check("2l every botpress.on() listener is attached before init", on_names and max(i for i, e in enumerate(bplog) if e[0] == "on") < names.index("init")
@@ -386,7 +386,7 @@ async def main():
         ev = [json.loads(e[1]) for e in bplog if e[0] == "sendEvent"]
         check("15c NL start event locale nl, page key prijzen", ev and ev[0]["locale"] == "nl" and ev[0]["pageKey"] == "prijzen" and ["sendMessage", "Een demo boeken"] in bplog, ev)
         await page.wait_for_timeout(900)
-        live = await page.evaluate("""() => { const sr=document.querySelector('#bp-embedded-webchat #webchat-root').shadowRoot;
+        live = await page.evaluate("""() => { const sr=window.__bpShadow;
             return { desc: sr.querySelector('.desc').textContent, today: getComputedStyle(sr.querySelector('.bpDate')).display === 'none' ? 'hidden' : sr.querySelector('.bpDate').textContent, ph: sr.querySelector('textarea').getAttribute('placeholder'),
               footer: sr.querySelector('.bpFooter').textContent, link: (sr.querySelector('.bpFooter a') || {}).href || '', status: [...sr.querySelectorAll('.bpStatus')].map(e => e.textContent) } }""")
         check("15j NL live chat stays Dutch: AI tagline, no Today line, placeholder, AI-assistent · Privacy (NL link), Afgeleverd", live["desc"] == "Jouw AI-marketingassistent." and live["today"] == "hidden" and live["ph"] == "Stel Mia een vraag..." and live["footer"] == "AI-assistent · Privacy" and live["link"] == "https://spotler.com/nl-nl/privacy-statement" and live["status"] and all(x == "Afgeleverd" for x in live["status"]), live)
@@ -405,7 +405,7 @@ async def main():
         ev = [json.loads(e[1]) for e in bplog if e[0] == "sendEvent"]
         check("15f INT start event locale int, teaser text sent", ev and ev[-1]["locale"] == "int" and ev[-1]["source"] == "teaser" and ["sendMessage", "Help me compare plans and pricing"] in bplog, [ev, bplog[-3:]])
         await page.wait_for_timeout(900)
-        live = await page.evaluate("""() => { const sr=document.querySelector('#bp-embedded-webchat #webchat-root').shadowRoot;
+        live = await page.evaluate("""() => { const sr=window.__bpShadow;
             return { desc: sr.querySelector('.desc').textContent, today: getComputedStyle(sr.querySelector('.bpDate')).display === 'none' ? 'hidden' : sr.querySelector('.bpDate').textContent, ph: sr.querySelector('textarea').getAttribute('placeholder'),
               footer: sr.querySelector('.bpFooter').textContent, link: (sr.querySelector('.bpFooter a') || {}).href || '', status: [...sr.querySelectorAll('.bpStatus')].map(e => e.textContent) } }""")
         check("15k INT live chat: English text, no Today line, AI tagline, 'AI assistant · Privacy' linking to the INT privacy page", live["desc"] == "Your AI marketing assistant." and live["today"] == "hidden" and live["ph"] == "Ask Mia a question..." and live["footer"] == "AI assistant · Privacy" and live["link"] == "https://spotler.com/privacy-statement" and live["status"] == ["Delivered"], live)
@@ -699,6 +699,37 @@ async def main():
         st = await page.evaluate("() => ({ ls: Object.keys(localStorage), ss: Object.keys(sessionStorage) })")
         check("19e consent declined later: the saved page table and panel state are removed", "spotler_mia_config" not in st["ls"] and "spotlerAgentState" not in st["ss"], st)
         await ctx.close()
+
+        # ---------- 22. Botpress v3.7 v2 render: find the chat, one header, no Today, fade ----------
+        # The mock renders like v3.7 with a v2 config: unnamed host, its own header bar, an intro in the empty chat.
+        LIVE = """() => { const r=window.__bpShadow, vis=e => !!e && getComputedStyle(e).display !== 'none' && !!e.getBoundingClientRect().height;
+            const bar=r.querySelector('.desc').parentNode;
+            return { header: vis(bar), intro: vis(r.querySelector('.bpIntro')), today: vis(r.querySelector('.bpDate')),
+              mirrored: document.getElementById('spotler-mia-shell').shadowRoot.textContent.includes('Bot reply to: Book a demo') } }"""
+        for name, render, hclass, want in [("22a shadow root on an unnamed host", "shadow", "", "shadow"),
+                                           ("22b header bar without a bp class: hidden by shape", "shadow", "topBar", "shadow"),
+                                           ("22c same-origin iframe", "iframe", "", "iframe"),
+                                           ("22c light DOM", "light", "", "light")]:
+            ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+            await setup(ctx)
+            await ctx.add_init_script(f"window.__bpRender = {json.dumps(render)};" + (f"window.__bpHeaderClass = {json.dumps(hclass)};" if hclass else ""))
+            page = await ctx.new_page()
+            logs = []
+            page.on("console", lambda m, logs=logs: logs.append(m.text))
+            await page.goto("https://www.spotler.com/en-gb/pricing/compare"); await page.wait_for_timeout(1200)
+            t0 = time.time()
+            await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot; [...sr.querySelectorAll('.btn')].find(b=>b.textContent==='Book a demo').click(); }""")
+            await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+            took = time.time() - t0
+            await page.wait_for_timeout(300)
+            live = await page.evaluate(LIVE)
+            found = [l for l in logs if "webchat root" in l]
+            check(f"{name}: chat found ({want}), one header, intro kept, no Today line, faded in on the bot's reply ({took:.1f}s)",
+                  any(l.endswith("webchat root: " + want) for l in found) and not live["header"] and live["intro"] and not live["today"]
+                  and live["mirrored"] and took < 4, [found, live, round(took, 1)])
+            if hclass:
+                check(f"{name}: logged", any("Botpress header hidden" in l for l in logs), [l for l in logs if "[Mia]" in l][-6:])
+            await ctx.close()
 
         await b.close()
 

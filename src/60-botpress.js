@@ -358,9 +358,71 @@ function localiseWebchat(sr) {
 }
 
 /* ---- fade: reveal once the visitor's message shows in the live chat ---- */
+// Where the live chat renders. Botpress v3.7 with a v2 config no longer
+// uses #webchat-root, so look anywhere under #bp-embedded-webchat: a shadow
+// root, a same-origin iframe, or plain light DOM.
 function webchatShadow() {
-  var host = document.querySelector("#bp-embedded-webchat #webchat-root, #bp-embedded-webchat .bpEmbeddedWebchat");
-  return host && host.shadowRoot;
+  var wrap = document.getElementById("bp-embedded-webchat");
+  if (!wrap) return null;
+  if (wrap.shadowRoot) return found("shadow", wrap.shadowRoot);
+  var all = wrap.querySelectorAll("*");
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].shadowRoot) return found("shadow", all[i].shadowRoot);
+    if (all[i].tagName === "IFRAME") {
+      try {
+        var doc = all[i].contentDocument;
+        if (doc && doc.body && doc.body.firstChild) return found("iframe", doc.body);
+      } catch (e) {}
+    }
+  }
+  if (wrap.querySelector("textarea, .bpMessageContainer, [class*='bpComposer'], [class*='bpMessage']")) return found("light", wrap);
+  return null;
+  function found(kind, root) {
+    if (BP.rootKind !== kind) { BP.rootKind = kind; log("webchat root: " + kind); }
+    return root;
+  }
+}
+
+// One header in the panel: ours. Hide Botpress's own header bar by class,
+// and failing that by shape: the top bar holding the bot's tagline, short,
+// at the top, with a button or icon and no messages or composer in it.
+function hideBotpressHeader(root) {
+  try {
+    var css = document.createElement("style");
+    css.setAttribute("data-mia", "");
+    css.textContent = root === document.getElementById("bp-embedded-webchat")
+      ? "#bp-embedded-webchat [class*='bpHeader'],#bp-embedded-webchat [class*='bpModalHeader']{display:none !important}"
+      : "[class*='bpHeader'],[class*='bpModalHeader']{display:none !important}";
+    (root.head || root).appendChild(css);
+  } catch (e) {}
+  var tagline = BP.ctx.labels.botTagline, done = false;
+  function sweep() {
+    if (done) return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+    var node, best = null, bestTop = Infinity;
+    while ((node = walker.nextNode())) {
+      if (trim(node.nodeValue) === tagline && node.parentNode && node.parentNode.getBoundingClientRect) {
+        var el = node.parentNode, top = el.getBoundingClientRect().top;
+        if (top < bestTop) { best = el; bestTop = top; }
+      }
+    }
+    if (!best) return;
+    var bar = best;
+    while (bar.parentNode && bar.parentNode.nodeType === 1 && bar.parentNode !== root &&
+           !bar.parentNode.querySelector("textarea, .bpMessageContainer, [class*='bpMessage']")) bar = bar.parentNode;
+    var box = bar.getBoundingClientRect();
+    if (!box.height) { done = true; return; }   // already hidden (the CSS above)
+    var rootTop = root.host ? root.host.getBoundingClientRect().top
+      : root.ownerDocument !== document ? 0
+      : document.getElementById("bp-embedded-webchat").getBoundingClientRect().top;
+    if (box.height > 140 || box.top - rootTop > 24 || !bar.querySelector("button, svg") ||
+        bar.querySelector("textarea, .bpMessageContainer")) return;
+    bar.style.setProperty("display", "none", "important");
+    done = true;
+    log("Botpress header hidden");
+  }
+  new MutationObserver(function () { setTimeout(sweep, 0); }).observe(root, { childList: true, subtree: true });
+  sweep();
 }
 
 function watchForUserMessage() {
@@ -368,8 +430,13 @@ function watchForUserMessage() {
   var tries = 0;
   (function attach() {
     var sr = webchatShadow();
-    if (!sr) { if (++tries < 100) setTimeout(attach, 100); return; }
+    if (!sr) {
+      if (++tries < 300) setTimeout(attach, 100);
+      else log("webchat root not found: header, date line and hand-over fade can't be adjusted");
+      return;
+    }
     BP.checkForUserMessage = check;
+    hideBotpressHeader(sr);
     localiseWebchat(sr);
     if (BP.ctx.ui.videoWidth) sizeVideos(sr, BP.ctx.ui.videoWidth);
     // Swap only once the bot's reply is in: mirror it into the shell,
