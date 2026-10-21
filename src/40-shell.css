@@ -38,7 +38,7 @@
 .op.fold { margin-top: -8px; }
 .grow { display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
 .grow.growing { transition: height 0.38s cubic-bezier(.4, 0, .2, 1); }
-.st { margin-top: -4px; font-size: 12px; line-height: 16px; color: #696F83; text-align: right; animation: miaFade 0.3s ease-out both; }
+.st { margin-top: -12px; font-size: 12px; line-height: 16px; color: #696F83; text-align: right; animation: miaFade 0.3s ease-out both; }
 .m { display: flex; gap: 8px; position: relative; font-size: 14px; line-height: 20px; color: #202127;
      word-break: break-word; justify-content: flex-start; }
 .m.out { justify-content: flex-end; }

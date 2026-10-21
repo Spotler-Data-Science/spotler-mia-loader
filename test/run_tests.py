@@ -714,7 +714,7 @@ async def main():
         # The mock renders like v3.7 with a v2 config: unnamed host, its own header bar, an intro in the empty chat.
         LIVE = """() => { const r=window.__bpShadow, vis=e => !!e && getComputedStyle(e).display !== 'none' && !!e.getBoundingClientRect().height;
             const bar=r.querySelector('.desc').parentNode;
-            return { header: vis(bar), intro: vis(r.querySelector('.bpIntro')), today: vis(r.querySelector('.bpDate')),
+            return { header: vis(bar), intro: vis(r.querySelector('.bpIntro')), today: vis(r.querySelector('.bpDate')), radius: getComputedStyle(r.querySelector('.bpContainer')).borderRadius,
               mirrored: document.getElementById('spotler-mia-shell').shadowRoot.textContent.includes('Bot reply to: Book a demo') } }"""
         for name, render, hclass, want in [("22a shadow root on an unnamed host", "shadow", "", "shadow"),
                                            ("22b header bar without a bp class: hidden by shape", "shadow", "topBar", "shadow"),
@@ -740,8 +740,8 @@ async def main():
             await page.wait_for_timeout(300)
             live = await page.evaluate(LIVE)
             found = [l for l in logs if "webchat root" in l]
-            check(f"{name}: chat found ({want}), one header, intro kept, no Today line, faded in on the bot's reply ({took:.1f}s)",
-                  any(l.endswith("webchat root: " + want) for l in found) and not live["header"] and live["intro"] and not live["today"]
+            check(f"{name}: chat found ({want}), one header, square corners, intro kept, no Today line, faded in on the bot's reply ({took:.1f}s)",
+                  any(l.endswith("webchat root: " + want) for l in found) and not live["header"] and live["intro"] and not live["today"] and live["radius"] == "0px"
                   and live["mirrored"] and took < 4, [found, live, round(took, 1)])
             if hclass:
                 check(f"{name}: logged", any("Botpress header hidden" in l for l in logs), [l for l in logs if "[Mia]" in l][-6:])

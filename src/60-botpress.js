@@ -390,7 +390,8 @@ function webchatShadow() {
   }
 }
 
-// One header in the panel: ours. Hide Botpress's own header bar by class,
+// One header in the panel: ours, and square corners like the preview.
+// Hide Botpress's own header bar by class,
 // and failing that by shape: the top bar holding the bot's tagline, short,
 // at the top, with a button or icon and no messages or composer in it.
 function hideBotpressHeader(root) {
@@ -398,8 +399,9 @@ function hideBotpressHeader(root) {
     var css = document.createElement("style");
     css.setAttribute("data-mia", "");
     css.textContent = root === document.getElementById("bp-embedded-webchat")
-      ? "#bp-embedded-webchat [class*='bpHeader'],#bp-embedded-webchat [class*='bpModalHeader']{display:none !important}"
-      : "[class*='bpHeader'],[class*='bpModalHeader']{display:none !important}";
+      ? "#bp-embedded-webchat [class*='bpHeader'],#bp-embedded-webchat [class*='bpModalHeader']{display:none !important}" +
+        "#bp-embedded-webchat .bpContainer{border-radius:0 !important}"
+      : "[class*='bpHeader'],[class*='bpModalHeader']{display:none !important}.bpContainer{border-radius:0 !important}";
     (root.head || root).appendChild(css);
   } catch (e) {}
   var tagline = BP.ctx.labels.botTagline, done = false;
@@ -515,10 +517,16 @@ function alignShell(sr) {
     if (!mine || !mine.length || !live.length) return 0;
     var d = Math.round(live[live.length - 1].getBoundingClientRect().top - mine[mine.length - 1].getBoundingClientRect().top);
     var vp = shr.querySelector(".vp");
-    if (!vp || !d || Math.abs(d) > 120) return 0;
+    if (!vp || Math.abs(d) > 120) return 0;
+    // the intro's Mia icon: its own nudge on top of the messages'
+    var mq = shr.querySelector(".mq-av"), lmq = sr.querySelector(".bpMessageListMarqueeAvatarContainer, .bpMessageListMarqueeAvatarImage");
+    var e = mq && lmq ? Math.round(lmq.getBoundingClientRect().top - mq.getBoundingClientRect().top) - d : 0;
+    if (Math.abs(e) > 60) e = 0;
+    if (!d && !e) return 0;
     vp.style.transition = "transform 0.2s ease-out";
     vp.style.transform = "translateY(" + d + "px)";
-    log("aligned preview " + d + "px");
+    if (e) { mq.style.transition = "transform 0.2s ease-out"; mq.style.transform = "translateY(" + e + "px)"; }
+    log("aligned preview " + d + "px, intro " + e + "px");
     return 200;
   } catch (e) { return 0; }
 }
