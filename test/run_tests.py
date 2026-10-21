@@ -462,6 +462,16 @@ async def main():
         await page.goto("https://www.spotler.com/en-au/"); await page.wait_for_timeout(1200)
         txt = await shell_text(page) or ""
         check("20c real config: en-AU uses its own * row", "Hi, I’m Mia, Spotler’s AI assistant" in txt and "Pricing" in txt, txt[:160])
+        await page.goto("https://www.spotler.com/en-au/pricing"); await page.wait_for_timeout(1200)
+        await page.click("#spotler-agent-close"); await page.wait_for_timeout(4400)
+        tz = await page.evaluate("document.getElementById('spotler-agent-teaser-text').textContent")
+        check("20c real config: en-AU pricing page has the INT pricing teaser", tz == "Want help comparing plans and pricing?", tz)
+        for path, opener, btn in [("/de-de/", "Hallo, ich bin Mia, die KI-Assistentin von Spotler", "Demo buchen"),
+                                  ("/es-es/", "Hola, soy Mia, la asistente de IA de Spotler", "Reservar una demo"),
+                                  ("/sv-se/", "Hej, jag är Mia, Spotlers AI-assistent", "Boka en demo")]:
+            await page.goto("https://www.spotler.com" + path); await page.wait_for_timeout(1200)
+            txt = await shell_text(page) or ""
+            check(f"20c real config: {path} intro in its own language", opener in txt and btn in txt and "Spotler’s AI assistant" not in txt, txt[:160])
         await page.goto("https://www.spotler.com/en-gb/discover/mailplus-video-overview"); await page.wait_for_timeout(1500)
         await page.evaluate("() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot; sr.querySelector('.btn').click(); }")
         await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)

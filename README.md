@@ -54,7 +54,7 @@ python3 test/run_tests.py     # 134 checks against a mocked Botpress (Windows: p
 Each row: `url_match`, `match_type` (`exact` · `prefix` · `contains`), `region`, `mode` (`slideout` · `half` · `full`), `page`, `campaign`, `opener`, `buttons` (`[{label, send}]`, up to 6), `teaser_text`, `teaser_send`, `headline`, `intro`.
 
 - `campaign`: the bot's campaign profile (`mailplus`, `feedbackpro`), set on the Mail+ and FeedbackPro rows. It replaces the Studio `route` column, which tag v1.6 no longer reads. Tag v1.4.1/v1.5.1 (live, reading `config.json` from `main`) ignores `campaign` and rows for regions it doesn't know, so the file stays compatible with both.
-- The new locales' `*` rows are copies of the INT row (English) until marketing writes local copy.
+- The `de-DE`, `es-ES` and `sv-SE` `*` rows (opener, buttons, teaser) are in their own language, the same text as the tag's built-in rows. They cover every page in those regions; page-specific teasers there wait for the local URLs. `en-DE` and `en-AU` use the INT `*` row and the INT page teasers (`contains` matches such as `/pricing`).
 
 - The most specific match wins: exact, then the longest prefix or contains, then the region's `*` row.
 - A row only needs the columns it changes. Blank columns come from the region's `*` row.
@@ -110,11 +110,11 @@ The v1 `language` event and `proactiveClickAt` / `proactiveTopic` are gone (the 
 | --- | --- | --- | --- |
 | `en-GB` | `/en-gb/…` | `en-GB` | |
 | `nl` | `/nl-nl/…` | `nl` | Dutch in the preview and the live chat: the tag passes its labels to `botpress.init` and swaps Botpress's fixed strings ("Delivered" → "Afgeleverd"). Teaser sits beside the pill |
-| `de-DE` | `/de-de/…` | `de-DE` | German labels and built-in row |
-| `en-DE` | `/en-de/…` | `en-DE` | INT labels and built-in row |
-| `es-ES` | `/es-es/…` | `es-ES` | Spanish labels and built-in row |
-| `sv-SE` | `/sv-se/…` | `sv-SE` | Swedish labels and built-in row |
-| `en-AU` | `/en-au/…` | `en-AU` | INT labels and built-in row |
+| `de-DE` | `/de-de/…` | `de-DE` | German labels; German `*` row |
+| `en-DE` | `/en-de/…` | `en-DE` | INT labels, INT `*` row and page teasers |
+| `es-ES` | `/es-es/…` | `es-ES` | Spanish labels; Spanish `*` row |
+| `sv-SE` | `/sv-se/…` | `sv-SE` | Swedish labels; Swedish `*` row |
+| `en-AU` | `/en-au/…` | `en-AU` | INT labels, INT `*` row and page teasers |
 | `int` | everything else | `int` | |
 | — | any other `/xx-xx` | — | No chat |
 

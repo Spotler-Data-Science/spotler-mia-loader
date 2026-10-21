@@ -1,6 +1,6 @@
 {
-  "version": "2026-10-16.1",
-  "generatedBy": "v1.6 contract: campaign column (mailplus, feedbackpro); default rows for de-DE, en-DE, es-ES, sv-SE, en-AU (INT copy for now)",
+  "version": "2026-10-21.1",
+  "generatedBy": "v1.6 contract: campaign column (mailplus, feedbackpro); de-DE, es-ES, sv-SE default rows in their own language; en-DE and en-AU have the INT page teasers",
   "rows": [
     {
       "url_match": "*",
@@ -676,27 +676,27 @@
       "region": "de-DE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder verweise Sie an einen Kollegen.",
       "buttons": [
         {
-          "label": "What can Spotler do for me?",
-          "send": "What can Spotler do for me?"
+          "label": "Was kann Spotler für mich tun?",
+          "send": "Was kann Spotler für mich tun?"
         },
         {
-          "label": "Book a demo",
-          "send": "Book a demo"
+          "label": "Demo buchen",
+          "send": "Demo buchen"
         },
         {
-          "label": "Product support",
-          "send": "Product support"
+          "label": "Preise ansehen",
+          "send": "Preise ansehen"
         },
         {
-          "label": "Pricing",
-          "send": "Pricing"
+          "label": "Produktsupport",
+          "send": "Produktsupport"
         }
       ],
-      "teaser_text": "Questions about Spotler? Ask me anything!",
-      "teaser_send": "I have a question about Spotler"
+      "teaser_text": "Fragen zu Spotler? Fragen Sie einfach!",
+      "teaser_send": "Ich habe eine Frage zu Spotler"
     },
     {
       "url_match": "*",
@@ -727,32 +727,192 @@
       "teaser_send": "I have a question about Spotler"
     },
     {
+      "url_match": "/b2b/email-marketing-automation",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "b2b-email-marketing-automation",
+      "teaser_text": "Curious what email automation could do?",
+      "teaser_send": "Tell me about email marketing automation"
+    },
+    {
+      "url_match": "/b2b/crm-lead-management",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "b2b-crm-lead-management",
+      "teaser_text": "Questions about CRM or lead management?",
+      "teaser_send": "Tell me about CRM and lead management"
+    },
+    {
+      "url_match": "/b2b/event-management",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "b2b-event-management",
+      "teaser_text": "Flawless and engaging events? Let me help you with that!",
+      "teaser_send": "Tell me about your event management tools"
+    },
+    {
+      "url_match": "/b2b/website-personalisation",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "b2b-website-personalisation",
+      "teaser_text": "Let's make your website content more relevant for your visitors",
+      "teaser_send": "Tell me about website personalisation"
+    },
+    {
+      "url_match": "/b2b/conversational-marketing",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "b2b-conversational-marketing",
+      "teaser_text": "If you want to start conversations with your customers, talk to me first ;-)",
+      "teaser_send": "Tell me about conversational marketing"
+    },
+    {
+      "url_match": "/b2b/social-media-publishing",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "b2b-social-media-publishing",
+      "teaser_text": "Want to plan your social posts in advance? Let me help you!",
+      "teaser_send": "Tell me about social media publishing"
+    },
+    {
+      "url_match": "/ecommerce/customer-data-platform",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "ecommerce-customer-data-platform",
+      "teaser_text": "Wondering if a CDP suits you?",
+      "teaser_send": "Tell me about your customer data platform"
+    },
+    {
+      "url_match": "/ecommerce/email-marketing-automation",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "ecommerce-email-marketing-automation",
+      "teaser_text": "Want to see Mail+ in action?",
+      "teaser_send": "Show me the video of Mail+"
+    },
+    {
+      "url_match": "/ecommerce/transactional-emails",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "ecommerce-transactional-emails",
+      "teaser_text": "99.8% delivery of all your transactional emails. Want to know how?",
+      "teaser_send": "Tell me about your transactional emails"
+    },
+    {
+      "url_match": "/ecommerce/onsite-search-merchandising",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "ecommerce-onsite-search-merchandising",
+      "teaser_text": "Best search engine for your store? Let's chat!",
+      "teaser_send": "Tell me about onsite search and merchandising"
+    },
+    {
+      "url_match": "/ecommerce/whatsapp-sms-social-media",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "ecommerce-whatsapp-sms-social-media",
+      "teaser_text": "Real-time messaging with customers? Let me help you!",
+      "teaser_send": "Tell me about WhatsApp, SMS and social messaging"
+    },
+    {
+      "url_match": "/pricing",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "pricing",
+      "teaser_text": "Want help comparing plans and pricing?",
+      "teaser_send": "Help me compare plans and pricing"
+    },
+    {
+      "url_match": "/products",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "products",
+      "teaser_text": "Not sure which product fits? Ask!",
+      "teaser_send": "Help me figure out which product fits my needs"
+    },
+    {
+      "url_match": "/b2b",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "b2b",
+      "teaser_text": "Questions about B2B marketing tools?",
+      "teaser_send": "Tell me about your B2B marketing tools"
+    },
+    {
+      "url_match": "/ecommerce",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "ecommerce",
+      "teaser_text": "Want to boost your ecommerce marketing?",
+      "teaser_send": "Tell me about your ecommerce marketing tools"
+    },
+    {
+      "url_match": "/public-sector",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "public-sector",
+      "teaser_text": "Questions about public sector solutions?",
+      "teaser_send": "Tell me about your public sector solutions"
+    },
+    {
+      "url_match": "/integrations",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "integrations",
+      "teaser_text": "Checking we fit your tech stack?",
+      "teaser_send": "Tell me about your integrations"
+    },
+    {
+      "url_match": "/success-stories",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "success-stories",
+      "teaser_text": "Want results like these? Let's chat!",
+      "teaser_send": "Tell me more about these success stories"
+    },
+    {
+      "url_match": "/services",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "services",
+      "teaser_text": "Curious about what we do to help you use our software efficiently?",
+      "teaser_send": "Tell me about your services"
+    },
+    {
+      "url_match": "/resources",
+      "match_type": "contains",
+      "region": "en-DE",
+      "page": "resources",
+      "teaser_text": "Subscribe to the Spotler Insights newsletter to stay informed",
+      "teaser_send": "I want to subscribe to the Spotler Insights newsletter"
+    },
+    {
       "url_match": "*",
       "match_type": "prefix",
       "region": "es-ES",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o te indico a qué compañero dirigirte.",
       "buttons": [
         {
-          "label": "What can Spotler do for me?",
-          "send": "What can Spotler do for me?"
+          "label": "¿Qué puede hacer Spotler por mí?",
+          "send": "¿Qué puede hacer Spotler por mí?"
         },
         {
-          "label": "Book a demo",
-          "send": "Book a demo"
+          "label": "Reservar una demo",
+          "send": "Reservar una demo"
         },
         {
-          "label": "Product support",
-          "send": "Product support"
+          "label": "Ver precios",
+          "send": "Ver precios"
         },
         {
-          "label": "Pricing",
-          "send": "Pricing"
+          "label": "Soporte de producto",
+          "send": "Soporte de producto"
         }
       ],
-      "teaser_text": "Questions about Spotler? Ask me anything!",
-      "teaser_send": "I have a question about Spotler"
+      "teaser_text": "¿Preguntas sobre Spotler? ¡Pregúntame lo que quieras!",
+      "teaser_send": "Tengo una pregunta sobre Spotler"
     },
     {
       "url_match": "*",
@@ -760,27 +920,27 @@
       "region": "sv-SE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hej, jag är Mia, Spotlers AI-assistent. Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller hänvisar dig till en kollega.",
       "buttons": [
         {
-          "label": "What can Spotler do for me?",
-          "send": "What can Spotler do for me?"
+          "label": "Vad kan Spotler göra för mig?",
+          "send": "Vad kan Spotler göra för mig?"
         },
         {
-          "label": "Book a demo",
-          "send": "Book a demo"
+          "label": "Boka en demo",
+          "send": "Boka en demo"
         },
         {
-          "label": "Product support",
-          "send": "Product support"
+          "label": "Se priser",
+          "send": "Se priser"
         },
         {
-          "label": "Pricing",
-          "send": "Pricing"
+          "label": "Produktsupport",
+          "send": "Produktsupport"
         }
       ],
-      "teaser_text": "Questions about Spotler? Ask me anything!",
-      "teaser_send": "I have a question about Spotler"
+      "teaser_text": "Frågor om Spotler? Fråga mig vad som helst!",
+      "teaser_send": "Jag har en fråga om Spotler"
     },
     {
       "url_match": "*",
@@ -809,6 +969,166 @@
       ],
       "teaser_text": "Questions about Spotler? Ask me anything!",
       "teaser_send": "I have a question about Spotler"
+    },
+    {
+      "url_match": "/b2b/email-marketing-automation",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "b2b-email-marketing-automation",
+      "teaser_text": "Curious what email automation could do?",
+      "teaser_send": "Tell me about email marketing automation"
+    },
+    {
+      "url_match": "/b2b/crm-lead-management",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "b2b-crm-lead-management",
+      "teaser_text": "Questions about CRM or lead management?",
+      "teaser_send": "Tell me about CRM and lead management"
+    },
+    {
+      "url_match": "/b2b/event-management",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "b2b-event-management",
+      "teaser_text": "Flawless and engaging events? Let me help you with that!",
+      "teaser_send": "Tell me about your event management tools"
+    },
+    {
+      "url_match": "/b2b/website-personalisation",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "b2b-website-personalisation",
+      "teaser_text": "Let's make your website content more relevant for your visitors",
+      "teaser_send": "Tell me about website personalisation"
+    },
+    {
+      "url_match": "/b2b/conversational-marketing",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "b2b-conversational-marketing",
+      "teaser_text": "If you want to start conversations with your customers, talk to me first ;-)",
+      "teaser_send": "Tell me about conversational marketing"
+    },
+    {
+      "url_match": "/b2b/social-media-publishing",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "b2b-social-media-publishing",
+      "teaser_text": "Want to plan your social posts in advance? Let me help you!",
+      "teaser_send": "Tell me about social media publishing"
+    },
+    {
+      "url_match": "/ecommerce/customer-data-platform",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "ecommerce-customer-data-platform",
+      "teaser_text": "Wondering if a CDP suits you?",
+      "teaser_send": "Tell me about your customer data platform"
+    },
+    {
+      "url_match": "/ecommerce/email-marketing-automation",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "ecommerce-email-marketing-automation",
+      "teaser_text": "Want to see Mail+ in action?",
+      "teaser_send": "Show me the video of Mail+"
+    },
+    {
+      "url_match": "/ecommerce/transactional-emails",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "ecommerce-transactional-emails",
+      "teaser_text": "99.8% delivery of all your transactional emails. Want to know how?",
+      "teaser_send": "Tell me about your transactional emails"
+    },
+    {
+      "url_match": "/ecommerce/onsite-search-merchandising",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "ecommerce-onsite-search-merchandising",
+      "teaser_text": "Best search engine for your store? Let's chat!",
+      "teaser_send": "Tell me about onsite search and merchandising"
+    },
+    {
+      "url_match": "/ecommerce/whatsapp-sms-social-media",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "ecommerce-whatsapp-sms-social-media",
+      "teaser_text": "Real-time messaging with customers? Let me help you!",
+      "teaser_send": "Tell me about WhatsApp, SMS and social messaging"
+    },
+    {
+      "url_match": "/pricing",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "pricing",
+      "teaser_text": "Want help comparing plans and pricing?",
+      "teaser_send": "Help me compare plans and pricing"
+    },
+    {
+      "url_match": "/products",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "products",
+      "teaser_text": "Not sure which product fits? Ask!",
+      "teaser_send": "Help me figure out which product fits my needs"
+    },
+    {
+      "url_match": "/b2b",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "b2b",
+      "teaser_text": "Questions about B2B marketing tools?",
+      "teaser_send": "Tell me about your B2B marketing tools"
+    },
+    {
+      "url_match": "/ecommerce",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "ecommerce",
+      "teaser_text": "Want to boost your ecommerce marketing?",
+      "teaser_send": "Tell me about your ecommerce marketing tools"
+    },
+    {
+      "url_match": "/public-sector",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "public-sector",
+      "teaser_text": "Questions about public sector solutions?",
+      "teaser_send": "Tell me about your public sector solutions"
+    },
+    {
+      "url_match": "/integrations",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "integrations",
+      "teaser_text": "Checking we fit your tech stack?",
+      "teaser_send": "Tell me about your integrations"
+    },
+    {
+      "url_match": "/success-stories",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "success-stories",
+      "teaser_text": "Want results like these? Let's chat!",
+      "teaser_send": "Tell me more about these success stories"
+    },
+    {
+      "url_match": "/services",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "services",
+      "teaser_text": "Curious about what we do to help you use our software efficiently?",
+      "teaser_send": "Tell me about your services"
+    },
+    {
+      "url_match": "/resources",
+      "match_type": "contains",
+      "region": "en-AU",
+      "page": "resources",
+      "teaser_text": "Subscribe to the Spotler Insights newsletter to stay informed",
+      "teaser_send": "I want to subscribe to the Spotler Insights newsletter"
     }
   ]
 }
