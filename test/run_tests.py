@@ -9,6 +9,13 @@ PAGE = open(os.path.join(ROOT, "test/mock/page.html")).read().replace("<!--TAG--
 FULL = open(os.path.join(ROOT, "test/mock/campaign-full.html")).read().replace("<!--TAG-->", TAG)
 # Blog-style header: centred copy, a big decorative image behind the headline, no hero picture.
 BLOG = PAGE.replace('<div class="hero"><h1>Spotler test page</h1>', '<section class="header-section" style="position:relative;text-align:center;padding:80px 0"><img src="/deco-circles.png" width="900" height="500" style="position:absolute;left:50%;top:0;transform:translateX(-50%);width:900px;height:500px;z-index:0" alt=""><div style="position:relative"><h1>Enrich your marketing knowledge with our blogs</h1><p>Get inspired by our articles.</p></div></section><div class="hero" style="display:none"><h1>x</h1>', 1)
+# German header (longer words), as on spotler.com/de-de.
+DE_PAGE = PAGE
+for en, de in [("Contact Sales", "Vertrieb kontaktieren"), ("Contact Support", "Support kontaktieren"), ("Help Centers", "Hilfezentren"), ("Login", "Einloggen"),
+               ("Products &#8964;", "Produkte &#8964;"), ('<a href="#">Success stories</a>', '<a href="/de-de/erfolgsgeschichten/">Erfolgsgeschichten</a>'), ("Pricing</a>", "Preise</a>"),
+               ("Resources &#8964;", "Ressourcen"), ("About us &#8964;", "Über uns &#8964;"), ("Get a demo", "Online-Demo"), ("EN &#8964;", "DE &#8964;")]:
+    assert en in DE_PAGE, en
+    DE_PAGE = DE_PAGE.replace(en, de, 1)
 HS_PAGE = open(os.path.join(ROOT, "test/mock/hubspot-meetings.html")).read()
 HALF = open(os.path.join(ROOT, "test/mock/campaign-half.html")).read().replace("<!--TAG-->", TAG)
 SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40"><rect width="120" height="40" fill="#002a4d"/></svg>'
@@ -49,6 +56,7 @@ async def setup(ctx, config_ok=True, config=None, raw_down=False, slow_ms=0):
         if "spotler.com" in url and "/discover/feedbackpro" in url: return await route.fulfill(body=HALF, content_type="text/html")
         if "meetings.hubspot.com" in url: return await route.fulfill(body=HS_PAGE, content_type="text/html")
         if "spotler.com" in url and "/en-gb/blog" in url: return await route.fulfill(body=BLOG, content_type="text/html")
+        if "spotler.com" in url and "/de-de" in url: return await route.fulfill(body=DE_PAGE, content_type="text/html")
         if "spotler.com" in url: return await route.fulfill(body=PAGE, content_type="text/html")
         return await route.fulfill(status=404, body="")
     await ctx.route("**/*", handler)
@@ -543,6 +551,22 @@ async def main():
             if r["levels"] >= 1: ok = ok and r["storiesHidden"]
             check(f"14 header + top bar fit beside panel at {vw}px (levels {r['levels']}, Success stories {'hidden' if r['storiesHidden'] else 'shown'}, About us shown)", ok, r)
             await page.screenshot(path=f"{OUT}/14-header-{vw}.png", clip={"x": 0, "y": 0, "width": vw, "height": 140})
+            if vw in (1440, 1366, 1280, 1200):
+                # German site: longer menu words, its own name for the success stories
+                await page.goto("https://www.spotler.com/de-de/")
+                await page.wait_for_timeout(900)
+                g = await page.evaluate("""() => { const hdr=document.getElementById('header'), box=hdr.querySelector('.header-box');
+                    const lis=[...box.querySelectorAll('.main-nav > li')].filter(li=>li.offsetParent!==null); const last=lis[lis.length-1];
+                    return { levels:[1,2,3,4].filter(l=>document.body.classList.contains('mia-fit-'+l)).length,
+                      storiesHidden: lis.every(li=>!/Erfolgsgeschichten/.test(li.textContent)),
+                      gap: Math.round(box.querySelector('.header-buttons').getBoundingClientRect().left - last.getBoundingClientRect().right),
+                      clear: Math.round(hdr.getBoundingClientRect().right - box.querySelector('.main-switcher-box').getBoundingClientRect().right),
+                      barRows: new Set([...document.querySelectorAll('.top-nav > li')].map(li=>Math.round(li.getBoundingClientRect().top))).size } }""")
+                check(f"14 German header fits beside panel at {vw}px (levels {g['levels']}, Erfolgsgeschichten {'hidden' if g['storiesHidden'] else 'shown'})",
+                      g["clear"] >= 12 and g["gap"] >= 12 and g["barRows"] == 1 and (g["levels"] == 0 or g["storiesHidden"]), g)
+                await page.screenshot(path=f"{OUT}/14-header-de-{vw}.png", clip={"x": 0, "y": 0, "width": vw, "height": 140})
+                await page.goto("https://www.spotler.com/en-gb/")
+                await page.wait_for_timeout(900)
             if vw == 1280:
                 await page.click("#spotler-agent-close"); await page.wait_for_timeout(300)
                 back = await page.evaluate("[1,2,3,4].every(l=>!document.body.classList.contains('mia-fit-'+l)) && [...document.querySelectorAll('.main-nav > li')].some(li=>li.offsetParent!==null && /Success stories/.test(li.textContent))")

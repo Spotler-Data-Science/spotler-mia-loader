@@ -98,13 +98,18 @@ function createSlideout(region, labels, handlers) {
     var a = li.querySelector(":scope > a, :scope > span, :scope > button, :scope > div > a");
     return trim(a ? a.textContent : (li.firstChild && li.firstChild.textContent) || "");
   }
-  // The menu item hidden first when the squeezed header doesn't fit.
+  // The menu item hidden first when the squeezed header doesn't fit: the
+  // success stories, by label in each site language, else by its link.
+  var STORIES_LABEL = /^(success stories|customer stories|succesverhalen|klantverhalen|erfolgsgeschichten|kundengeschichten|kundenstories|casos de [e\u00e9]xito|historias de [e\u00e9]xito|kundcase|kundber[a\u00e4]ttelser|framg[a\u00e5]ngshistorier)/i;
+  var STORIES_HREF = /success-stor|customer-stor|succesverhal|klantverhal|erfolgsgeschicht|kundengeschicht|casos-de-exito|historias-de-exito|kundcase|kundberattelse|framgangshistori/i;
   function markFirstOut(box) {
     var nav = box.querySelector(".main-nav");
     if (!nav || nav.querySelector(".mia-drop")) return;
-    var items = nav.children, pick = null;
-    for (var i = 0; i < items.length; i++) {
-      if (/^(success stories|succesverhalen|klantverhalen|kundengeschichten|kundenstories)/i.test(navLabel(items[i]))) { pick = items[i]; break; }
+    var items = nav.children, pick = null, i;
+    for (i = 0; i < items.length && !pick; i++) if (STORIES_LABEL.test(navLabel(items[i]))) pick = items[i];
+    for (i = 0; i < items.length && !pick; i++) {
+      var a = items[i].querySelector("a[href]");
+      if (a && STORIES_HREF.test(a.getAttribute("href"))) pick = items[i];
     }
     if (pick) pick.classList.add("mia-drop");
   }
