@@ -20,7 +20,7 @@ for (const f of files) {
 }
 
 const stamp = new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC";
-const banner = `/* Spotler Mia lazy loader v${pkg.version} · built ${stamp} · source: github.com/Spotler-Data-Science/spotler-mia-loader */`;
+const banner = `/* Spotler Mia lazy loader v${pkg.version} - built ${stamp} - source: github.com/Spotler-Data-Science/spotler-mia-loader */`;
 const body = `(function () {\n"use strict";\nvar CSS = ${JSON.stringify(css)};\nvar HTML = ${JSON.stringify(html)};\n${js.join("\n")}\n})();`;
 
 // Rough GTM-safety check: no ES6 syntax in our own source.
@@ -32,6 +32,9 @@ for (const f of files.filter(f => f.endsWith(".js"))) {
 
 const min = await minify(body, { ecma: 5, compress: { passes: 2 }, mangle: true, format: { ascii_only: true } });
 if (!min.code) throw new Error("minify failed");
+
+// GTM pastes are safest as plain ASCII (the code is already ascii_only).
+if (/[^\x00-\x7e]/.test(banner + min.code)) throw new Error("non-ASCII character in the GTM tag");
 
 mkdirSync("dist", { recursive: true });
 writeFileSync("dist/mia-loader.gtm.html", `<script>\n${banner}\n${min.code}\n</script>\n`);
