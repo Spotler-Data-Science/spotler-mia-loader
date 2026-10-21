@@ -731,12 +731,14 @@ async def main():
             # What the live chat holds at the moment of the swap (typing dots don't count as the reply).
             await page.evaluate("""() => { const w=document.getElementById('bp-embedded-webchat'); new MutationObserver((_, o) => { if (!w.classList.contains('bp-ready')) return; o.disconnect();
                 const r=window.__bpShadow; window.__atSwap = { reply: [...r.querySelectorAll('.bpMessageContainer[data-direction=incoming] .bpMessageBlocksBubble')].map(e => e.textContent),
-                  typing: !!r.querySelector('.bpTypingIndicatorContainer') }; }).observe(w, { attributes: true }); }""")
+                  typing: !!r.querySelector('.bpTypingIndicatorContainer'), shell: getComputedStyle(document.getElementById('spotler-mia-shell')).opacity,
+                  liveOnTop: !!(document.getElementById('spotler-mia-shell').compareDocumentPosition(w) & Node.DOCUMENT_POSITION_FOLLOWING) }; }).observe(w, { attributes: true }); }""")
             await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot; [...sr.querySelectorAll('.btn')].find(b=>b.textContent==='Book a demo').click(); }""")
             await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
             took = time.time() - t0
             at_swap = await page.evaluate("window.__atSwap")
             check(f"{name}: swap waits for the reply, not Botpress's typing dots", at_swap and at_swap["reply"] == ["Bot reply to: Book a demo"] and not at_swap["typing"], at_swap)
+            check(f"{name}: live chat fades in on top of a solid preview (no see-through dip)", at_swap and at_swap["shell"] == "1" and at_swap["liveOnTop"], at_swap)
             await page.wait_for_timeout(300)
             live = await page.evaluate(LIVE)
             found = [l for l in logs if "webchat root" in l]

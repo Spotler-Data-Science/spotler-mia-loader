@@ -540,9 +540,13 @@ function reveal() {
   ui.loading.classList.remove("on");
   document.documentElement.classList.add("bp-chat-ready");
   var shellHost = BP.ctx.shell && BP.ctx.shell.host;
+  // The live chat (on top) fades in over the preview, which stays solid
+  // underneath: no dip to half-see-through in the middle. Then it goes.
   if (shellHost) {
-    shellHost.classList.add("mia-out");
-    setTimeout(function () { shellHost.classList.add("mia-gone"); }, 300);
+    setTimeout(function () {
+      shellHost.classList.add("mia-out");
+      shellHost.classList.add("mia-gone");
+    }, 450);
   }
   log("revealed live chat");
 }

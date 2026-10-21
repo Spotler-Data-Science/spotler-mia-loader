@@ -1,10 +1,11 @@
 /* ==================================================================
    45 · Shared by every mode: the static shell and the live webchat sit
-   on top of each other in the same box, so the swap is a cross-fade.
+   on top of each other in the same box. The live chat (later in the box,
+   so on top) fades in over the solid preview, then the preview goes.
    ================================================================== */
 #spotler-mia-shell {
   position: absolute; inset: 0;
-  opacity: 1; transition: opacity 0.25s ease;
+  opacity: 1;
 }
 #spotler-mia-shell.mia-out { opacity: 0; pointer-events: none; }
 #spotler-mia-shell.mia-gone { visibility: hidden; }
@@ -14,7 +15,7 @@
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.4s cubic-bezier(.4, 0, .2, 1);
 }
 #bp-embedded-webchat.bp-ready {
   opacity: 1 !important;
