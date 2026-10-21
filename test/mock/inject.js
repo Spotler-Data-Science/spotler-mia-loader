@@ -64,7 +64,7 @@
       var hc = window.__bpHeaderClass || "bpHeaderContainer";
       sr.innerHTML = '<div class="bpContainer" style="height:100%;background:#fdfdfd;font:14px sans-serif">' +
         '<div class="' + hc + '" style="display:flex;align-items:center;gap:8px;height:56px;padding:0 12px"><b></b> <span class="desc"></span><button aria-label="close"><svg width="12" height="12"></svg></button></div>' +
-        '<div class="list" style="padding:12px"><div class="bpIntro"><b class="introName"></b><span class="introDesc"></span></div><div class="bpDate">Today</div></div>' +
+        '<div class="list" style="padding:12px"><div class="bpIntro"><b class="introName"></b><span class="introDesc"></span></div><div class="bpReset bpMessageContainer bpDate" data-direction="system" style="margin-top:16px;font-size:12px;line-height:16px"><span>Today</span></div></div>' +
         '<textarea class="bpComposer"></textarea><div class="bpFooter"></div></div>';
       sr.querySelector(".introName").textContent = cfg.botName || "";
       sr.querySelector(".introDesc").textContent = cfg.botDescription || "";
@@ -93,7 +93,19 @@
     sendMessage: function (t) {
       log.push(["sendMessage", t]);
       setTimeout(function () { addMsg("outgoing", t); var d = document.createElement("span"); d.className = "bpStatus"; d.textContent = "Delivered"; list.appendChild(d); emit("message", { text: t }); }, 200);
-      setTimeout(function () { addMsg("incoming", window.__replyText || ("Bot reply to: " + t)); emit("message", { text: "reply" }); }, window.__replyDelay || 700);
+      // Like v3.7: the typing dots are an incoming message of their own
+      // until the reply replaces them.
+      var typing;
+      setTimeout(function () {
+        typing = document.createElement("div");
+        typing.className = "bpReset bpMessageContainer"; typing.setAttribute("data-direction", "incoming");
+        typing.innerHTML = '<div class="bpTypingIndicatorContainer" style="height:30px;width:48px"><div class="bpTypingIndicatorLoader"></div></div>';
+        list.appendChild(typing);
+      }, 250);
+      setTimeout(function () {
+        if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+        addMsg("incoming", window.__replyText || ("Bot reply to: " + t)); emit("message", { text: "reply" });
+      }, window.__replyDelay || 700);
       return Promise.resolve();
     },
     restartConversation: function () {

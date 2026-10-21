@@ -335,9 +335,16 @@ function localiseWebchat(sr) {
   }
   // The date separator, never a word inside a message: hide the largest
   // wrapper that holds nothing but this date (its lines go with it).
+  // Botpress renders it as a system message (with its own top margin):
+  // hide that whole message, but never a visitor's or the bot's.
   function hideDateLine(n, t) {
     var e = n.parentNode;
-    if (!e || e.nodeType !== 1 || (e.closest && e.closest(".bpMessageContainer"))) return;
+    if (!e || e.nodeType !== 1) return;
+    var msg = e.closest && e.closest(".bpMessageContainer");
+    if (msg) {
+      if (msg.getAttribute("data-direction") === "system" && trim(msg.textContent) === t) msg.style.display = "none";
+      return;
+    }
     while (e.parentNode && e.parentNode.nodeType === 1 && e.parentNode !== sr && trim(e.parentNode.textContent) === t) e = e.parentNode;
     e.style.display = "none";
   }
@@ -452,7 +459,7 @@ function watchForUserMessage() {
       if (mine === -1) return;
       var replies = [];
       for (var j = mine + 1; j < all.length; j++) {
-        if (all[j].getAttribute("data-direction") === "incoming") replies.push(all[j]);
+        if (isReply(all[j])) replies.push(all[j]);
       }
       if (!replies.length) return;
       BP.mirroring = true;
@@ -464,7 +471,7 @@ function watchForUserMessage() {
         for (var k = 0; k < nodes.length; k++) {
           var n = nodes[k];
           if (!started) { if (n === all[mine]) started = true; continue; }
-          if (n.getAttribute("data-direction") !== "incoming") continue;
+          if (!isReply(n)) continue;
           if (n.querySelector("video, iframe, img:not(.bpMessageAvatarImage), .bpMessageBlocksCarousel, .bpMessageBlocksCard")) { rich = true; break; }
           var texts = [];
           var bubbles = n.querySelectorAll(".bpMessageBlocksBubble");
@@ -474,9 +481,12 @@ function watchForUserMessage() {
           for (var c = 0; c < bl.length; c++) btns.push(textOf(bl[c]));
           if (texts.length || btns.length) items.push({ texts: texts, buttons: btns });
         }
-        if (!rich && items.length && BP.ctx.shell && BP.ctx.shell.showReply) {
+        if (!rich && !items.length) { BP.mirroring = false; return; }  // nothing to show yet: wait
+        if (!rich && BP.ctx.shell && BP.ctx.shell.showReply) {
           BP.ctx.shell.showReply(items);
-          setTimeout(reveal, 450);   // after the bubble's own slide-in
+          // after the bubble's own slide-in: line the preview up with the
+          // live chat, then cross-fade
+          setTimeout(function () { setTimeout(reveal, alignShell(sr)); }, 450);
         } else {
           reveal();                   // media in the reply: plain cross-fade
         }
@@ -486,6 +496,31 @@ function watchForUserMessage() {
     BP.observer.observe(sr, { childList: true, subtree: true });
     check();
   })();
+}
+
+// The bot's reply, not Botpress's typing dots (also an incoming message).
+function isReply(n) {
+  return n.getAttribute("data-direction") === "incoming" &&
+    !n.querySelector("[class*='TypingIndicator']") &&
+    !!n.querySelector(".bpMessageBlocksBubble, .bpMessageBlocksButton, video, iframe, img:not(.bpMessageAvatarImage), .bpMessageBlocksCarousel, .bpMessageBlocksCard");
+}
+
+// The live chat is laid out (just hidden) by now: glide the preview so its
+// last bubble sits where the live chat's does, so the cross-fade doesn't
+// jump. Returns how long to wait before the fade.
+function alignShell(sr) {
+  try {
+    var host = BP.ctx.shell && BP.ctx.shell.host, shr = host && host.shadowRoot;
+    var mine = shr && shr.querySelectorAll(".b"), live = sr.querySelectorAll(".bpMessageBlocksBubble");
+    if (!mine || !mine.length || !live.length) return 0;
+    var d = Math.round(live[live.length - 1].getBoundingClientRect().top - mine[mine.length - 1].getBoundingClientRect().top);
+    var vp = shr.querySelector(".vp");
+    if (!vp || !d || Math.abs(d) > 120) return 0;
+    vp.style.transition = "transform 0.2s ease-out";
+    vp.style.transform = "translateY(" + d + "px)";
+    log("aligned preview " + d + "px");
+    return 200;
+  } catch (e) { return 0; }
 }
 
 function reveal() {
