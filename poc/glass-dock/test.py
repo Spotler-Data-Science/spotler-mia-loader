@@ -117,6 +117,21 @@ async def main():
         check("4b INT page with both tags (POC first): dock only, production stands down", r == {"dock": True, "panel": False}, r)
         await ctx.close()
 
+        # production tag first: the POC takes the INT page over
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        reqs = await setup(ctx, [PROD, POC])
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/pricing")
+        await page.wait_for_timeout(2500)
+        r = await page.evaluate("""({ dock: !!document.getElementById('mia-dock'), panel: !!document.getElementById('spotler-agent-panel'),
+            squeezed: document.body.classList.contains('agent-panel-open'), chats: document.querySelectorAll('#bp-embedded-webchat').length })""")
+        check("4c INT page, production tag first: POC takes over (no slide-out, page not squeezed, one chat box)", r == {"dock": True, "panel": False, "squeezed": False, "chats": 1}, r)
+        await page.click(".mia-arrow")
+        await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+        n = [e for e in await page.evaluate("window.__bpLog") if e[0] == "init"]
+        check("4d after the takeover the arrow starts one Botpress chat in the dock", len(n) == 1 and await page.evaluate("!!document.querySelector('#mia-dock #bp-embedded-webchat.bp-ready')"), n)
+        await ctx.close()
+
         # 5. phone width
         ctx = await b.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)
         await setup(ctx, [POC], phone=True)

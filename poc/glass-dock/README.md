@@ -42,11 +42,12 @@ CHROMIUM=/opt/pw-browsers/chromium python3 poc/glass-dock/test.py
 
 1. In the **staging** GTM environment, add a new Custom HTML tag with
    `dist/mia-poc-glass.gtm.html`, firing on all pages (it does nothing outside INT).
-2. Give it a **higher tag firing priority** than the production Mia tag
-   (Advanced settings, e.g. 10). On INT pages it then claims the page and the
-   production loader stands down; on other regions it does nothing and the
-   production slide-out runs as usual. If it fires second, it stands down
-   itself and logs `POC off: the production loader already runs here`.
+2. Firing order doesn't matter. On INT pages it claims the page and a
+   production loader firing later stands down; if the production loader got
+   there first and only shows its preview, the POC takes its slide-out off
+   the page (`POC: production slide-out removed`) and runs instead. If a
+   production chat is already running, the POC leaves it alone. On other
+   regions it does nothing.
 3. Check the console for `[Mia] POC glass dock, page …`.
 
 ## Known POC limits

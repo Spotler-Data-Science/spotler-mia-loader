@@ -1,8 +1,36 @@
 /* ==================================================================
-   95 · Boot (POC glass dock): INT pages only. Stands down if the
-   production loader already runs here; claims the page first otherwise
-   (give this tag a higher GTM firing priority than the production one).
+   95 · Boot (POC glass dock): INT pages only. Claims the page so the
+   production loader stands down. If the production loader got here
+   first and only shows its preview (no chat running), the POC takes
+   its panel off the page and runs instead; with a chat running, the
+   POC leaves it alone.
    ================================================================== */
+var PROD_UI = ["spotler-agent-panel", "spotler-agent-pill", "spotler-agent-teaser", "spotler-inline-agent"];
+var PROD_CLASSES = ["agent-panel-open", "mia-fit-1", "mia-fit-2", "mia-fit-3", "mia-fit-4", "mia-bar-fit", "mia-bar-tight", "mia-full-page"];
+
+function removeProductionLoader() {
+  var gone = false;
+  PROD_UI.forEach(function (id) {
+    var n = document.getElementById(id);
+    if (n && n.parentNode) { n.parentNode.removeChild(n); gone = true; }
+  });
+  PROD_CLASSES.forEach(function (c) { document.body.classList.remove(c); });
+  var drop = document.querySelectorAll(".mia-drop");
+  for (var i = 0; i < drop.length; i++) drop[i].classList.remove("mia-drop");
+  return gone;
+}
+
+// The production loader may still be waiting for its page table: watch
+// for its panel for a while and take it off as soon as it appears.
+function keepProductionOff() {
+  if (removeProductionLoader()) log("POC: production slide-out removed");
+  if (!window.MutationObserver) return;
+  var mo = new MutationObserver(function () {
+    if (removeProductionLoader()) log("POC: production slide-out removed");
+  });
+  mo.observe(document.body, { childList: true });
+  setTimeout(function () { mo.disconnect(); }, 15000);
+}
 function detectRegion(path) {
   for (var i = 0; i < SETTINGS.REGIONS.length; i++) {
     if (SETTINGS.REGIONS[i].test.test(path)) return SETTINGS.REGIONS[i];
@@ -15,10 +43,14 @@ function bootDock() {
   var region = detectRegion(path);
   if (region.id !== SETTINGS.POC_REGION) return;     // not INT: leave the page to the production loader
   if (window.__spotlerMiaStarted || document.getElementById("bp-embedded-webchat")) {
-    log("POC off: the production loader already runs here (give the POC tag a higher firing priority)");
-    return;
+    if (window.botpress || LS.getJSON(LIVE_KEY)) {
+      log("POC off: the production chat is in use on this page");
+      return;
+    }
+    log("POC: production loader " + window.__spotlerMiaStarted + " started first, taking over");
   }
-  window.__spotlerMiaStarted = SETTINGS.VERSION;     // the production loader now stands down on this page
+  window.__spotlerMiaStarted = SETTINGS.VERSION;     // a production loader firing later stands down
+  keepProductionOff();
   SETTINGS.CDN_ORIGINS.forEach(preconnect);
 
   var labels = SETTINGS.LABELS[region.id];

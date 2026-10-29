@@ -2,7 +2,7 @@
    01 · POC settings (glass dock). Loaded after the shared 00-settings.
    A test only: INT pages, staging. The production loader is untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.1";
+SETTINGS.VERSION = "poc-glass-0.2";
 SETTINGS.POC_REGION = "int";
 
 // What the pill types, one after the other (a page row's "prompts" column,
