@@ -93,6 +93,8 @@ textarea:disabled { cursor: default; }
 .mic:hover { background: #F0F1F3; }
 .has-text .mic { opacity: 0; pointer-events: none; }
 .off .ico { cursor: default; pointer-events: none; }
+/* While Mia replies: typing and send still work (build 4), the mic doesn't. */
+.wait .mic { cursor: default; pointer-events: none; opacity: 0.4; }
 
 .ft a { color: inherit; text-decoration: underline; }
 .ft { align-self: center; margin: 4px 20px; font-size: 12px; line-height: 18px; color: #8795A0; font-style: italic;

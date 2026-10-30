@@ -39,6 +39,8 @@ function avatar(cls) {
  * createShell(host, labels, row, handlers)
  * handlers.onSend(text, source)  source: "button" | "typed"
  * handlers.onOpen()              mic clicked with nothing typed
+ * handlers.onQueue(text)         typed and sent while Mia writes her first
+ *                                reply (build 4): held, sent after the swap
  */
 function createShell(host, labels, row, handlers) {
   var root = host.attachShadow ? host.attachShadow({ mode: "open" }) : host;
@@ -120,7 +122,15 @@ function createShell(host, labels, row, handlers) {
 
   function submit(text, source) {
     text = trim(text);
-    if (locked || !text) return;
+    if (!text) return;
+    if (locked) {
+      // Build 4 (H3): the composer stays open while Mia replies. A message
+      // typed now is held and sent once her reply has landed.
+      if (source !== "typed" || !handlers.onQueue) return;
+      ta.value = ""; syncComposer();
+      handlers.onQueue(text);
+      return;
+    }
     handlers.onSend(text, source);
   }
 
@@ -144,10 +154,12 @@ function createShell(host, labels, row, handlers) {
   return {
     host: host,
     setRow: function (r) { if (!locked) renderOpener(r); },
+    // The opener's buttons and the mic stop working; the textarea stays
+    // enabled so the visitor can keep typing (build 4).
     lock: function () {
       locked = true;
-      ta.value = ""; ta.disabled = true; syncComposer();
-      cmp.classList.add("off");
+      ta.value = ""; syncComposer();
+      cmp.classList.add("wait");
       buttons.forEach(function (b) { b.disabled = true; });
     },
     // The live chat starts with no greeting (skip-greeting gate), so the
@@ -162,11 +174,13 @@ function createShell(host, labels, row, handlers) {
       setTimeout(function () { openerBox.classList.add("fold"); openerBox.style.height = "0px"; }, 180);
       setTimeout(function () { openerBox.style.display = "none"; }, 180 + 520);
     },
-    showUser: function (text) {
-      userBox.appendChild(el("div", { "class": "m out anim" }, [
+    // queued: typed while Mia replies; it isn't delivered yet, so no status.
+    showUser: function (text, queued) {
+      userBox.appendChild(el("div", { "class": "m out anim" + (queued ? " queued" : "") }, [
         el("div", { "class": "b" }, [el("p", { text: text })])
       ]));
       scrollDown();
+      if (queued) return;
       var status = el("p", { "class": "st", text: labels.delivered || "Delivered" });
       setTimeout(function () { userBox.appendChild(status); scrollDown(); }, 600);
     },
@@ -189,7 +203,9 @@ function createShell(host, labels, row, handlers) {
         typingRow.parentNode.insertBefore(grow, typingRow);
         typingRow.parentNode.removeChild(typingRow);
       } else {
-        userBox.appendChild(grow);
+        // No typing dots yet: the reply still goes above any held message.
+        var held = userBox.querySelector(".queued");
+        if (held) userBox.insertBefore(grow, held); else userBox.appendChild(grow);
       }
       typingRow = null;
       items.forEach(function (it) {

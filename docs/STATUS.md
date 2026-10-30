@@ -40,6 +40,11 @@ Last updated: 15 Oct 2026
 
 ## Open items
 
+**Builds 3 and 4 (loader 1.6.9, 30 Oct): see `docs/builds-3-4.md`**
+- [ ] Links in Mia's replies have no `href`: Botpress webchat's own renderer, not configurable. Support message drafted; staging mouse-click check owed.
+- [ ] Typing while Mia replies: fixed in the shell (first reply). Later replies: webchat holds the send until the reply is in; in the support message.
+- [ ] H3 on staging with a person typing.
+
 **Check after the last Botpress publish**
 - [ ] Privacy line + link before the email question on `/en-gb/` and `/nl-nl/` (only INT was tested in the emulator).
 - [ ] "Book a demo" straight after opening still shows no greeting.
