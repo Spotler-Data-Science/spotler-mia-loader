@@ -18,7 +18,8 @@ var BP = {
   convId: null,        // the conversation the webchat is on
   startSentFor: {},
   safetyTimer: null,
-  observer: null
+  observer: null,
+  queued: []           // typed while Mia wrote her first reply (build 4)
 };
 
 function bp() { return window.botpress; }
@@ -176,6 +177,28 @@ function sendAsUser(text, attempt) {
   } catch (e) {
     if (attempt < 5) setTimeout(function () { sendAsUser(text, attempt + 1); }, 1000);
   }
+}
+
+/* ---- build 4: typing while Mia writes her first reply (H3) ----
+   The shell keeps its composer open. A message sent meanwhile shows in the
+   shell as held and goes out as one normal visitor turn once her reply has
+   landed and the live chat is showing. Several lines go as one message, so
+   they don't interrupt each other's replies. Later turns are the live chat's
+   own composer: Botpress holds the send there until the reply is in (its
+   isAwaitingResponse), which the loader can't change (docs/STATUS.md). */
+function queueWhileReplying(text) {
+  BP.queued.push(text);
+  BP.ctx.shell.showUser(text, true);
+  log("held while Mia replies (" + BP.queued.length + ")");
+  if (BP.revealed) flushQueued();
+}
+
+function flushQueued() {
+  if (!BP.queued.length) return;
+  var text = BP.queued.join("\n");
+  BP.queued = [];
+  log("sending the held message");
+  sendAsUser(text);
 }
 
 function flushPending() {
@@ -513,7 +536,8 @@ function isReply(n) {
 function alignShell(sr) {
   try {
     var host = BP.ctx.shell && BP.ctx.shell.host, shr = host && host.shadowRoot;
-    var mine = shr && shr.querySelectorAll(".b"), live = sr.querySelectorAll(".bpMessageBlocksBubble");
+    // Held messages (build 4) aren't in the live chat yet: line up Mia's reply.
+    var mine = shr && shr.querySelectorAll(".m:not(.queued) .b"), live = sr.querySelectorAll(".bpMessageBlocksBubble");
     if (!mine || !mine.length || !live.length) return 0;
     var d = Math.round(live[live.length - 1].getBoundingClientRect().top - mine[mine.length - 1].getBoundingClientRect().top);
     var vp = shr.querySelector(".vp");
@@ -549,6 +573,8 @@ function reveal() {
     }, 450);
   }
   log("revealed live chat");
+  // A message held during the first reply goes now, as the visitor's next turn.
+  setTimeout(flushQueued, 500);
 }
 
 /* ---- entry points used by main ---- */
@@ -570,6 +596,7 @@ function engage(text, source) {
 
   BP.sentText = null;
   BP.mirroring = false;
+  BP.queued = [];
   BP.pending = text ? { text: text, source: source } : null;
 
   if (!BP.loaded) { loadBotpress(text ? "new" : "open"); return; }
@@ -610,6 +637,7 @@ function resetToShell(reason) {
   State.end(reason);
   BP.engaged = false;
   BP.pending = null;
+  BP.queued = [];
   if (BP.revealed || BP.loaded) {
     BP.revealed = false;
     BP.ctx.ui.webchat.classList.remove("bp-ready");

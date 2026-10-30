@@ -773,6 +773,64 @@ async def main():
                 check(f"{name}: logged", any("Botpress header hidden" in l for l in logs), [l for l in logs if "[Mia]" in l][-6:])
             await ctx.close()
 
+        # ---------- 23. Build 4 (H3): typing while Mia writes her first reply ----------
+        # Real keystrokes (keyboard.type), a slow reply, and a second message sent while the typing dots show.
+        SENT = "() => window.__bpLog.filter(e => e[0] === 'sendMessage').map(e => e[1])"
+        LIVE_MSGS = """() => [...window.__bpShadow.querySelectorAll('.bpMessageContainer[data-direction=outgoing], .bpMessageContainer[data-direction=incoming]')]
+            .filter(m => !m.querySelector('.bpTypingIndicatorContainer')).map(m => m.getAttribute('data-direction')[0] + ':' + m.textContent)"""
+        SHELL_TA = "#spotler-mia-shell textarea"
+        for name, seconds in [("23a one message", ["and how much does it cost?"]), ("23b two messages", ["and how much does it cost?", "in GBP please"])]:
+            ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+            await setup(ctx)
+            await ctx.add_init_script("window.__replyDelay = 2500;")
+            page = await ctx.new_page()
+            await page.goto("https://www.spotler.com/en-gb/pricing/compare"); await page.wait_for_timeout(1200)
+            await page.click(SHELL_TA)
+            await page.keyboard.type("What is Spotler Activate?"); await page.keyboard.press("Enter")
+            await page.wait_for_timeout(1200)   # the typing dots show; no reply yet
+            state = await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot, ta=sr.querySelector('textarea');
+                return { enabled: !ta.disabled, buttons: [...sr.querySelectorAll('.op .btn')].every(b => b.disabled),
+                  mic: getComputedStyle(sr.querySelector('.mic')).pointerEvents, typing: !!sr.querySelector('.typing') } }""")
+            check(f"{name}: composer stays enabled while Mia replies (opener buttons and mic off, typing dots on)",
+                  state["enabled"] and state["buttons"] and state["mic"] == "none" and state["typing"], state)
+            for s in seconds:
+                await page.click(SHELL_TA); await page.keyboard.type(s); await page.keyboard.press("Enter")
+            held = await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot, q=[...sr.querySelectorAll('.m.queued')];
+                return { queued: q.map(m => m.textContent), box: sr.querySelector('textarea').value,
+                  status: q.some(m => m.nextElementSibling && m.nextElementSibling.classList.contains('st')) } }""")
+            sent_early = await page.evaluate(SENT)
+            check(f"{name}: held in the shell, box cleared, not sent yet, no Delivered under it",
+                  held["queued"] == seconds and held["box"] == "" and sent_early == ["What is Spotler Activate?"] and not held["status"], [held, sent_early])
+            await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+            await page.wait_for_function("(" + SENT + ")().length === 2", timeout=6000)
+            await page.wait_for_timeout(3200)   # the second reply
+            sent = await page.evaluate(SENT)
+            msgs = await page.evaluate(LIVE_MSGS)
+            joined = "\n".join(seconds)
+            check(f"{name}: sent once the first reply landed, as one visitor turn", sent == ["What is Spotler Activate?", joined], sent)
+            check(f"{name}: transcript has 2 visitor messages and 2 answers, in order",
+                  msgs == ["o:What is Spotler Activate?", "i:Bot reply to: What is Spotler Activate?", "o:" + joined, "i:Bot reply to: " + joined], msgs)
+            await ctx.close()
+
+        # 23c: the mirrored reply goes above the held message, and the hold and send are logged.
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        await setup(ctx)
+        await ctx.add_init_script("window.__replyDelay = 2500;")
+        page = await ctx.new_page()
+        logs = []
+        page.on("console", lambda m, logs=logs: logs.append(m.text))
+        await page.goto("https://www.spotler.com/en-gb/pricing/compare"); await page.wait_for_timeout(1200)
+        await page.click(SHELL_TA); await page.keyboard.type("What is Spotler Activate?"); await page.keyboard.press("Enter")
+        await page.wait_for_timeout(1200)
+        await page.click(SHELL_TA); await page.keyboard.type("and the price?"); await page.keyboard.press("Enter")
+        await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+        order = await page.evaluate("() => [...document.getElementById('spotler-mia-shell').shadowRoot.querySelectorAll('.m .b')].map(b => b.textContent).slice(-3)")
+        check("23c shell order at the swap: first message, Mia's reply, then the held one",
+              order == ["What is Spotler Activate?", "Bot reply to: What is Spotler Activate?", "and the price?"], order)
+        await page.wait_for_timeout(800)
+        check("23c logged the hold and the send", any("held while Mia replies (1)" in l for l in logs) and any("sending the held message" in l for l in logs), [l for l in logs if "[Mia]" in l][-6:])
+        await ctx.close()
+
         await b.close()
 
     failed = [r for r in results if not r[1]]
