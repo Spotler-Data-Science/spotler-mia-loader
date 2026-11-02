@@ -63,9 +63,9 @@ function createDock(labels, handlers) {
       var r = hdr.getBoundingClientRect(), pos = getComputedStyle(hdr).position;
       if ((pos === "fixed" || pos === "sticky") && r.bottom > 0 && r.bottom < window.innerHeight / 2) top = r.bottom + 16 * k;
     }
-    var gap = touch ? 20 * k : 24;   // the field stays at the closed pill's height above the bottom
-    var ftH = parseFloat(getComputedStyle(dock).getPropertyValue("--mia-ft")) || 20;
-    var room = window.innerHeight - gap - pill.offsetHeight - top - 2 - (touch ? ftH * k : 0);
+    // below the field: the AI / privacy line and the gap to the screen edge
+    var below = touch || window.innerWidth <= 640 ? (20 + 26) * k : 10 + 30;
+    var room = window.innerHeight - below - pill.offsetHeight - top - 2;
     return Math.max(220, Math.min(touch ? room : 720, room));
   }
   function resize() {
@@ -174,7 +174,9 @@ var DOCK_LIVE_CSS =
   ".bpMessageContainer[data-direction=incoming] .bpMessageBlocksBubble{background:transparent !important;padding:0 !important;color:#0B1F4D !important;font-size:15px !important;line-height:23px !important;max-width:100% !important}" +
   ".bpMessageContainer[data-direction=outgoing] .bpMessageBlocksBubble{background:rgba(214,230,255,.85) !important;color:#0B1F4D !important;border-radius:18px !important}" +
   ".bpMessageBlocksButton{background:rgba(255,255,255,.55) !important;border:1px solid rgba(11,31,77,.14) !important;color:#0B1F4D !important;border-radius:999px !important}" +
-  ".bpComposerFooter{display:none !important}";
+  ".bpComposerFooter{display:none !important}" +
+  // Botpress's "scroll to newest" arrow: not wanted
+  ".bpMessageListScrollDownButton{display:none !important}";
 
 function glassLiveChat() {
   var tries = 0;
