@@ -2,7 +2,7 @@
    01 · POC settings (glass dock). Loaded after the shared 00-settings.
    A test only: INT pages, staging. The production loader is untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.10";
+SETTINGS.VERSION = "poc-glass-0.11";
 SETTINGS.POC_REGION = "int";
 
 // What the pill types, one after the other (a page row's "prompts" column,
@@ -14,7 +14,7 @@ SETTINGS.POC_PROMPTS = [
   "How does Spotler use AI in email marketing?",
   "What does Spotler cost?"
 ];
-SETTINGS.POC_TYPE_MS = 45;       // per letter
-SETTINGS.POC_HOLD_MS = 2200;     // full question on screen
-SETTINGS.POC_ERASE_MS = 22;      // per letter, deleting
-SETTINGS.POC_GAP_MS = 450;       // empty pill between questions
+SETTINGS.POC_TYPE_MS = 80;       // per letter (a calm typing pace)
+SETTINGS.POC_HOLD_MS = 4500;     // full question on screen
+SETTINGS.POC_ERASE_MS = 30;      // per letter, deleting
+SETTINGS.POC_GAP_MS = 700;       // empty pill between questions
