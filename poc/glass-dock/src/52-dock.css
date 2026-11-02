@@ -31,20 +31,29 @@
                      background: var(--mia-accent); animation: mia-caret 1s steps(1) infinite; }   /* same cyan as the button */
 @keyframes mia-caret { 50% { opacity: 0; } }
 .mia-arrow {
+  position: relative; overflow: hidden;
   flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
   width: 48px; height: 48px; border: 0; border-radius: 50%; cursor: pointer;
-  /* tinted glass: see-through Spotler cyan, lighter in the middle, a little
-     deeper at the edges; no sheen, no glow */
-  background: radial-gradient(120% 120% at 50% 60%, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 45%, rgba(0,42,77,.26) 100%),
-              rgba(47,172,230,.84);
-  border: 0;
-  -webkit-backdrop-filter: blur(10px) saturate(150%); backdrop-filter: blur(10px) saturate(150%);
+  /* frosted cyan glass: see-through, deeper at the top, light coming through
+     and glowing along the bottom edge */
+  background: radial-gradient(90% 70% at 50% 85%, rgba(150,224,252,.55) 0%, rgba(150,224,252,0) 70%),
+              linear-gradient(180deg, rgba(0,42,77,.14) 0%, rgba(0,42,77,0) 55%),
+              rgba(47,172,230,.62);
+  -webkit-backdrop-filter: blur(12px) saturate(160%); backdrop-filter: blur(12px) saturate(160%);
   color: var(--mia-accent-ink);
-  box-shadow: 0 2px 6px rgba(0,42,77,.14), inset 0 0 0 1px rgba(255,255,255,.22), inset 0 1px 1px rgba(255,255,255,.3);
+  box-shadow: 0 6px 16px rgba(47,172,230,.32), 0 1px 2px rgba(0,42,77,.16),
+              inset 0 -2px 4px rgba(255,255,255,.38), inset 0 2px 5px rgba(0,42,77,.18),
+              inset 0 0 0 1px rgba(255,255,255,.2);
   transition: transform .15s ease, background-color .15s ease;
 }
-.mia-arrow:hover { transform: translateY(-1px); background-color: rgba(35,153,207,.8); }
-.mia-arrow svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+/* the frosted grain */
+.mia-arrow::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  opacity: .35; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.mia-arrow:hover { transform: translateY(-1px); background-color: rgba(35,153,207,.7); }
+.mia-arrow svg { position: relative; z-index: 1; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---- the card ---- */
 #mia-dock-card {
