@@ -8,8 +8,14 @@
   font-family: inherit; color: #0B1F4D; -webkit-font-smoothing: antialiased;
 }
 #mia-dock, #mia-dock * { box-sizing: border-box; }
+/* the send buttons' colour: Spotler's accent yellow, or the "Get a demo"
+   cyan with ?mia-btn=cyan (navy arrow on both, for contrast) */
+#mia-dock { --mia-accent: #F2F072; --mia-accent-hover: #E8E55C; --mia-accent-ink: #002A4D; }
+#mia-dock.btn-cyan { --mia-accent: #2FACE6; --mia-accent-hover: #2399CF; --mia-accent-ink: #002A4D; }
+/* faint navy tint: a touch cooler and deeper than the white and light-blue page */
 .mia-glass {
-  background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(255,255,255,.38));
+  background: linear-gradient(135deg, rgba(255,255,255,.58), rgba(255,255,255,.32)),
+              linear-gradient(rgba(0,42,77,.07), rgba(0,42,77,.07));
   -webkit-backdrop-filter: blur(22px) saturate(180%); backdrop-filter: blur(22px) saturate(180%);
   border: 1px solid rgba(255,255,255,.75);
   box-shadow: 0 24px 60px rgba(11,31,77,.16), 0 4px 14px rgba(11,31,77,.08),
@@ -31,10 +37,11 @@
 .mia-arrow {
   flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
   width: 48px; height: 48px; border: 0; border-radius: 50%; cursor: pointer;
-  background: rgba(214,230,255,.9); color: #0B1F4D; box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+  background: var(--mia-accent); color: var(--mia-accent-ink);
+  box-shadow: 0 2px 6px rgba(0,42,77,.12), inset 0 1px 0 rgba(255,255,255,.6);
   transition: transform .15s ease, background-color .15s ease;
 }
-.mia-arrow:hover { transform: translateY(-1px); background: rgba(196,218,255,.95); }
+.mia-arrow:hover { transform: translateY(-1px); background: var(--mia-accent-hover); }
 .mia-arrow svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---- the card ---- */

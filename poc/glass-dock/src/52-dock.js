@@ -32,6 +32,10 @@ function createDock(labels, handlers) {
   var body = el("div", { id: "spotler-inline-body" }, [loading, webchat]);
   var card = el("div", { id: "mia-dock-card", "class": "mia-glass", role: "dialog", "aria-label": labels.title }, [head, body]);
   var dock = el("div", { id: "mia-dock" }, [card, pill]);
+  // Button colour to compare on staging: ?mia-btn=cyan or ?mia-btn=yellow (kept while browsing).
+  var pick = (/[?&]mia-btn=(cyan|yellow)\b/.exec(location.search) || [])[1];
+  if (pick) SS.set("mia_poc_btn", pick);
+  if ((pick || SS.get("mia_poc_btn")) === "cyan") dock.classList.add("btn-cyan");
   document.body.appendChild(dock);
 
   // ---- the typing pill ----
@@ -103,7 +107,8 @@ var DOCK_LIVE_CSS =
   ".bpMessageContainer[data-direction=outgoing] .bpMessageBlocksBubble{background:rgba(214,230,255,.85) !important;color:#0B1F4D !important;border-radius:18px !important}" +
   ".bpMessageBlocksButton{background:rgba(255,255,255,.55) !important;border:1px solid rgba(11,31,77,.14) !important;color:#0B1F4D !important;border-radius:999px !important}" +
   ".bpComposerContainer{background:rgba(255,255,255,.72) !important;border-radius:999px !important}" +
-  ".bpComposerFooter{color:#5B6B8C !important}";
+  ".bpComposerFooter{color:#5B6B8C !important}" +
+  ".bpComposerSendButton{background-color:var(--mia-accent,#002A4D) !important;color:var(--mia-accent-ink,#fff) !important}";
 
 function glassLiveChat() {
   var tries = 0;

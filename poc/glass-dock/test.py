@@ -57,6 +57,13 @@ async def main():
         check("1a pill fixed at the bottom centre, glass (blur), card closed", st["fixed"] == "fixed" and st["bottom"] == 24 and abs(st["centre"]) <= 1 and "blur" in (st["blur"] or "") and not st["open"], st)
         check("1b pill types a question letter by letter", len(seen) >= 4 and any(PROMPTS[0].startswith(s) and 0 < len(s) < len(PROMPTS[0]) for s in seen), sorted(seen)[:6])
         check("1c no Botpress on page view", not bp(reqs), bp(reqs))
+        btn = await page.evaluate("getComputedStyle(document.querySelector('.mia-arrow')).backgroundColor")
+        check("1e send button in Spotler's accent yellow by default", btn == "rgb(242, 240, 114)", btn)
+        await page.goto("https://www.spotler.com/?mia-btn=cyan"); await page.wait_for_timeout(1000)
+        await page.goto("https://www.spotler.com/pricing"); await page.wait_for_timeout(1000)
+        btn = await page.evaluate("getComputedStyle(document.querySelector('.mia-arrow')).backgroundColor")
+        check("1f ?mia-btn=cyan: the Get a demo cyan, kept on the next page", btn == "rgb(47, 172, 230)", btn)
+        await page.goto("https://www.spotler.com/?mia-btn=yellow"); await page.wait_for_timeout(1200)
         check("1d INT page: production loader not started", not await page.evaluate("!!document.getElementById('spotler-agent-panel')"))
         await page.screenshot(path=f"{OUT}/1-pill.png")
 
