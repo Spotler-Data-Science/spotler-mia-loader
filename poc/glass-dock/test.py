@@ -146,7 +146,8 @@ async def main():
         sh = await page.evaluate("getComputedStyle(document.getElementById('mia-dock-pill')).boxShadow")
         import re as _re
         reach = max([int(a) + int(b) for a, b in _re.findall(r"\) 0px (\d+)px (\d+)px", sh)] or [999])
-        check("5c phone: shadow fades out within ~20px below the pill (clear of Safari's toolbar)", reach <= 22, sh)
+        gap = await page.evaluate("Math.round(innerHeight - document.getElementById('mia-dock-pill').getBoundingClientRect().bottom)")
+        check("5c phone: the shadow ends inside the gap below the pill (nothing reaches the bottom edge to be cut off)", gap == 20 and reach <= gap - 6, [gap, reach, sh])
         await page.screenshot(path=f"{OUT}/5-phone.png")
         await ctx.close()
 
