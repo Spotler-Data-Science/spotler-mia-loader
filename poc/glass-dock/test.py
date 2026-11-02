@@ -51,9 +51,9 @@ async def main():
         seen = set()
         for _ in range(12):
             seen.add(await page.evaluate("document.getElementById('mia-dock-q').textContent")); await page.wait_for_timeout(250)
-        st = await page.evaluate("""() => { const d=document.getElementById('mia-dock'), p=document.getElementById('mia-dock-pill'), r=p.getBoundingClientRect();
+        st = await page.evaluate("""() => { const d=document.getElementById('mia-dock'), r=d.getBoundingClientRect();
             return { open: d.classList.contains('open'), bottom: Math.round(innerHeight - r.bottom), centre: Math.round(r.left + r.width/2 - innerWidth/2),
-                     fixed: getComputedStyle(d).position, blur: getComputedStyle(p).backdropFilter || getComputedStyle(p).webkitBackdropFilter } }""")
+                     fixed: getComputedStyle(d).position, blur: getComputedStyle(d).backdropFilter || getComputedStyle(d).webkitBackdropFilter } }""")
         check("1a pill fixed at the bottom centre, glass (blur), card closed", st["fixed"] == "fixed" and st["bottom"] == 24 and abs(st["centre"]) <= 1 and "blur" in (st["blur"] or "") and not st["open"], st)
         check("1b pill types a question letter by letter", len(seen) >= 4 and any(PROMPTS[0].startswith(s) and 0 < len(s) < len(PROMPTS[0]) for s in seen), sorted(seen)[:6])
         check("1c no Botpress on page view", not bp(reqs), bp(reqs))
@@ -62,24 +62,42 @@ async def main():
         check("1d INT page: production loader not started", not await page.evaluate("!!document.getElementById('spotler-agent-panel')"))
         await page.screenshot(path=f"{OUT}/1-pill.png")
 
-        # 2. click the text: card with greeting, buttons, empty focused field; still no Botpress
+        # 2. click the text: the chat grows up out of the pill; greeting, buttons, the pill's row is the empty focused field
+        LOOK = """() => { const d=document.getElementById('mia-dock'), p=document.getElementById('mia-dock-pill').getBoundingClientRect(), s=getComputedStyle(d);
+            return { rowTop: Math.round(p.top), rowBottom: Math.round(p.bottom), rowH: Math.round(p.height), width: Math.round(d.getBoundingClientRect().width),
+                     height: Math.round(d.getBoundingClientRect().height), radius: s.borderTopLeftRadius, bg: s.backgroundImage, opacity: s.opacity } }"""
+        before = await page.evaluate(LOOK)
         await page.click("#mia-dock-q")
-        await page.wait_for_timeout(700)
-        c = await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot, ta=sr.querySelector('textarea');
+        mid = None
+        await page.wait_for_timeout(200); mid = await page.evaluate(LOOK)
+        await page.wait_for_timeout(600)
+        after = await page.evaluate(LOOK)
+        c = await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot, i=document.getElementById('mia-dock-in');
             return { open: document.getElementById('mia-dock').classList.contains('open'), text: sr.textContent, buttons: sr.querySelectorAll('.btn').length,
-                     value: ta.value, focused: sr.activeElement === ta } }""")
-        check("2a text click opens the card: greeting + buttons + empty text field (focused)", c["open"] and "Hi, I" in c["text"] and c["buttons"] >= 3 and c["value"] == "" and c["focused"], c)
+                     value: i.value, focused: document.activeElement === i, shellComposer: getComputedStyle(sr.querySelector('.cmp')).display,
+                     mic: !!sr.querySelector('.cmp .mic') && getComputedStyle(sr.querySelector('.cmp')).display !== 'none' } }""")
+        check("2a text click opens the chat: greeting + buttons; the pill's row is the empty, focused text field; no other composer or mic", c["open"] and "Hi, I" in c["text"] and c["buttons"] >= 3 and c["value"] == "" and c["focused"] and c["shellComposer"] == "none" and not c["mic"], c)
+        check("2f the text field stays exactly where the pill's row was", before["rowTop"] == after["rowTop"] and before["rowBottom"] == after["rowBottom"] and before["rowH"] == after["rowH"], [before, after])
+        check("2g opens wider (600 → up to 860px) and taller, growing smoothly (mid-way in between)",
+              after["width"] == 860 and before["width"] == 600 and before["width"] < mid["width"] < after["width"] and before["height"] < mid["height"] < after["height"], [before, mid, after])
+        check("2h same glass, opacity and corner radius open as closed", before["radius"] == after["radius"] == "34px" and before["bg"] == after["bg"] and before["opacity"] == after["opacity"] == "1", [before, after])
         check("2b still no Botpress", not bp(reqs), bp(reqs))
         await page.screenshot(path=f"{OUT}/2-card.png")
         # typing your own message then starts the chat as usual
-        await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot, ta=sr.querySelector('textarea');
-            ta.value='Do you integrate with Shopify?'; ta.dispatchEvent(new Event('input')); ta.dispatchEvent(new KeyboardEvent('keydown', {key:'Enter'})); }""")
+        await page.fill("#mia-dock-in", "Do you integrate with Shopify?")
+        await page.press("#mia-dock-in", "Enter")
         await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
         log = await page.evaluate("window.__bpLog")
         check("2c own message typed in the card goes to the chat", ["sendMessage", "Do you integrate with Shopify?"] in log, log[-4:])
         await page.wait_for_timeout(800)
-        g = await page.evaluate("""() => { const r=window.__bpShadow; return { glass: !!r.querySelector('style[data-mia-dock]'), bg: getComputedStyle(r.querySelector('.bpContainer')).backgroundColor } }""")
-        check("2d live chat gets the glass styles (transparent)", g["glass"] and g["bg"] in ("rgba(0, 0, 0, 0)", "transparent"), g)
+        g = await page.evaluate("""() => { const r=window.__bpShadow; return { glass: !!r.querySelector('style[data-mia-dock]'), bg: getComputedStyle(r.querySelector('.bpContainer')).backgroundColor,
+            composer: getComputedStyle(r.querySelector('.bpComposerContainer')).display, field: document.getElementById('mia-dock-in').value } }""")
+        check("2d live chat stays see-through, no Botpress composer (the pill's field is the text box), field cleared", g["glass"] and g["bg"] in ("rgba(0, 0, 0, 0)", "transparent") and g["composer"] == "none" and g["field"] == "", g)
+        await page.fill("#mia-dock-in", "And with Magento?")
+        await page.click(".mia-arrow")
+        await page.wait_for_timeout(400)
+        log = await page.evaluate("window.__bpLog")
+        check("2i in the conversation, the pill's field (arrow) sends into the live chat", ["sendMessage", "And with Magento?"] in log, log[-3:])
         await page.screenshot(path=f"{OUT}/2-live.png")
         await ctx.close()
 
@@ -140,13 +158,13 @@ async def main():
         page = await ctx.new_page()
         await page.goto("https://www.spotler.com/")
         await page.wait_for_timeout(1200)
-        m = await page.evaluate("(() => { const r=document.getElementById('mia-dock-pill').getBoundingClientRect(); return { left: Math.round(r.left), right: Math.round(innerWidth - r.right), w: document.documentElement.scrollWidth <= innerWidth } })()")
+        m = await page.evaluate("(() => { const r=document.getElementById('mia-dock').getBoundingClientRect(); return { left: Math.round(r.left), right: Math.round(innerWidth - r.right), w: document.documentElement.scrollWidth <= innerWidth } })()")
         h = await page.evaluate("[Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), parseFloat(getComputedStyle(document.getElementById('mia-dock-q')).fontSize)]")
         check("5a phone: pill a touch smaller than Safari's bar (48px, 16px text), 20px each side, no sideways scroll", m["left"] == 20 and m["right"] == 20 and m["w"] and h == [48, 16], [m, h])
-        sh = await page.evaluate("getComputedStyle(document.getElementById('mia-dock-pill')).boxShadow")
+        sh = await page.evaluate("getComputedStyle(document.getElementById('mia-dock')).boxShadow")
         import re as _re
         reach = max([int(a) + int(b) for a, b in _re.findall(r"\) 0px (\d+)px (\d+)px", sh)] or [999])
-        gap = await page.evaluate("Math.round(innerHeight - document.getElementById('mia-dock-pill').getBoundingClientRect().bottom)")
+        gap = await page.evaluate("Math.round(innerHeight - document.getElementById('mia-dock').getBoundingClientRect().bottom)")
         check("5c phone: the shadow ends inside the gap below the pill (nothing reaches the bottom edge to be cut off)", gap == 20 and reach <= gap - 6, [gap, reach, sh])
         await page.screenshot(path=f"{OUT}/5-phone.png")
         await ctx.close()

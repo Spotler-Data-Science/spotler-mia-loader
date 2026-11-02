@@ -9,10 +9,16 @@ The production loader (`src/`, `dist/`) is not changed by this folder.
   question, holds it, erases it and types the next. Nothing from Botpress
   loads.
 - **Arrow pressed:** the question in the pill goes straight into the chat. The
-  card opens, shows the question, Botpress loads, and the live chat takes over
-  (the production hand-over).
-- **Text clicked:** the card opens with the greeting, the buttons and an empty
-  text field, ready to type. Botpress loads only when they send something.
+  chat grows up out of the pill, shows the question, Botpress loads, and the
+  live chat takes over (the production hand-over).
+- **Text clicked:** the chat grows up out of the pill with the greeting and the
+  buttons; the pill's row becomes the (empty) text field, in the same place.
+  Botpress loads only when they send something.
+- **One text box:** the pill's field is the only one, before and during the
+  conversation (the preview's and Botpress's composers are hidden; no mic).
+- **Open:** one glass element grows upward (width 600 → up to 860px on
+  desktop, height to fit), with the same glass, opacity and corner radius.
+  The live chat stays see-through.
 - **Close (✕):** back to the typing pill; a running conversation is kept.
 
 **Look:** clear white glass with a soft shadow. The send buttons (pill, card,

@@ -1,15 +1,21 @@
 /* ==================================================================
-   52 · Glass dock (POC): a pill fixed to the bottom of the page that
-   types questions, and the chat card it opens into.
+   52 · Glass dock (POC): one glass element fixed to the bottom of the
+   page. Resting, it's a pill that types questions. Opened, the chat
+   grows upward out of it: the pill's row stays where it is and becomes
+   the text field; width and height animate together; the glass, its
+   opacity and the corner radius never change.
    ================================================================== */
 #mia-dock {
+  --mia-r: 34px;                                   /* corner radius, the same open or closed */
+  --mia-accent: #2FACE6; --mia-accent-hover: #2399CF; --mia-accent-ink: #FFFFFF;   /* the site's "Get a demo" cyan */
   position: fixed; left: 50%; bottom: 24px; z-index: 2147483000;
   width: min(600px, calc(100vw - 32px)); transform: translateX(-50%);
+  display: flex; flex-direction: column; overflow: hidden; border-radius: var(--mia-r);
   font-family: inherit; color: #0B1F4D; -webkit-font-smoothing: antialiased;
+  transition: width .5s cubic-bezier(.2,.8,.2,1);
 }
+#mia-dock.open { width: min(860px, calc(100vw - 64px)); }
 #mia-dock, #mia-dock * { box-sizing: border-box; }
-/* the send buttons and the typing caret: the site's "Get a demo" cyan, white arrow like that button */
-#mia-dock { --mia-accent: #2FACE6; --mia-accent-hover: #2399CF; --mia-accent-ink: #FFFFFF; }
 .mia-glass {
   background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(255,255,255,.38));
   -webkit-backdrop-filter: blur(22px) saturate(180%); backdrop-filter: blur(22px) saturate(180%);
@@ -18,18 +24,42 @@
               inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.35);
 }
 
-/* ---- the pill ---- */
+/* ---- the chat: grows upward above the pill's row (height set by 52-dock.js) ---- */
+#mia-dock-chat { flex: 0 0 auto; height: 0; overflow: hidden; display: flex; flex-direction: column;
+                 transition: height .5s cubic-bezier(.2,.8,.2,1); }
+#mia-dock-head { flex: 0 0 auto; display: flex; align-items: center; gap: 14px; padding: 18px 20px 6px 24px; }
+#mia-dock-head img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+#mia-dock-head .t { flex: 1 1 auto; min-width: 0; }
+#mia-dock-head b { display: block; font-size: 18px; line-height: 24px; font-weight: 600; }
+#mia-dock-head span { display: block; font-size: 14px; line-height: 20px; color: #5B6B8C; }
+#mia-dock-head button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: #0B1F4D;
+                        font-size: 20px; line-height: 40px; cursor: pointer; }
+#mia-dock-head button:hover { background: rgba(255,255,255,.6); }
+#spotler-inline-body { position: relative; flex: 1 1 auto; min-height: 0; }
+#mia-dock #bp-embedded-webchat, #mia-dock #bp-embedded-webchat > div { background: transparent !important; }
+#mia-dock-loading { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; z-index: 5; }
+#mia-dock-loading.on { display: flex; }
+#mia-dock-loading span { width: 28px; height: 28px; border: 3px solid rgba(11,31,77,.15); border-top-color: #0B1F4D;
+                         border-radius: 50%; animation: mia-spin .8s linear infinite; }
+@keyframes mia-spin { to { transform: rotate(360deg); } }
+
+/* ---- the pill's row: typing questions at rest, the text field when open ---- */
 #mia-dock-pill {
-  display: flex; align-items: center; gap: 12px; height: 68px; padding: 0 10px 0 28px;
-  border-radius: 999px; cursor: text;
-  transition: opacity .25s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+  flex: 0 0 auto; position: relative; display: flex; align-items: center; gap: 12px;
+  height: 68px; padding: 0 10px 0 28px; cursor: text;
 }
+#mia-dock.open #mia-dock-pill { cursor: auto; }
 /* the question: a touch larger and darker, so the moving text reads as live */
-#mia-dock-q { flex: 1 1 auto; min-width: 0; font-size: 19px; line-height: 26px; font-weight: 500; color: #071638;
-              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#mia-dock-q, #mia-dock-in { flex: 1 1 auto; min-width: 0; font: inherit; font-size: 19px; line-height: 26px; color: #071638; }
+#mia-dock-q { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #mia-dock-q::after { content: ""; display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: -0.15em;
                      background: var(--mia-accent); animation: mia-caret 1s steps(1) infinite; }   /* same cyan as the button */
 @keyframes mia-caret { 50% { opacity: 0; } }
+#mia-dock-in { display: none; height: 26px; padding: 0; margin: 0; border: 0; outline: none; background: transparent;
+               caret-color: var(--mia-accent); -webkit-appearance: none; appearance: none; }
+#mia-dock-in::placeholder { color: #5B6B8C; opacity: 1; }
+#mia-dock.typing-field #mia-dock-q { display: none; }
+#mia-dock.typing-field #mia-dock-in { display: block; }
 .mia-arrow {
   position: relative; overflow: hidden;
   flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
@@ -55,45 +85,22 @@
 .mia-arrow:hover { transform: translateY(-1px); background-color: rgba(35,153,207,.7); }
 .mia-arrow svg { position: relative; z-index: 1; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ---- the card ---- */
-#mia-dock-card {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  height: min(580px, calc(100vh - 140px)); border-radius: 32px; overflow: hidden;
-  display: flex; flex-direction: column;
-  opacity: 0; transform: translateY(16px) scale(.97); transform-origin: 50% 100%; pointer-events: none;
-  transition: opacity .28s ease, transform .4s cubic-bezier(.2,.8,.2,1);
-}
-#mia-dock.open #mia-dock-card { opacity: 1; transform: none; pointer-events: auto; }
-#mia-dock.open #mia-dock-pill { opacity: 0; transform: translateY(8px); pointer-events: none; }
-#mia-dock-head { flex: 0 0 auto; display: flex; align-items: center; gap: 14px; padding: 18px 20px 10px 24px; }
-#mia-dock-head img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
-#mia-dock-head .t { flex: 1 1 auto; min-width: 0; }
-#mia-dock-head b { display: block; font-size: 18px; line-height: 24px; font-weight: 600; }
-#mia-dock-head span { display: block; font-size: 14px; line-height: 20px; color: #5B6B8C; }
-#mia-dock-head button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: #0B1F4D;
-                        font-size: 20px; line-height: 40px; cursor: pointer; }
-#mia-dock-head button:hover { background: rgba(255,255,255,.6); }
-#spotler-inline-body { position: relative; flex: 1 1 auto; min-height: 0; }
-#mia-dock-loading { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; z-index: 5; }
-#mia-dock-loading.on { display: flex; }
-#mia-dock-loading span { width: 28px; height: 28px; border: 3px solid rgba(11,31,77,.15); border-top-color: #0B1F4D;
-                         border-radius: 50%; animation: mia-spin .8s linear infinite; }
-@keyframes mia-spin { to { transform: rotate(360deg); } }
 
 /* Phones: the size of Safari's address bar. --mia-k undoes the page being
    shrunk to fit (a page wider than the phone), so the pill keeps the same
    physical size as the browser's own toolbar (set by 52-dock.js). */
-#mia-dock.mia-touch { bottom: calc(20px * var(--mia-k, 1)); width: calc(100vw - 40px * var(--mia-k, 1)); }
+#mia-dock.mia-touch, #mia-dock.mia-touch.open { --mia-r: calc(24px * var(--mia-k, 1));
+  bottom: calc(20px * var(--mia-k, 1)); width: calc(100vw - 40px * var(--mia-k, 1)); }
 #mia-dock.mia-touch #mia-dock-pill { height: calc(48px * var(--mia-k, 1)); gap: calc(10px * var(--mia-k, 1));
   padding: 0 calc(5px * var(--mia-k, 1)) 0 calc(20px * var(--mia-k, 1)); }
-#mia-dock.mia-touch #mia-dock-q { font-size: calc(16px * var(--mia-k, 1)); line-height: calc(22px * var(--mia-k, 1)); }
+#mia-dock.mia-touch #mia-dock-q, #mia-dock.mia-touch #mia-dock-in { font-size: calc(16px * var(--mia-k, 1)); line-height: calc(22px * var(--mia-k, 1)); }
+#mia-dock.mia-touch #mia-dock-in { height: calc(22px * var(--mia-k, 1)); }
 #mia-dock.mia-touch .mia-arrow { width: calc(38px * var(--mia-k, 1)); height: calc(38px * var(--mia-k, 1)); }
 #mia-dock.mia-touch .mia-arrow svg { width: calc(18px * var(--mia-k, 1)); height: calc(18px * var(--mia-k, 1)); }
-#mia-dock.mia-touch #mia-dock-card { height: calc(100vh - 90px * var(--mia-k, 1)); border-radius: calc(24px * var(--mia-k, 1)); }
 /* a short, soft shadow that ends inside the 20pt gap below the pill: iOS
    draws nothing past the bottom of the page area (Safari's toolbar zone),
    so a longer one is cut off in a straight line */
-#mia-dock.mia-touch .mia-glass {
+#mia-dock.mia-touch.mia-glass {
   box-shadow: 0 calc(2px * var(--mia-k, 1)) calc(10px * var(--mia-k, 1)) rgba(11,31,77,.15),
               0 calc(1px * var(--mia-k, 1)) calc(3px * var(--mia-k, 1)) rgba(11,31,77,.08),
               inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.35);
@@ -103,12 +110,11 @@
               inset 0 -2px 4px rgba(255,255,255,.38), inset 0 2px 5px rgba(0,42,77,.18), inset 0 0 0 1px rgba(255,255,255,.2);
 }
 @media (max-width: 640px) {
-  #mia-dock { bottom: 20px; width: calc(100vw - 40px); }
+  #mia-dock, #mia-dock.open { --mia-r: 24px; bottom: 20px; width: calc(100vw - 40px); }
   #mia-dock-pill { height: 48px; padding-left: 20px; }
-  #mia-dock-q { font-size: 16px; }
-  #mia-dock-card { height: calc(100vh - 90px); border-radius: 24px; }
+  #mia-dock-q, #mia-dock-in { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #mia-dock-pill, #mia-dock-card { transition: none; }
+  #mia-dock, #mia-dock-chat { transition: none; }
   #mia-dock-q::after { animation: none; }
 }

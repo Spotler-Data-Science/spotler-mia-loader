@@ -79,10 +79,11 @@ function bootDock() {
         if (BP.loaded && BP.revealed && LS.getJSON(LIVE_KEY)) sendAsUser(text);
         else if (!BP.engaged) engage(text, "teaser");
       },
-      // text area: the card with greeting, buttons and the text field
-      onFocus: function () {
-        var sr = ctx.shell && ctx.shell.host && ctx.shell.host.shadowRoot;
-        if (sr && !BP.engaged) setTimeout(function () { ctx.shell.focus(); }, 300);
+      // the dock's field (the one text box): starts the chat, or goes into it
+      onSend: function (text) {
+        if (!BP.engaged) { engage(text, "typed"); return true; }
+        if (BP.revealed) { sendAsUser(text); return true; }
+        return false;     // Mia is still answering the first message: keep it in the field
       },
       onRestart: function () { if (LS.getJSON(LIVE_KEY) || BP.engaged) resetToShell("restart"); }
     });
