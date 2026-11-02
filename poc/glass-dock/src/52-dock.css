@@ -80,9 +80,19 @@
                          border-radius: 50%; animation: mia-spin .8s linear infinite; }
 @keyframes mia-spin { to { transform: rotate(360deg); } }
 
+/* Phones: the size of Safari's address bar. --mia-k undoes the page being
+   shrunk to fit (a page wider than the phone), so the pill keeps the same
+   physical size as the browser's own toolbar (set by 52-dock.js). */
+#mia-dock.mia-touch { bottom: calc(14px * var(--mia-k, 1)); width: calc(100vw - 32px * var(--mia-k, 1)); }
+#mia-dock.mia-touch #mia-dock-pill { height: calc(54px * var(--mia-k, 1)); gap: calc(10px * var(--mia-k, 1));
+  padding: 0 calc(6px * var(--mia-k, 1)) 0 calc(22px * var(--mia-k, 1)); }
+#mia-dock.mia-touch #mia-dock-q { font-size: calc(17px * var(--mia-k, 1)); line-height: calc(24px * var(--mia-k, 1)); }
+#mia-dock.mia-touch .mia-arrow { width: calc(42px * var(--mia-k, 1)); height: calc(42px * var(--mia-k, 1)); }
+#mia-dock.mia-touch .mia-arrow svg { width: calc(20px * var(--mia-k, 1)); height: calc(20px * var(--mia-k, 1)); }
+#mia-dock.mia-touch #mia-dock-card { height: calc(100vh - 90px * var(--mia-k, 1)); border-radius: calc(24px * var(--mia-k, 1)); }
 @media (max-width: 640px) {
-  #mia-dock { bottom: 12px; width: calc(100vw - 24px); }
-  #mia-dock-pill { height: 58px; padding-left: 20px; }
+  #mia-dock { bottom: 14px; width: calc(100vw - 32px); }
+  #mia-dock-pill { height: 54px; padding-left: 22px; }
   #mia-dock-q { font-size: 17px; }
   #mia-dock-card { height: calc(100vh - 90px); border-radius: 24px; }
 }

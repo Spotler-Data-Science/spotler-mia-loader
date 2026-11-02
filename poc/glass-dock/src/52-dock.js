@@ -34,6 +34,22 @@ function createDock(labels, handlers) {
   var dock = el("div", { id: "mia-dock" }, [card, pill]);
   document.body.appendChild(dock);
 
+  // Phones: if the page is shrunk to fit (layout wider than the screen),
+  // scale the pill back up so it matches the browser's own toolbar.
+  function fitTouch() {
+    if (!isMobileOrTabletUA()) return;
+    dock.classList.add("mia-touch");
+    var portrait = window.innerHeight >= window.innerWidth;
+    var sw = portrait ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
+    // layout width; a pinch zoom only narrows innerWidth, so the larger one is the page's own
+    var cw = Math.max(document.documentElement.clientWidth, window.innerWidth), k = 1;
+    if (sw && cw > sw * 1.02) k = Math.min(cw / sw, 3);
+    dock.style.setProperty("--mia-k", k.toFixed(3));
+  }
+  fitTouch();
+  window.addEventListener("resize", fitTouch);
+  window.addEventListener("orientationchange", function () { setTimeout(fitTouch, 300); });
+
   // ---- the typing pill ----
   var prompts = SETTINGS.POC_PROMPTS, idx = 0, current = "", timer = null, running = false;
   var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

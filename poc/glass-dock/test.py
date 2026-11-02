@@ -141,8 +141,21 @@ async def main():
         await page.goto("https://www.spotler.com/")
         await page.wait_for_timeout(1200)
         m = await page.evaluate("(() => { const r=document.getElementById('mia-dock-pill').getBoundingClientRect(); return { left: Math.round(r.left), right: Math.round(innerWidth - r.right), w: document.documentElement.scrollWidth <= innerWidth } })()")
-        check("5a phone: pill fits the width (12px each side), no sideways scroll", m["left"] == 12 and m["right"] == 12 and m["w"], m)
+        h = await page.evaluate("[Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), parseFloat(getComputedStyle(document.getElementById('mia-dock-q')).fontSize)]")
+        check("5a phone: pill the size of Safari's bar (54px, 17px text), 16px each side, no sideways scroll", m["left"] == 16 and m["right"] == 16 and m["w"] and h == [54, 17], [m, h])
         await page.screenshot(path=f"{OUT}/5-phone.png")
+        await ctx.close()
+
+        # a page wider than the phone (shrunk to fit): the pill is scaled back up to the same physical size
+        ctx = await b.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True,
+                                  user_agent="Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1")
+        await setup(ctx, [POC])             # no viewport tag: laid out 980px wide, shrunk onto the phone
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/")
+        await page.wait_for_timeout(1200)
+        z = await page.evaluate("""(() => { const d=document.getElementById('mia-dock'), cw=document.documentElement.clientWidth, k=parseFloat(d.style.getPropertyValue('--mia-k'));
+            return { cw, k, h: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), physical: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height * 390 / cw) } })()""")
+        check("5b page shrunk to fit: pill scaled up, still about 54pt on screen", z["cw"] > 900 and z["k"] > 1 and abs(z["physical"] - 54) <= 2, z)
         await ctx.close()
         await b.close()
     print(f"\n{sum(results)}/{len(results)} passed")
