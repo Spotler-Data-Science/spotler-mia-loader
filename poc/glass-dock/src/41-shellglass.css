@@ -2,6 +2,8 @@
    by 52-dock.js). The card behind it is the glass; the preview is clear. */
 .c { background: transparent; border: 0; color: #0B1F4D; font-family: var(--mia-font, inter, sans-serif); }
 .mq { display: none; }
+/* its greeting and buttons are on the start screen (53-start) instead */
+.op { display: none; }
 .av { display: none; }
 .vp { padding: 8px 24px 16px; }
 .list { margin-bottom: 0; }

@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-02.1",
+  "version": "2026-11-02.2",
   "generatedBy": "marketing.spotler.com page table (glass dock POC): config/config.json plus 'prompts' on the INT default row",
   "rows": [
     {
@@ -491,20 +491,28 @@
       "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
       "buttons": [
         {
-          "label": "What can Spotler do for me?",
-          "send": "What can Spotler do for me?"
+          "label": "Book a demo",
+          "send": "Book a demo",
+          "description": "Meet one of our product experts",
+          "icon": "calendar"
         },
         {
-          "label": "Book a demo",
-          "send": "Book a demo"
+          "label": "See pricing",
+          "send": "Pricing",
+          "description": "Compare our packages",
+          "icon": "pricing"
         },
         {
           "label": "Product support",
-          "send": "Product support"
+          "send": "Product support",
+          "description": "Get help and find answers",
+          "icon": "support"
         },
         {
-          "label": "Pricing",
-          "send": "Pricing"
+          "label": "Explore Spotler",
+          "send": "What can Spotler do for me?",
+          "description": "See what Spotler can do for you",
+          "icon": "explore"
         }
       ],
       "teaser_text": "Questions about Spotler? Ask me anything!",
@@ -515,7 +523,8 @@
         "Can I book a demo this week?",
         "How does Spotler use AI in email marketing?",
         "What does Spotler cost?"
-      ]
+      ],
+      "title": "Hello, I’m Mia"
     },
     {
       "url_match": "/b2b/email-marketing-automation",

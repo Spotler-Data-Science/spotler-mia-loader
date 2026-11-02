@@ -12,6 +12,7 @@ CSS.shell += CSS.shellglass;
 
 function createDock(labels, handlers) {
   addStyle(CSS.dock);
+  addStyle(CSS.start);
   var arrowSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>';
 
   // the pill's row: the typing question at rest, the text field when open

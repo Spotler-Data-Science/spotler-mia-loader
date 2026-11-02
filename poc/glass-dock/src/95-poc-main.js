@@ -1,5 +1,5 @@
 /* ==================================================================
-   95 · Boot (POC glass dock): INT pages only. Claims the page so the
+   95 · Boot (POC glass dock): every region. Claims the page so the
    production loader stands down. If the production loader got here
    first and only shows its preview (no chat running), the POC takes
    its panel off the page and runs instead; with a chat running, the
@@ -50,10 +50,23 @@ function usePocConfig() {
     cfg.rows.forEach(function (r) {
       for (var i = 0; i < raw.rows.length; i++) {
         var o = raw.rows[i];
-        if (!o || o.region !== r.region || trim(o.url_match).toLowerCase() !== r.url_match || !(o.prompts instanceof Array)) continue;
-        var list = o.prompts.filter(function (p) { return typeof p === "string" && trim(p); })
-          .slice(0, 10).map(function (p) { return trim(p).slice(0, 120); });
-        if (list.length) r.prompts = list;
+        if (!o || o.region !== r.region || trim(o.url_match).toLowerCase() !== r.url_match) continue;
+        if (o.prompts instanceof Array) {
+          var list = o.prompts.filter(function (p) { return typeof p === "string" && trim(p); })
+            .slice(0, 10).map(function (p) { return trim(p).slice(0, 120); });
+          if (list.length) r.prompts = list;
+        }
+        // the start screen: headline, and a description / icon per card
+        if (typeof o.title === "string" && trim(o.title)) r.title = trim(o.title).slice(0, 80);
+        (r.buttons || []).forEach(function (b) {
+          for (var j = 0; o.buttons && j < o.buttons.length; j++) {
+            var ob = o.buttons[j];
+            if (!ob || trim(ob.label) !== b.label) continue;
+            if (typeof ob.description === "string") b.description = trim(ob.description).slice(0, 80);
+            if (typeof ob.icon === "string" && (START_ICONS[ob.icon] || ob.icon === "none")) b.icon = ob.icon;
+            break;
+          }
+        });
         break;
       }
     });
@@ -122,11 +135,11 @@ function bootDock() {
       // arrow: the pill's question goes straight into the chat
       onAsk: function (text) {
         if (BP.loaded && BP.revealed && LS.getJSON(LIVE_KEY)) sendAsUser(text);
-        else if (!BP.engaged) engage(text, "teaser");
+        else if (!BP.engaged) startChat(text, "teaser");
       },
       // the dock's field (the one text box): starts the chat, or goes into it
       onSend: function (text) {
-        if (!BP.engaged) { engage(text, "typed"); return true; }
+        if (!BP.engaged) { startChat(text, "typed"); return true; }
         if (BP.revealed) { sendAsUser(text); return true; }
         return false;     // Mia is still answering the first message: keep it in the field
       },
@@ -140,15 +153,25 @@ function bootDock() {
     startTimeoutWatch();
   }
 
+  // The start screen, before the first message (and again after a restart).
+  var startScreen = null;
+  function startChat(text, source) {
+    if (startScreen) { startScreen.hide(); startScreen = null; }
+    engage(text, source);
+  }
+
   function mountShell() {
     if (ctx.shell && ctx.shell.host && ctx.shell.host.parentNode) ctx.shell.host.parentNode.removeChild(ctx.shell.host);
+    if (startScreen && startScreen.el.parentNode) startScreen.el.parentNode.removeChild(startScreen.el);
+    startScreen = State.getLive(region.id) ? null
+      : createStart(ctx.ui.body, ctx.row, SETTINGS.POC_LANG[region.id] || "en", promptsFor(ctx.row, region.id), startChat);
     var host = el("div", { id: "spotler-mia-shell" });
     host.style.setProperty("--mia-video-w", ctx.ui.videoWidth + "px");
     try { host.style.setProperty("--mia-font", getComputedStyle(document.body).fontFamily); } catch (e) {}   // the site's own font
     ctx.ui.body.insertBefore(host, ctx.ui.body.firstChild);
     ctx.shell = createShell(host, labels, ctx.row, {
-      onSend: function (text, source) { engage(text, source); },
-      onOpen: function () { engage(null, "open"); }
+      onSend: function (text, source) { startChat(text, source); },
+      onOpen: function () { startChat(null, "open"); }
     });
   }
   ctx.remountShell = mountShell;

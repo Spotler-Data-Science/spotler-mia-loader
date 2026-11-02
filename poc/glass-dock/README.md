@@ -39,9 +39,10 @@ rows (`"region": "int"`; `"url_match": "*"` is every page without its own row):
 
 | Field | What it changes |
 |---|---|
-| `prompts` | the questions the pill types, in order (a list, up to 10, 120 characters each) |
-| `opener` | the greeting when someone clicks in (a blank line starts a new bubble) |
-| `buttons` | the buttons under it: `[{"label": "…", "send": "…"}]` |
+| `prompts` | the questions the pill types, in order (a list, up to 10, 120 characters each); the first three are the start screen's "Others often ask" |
+| `opener` | the start screen's greeting under the headline (a blank line starts a new paragraph; must say Mia is an AI assistant) |
+| `title` | the start screen's headline (default per language: "Hello, I'm Mia", "Hallo, ich bin Mia"…) |
+| `buttons` | the start screen's cards: `[{"label": "…", "send": "…", "description": "…", "icon": "…"}]`. `description` (the grey line) and `icon` are optional: without them they're picked from the label (demo, pricing, support, otherwise explore). Icons: `calendar`, `pricing`, `support`, `explore`, `product`, `chat`, `mail`, `document`, `none` |
 
 The file's server must send `Access-Control-Allow-Origin: https://www.spotler.com`
 (or `*`), or browsers refuse to read it and the tag falls back to GitHub; the
