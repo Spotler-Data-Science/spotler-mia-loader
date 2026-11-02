@@ -8,17 +8,13 @@
   font-family: inherit; color: #0B1F4D; -webkit-font-smoothing: antialiased;
 }
 #mia-dock, #mia-dock * { box-sizing: border-box; }
-/* the send buttons' colour: Spotler's accent yellow, or the "Get a demo"
-   cyan with ?mia-btn=cyan (navy arrow on both, for contrast) */
-#mia-dock { --mia-accent: #F2F072; --mia-accent-hover: #E8E55C; --mia-accent-ink: #002A4D; }
-#mia-dock.btn-cyan { --mia-accent: #2FACE6; --mia-accent-hover: #2399CF; --mia-accent-ink: #002A4D; }
-/* faint navy tint: a touch cooler and deeper than the white and light-blue page */
+/* the send buttons and the typing caret: the site's "Get a demo" cyan, white arrow like that button */
+#mia-dock { --mia-accent: #2FACE6; --mia-accent-hover: #2399CF; --mia-accent-ink: #FFFFFF; }
 .mia-glass {
-  background: linear-gradient(135deg, rgba(255,255,255,.58), rgba(255,255,255,.32)),
-              linear-gradient(rgba(0,42,77,.07), rgba(0,42,77,.07));
+  background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(255,255,255,.38));
   -webkit-backdrop-filter: blur(22px) saturate(180%); backdrop-filter: blur(22px) saturate(180%);
   border: 1px solid rgba(255,255,255,.75);
-  box-shadow: 0 24px 60px rgba(11,31,77,.16), 0 4px 14px rgba(11,31,77,.08),
+  box-shadow: 0 28px 70px rgba(11,31,77,.22), 0 6px 18px rgba(11,31,77,.12),
               inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.35);
 }
 
@@ -32,7 +28,7 @@
 #mia-dock-q { flex: 1 1 auto; min-width: 0; font-size: 19px; line-height: 26px; font-weight: 500; color: #071638;
               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #mia-dock-q::after { content: ""; display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: -0.15em;
-                     background: #2AB0E6; animation: mia-caret 1s steps(1) infinite; }   /* Spotler cyan caret */
+                     background: var(--mia-accent); animation: mia-caret 1s steps(1) infinite; }   /* same cyan as the button */
 @keyframes mia-caret { 50% { opacity: 0; } }
 .mia-arrow {
   flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
@@ -42,7 +38,7 @@
   transition: transform .15s ease, background-color .15s ease;
 }
 .mia-arrow:hover { transform: translateY(-1px); background: var(--mia-accent-hover); }
-.mia-arrow svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.mia-arrow svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---- the card ---- */
 #mia-dock-card {

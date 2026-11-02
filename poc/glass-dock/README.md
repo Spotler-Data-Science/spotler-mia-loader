@@ -15,10 +15,9 @@ The production loader (`src/`, `dist/`) is not changed by this folder.
   text field, ready to type. Botpress loads only when they send something.
 - **Close (✕):** back to the typing pill; a running conversation is kept.
 
-**Look:** glass with a faint navy tint. The send buttons (pill, card, live
-chat) are Spotler's accent yellow `#F2F072` with a navy arrow; add
-`?mia-btn=cyan` to the page URL for the "Get a demo" cyan `#2FACE6` instead
-(`?mia-btn=yellow` switches back; the choice is kept while browsing).
+**Look:** clear white glass with a soft shadow. The send buttons (pill, card,
+live chat) and the pill's typing cursor are the site's "Get a demo" cyan
+`#2FACE6`, with a white arrow like that button.
 
 The questions are in `src/01-poc-settings.js` (`POC_PROMPTS`). A page-table row
 with a `prompts` list (strings) overrides them for that page.

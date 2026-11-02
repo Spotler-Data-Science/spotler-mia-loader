@@ -32,10 +32,6 @@ function createDock(labels, handlers) {
   var body = el("div", { id: "spotler-inline-body" }, [loading, webchat]);
   var card = el("div", { id: "mia-dock-card", "class": "mia-glass", role: "dialog", "aria-label": labels.title }, [head, body]);
   var dock = el("div", { id: "mia-dock" }, [card, pill]);
-  // Button colour to compare on staging: ?mia-btn=cyan or ?mia-btn=yellow (kept while browsing).
-  var pick = (/[?&]mia-btn=(cyan|yellow)\b/.exec(location.search) || [])[1];
-  if (pick) SS.set("mia_poc_btn", pick);
-  if ((pick || SS.get("mia_poc_btn")) === "cyan") dock.classList.add("btn-cyan");
   document.body.appendChild(dock);
 
   // ---- the typing pill ----
