@@ -119,6 +119,12 @@ async def main():
         await page.wait_for_timeout(400)
         g = await page.evaluate("""() => { const r=window.__bpShadow; return { css: !!r.querySelector('style[data-mia-dock]'), bg: getComputedStyle(r.querySelector('.bpContainer')).backgroundColor,
             white: getComputedStyle(r.querySelector('.bpX')).backgroundColor, ftBp: getComputedStyle(r.querySelector('.bpFooter') || document.body).display } }""")
+        ff = await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot, r=window.__bpShadow;
+            return [getComputedStyle(sr.querySelector('.c')).fontFamily, getComputedStyle(r.querySelector('.bpMessageBlocksBubble')).fontFamily] }""")
+        check("2p live chat in the same font as the preview (no re-wrap at the swap)", ff[0] and ff[0] == ff[1], ff)
+        same = await page.evaluate("""async () => { const r=window.__bpShadow; r.querySelector('style[data-mia-dock]').remove();
+            await Promise.resolve(); return !!r.querySelector('style[data-mia-dock]') }""")
+        check("2q Botpress re-renders: our styles are back before the next frame is painted", same)
         sd = await page.evaluate("() => { const r=window.__bpShadow, b=document.createElement('button'); b.className='bpMessageListScrollDownButton'; r.querySelector('.bpContainer').appendChild(b); return getComputedStyle(b).display }")
         check("2o no Botpress scroll-down arrow", sd == "none", sd)
         check("2n Botpress re-renders: glass styles put back, a new white panel cleared (stays see-through)", g["css"] and g["bg"] in ("rgba(0, 0, 0, 0)", "transparent") and g["white"] in ("rgba(0, 0, 0, 0)", "transparent"), g)

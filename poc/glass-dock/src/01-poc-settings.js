@@ -2,7 +2,7 @@
    01 · POC settings (glass dock). Loaded after the shared 00-settings.
    A test only: INT pages, staging. The production loader is untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.16";
+SETTINGS.VERSION = "poc-glass-0.17";
 SETTINGS.POC_REGION = "int";
 
 // Marketing's own page table, edited by hand: read first, with the GitHub

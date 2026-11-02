@@ -39,6 +39,7 @@ function createDock(labels, handlers) {
   var ft = el("div", { id: "mia-dock-ft" }, [footerNote(labels)]);
   var dock = el("div", { id: "mia-dock", "class": "mia-glass" }, [chat, pill, ft]);
   document.body.appendChild(dock);
+  try { dock.style.setProperty("--mia-font", getComputedStyle(document.body).fontFamily); } catch (e) {}   // the site's own font
 
   // Phones: if the page is shrunk to fit (layout wider than the screen),
   // scale the pill back up so it matches the browser's own toolbar.
@@ -170,10 +171,15 @@ var DOCK_LIVE_CSS =
   // the dock's own field is the text box: no Botpress composer (and no mic)
   ".bpComposerContainer{display:none !important}" +
   ".bpMessageListMarqueeContainer,.bpMessageAvatarContainer{display:none !important}" +
-  ".bpMessageListViewport{padding-left:24px !important;padding-right:24px !important}" +
+  // laid out exactly like the preview, so the hand-over doesn't re-flow:
+  // the site's font, the preview's spacing (no room kept for a composer),
+  // the same bubble padding and text size
+  ".bpContainer,.bpContainer *{font-family:var(--mia-font,inter,sans-serif) !important}" +
+  ".bpMessageListContainer{margin-bottom:0 !important;padding:4px !important}" +
+  ".bpMessageListViewport{padding:8px 24px 16px !important}" +
   ".bpMessageContainer[data-direction=incoming] .bpMessageBlocksBubble{background:transparent !important;padding:0 !important;color:#0B1F4D !important;font-size:15px !important;line-height:23px !important;max-width:100% !important}" +
-  ".bpMessageContainer[data-direction=outgoing] .bpMessageBlocksBubble{background:rgba(214,230,255,.85) !important;color:#0B1F4D !important;border-radius:18px !important}" +
-  ".bpMessageBlocksButton{background:rgba(255,255,255,.55) !important;border:1px solid rgba(11,31,77,.14) !important;color:#0B1F4D !important;border-radius:999px !important}" +
+  ".bpMessageContainer[data-direction=outgoing] .bpMessageBlocksBubble{background:rgba(214,230,255,.85) !important;color:#0B1F4D !important;border-radius:18px !important;padding:9px 16px !important;font-size:15px !important;line-height:23px !important;max-width:85% !important}" +
+  ".bpMessageBlocksButton{background:rgba(255,255,255,.55) !important;border:1px solid rgba(11,31,77,.14) !important;color:#0B1F4D !important;border-radius:999px !important;padding:4px 12px !important;font-size:14px !important;line-height:20px !important}" +
   ".bpComposerFooter{display:none !important}" +
   // Botpress's "scroll to newest" arrow: not wanted
   ".bpMessageListScrollDownButton{display:none !important}";
@@ -215,13 +221,11 @@ function glassLiveChat() {
     log("glass styles on the live chat");
     var queued = false;
     new MutationObserver(function () {
+      // straight away, before the browser paints: no unstyled frame
+      if (addCss()) log("glass styles put back after Botpress re-rendered");
       if (queued) return;
       queued = true;
-      setTimeout(function () {
-        queued = false;
-        if (addCss()) log("glass styles put back after Botpress re-rendered");
-        clearWhite();
-      }, 50);
+      setTimeout(function () { queued = false; clearWhite(); }, 50);
     }).observe(root, { childList: true, subtree: true });
   })();
 }

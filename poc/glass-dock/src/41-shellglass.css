@@ -14,6 +14,10 @@
        border: 1px solid rgba(11, 31, 77, 0.14); color: #0B1F4D; font-size: 14px; }
 .btn:hover { background: rgba(255, 255, 255, 0.85); }
 .btn[disabled]:hover { background: rgba(255, 255, 255, 0.55); }
+/* the bot's reply, mirrored before the hand-over: its buttons as Botpress
+   draws them (a row of chips), so nothing re-flows at the swap */
+.grow .row { display: flex; flex-wrap: wrap; gap: 8px; }
+.grow .btn { padding: 4px 12px; font-size: 14px; line-height: 20px; }
 .typing { background: rgba(255, 255, 255, 0.6); }
 /* the dock's own field is the text box: no composer here (and no mic) */
 .cmp { display: none; }
