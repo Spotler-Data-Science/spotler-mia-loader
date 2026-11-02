@@ -17,5 +17,7 @@
 .typing { background: rgba(255, 255, 255, 0.6); }
 /* the dock's own field is the text box: no composer here (and no mic) */
 .cmp { display: none; }
-.st { color: #5B6B8C; }
-.ft { color: #5B6B8C; }
+/* "Delivered" sits clear under the bubble */
+.st { margin-top: -4px; color: #5B6B8C; }
+/* the AI / privacy line is under the dock's field instead */
+.ft { display: none; }

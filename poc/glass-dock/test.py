@@ -84,12 +84,23 @@ async def main():
         check("2f the text field stays exactly where the pill's row was", before["rowTop"] == after["rowTop"] and before["rowBottom"] == after["rowBottom"] and before["rowH"] == after["rowH"], [before, after])
         check("2g opens wider (600 → up to 860px) and taller, growing smoothly (mid-way in between)",
               after["width"] == 860 and before["width"] == 600 and before["width"] < mid["width"] < after["width"] and before["height"] < mid["height"] < after["height"], [before, mid, after])
+        o = await page.evaluate("""() => { const d=document.getElementById('mia-dock').getBoundingClientRect(), h=document.getElementById('header').getBoundingClientRect(),
+            p=document.getElementById('mia-dock-pill').getBoundingClientRect(), f=document.getElementById('mia-dock-ft'), fr=f.getBoundingClientRect(), i=getComputedStyle(document.getElementById('mia-dock-in'));
+            return { top: Math.round(d.top), header: Math.round(h.bottom), ftTop: Math.round(fr.top), ftH: Math.round(fr.height), pillBottom: Math.round(p.bottom),
+                     ftText: f.textContent, ftLink: (f.querySelector('a') || {}).href, inBorder: i.borderTopWidth, inBg: i.backgroundColor } }""")
+        check("2j the open chat stops just below the site's menu bar", o["header"] + 8 <= o["top"] <= o["header"] + 24, o)
+        check("2k AI assistant · Privacy sits below the text field", o["ftTop"] >= o["pillBottom"] - 1 and o["ftH"] >= 14 and o["ftText"] == "AI assistant · Privacy" and o["ftLink"] == "https://spotler.com/privacy-statement", o)
+        check("2l open, the field looks like a field (white box with a border)", o["inBorder"] == "1px" and o["inBg"] not in ("rgba(0, 0, 0, 0)", "transparent"), o)
         check("2h same glass, opacity and corner radius open as closed", before["radius"] == after["radius"] == "34px" and before["bg"] == after["bg"] and before["opacity"] == after["opacity"] == "1", [before, after])
         check("2b still no Botpress", not bp(reqs), bp(reqs))
         await page.screenshot(path=f"{OUT}/2-card.png")
         # typing your own message then starts the chat as usual
         await page.fill("#mia-dock-in", "Do you integrate with Shopify?")
         await page.press("#mia-dock-in", "Enter")
+        await page.wait_for_timeout(800)
+        st = await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot, b=sr.querySelector('.m.out .b'), s=sr.querySelector('.st');
+            return b && s ? { bubbleBottom: Math.round(b.getBoundingClientRect().bottom), statusTop: Math.round(s.getBoundingClientRect().top) } : null }""")
+        check("2m 'Delivered' sits clear under the bubble (no overlap)", st and st["statusTop"] >= st["bubbleBottom"], st)
         await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
         log = await page.evaluate("window.__bpLog")
         check("2c own message typed in the card goes to the chat", ["sendMessage", "Do you integrate with Shopify?"] in log, log[-4:])
@@ -102,6 +113,12 @@ async def main():
         await page.wait_for_timeout(400)
         log = await page.evaluate("window.__bpLog")
         check("2i in the conversation, the pill's field (arrow) sends into the live chat", ["sendMessage", "And with Magento?"] in log, log[-3:])
+        # Botpress re-renders and drops our styles: they come back, so the chat never turns white
+        await page.evaluate("() => { const r=window.__bpShadow; r.querySelector('style[data-mia-dock]').remove(); const w=document.createElement('div'); w.className='bpX'; w.style.cssText='position:absolute;inset:0;background:#fff'; r.querySelector('.bpContainer').appendChild(w); }")
+        await page.wait_for_timeout(400)
+        g = await page.evaluate("""() => { const r=window.__bpShadow; return { css: !!r.querySelector('style[data-mia-dock]'), bg: getComputedStyle(r.querySelector('.bpContainer')).backgroundColor,
+            white: getComputedStyle(r.querySelector('.bpX')).backgroundColor, ftBp: getComputedStyle(r.querySelector('.bpFooter') || document.body).display } }""")
+        check("2n Botpress re-renders: glass styles put back, a new white panel cleared (stays see-through)", g["css"] and g["bg"] in ("rgba(0, 0, 0, 0)", "transparent") and g["white"] in ("rgba(0, 0, 0, 0)", "transparent"), g)
         await page.screenshot(path=f"{OUT}/2-live.png")
         await ctx.close()
 
@@ -124,6 +141,10 @@ async def main():
         await page.click("#mia-dock-head button[aria-label='Close chat']")
         await page.wait_for_timeout(1200)
         q1 = await page.evaluate("document.getElementById('mia-dock-q').textContent")
+        # a click outside the chat closes it too
+        await page.click("#mia-dock-q"); await page.wait_for_timeout(600)
+        await page.mouse.click(60, 400); await page.wait_for_timeout(300)
+        check("3d a click outside the open chat closes it", not await page.evaluate("document.getElementById('mia-dock').classList.contains('open')"))
         check("3c close: back to the typing pill", not await page.evaluate("document.getElementById('mia-dock').classList.contains('open')") and q1 != "", q1)
         await ctx.close()
 

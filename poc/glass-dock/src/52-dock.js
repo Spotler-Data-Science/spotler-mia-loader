@@ -35,7 +35,9 @@ function createDock(labels, handlers) {
   var webchat = el("div", { id: "bp-embedded-webchat" });
   var body = el("div", { id: "spotler-inline-body" }, [loading, webchat]);
   var chat = el("div", { id: "mia-dock-chat", role: "dialog", "aria-label": labels.title }, [head, body]);
-  var dock = el("div", { id: "mia-dock", "class": "mia-glass" }, [chat, pill]);
+  // the AI / privacy line, under the field when open
+  var ft = el("div", { id: "mia-dock-ft" }, [footerNote(labels)]);
+  var dock = el("div", { id: "mia-dock", "class": "mia-glass" }, [chat, pill, ft]);
   document.body.appendChild(dock);
 
   // Phones: if the page is shrunk to fit (layout wider than the screen),
@@ -52,10 +54,19 @@ function createDock(labels, handlers) {
     k = sw && cw > sw * 1.02 ? Math.min(cw / sw, 3) : 1;
     dock.style.setProperty("--mia-k", k.toFixed(3));
   }
-  // The open chat's height: as tall as fits above the pill, up to 600px.
+  // The open chat's height: from just below the site's menu bar (16px
+  // clear) down to the field, at most 720px.
   function chatHeight() {
-    var room = window.innerHeight - pill.offsetHeight - (dock.classList.contains("mia-touch") ? 20 * k : 24) - 24 * k;
-    return Math.max(240, Math.min(dock.classList.contains("mia-touch") ? room : 600, room));
+    var touch = dock.classList.contains("mia-touch");
+    var top = 16 * k, hdr = document.getElementById("header") || document.querySelector("header");
+    if (hdr) {
+      var r = hdr.getBoundingClientRect(), pos = getComputedStyle(hdr).position;
+      if ((pos === "fixed" || pos === "sticky") && r.bottom > 0 && r.bottom < window.innerHeight / 2) top = r.bottom + 16 * k;
+    }
+    var gap = touch ? 20 * k : 24;   // the field stays at the closed pill's height above the bottom
+    var ftH = parseFloat(getComputedStyle(dock).getPropertyValue("--mia-ft")) || 20;
+    var room = window.innerHeight - gap - pill.offsetHeight - top - 2 - (touch ? ftH * k : 0);
+    return Math.max(220, Math.min(touch ? room : 720, room));
   }
   function resize() {
     fitTouch();
@@ -128,6 +139,13 @@ function createDock(labels, handlers) {
     focusField();
   });
   closeBtn.addEventListener("click", close);
+  // a click anywhere outside the chat closes it (not the calendar's own modal)
+  document.addEventListener("click", function (e) {
+    if (!dock.classList.contains("open")) return;
+    var t = e.target;
+    if (!t || dock.contains(t) || (t.closest && t.closest("#hubspot-modal"))) return;
+    close();
+  }, true);
   restartBtn.addEventListener("click", function () { if (handlers.onRestart) handlers.onRestart(); });
 
   return {
@@ -156,22 +174,52 @@ var DOCK_LIVE_CSS =
   ".bpMessageContainer[data-direction=incoming] .bpMessageBlocksBubble{background:transparent !important;padding:0 !important;color:#0B1F4D !important;font-size:15px !important;line-height:23px !important;max-width:100% !important}" +
   ".bpMessageContainer[data-direction=outgoing] .bpMessageBlocksBubble{background:rgba(214,230,255,.85) !important;color:#0B1F4D !important;border-radius:18px !important}" +
   ".bpMessageBlocksButton{background:rgba(255,255,255,.55) !important;border:1px solid rgba(11,31,77,.14) !important;color:#0B1F4D !important;border-radius:999px !important}" +
-  ".bpComposerFooter{color:#5B6B8C !important}";
+  ".bpComposerFooter{display:none !important}";
 
 function glassLiveChat() {
   var tries = 0;
   (function attach() {
     var root = webchatShadow();
     if (!root) { if (++tries < 300) setTimeout(attach, 100); return; }
-    if (root.querySelector && root.querySelector("style[data-mia-dock]")) return;
-    var css = document.createElement("style");
-    css.setAttribute("data-mia-dock", "");
-    css.textContent = root === document.getElementById("bp-embedded-webchat")
-      ? DOCK_LIVE_CSS.replace(/(^|\})([^{}]+)\{/g, function (m, end, sel) {
-          return end + sel.split(",").map(function (s) { return "#bp-embedded-webchat " + s; }).join(",") + "{";
-        })
-      : DOCK_LIVE_CSS;
-    (root.head || root).appendChild(css);
+    function addCss() {
+      if (root.querySelector && root.querySelector("style[data-mia-dock]")) return false;
+      var css = document.createElement("style");
+      css.setAttribute("data-mia-dock", "");
+      css.textContent = root === document.getElementById("bp-embedded-webchat")
+        ? DOCK_LIVE_CSS.replace(/(^|\})([^{}]+)\{/g, function (m, end, sel) {
+            return end + sel.split(",").map(function (s) { return "#bp-embedded-webchat " + s; }).join(",") + "{";
+          })
+        : DOCK_LIVE_CSS;
+      (root.head || root).appendChild(css);
+      return true;
+    }
+    // Any other large, solid-white panel Botpress paints (class names vary
+    // by version): see-through too. Bubbles and buttons keep their colour.
+    function clearWhite() {
+      var box = document.getElementById("bp-embedded-webchat").getBoundingClientRect();
+      var all = root.querySelectorAll("*");
+      for (var i = 0; i < all.length; i++) {
+        var n = all[i];
+        if (n.__miaClear || /bpMessageBlocks|bpComposer|button/i.test(n.className + " " + n.tagName)) continue;
+        var m = /rgba?\((\d+), (\d+), (\d+)(?:, ([\d.]+))?\)/.exec(getComputedStyle(n).backgroundColor);
+        if (!m || +m[1] < 235 || +m[2] < 235 || +m[3] < 235 || (m[4] !== undefined && +m[4] < 0.5)) continue;
+        var r = n.getBoundingClientRect();
+        if (r.width < box.width * 0.6 || r.height < box.height * 0.3) continue;
+        n.style.setProperty("background", "transparent", "important");
+        n.__miaClear = true;
+      }
+    }
+    addCss(); clearWhite();
     log("glass styles on the live chat");
+    var queued = false;
+    new MutationObserver(function () {
+      if (queued) return;
+      queued = true;
+      setTimeout(function () {
+        queued = false;
+        if (addCss()) log("glass styles put back after Botpress re-rendered");
+        clearWhite();
+      }, 50);
+    }).observe(root, { childList: true, subtree: true });
   })();
 }
