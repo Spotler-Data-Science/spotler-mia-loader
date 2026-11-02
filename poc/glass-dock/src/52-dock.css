@@ -22,9 +22,11 @@
   border-radius: 999px; cursor: text;
   transition: opacity .25s ease, transform .35s cubic-bezier(.2,.8,.2,1);
 }
-#mia-dock-q { flex: 1 1 auto; min-width: 0; font-size: 18px; line-height: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* the question: a touch larger and darker, so the moving text reads as live */
+#mia-dock-q { flex: 1 1 auto; min-width: 0; font-size: 19px; line-height: 26px; font-weight: 500; color: #071638;
+              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #mia-dock-q::after { content: ""; display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: -0.15em;
-                     background: #0B1F4D; animation: mia-caret 1s steps(1) infinite; }
+                     background: #2AB0E6; animation: mia-caret 1s steps(1) infinite; }   /* Spotler cyan caret */
 @keyframes mia-caret { 50% { opacity: 0; } }
 .mia-arrow {
   flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
@@ -63,7 +65,7 @@
 @media (max-width: 640px) {
   #mia-dock { bottom: 12px; width: calc(100vw - 24px); }
   #mia-dock-pill { height: 58px; padding-left: 20px; }
-  #mia-dock-q { font-size: 16px; }
+  #mia-dock-q { font-size: 17px; }
   #mia-dock-card { height: calc(100vh - 90px); border-radius: 24px; }
 }
 @media (prefers-reduced-motion: reduce) {
