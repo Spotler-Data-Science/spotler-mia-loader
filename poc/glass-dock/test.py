@@ -58,7 +58,7 @@ async def main():
         check("1b pill types a question letter by letter", len(seen) >= 4 and any(PROMPTS[0].startswith(s) and 0 < len(s) < len(PROMPTS[0]) for s in seen), sorted(seen)[:6])
         check("1c no Botpress on page view", not bp(reqs), bp(reqs))
         c = await page.evaluate("[getComputedStyle(document.querySelector('.mia-arrow')).backgroundColor, getComputedStyle(document.getElementById('mia-dock-q'), '::after').backgroundColor]")
-        check("1e glass send button (see-through Get-a-demo cyan) and the same cyan cursor", c[0].startswith("rgba(47, 172, 230, 0.7") and c[1] == "rgb(47, 172, 230)", c)
+        check("1e glass send button (see-through Get-a-demo cyan) and the same cyan cursor", c[0].startswith("rgba(47, 172, 230, 0.8") and c[1] == "rgb(47, 172, 230)", c)
         check("1d INT page: production loader not started", not await page.evaluate("!!document.getElementById('spotler-agent-panel')"))
         await page.screenshot(path=f"{OUT}/1-pill.png")
 

@@ -33,17 +33,17 @@
 .mia-arrow {
   flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
   width: 48px; height: 48px; border: 0; border-radius: 50%; cursor: pointer;
-  /* glass button: see-through cyan, a light sheen on the top half, a bright rim */
-  background: linear-gradient(180deg, rgba(255,255,255,.38) 0%, rgba(255,255,255,.08) 50%, rgba(255,255,255,0) 100%),
-              rgba(47,172,230,.78);
-  border: 1px solid rgba(255,255,255,.6);
-  -webkit-backdrop-filter: blur(8px) saturate(160%); backdrop-filter: blur(8px) saturate(160%);
+  /* tinted glass: see-through Spotler cyan, lighter in the middle, a little
+     deeper at the edges; no sheen, no glow */
+  background: radial-gradient(120% 120% at 50% 60%, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 45%, rgba(0,42,77,.26) 100%),
+              rgba(47,172,230,.84);
+  border: 0;
+  -webkit-backdrop-filter: blur(10px) saturate(150%); backdrop-filter: blur(10px) saturate(150%);
   color: var(--mia-accent-ink);
-  box-shadow: 0 4px 14px rgba(47,172,230,.35), inset 0 1px 1px rgba(255,255,255,.75), inset 0 -3px 6px rgba(0,42,77,.12);
-  transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease;
+  box-shadow: 0 2px 6px rgba(0,42,77,.14), inset 0 0 0 1px rgba(255,255,255,.22), inset 0 1px 1px rgba(255,255,255,.3);
+  transition: transform .15s ease, background-color .15s ease;
 }
-.mia-arrow:hover { transform: translateY(-1px); background-color: rgba(35,153,207,.88);
-                   box-shadow: 0 6px 18px rgba(47,172,230,.45), inset 0 1px 1px rgba(255,255,255,.75), inset 0 -3px 6px rgba(0,42,77,.14); }
+.mia-arrow:hover { transform: translateY(-1px); background-color: rgba(35,153,207,.8); }
 .mia-arrow svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---- the card ---- */
