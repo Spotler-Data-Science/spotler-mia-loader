@@ -61,10 +61,20 @@ function usePocConfig() {
   };
 }
 
+// The pill's questions for this page: the page table's "prompts" if it has
+// them; otherwise the page's own teaser first (on a page with its own row),
+// then the general questions in the region's language.
+function promptsFor(row, regionId) {
+  if (row.prompts && row.prompts.length) return row.prompts;
+  var list = (SETTINGS.POC_PROMPTS[SETTINGS.POC_LANG[regionId] || "en"] || SETTINGS.POC_PROMPTS.en).slice();
+  if (row.page && row.page !== "default" && row.teaser_text) list.unshift({ text: row.teaser_text, send: row.teaser_send || row.teaser_text });
+  return list;
+}
+
 function bootDock() {
   var path = location.pathname;
   var region = detectRegion(path);
-  if (region.id !== SETTINGS.POC_REGION) return;     // not INT: leave the page to the production loader
+  if (region.id === "none" || SETTINGS.ENABLED_REGIONS.indexOf(region.id) === -1) { log("POC off: no chat for this locale"); return; }
   if (window.__spotlerMiaStarted || document.getElementById("bp-embedded-webchat")) {
     if (window.botpress || LS.getJSON(LIVE_KEY)) {
       log("POC off: the production chat is in use on this page");
@@ -77,7 +87,7 @@ function bootDock() {
   usePocConfig();
   SETTINGS.CDN_ORIGINS.forEach(preconnect);
 
-  var labels = SETTINGS.LABELS[region.id];
+  var labels = SETTINGS.LABELS[region.id] || SETTINGS.LABELS["en-GB"];
   var ctx = { region: region, labels: labels, row: null, ui: null, shell: null };
   BP.ctx = ctx;
   var started = false;
@@ -89,7 +99,7 @@ function bootDock() {
       if (!started || BP.engaged || BP.loaded) return;
       var fresh = pickRow(cfg, path, region.id);
       ctx.row = fresh;
-      if (fresh.prompts) ctx.ui.setPrompts(fresh.prompts);
+      ctx.ui.setPrompts(promptsFor(fresh, region.id));
       if (!ctx.ui.isOpen()) mountShell();
       log("POC: page settings updated from the live file");
       return;
@@ -102,7 +112,7 @@ function bootDock() {
 
   function start(row) {
     ctx.row = row;
-    log("POC glass dock, page " + (row.page || "default"));
+    log("POC glass dock, region " + region.id + ", page " + (row.page || "default"));
     addStyle(CSS.common);
     var hs = document.createElement("div");
     hs.innerHTML = HTML.hubspot;
@@ -122,7 +132,7 @@ function bootDock() {
       },
       onRestart: function () { if (LS.getJSON(LIVE_KEY) || BP.engaged) resetToShell("restart"); }
     });
-    if (row.prompts) ctx.ui.setPrompts(row.prompts);
+    ctx.ui.setPrompts(promptsFor(row, region.id));
     glassLiveChat();
 
     if (State.getLive(region.id)) { ctx.ui.open(); resume(); }

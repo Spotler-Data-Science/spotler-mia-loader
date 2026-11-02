@@ -1,6 +1,8 @@
 # Glass dock (POC)
 
-A test of a different way into Mia, for the staging site on **INT pages only**.
+A test of a different way into Mia, for the staging site, on **every region the
+production loader covers** (UK, NL, INT, DE, en-DE, ES, SE, AU; not on other
+`/xx-xx` locales).
 The production loader (`src/`, `dist/`) is not changed by this folder.
 
 ## What it does
@@ -69,15 +71,23 @@ CHROMIUM=/opt/pw-browsers/chromium python3 poc/glass-dock/test.py
 
 ## Putting it on staging
 
-1. In the **staging** GTM environment, add a new Custom HTML tag with
-   `dist/mia-poc-glass.gtm.html`, firing on all pages (it does nothing outside INT).
-2. Firing order doesn't matter. On INT pages it claims the page and a
-   production loader firing later stands down; if the production loader got
-   there first and only shows its preview, the POC takes its slide-out off
-   the page (`POC: production slide-out removed`) and runs instead. If a
-   production chat is already running, the POC leaves it alone. On other
-   regions it does nothing.
-3. Check the console for `[Mia] POC glass dock, page …`.
+1. In the **staging** GTM, the POC tag fires on **All Pages** (it works out the
+   region itself and stays off on locales without chat).
+2. Firing order doesn't matter: it claims the page and a production loader
+   firing later stands down; if the production loader got there first and only
+   shows its preview, the POC takes its slide-out off the page. If a production
+   chat is already running, the POC leaves it alone.
+3. Check the console for `[Mia] POC glass dock, region …, page …`.
+
+## Languages and pages
+
+- Labels (placeholder, header, privacy line and link) follow the region.
+- The greeting and buttons come from the page table, per region and page.
+- The pill's questions: the row's `prompts` if the page table has them;
+  otherwise, on a page with its own row, its teaser first (the arrow sends its
+  `teaser_send`), then five general questions in the region's language
+  (`POC_PROMPTS` in `src/01-poc-settings.js`: English, Dutch, German, Spanish,
+  Swedish).
 
 ## Known POC limits
 
@@ -85,4 +95,5 @@ CHROMIUM=/opt/pw-browsers/chromium python3 poc/glass-dock/test.py
   can undo parts of it.
 - The source sent to the bot for the arrow is `teaser` (inside the website
   contract).
-- No page-table, n8n or production-tag changes; no languages other than INT.
+- No page-table, n8n or production-tag changes.
+- Pages set to a half or full campaign card get the dock instead of the card.

@@ -164,7 +164,7 @@ async def main():
         await page.goto("https://www.spotler.com/en-gb/pricing")
         await page.wait_for_timeout(1500)
         r = await page.evaluate("({ dock: !!document.getElementById('mia-dock'), panel: !!document.getElementById('spotler-agent-panel') })")
-        check("4a en-GB page with both tags: production slide-out, no dock", r == {"dock": False, "panel": True}, r)
+        check("4a en-GB page with both tags: the dock (every region now), no slide-out", r == {"dock": True, "panel": False}, r)
         await page.goto("https://www.spotler.com/pricing")
         await page.wait_for_timeout(1500)
         r = await page.evaluate("({ dock: !!document.getElementById('mia-dock'), panel: !!document.getElementById('spotler-agent-panel') })")
@@ -184,6 +184,40 @@ async def main():
         await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
         n = [e for e in await page.evaluate("window.__bpLog") if e[0] == "init"]
         check("4d after the takeover the arrow starts one Botpress chat in the dock", len(n) == 1 and await page.evaluate("!!document.querySelector('#mia-dock #bp-embedded-webchat.bp-ready')"), n)
+        await ctx.close()
+
+        # 7. every region: its language (questions, labels, greeting) and page-specific teasers
+        async def region_page(path, wait=1800):
+            ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+            reqs = await setup(ctx, [POC])
+            page = await ctx.new_page()
+            await page.goto("https://www.spotler.com" + path)
+            await page.wait_for_timeout(wait)
+            return ctx, page, reqs
+        for path, lang, ph, opener, ft in [("/de-de/", "de", "Stellen Sie Mia eine Frage...", "Hallo, ich bin Mia", "KI-Assistent · Datenschutz"),
+                                           ("/sv-se/", "sv", "Ställ en fråga till Mia...", "Hej, jag är Mia", "AI-assistent · Integritet"),
+                                           ("/es-es/", "es", "Haz una pregunta a Mia...", "Hola, soy Mia", "Asistente de IA · Privacidad"),
+                                           ("/nl-nl/", "nl", "Stel Mia een vraag...", "Hoi", "AI-assistent · Privacy")]:
+            ctx, page, _ = await region_page(path)
+            q = await page.evaluate("document.getElementById('mia-dock-q').textContent")
+            first = {"de": "Wie kann Spotler meinem Unternehmen helfen?", "sv": "Hur kan Spotler hjälpa mitt företag?",
+                     "es": "¿Cómo puede Spotler ayudar a mi empresa?", "nl": "Hoe kan Spotler mijn bedrijf helpen?"}[lang]
+            await page.click("#mia-dock-q"); await page.wait_for_timeout(700)
+            d = await page.evaluate("""() => ({ ph: document.getElementById('mia-dock-in').placeholder, ft: document.getElementById('mia-dock-ft').textContent,
+                text: document.getElementById('spotler-mia-shell').shadowRoot.textContent })""")
+            check(f"7 {path}: questions, field, greeting and privacy line in its language", q and first.startswith(q) and d["ph"] == ph and opener in d["text"] and d["ft"] == ft, [q, d["ph"], d["ft"], d["text"][:60]])
+            await ctx.close()
+        ctx, page, _ = await region_page("/en-gb/pricing/compare", 2400)
+        q = await page.evaluate("document.getElementById('mia-dock-q').textContent")
+        check("7e a page with its own row types its teaser first", q and "Want help comparing plans and pricing?".startswith(q), q)
+        await page.click(".mia-arrow")
+        await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+        log = await page.evaluate("window.__bpLog")
+        ev = [json.loads(e[1]) for e in log if e[0] == "sendEvent"]
+        check("7f its arrow sends the teaser's message, start event en-GB / pricing", ["sendMessage", "Help me compare plans and pricing"] in log and ev and ev[0]["locale"] == "en-GB" and ev[0]["pageKey"] == "pricing", [log[-3:], ev[:1]])
+        await ctx.close()
+        ctx, page, _ = await region_page("/fr-fr/", 1200)
+        check("7g a locale without chat (/fr-fr/): no dock", not await page.evaluate("!!document.getElementById('mia-dock')"))
         await ctx.close()
 
         # 6. marketing's own file (marketing.spotler.com) is read first: its questions and greeting

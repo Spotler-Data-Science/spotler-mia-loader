@@ -1,9 +1,9 @@
 /* ==================================================================
    01 · POC settings (glass dock). Loaded after the shared 00-settings.
-   A test only: INT pages, staging. The production loader is untouched.
+   A test only, for staging: every region the production loader covers.
+   The production loader itself is untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.17";
-SETTINGS.POC_REGION = "int";
+SETTINGS.VERSION = "poc-glass-0.18";
 
 // Marketing's own page table, edited by hand: read first, with the GitHub
 // one (SETTINGS.CONFIG_URLS) as the backup. Same format as config/config.json;
@@ -11,15 +11,23 @@ SETTINGS.POC_REGION = "int";
 // The server must send Access-Control-Allow-Origin for spotler.com.
 SETTINGS.POC_CONFIG_URL = "https://marketing.spotler.com/botpress/config.json";
 
-// What the pill types, one after the other, when the page table has no
-// "prompts" for the page (a list of strings on a row, or on the "*" row).
-SETTINGS.POC_PROMPTS = [
-  "How can Spotler help my business?",
-  "Which Spotler product fits an online shop?",
-  "Can I book a demo this week?",
-  "How does Spotler use AI in email marketing?",
-  "What does Spotler cost?"
-];
+// What the pill types, one after the other, in the page's language, when
+// the page table has no "prompts" for the page. On a page with its own row,
+// that page's teaser comes first (the arrow sends its teaser_send).
+SETTINGS.POC_PROMPTS = {
+  en: ["How can Spotler help my business?", "Which Spotler product fits an online shop?", "Can I book a demo this week?",
+       "How does Spotler use AI in email marketing?", "What does Spotler cost?"],
+  nl: ["Hoe kan Spotler mijn bedrijf helpen?", "Welk Spotler-product past bij een webshop?", "Kan ik deze week een demo boeken?",
+       "Hoe gebruikt Spotler AI in e-mailmarketing?", "Wat kost Spotler?"],
+  de: ["Wie kann Spotler meinem Unternehmen helfen?", "Welches Spotler-Produkt passt zu einem Onlineshop?", "Kann ich diese Woche eine Demo buchen?",
+       "Wie nutzt Spotler KI im E-Mail-Marketing?", "Was kostet Spotler?"],
+  es: ["¿Cómo puede Spotler ayudar a mi empresa?", "¿Qué producto de Spotler encaja con una tienda online?", "¿Puedo reservar una demo esta semana?",
+       "¿Cómo usa Spotler la IA en el email marketing?", "¿Cuánto cuesta Spotler?"],
+  sv: ["Hur kan Spotler hjälpa mitt företag?", "Vilken Spotler-produkt passar en webbutik?", "Kan jag boka en demo den här veckan?",
+       "Hur använder Spotler AI i e-postmarknadsföring?", "Vad kostar Spotler?"]
+};
+// Region → language of its questions (the other regions are English).
+SETTINGS.POC_LANG = { "nl": "nl", "de-DE": "de", "es-ES": "es", "sv-SE": "sv" };
 SETTINGS.POC_TYPE_MS = 80;       // per letter (a calm typing pace)
 SETTINGS.POC_HOLD_MS = 4500;     // full question on screen
 SETTINGS.POC_ERASE_MS = 30;      // per letter, deleting

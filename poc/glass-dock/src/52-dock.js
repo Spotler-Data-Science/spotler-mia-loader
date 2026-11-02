@@ -78,9 +78,14 @@ function createDock(labels, handlers) {
   window.addEventListener("orientationchange", function () { setTimeout(resize, 300); });
 
   // ---- the typing question ----
-  var prompts = SETTINGS.POC_PROMPTS, idx = 0, current = "", timer = null, running = false;
+  // each question: a string, or {text, send} (a page teaser: shown text, sent text)
+  var prompts = SETTINGS.POC_PROMPTS.en, idx = 0, current = "", currentSend = "", timer = null, running = false;
   var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function next() { current = prompts[idx++ % prompts.length]; }
+  function next() {
+    var p = prompts[idx++ % prompts.length];
+    current = typeof p === "string" ? p : p.text;
+    currentSend = typeof p === "string" ? p : (p.send || p.text);
+  }
   function type(n) {
     if (!running) return;
     q.textContent = current.slice(0, n);
@@ -128,7 +133,7 @@ function createDock(labels, handlers) {
   arrow.addEventListener("click", function (e) {
     e.stopPropagation();
     if (dock.classList.contains("open")) { sendTyped(); return; }
-    var text = current;   // closed: the whole question, even mid-typing
+    var text = currentSend;   // closed: the whole question (or the teaser's message), even mid-typing
     open();
     if (handlers.onAsk) handlers.onAsk(text);
   });
@@ -157,7 +162,7 @@ function createDock(labels, handlers) {
     open: open,
     close: close,
     isOpen: function () { return dock.classList.contains("open"); },
-    setPrompts: function (list) { if (list && list.length) prompts = list; },
+    setPrompts: function (list) { if (list && list.length) { prompts = list; idx = 0; } },
     startTyping: startTyping,
     setRow: function () {}
   };
