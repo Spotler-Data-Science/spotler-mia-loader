@@ -28,6 +28,25 @@ live chat) and the pill's typing cursor are the site's "Get a demo" cyan
 The questions are in `src/01-poc-settings.js` (`POC_PROMPTS`). A page-table row
 with a `prompts` list (strings) overrides them for that page.
 
+## Editing the text (marketing.spotler.com)
+
+The tag reads **https://marketing.spotler.com/botpress/config.json** first and
+the GitHub page table only if that file can't be read. It's the same format
+as `config/config.json` (start from `config.example.json` here). On the INT
+rows (`"region": "int"`; `"url_match": "*"` is every page without its own row):
+
+| Field | What it changes |
+|---|---|
+| `prompts` | the questions the pill types, in order (a list, up to 10, 120 characters each) |
+| `opener` | the greeting when someone clicks in (a blank line starts a new bubble) |
+| `buttons` | the buttons under it: `[{"label": "…", "send": "…"}]` |
+
+The file's server must send `Access-Control-Allow-Origin: https://www.spotler.com`
+(or `*`), or browsers refuse to read it and the tag falls back to GitHub; the
+console then shows `config fetch failed (marketing.spotler.com)`. A good read
+shows `config from network v<version>`. Changes show within about 5 minutes,
+and every first message must still say Mia is Spotler's AI assistant.
+
 ## How it's built
 
 The tag is the production loader's shared code (page table, preview, Botpress

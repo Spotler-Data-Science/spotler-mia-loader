@@ -19,7 +19,7 @@ def check(name, cond, detail=""):
     results.append(bool(cond))
     print(("PASS " if cond else "FAIL ") + name + (("  -- " + str(detail)) if detail and not cond else ""))
 
-async def setup(ctx, tags, phone=False):
+async def setup(ctx, tags, phone=False, mkt=None, mkt_cors=True):
     page_html = RAW.replace("<!--TAG-->", "\n".join(tags))
     if phone: page_html = page_html.replace("</head>", '<meta name="viewport" content="width=device-width, initial-scale=1"></head>', 1)
     reqs = []
@@ -27,6 +27,10 @@ async def setup(ctx, tags, phone=False):
         url = route.request.url; reqs.append(url)
         if "cdn.botpress.cloud" in url: return await route.fulfill(body=INJECT, content_type="application/javascript")
         if url.endswith((".webp", ".png")): return await route.fulfill(body=PNG, content_type="image/png")
+        if "marketing.spotler.com" in url:
+            if mkt is None: return await route.fulfill(status=404, body="")
+            if not mkt_cors: return await route.abort("failed")   # what a CORS block looks like to the page
+            return await route.fulfill(body=mkt, content_type="application/json", headers={"access-control-allow-origin": "*"} if mkt_cors else {})
         if "raw.githubusercontent.com" in url or "cdn.jsdelivr.net" in url:
             return await route.fulfill(body=CONFIG, content_type="application/json", headers={"access-control-allow-origin": "*"})
         if url.endswith("/logo.svg"): return await route.fulfill(body="<svg xmlns='http://www.w3.org/2000/svg'/>", content_type="image/svg+xml")
@@ -150,6 +154,34 @@ async def main():
         await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
         n = [e for e in await page.evaluate("window.__bpLog") if e[0] == "init"]
         check("4d after the takeover the arrow starts one Botpress chat in the dock", len(n) == 1 and await page.evaluate("!!document.querySelector('#mia-dock #bp-embedded-webchat.bp-ready')"), n)
+        await ctx.close()
+
+        # 6. marketing's own file (marketing.spotler.com) is read first: its questions and greeting
+        MKT = json.dumps({"version": "mkt-1", "rows": [{"url_match": "*", "region": "int", "mode": "slideout", "page": "default",
+            "opener": "Hello from marketing: I'm Mia, Spotler's AI assistant.", "buttons": [{"label": "Show me Mail+", "send": "Show me Mail+"}],
+            "prompts": ["Marketing question one?", "Marketing question two?"]}]})
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        reqs = await setup(ctx, [POC], mkt=MKT)
+        page = await ctx.new_page()
+        logs = []; page.on("console", lambda m: logs.append(m.text))
+        await page.goto("https://www.spotler.com/")
+        await page.wait_for_timeout(2600)
+        q = await page.evaluate("document.getElementById('mia-dock-q').textContent")
+        await page.click("#mia-dock-q"); await page.wait_for_timeout(700)
+        t = await page.evaluate("document.getElementById('spotler-mia-shell').shadowRoot.textContent")
+        check("6a marketing's file read first: the pill types its questions", q and "Marketing question one?".startswith(q) and any("config from network vmkt-1" in l for l in logs), [q, [l for l in logs if "config" in l]])
+        check("6b clicking in shows marketing's greeting and buttons", "Hello from marketing" in t and "Show me Mail+" in t, t[:120])
+        check("6c marketing's file comes first, GitHub not needed", reqs and not any("githubusercontent" in u for u in reqs), [u for u in reqs if "config.json" in u])
+        await ctx.close()
+        # its server not allowing spotler.com (no CORS header) or down: the GitHub page table instead
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        await setup(ctx, [POC], mkt=MKT, mkt_cors=False)
+        page = await ctx.new_page()
+        logs = []; page.on("console", lambda m: logs.append(m.text))
+        await page.goto("https://www.spotler.com/")
+        await page.wait_for_timeout(2600)
+        q = await page.evaluate("document.getElementById('mia-dock-q').textContent")
+        check("6d marketing's file blocked or down: GitHub page table and the built-in questions", any("config fetch failed (marketing.spotler.com)" in l for l in logs) and any("config from network" in l for l in logs) and not "Marketing question".startswith(q or "x"), [q, [l for l in logs if "config" in l]])
         await ctx.close()
 
         # 5. phone width

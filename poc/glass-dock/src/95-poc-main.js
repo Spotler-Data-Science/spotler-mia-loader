@@ -38,6 +38,29 @@ function detectRegion(path) {
   return SETTINGS.REGIONS[SETTINGS.REGIONS.length - 1];
 }
 
+// The POC's page table: marketing's file first, GitHub as the backup, its
+// own cache (never mixed with the production loader's), and the rows keep
+// their "prompts" (the shared check only keeps the production columns).
+function usePocConfig() {
+  SETTINGS.CONFIG_URLS = [SETTINGS.POC_CONFIG_URL].concat(SETTINGS.CONFIG_URLS);
+  CONFIG_CACHE_KEY = "spotler_mia_poc_config";
+  var check = validateConfig;
+  validateConfig = function (raw) {
+    var cfg = check(raw);
+    cfg.rows.forEach(function (r) {
+      for (var i = 0; i < raw.rows.length; i++) {
+        var o = raw.rows[i];
+        if (!o || o.region !== r.region || trim(o.url_match).toLowerCase() !== r.url_match || !(o.prompts instanceof Array)) continue;
+        var list = o.prompts.filter(function (p) { return typeof p === "string" && trim(p); })
+          .slice(0, 10).map(function (p) { return trim(p).slice(0, 120); });
+        if (list.length) r.prompts = list;
+        break;
+      }
+    });
+    return cfg;
+  };
+}
+
 function bootDock() {
   var path = location.pathname;
   var region = detectRegion(path);
@@ -51,6 +74,7 @@ function bootDock() {
   }
   window.__spotlerMiaStarted = SETTINGS.VERSION;     // a production loader firing later stands down
   keepProductionOff();
+  usePocConfig();
   SETTINGS.CDN_ORIGINS.forEach(preconnect);
 
   var labels = SETTINGS.LABELS[region.id];
@@ -59,7 +83,18 @@ function bootDock() {
   var started = false;
 
   loadConfig(function (cfg, source) {
-    if (source === "late" || started) return;
+    // The live file arrived after the page started on a saved or built-in
+    // copy: take its questions and greeting, unless a chat is under way.
+    if (source === "late") {
+      if (!started || BP.engaged || BP.loaded) return;
+      var fresh = pickRow(cfg, path, region.id);
+      ctx.row = fresh;
+      if (fresh.prompts) ctx.ui.setPrompts(fresh.prompts);
+      if (!ctx.ui.isOpen()) mountShell();
+      log("POC: page settings updated from the live file");
+      return;
+    }
+    if (started) return;
     started = true;
     State.cleanLegacy();
     start(pickRow(cfg, path, region.id));
