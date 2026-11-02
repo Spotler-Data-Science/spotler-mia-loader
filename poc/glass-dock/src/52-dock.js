@@ -37,7 +37,8 @@ function createDock(labels, handlers) {
   // Phones: if the page is shrunk to fit (layout wider than the screen),
   // scale the pill back up so it matches the browser's own toolbar.
   function fitTouch() {
-    if (!isMobileOrTabletUA()) return;
+    var coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+    if (!isMobileOrTabletUA() && !(coarse && Math.min(screen.width, screen.height) < 700)) return;
     dock.classList.add("mia-touch");
     var portrait = window.innerHeight >= window.innerWidth;
     var sw = portrait ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);

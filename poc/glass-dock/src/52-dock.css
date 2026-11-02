@@ -83,17 +83,28 @@
 /* Phones: the size of Safari's address bar. --mia-k undoes the page being
    shrunk to fit (a page wider than the phone), so the pill keeps the same
    physical size as the browser's own toolbar (set by 52-dock.js). */
-#mia-dock.mia-touch { bottom: calc(14px * var(--mia-k, 1)); width: calc(100vw - 32px * var(--mia-k, 1)); }
-#mia-dock.mia-touch #mia-dock-pill { height: calc(54px * var(--mia-k, 1)); gap: calc(10px * var(--mia-k, 1));
-  padding: 0 calc(6px * var(--mia-k, 1)) 0 calc(22px * var(--mia-k, 1)); }
-#mia-dock.mia-touch #mia-dock-q { font-size: calc(17px * var(--mia-k, 1)); line-height: calc(24px * var(--mia-k, 1)); }
-#mia-dock.mia-touch .mia-arrow { width: calc(42px * var(--mia-k, 1)); height: calc(42px * var(--mia-k, 1)); }
-#mia-dock.mia-touch .mia-arrow svg { width: calc(20px * var(--mia-k, 1)); height: calc(20px * var(--mia-k, 1)); }
+#mia-dock.mia-touch { bottom: calc(14px * var(--mia-k, 1)); width: calc(100vw - 40px * var(--mia-k, 1)); }
+#mia-dock.mia-touch #mia-dock-pill { height: calc(48px * var(--mia-k, 1)); gap: calc(10px * var(--mia-k, 1));
+  padding: 0 calc(5px * var(--mia-k, 1)) 0 calc(20px * var(--mia-k, 1)); }
+#mia-dock.mia-touch #mia-dock-q { font-size: calc(16px * var(--mia-k, 1)); line-height: calc(22px * var(--mia-k, 1)); }
+#mia-dock.mia-touch .mia-arrow { width: calc(38px * var(--mia-k, 1)); height: calc(38px * var(--mia-k, 1)); }
+#mia-dock.mia-touch .mia-arrow svg { width: calc(18px * var(--mia-k, 1)); height: calc(18px * var(--mia-k, 1)); }
 #mia-dock.mia-touch #mia-dock-card { height: calc(100vh - 90px * var(--mia-k, 1)); border-radius: calc(24px * var(--mia-k, 1)); }
+/* a short, soft shadow: the desktop one reaches into Safari's toolbar area,
+   where the browser cuts it off in a straight line */
+#mia-dock.mia-touch .mia-glass {
+  box-shadow: 0 calc(4px * var(--mia-k, 1)) calc(16px * var(--mia-k, 1)) rgba(11,31,77,.16),
+              0 calc(1px * var(--mia-k, 1)) calc(4px * var(--mia-k, 1)) rgba(11,31,77,.08),
+              inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.35);
+}
+#mia-dock.mia-touch .mia-arrow {
+  box-shadow: 0 calc(2px * var(--mia-k, 1)) calc(6px * var(--mia-k, 1)) rgba(47,172,230,.28),
+              inset 0 -2px 4px rgba(255,255,255,.38), inset 0 2px 5px rgba(0,42,77,.18), inset 0 0 0 1px rgba(255,255,255,.2);
+}
 @media (max-width: 640px) {
-  #mia-dock { bottom: 14px; width: calc(100vw - 32px); }
-  #mia-dock-pill { height: 54px; padding-left: 22px; }
-  #mia-dock-q { font-size: 17px; }
+  #mia-dock { bottom: 14px; width: calc(100vw - 40px); }
+  #mia-dock-pill { height: 48px; padding-left: 20px; }
+  #mia-dock-q { font-size: 16px; }
   #mia-dock-card { height: calc(100vh - 90px); border-radius: 24px; }
 }
 @media (prefers-reduced-motion: reduce) {

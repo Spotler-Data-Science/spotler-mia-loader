@@ -142,7 +142,11 @@ async def main():
         await page.wait_for_timeout(1200)
         m = await page.evaluate("(() => { const r=document.getElementById('mia-dock-pill').getBoundingClientRect(); return { left: Math.round(r.left), right: Math.round(innerWidth - r.right), w: document.documentElement.scrollWidth <= innerWidth } })()")
         h = await page.evaluate("[Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), parseFloat(getComputedStyle(document.getElementById('mia-dock-q')).fontSize)]")
-        check("5a phone: pill the size of Safari's bar (54px, 17px text), 16px each side, no sideways scroll", m["left"] == 16 and m["right"] == 16 and m["w"] and h == [54, 17], [m, h])
+        check("5a phone: pill a touch smaller than Safari's bar (48px, 16px text), 20px each side, no sideways scroll", m["left"] == 20 and m["right"] == 20 and m["w"] and h == [48, 16], [m, h])
+        sh = await page.evaluate("getComputedStyle(document.getElementById('mia-dock-pill')).boxShadow")
+        import re as _re
+        reach = max([int(a) + int(b) for a, b in _re.findall(r"\) 0px (\d+)px (\d+)px", sh)] or [999])
+        check("5c phone: shadow fades out within ~20px below the pill (clear of Safari's toolbar)", reach <= 22, sh)
         await page.screenshot(path=f"{OUT}/5-phone.png")
         await ctx.close()
 
@@ -155,7 +159,7 @@ async def main():
         await page.wait_for_timeout(1200)
         z = await page.evaluate("""(() => { const d=document.getElementById('mia-dock'), cw=document.documentElement.clientWidth, k=parseFloat(d.style.getPropertyValue('--mia-k'));
             return { cw, k, h: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), physical: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height * 390 / cw) } })()""")
-        check("5b page shrunk to fit: pill scaled up, still about 54pt on screen", z["cw"] > 900 and z["k"] > 1 and abs(z["physical"] - 54) <= 2, z)
+        check("5b page shrunk to fit: pill scaled up, still about 48pt on screen", z["cw"] > 900 and z["k"] > 1 and abs(z["physical"] - 48) <= 2, z)
         await ctx.close()
         await b.close()
     print(f"\n{sum(results)}/{len(results)} passed")
