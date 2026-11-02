@@ -81,7 +81,7 @@ async def main():
                      value: i.value, focused: document.activeElement === i, shellComposer: getComputedStyle(sr.querySelector('.cmp')).display,
                      mic: !!sr.querySelector('.cmp .mic') && getComputedStyle(sr.querySelector('.cmp')).display !== 'none' } }""")
         check("2a text click opens the chat: greeting + buttons; the pill's row is the empty, focused text field; no other composer or mic", c["open"] and "Hi, I" in c["text"] and c["buttons"] >= 3 and c["value"] == "" and c["focused"] and c["shellComposer"] == "none" and not c["mic"], c)
-        check("2f the text field stays in the pill's row (same size; lifts 16px for the privacy line)", before["rowH"] == after["rowH"] and before["rowTop"] - after["rowTop"] == 16, [before, after])
+        check("2f the text field stays in the pill's row (same size; lifts 30px for the privacy line)", before["rowH"] == after["rowH"] and before["rowTop"] - after["rowTop"] == 30, [before, after])
         check("2g opens wider (600 → up to 860px) and taller, growing smoothly (mid-way in between)",
               after["width"] == 860 and before["width"] == 600 and before["width"] < mid["width"] < after["width"] and before["height"] < mid["height"] < after["height"], [before, mid, after])
         o = await page.evaluate("""() => { const d=document.getElementById('mia-dock').getBoundingClientRect(), h=document.getElementById('header').getBoundingClientRect(),
@@ -89,8 +89,8 @@ async def main():
             return { top: Math.round(d.top), header: Math.round(h.bottom), dockBottomGap: Math.round(innerHeight - d.bottom), ftTop: Math.round(fr.top), ftH: Math.round(fr.height), pillBottom: Math.round(p.bottom),
                      ftText: f.textContent, ftLink: (f.querySelector('a') || {}).href, inBorder: i.borderTopWidth, inBg: i.backgroundColor, inBorderC: i.borderTopColor,
                      inH: Math.round(document.getElementById('mia-dock-in').getBoundingClientRect().height), btnH: Math.round(document.querySelector('.mia-arrow').getBoundingClientRect().height) } }""")
-        check("2j the open chat stops just below the site's menu bar", o["header"] + 8 <= o["top"] <= o["header"] + 24, o)
-        check("2k AI assistant · Privacy sits below the text field, with room (30px row, glass 10px above the screen edge)", o["ftTop"] >= o["pillBottom"] - 1 and o["ftH"] == 30 and o["dockBottomGap"] == 10 and o["ftText"] == "AI assistant · Privacy" and o["ftLink"] == "https://spotler.com/privacy-statement", o)
+        check("2j the open chat stops 8px below the site's menu bar", o["header"] + 7 <= o["top"] <= o["header"] + 11, o)
+        check("2k AI assistant · Privacy sits below the text field (30px row); the open glass keeps the closed pill's 24px from the bottom", o["ftTop"] >= o["pillBottom"] - 1 and o["ftH"] == 30 and o["dockBottomGap"] == 24 and o["ftText"] == "AI assistant · Privacy" and o["ftLink"] == "https://spotler.com/privacy-statement", o)
         check("2l open, the field looks like a field: white box, thin grey outline, as tall as the send button", o["inBorder"] == "1px" and o["inBg"] not in ("rgba(0, 0, 0, 0)", "transparent") and o["inBorderC"].startswith("rgba(11, 31, 77") and o["inH"] == o["btnH"], o)
         check("2h same glass, opacity and corner radius open as closed", before["radius"] == after["radius"] == "34px" and before["bg"] == after["bg"] and before["opacity"] == after["opacity"] == "1", [before, after])
         check("2b still no Botpress", not bp(reqs), bp(reqs))

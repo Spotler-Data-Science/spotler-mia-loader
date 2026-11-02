@@ -8,7 +8,7 @@
 #mia-dock {
   --mia-r: 34px;                                   /* corner radius, the same open or closed */
   --mia-ft: 30px;                                  /* the AI / privacy line under the field when open */
-  --mia-gap-open: 10px;                            /* glass to screen edge when open (24px closed) */
+  --mia-gap-open: 24px;                            /* glass to screen edge when open: the same as the closed pill */
   --mia-accent: #2FACE6; --mia-accent-hover: #2399CF; --mia-accent-ink: #FFFFFF;   /* the site's "Get a demo" cyan */
   position: fixed; left: 50%; bottom: 24px; z-index: 2147483000;
   width: min(600px, calc(100vw - 32px)); transform: translateX(-50%);
@@ -16,7 +16,7 @@
   font-family: inherit; color: #0B1F4D; -webkit-font-smoothing: antialiased;
   transition: width .5s cubic-bezier(.2,.8,.2,1), bottom .5s cubic-bezier(.2,.8,.2,1);
 }
-/* open: wider; the field lifts a little to make room for the AI / privacy line under it */
+/* open: wider, the same gap to the screen edge; the field lifts to make room for the AI / privacy line under it */
 #mia-dock.open { width: min(860px, calc(100vw - 64px)); bottom: var(--mia-gap-open); }
 #mia-dock, #mia-dock * { box-sizing: border-box; }
 .mia-glass {

@@ -55,17 +55,17 @@ function createDock(labels, handlers) {
     k = sw && cw > sw * 1.02 ? Math.min(cw / sw, 3) : 1;
     dock.style.setProperty("--mia-k", k.toFixed(3));
   }
-  // The open chat's height: from just below the site's menu bar (16px
+  // The open chat's height: from just below the site's menu bar (8px
   // clear) down to the field, at most 720px.
   function chatHeight() {
     var touch = dock.classList.contains("mia-touch");
     var top = 16 * k, hdr = document.getElementById("header") || document.querySelector("header");
     if (hdr) {
       var r = hdr.getBoundingClientRect(), pos = getComputedStyle(hdr).position;
-      if ((pos === "fixed" || pos === "sticky") && r.bottom > 0 && r.bottom < window.innerHeight / 2) top = r.bottom + 16 * k;
+      if ((pos === "fixed" || pos === "sticky") && r.bottom > 0 && r.bottom < window.innerHeight / 2) top = r.bottom + 8 * k;
     }
     // below the field: the AI / privacy line and the gap to the screen edge
-    var below = touch || window.innerWidth <= 640 ? (20 + 26) * k : 10 + 30;
+    var below = touch || window.innerWidth <= 640 ? (20 + 26) * k : 24 + 30;
     var room = window.innerHeight - below - pill.offsetHeight - top - 2;
     return Math.max(220, Math.min(touch ? room : 720, room));
   }

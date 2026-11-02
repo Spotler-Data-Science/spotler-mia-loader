@@ -3,7 +3,7 @@
    A test only, for staging: every region the production loader covers.
    The production loader itself is untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.18";
+SETTINGS.VERSION = "poc-glass-0.19";
 
 // Marketing's own page table, edited by hand: read first, with the GitHub
 // one (SETTINGS.CONFIG_URLS) as the backup. Same format as config/config.json;
