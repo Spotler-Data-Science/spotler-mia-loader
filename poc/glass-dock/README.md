@@ -42,13 +42,20 @@ rows (`"region": "int"`; `"url_match": "*"` is every page without its own row):
 | `prompts` | the questions the pill types, in order (a list, up to 10, 120 characters each); the first three are the start screen's "Others often ask" |
 | `opener` | the start screen's greeting under the headline (a blank line starts a new paragraph; must say Mia is an AI assistant) |
 | `title` | the start screen's headline (default per language: "Hello, I'm Mia", "Hallo, ich bin Mia"…) |
-| `buttons` | the start screen's cards: `[{"label": "…", "send": "…", "description": "…", "icon": "…"}]`. `description` (the grey line) and `icon` are optional: without them they're picked from the label (demo, pricing, support, otherwise explore). Icons: `calendar`, `pricing`, `support`, `explore`, `product`, `chat`, `mail`, `document`, `none` |
+| `buttons` | the start screen's cards: `[{"label": "…", "send": "…", "description": "…", "icon": "…"}]`. `description` (the grey line) and `icon` are optional: without them they're picked from the label (demo, pricing, support, otherwise explore). Icons: `calendar`, `pricing`, `support`, `explore`, `product`, `chat`, `mail`, `document`, `none`, or a picture: an `https://` link to a png, svg or jpg (shown 44×44) |
 
 The file's server must send `Access-Control-Allow-Origin: https://www.spotler.com`
 (or `*`), or browsers refuse to read it and the tag falls back to GitHub; the
 console then shows `config fetch failed (marketing.spotler.com)`. A good read
 shows `config from network v<version>`. Changes show within about 5 minutes,
 and every first message must still say Mia is Spotler's AI assistant.
+
+The start screen never scrolls on first open: when it doesn't fit, it drops
+(in this order) the third question, the cards' grey lines, the questions,
+extra greeting paragraphs, then uses a smaller headline.
+
+On phones the first tap on the bar opens the chat without the keyboard;
+tapping the field brings the keyboard up.
 
 ## How it's built
 

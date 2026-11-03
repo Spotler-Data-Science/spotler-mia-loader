@@ -38,6 +38,8 @@
 #mia-dock-head button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: #0B1F4D;
                         font-size: 20px; line-height: 40px; cursor: pointer; }
 #mia-dock-head button:hover { background: rgba(255,255,255,.6); }
+#mia-dock-head button { display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+#mia-dock-head button svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 #spotler-inline-body { position: relative; flex: 1 1 auto; min-height: 0; }
 #mia-dock #bp-embedded-webchat, #mia-dock #bp-embedded-webchat > div { background: transparent !important; }
 #mia-dock-loading { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; z-index: 5; }

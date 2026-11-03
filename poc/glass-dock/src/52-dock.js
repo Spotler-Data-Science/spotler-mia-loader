@@ -25,9 +25,10 @@ function createDock(labels, handlers) {
   // the chat that grows above it
   var img = el("img", { src: SETTINGS.AVATAR_URL, alt: "" });
   var restartBtn = el("button", { type: "button", "aria-label": labels.restart, title: labels.restart });
-  restartBtn.innerHTML = "&#8635;";
+  // drawn icons, not text characters, so they sit dead centre in their circles
+  restartBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg>';
   var closeBtn = el("button", { type: "button", "aria-label": labels.close, title: labels.close });
-  closeBtn.innerHTML = "&#10005;";
+  closeBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>';
   var head = el("div", { id: "mia-dock-head" }, [
     img, el("div", { "class": "t" }, [el("b", { text: labels.botName }), el("span", { text: labels.title })]),
     restartBtn, closeBtn
@@ -141,9 +142,14 @@ function createDock(labels, handlers) {
   input.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendTyped(); }
   });
-  pill.addEventListener("click", function () {
-    if (!dock.classList.contains("open")) open();
-    focusField();
+  pill.addEventListener("click", function (e) {
+    if (!dock.classList.contains("open")) {
+      open();
+      // phones: open the chat but keep the keyboard down; tapping the field brings it up
+      if (!dock.classList.contains("mia-touch")) focusField();
+      return;
+    }
+    if (e.target !== input) focusField();
   });
   closeBtn.addEventListener("click", close);
   // a click anywhere outside the chat closes it (not the calendar's own modal)
@@ -190,48 +196,77 @@ var DOCK_LIVE_CSS =
   // Botpress's "scroll to newest" arrow: not wanted
   ".bpMessageListScrollDownButton{display:none !important}";
 
-function glassLiveChat() {
-  var tries = 0;
-  (function attach() {
-    var root = webchatShadow();
-    if (!root) { if (++tries < 300) setTimeout(attach, 100); return; }
-    function addCss() {
-      if (root.querySelector && root.querySelector("style[data-mia-dock]")) return false;
-      var css = document.createElement("style");
-      css.setAttribute("data-mia-dock", "");
-      css.textContent = root === document.getElementById("bp-embedded-webchat")
-        ? DOCK_LIVE_CSS.replace(/(^|\})([^{}]+)\{/g, function (m, end, sel) {
-            return end + sel.split(",").map(function (s) { return "#bp-embedded-webchat " + s; }).join(",") + "{";
-          })
-        : DOCK_LIVE_CSS;
-      (root.head || root).appendChild(css);
-      return true;
-    }
-    // Any other large, solid-white panel Botpress paints (class names vary
-    // by version): see-through too. Bubbles and buttons keep their colour.
-    function clearWhite() {
-      var box = document.getElementById("bp-embedded-webchat").getBoundingClientRect();
-      var all = root.querySelectorAll("*");
-      for (var i = 0; i < all.length; i++) {
-        var n = all[i];
-        if (n.__miaClear || /bpMessageBlocks|bpComposer|button/i.test(n.className + " " + n.tagName)) continue;
-        var m = /rgba?\((\d+), (\d+), (\d+)(?:, ([\d.]+))?\)/.exec(getComputedStyle(n).backgroundColor);
-        if (!m || +m[1] < 235 || +m[2] < 235 || +m[3] < 235 || (m[4] !== undefined && +m[4] < 0.5)) continue;
-        var r = n.getBoundingClientRect();
-        if (r.width < box.width * 0.6 || r.height < box.height * 0.3) continue;
-        n.style.setProperty("background", "transparent", "important");
-        n.__miaClear = true;
+// Every part of the live chat: Botpress nests its chat in more than one
+// shadow root (and can use an iframe), so each one gets our styles.
+function liveRoots() {
+  var wrap = document.getElementById("bp-embedded-webchat"), out = [];
+  if (!wrap) return out;
+  (function walk(node) {
+    var all = node.querySelectorAll("*");
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].shadowRoot) { out.push(all[i].shadowRoot); walk(all[i].shadowRoot); }
+      if (all[i].tagName === "IFRAME") {
+        try { var d = all[i].contentDocument; if (d && d.body) { out.push(d.body); walk(d.body); } } catch (e) {}
       }
     }
-    addCss(); clearWhite();
-    log("glass styles on the live chat");
-    var queued = false;
-    new MutationObserver(function () {
-      // straight away, before the browser paints: no unstyled frame
-      if (addCss()) log("glass styles put back after Botpress re-rendered");
-      if (queued) return;
-      queued = true;
-      setTimeout(function () { queued = false; clearWhite(); }, 50);
-    }).observe(root, { childList: true, subtree: true });
-  })();
+  })(wrap);
+  if (!out.length && wrap.querySelector("[class*='bp']")) out.push(wrap);
+  return out;
+}
+
+function glassLiveChat() {
+  var wrap = null, watched = [];
+  function addCss(root) {
+    if (root.querySelector && root.querySelector("style[data-mia-dock]")) return false;
+    var css = document.createElement("style");
+    css.setAttribute("data-mia-dock", "");
+    css.textContent = root === wrap
+      ? DOCK_LIVE_CSS.replace(/(^|\})([^{}]+)\{/g, function (m, end, sel) {
+          return end + sel.split(",").map(function (s) { return "#bp-embedded-webchat " + s; }).join(",") + "{";
+        })
+      : DOCK_LIVE_CSS;
+    (root.head || root).appendChild(css);
+    return true;
+  }
+  // Any other large, solid-white panel Botpress paints (class names vary
+  // by version): see-through too. Bubbles and buttons keep their colour.
+  function clearWhite(root) {
+    var box = wrap.getBoundingClientRect();
+    var all = root.querySelectorAll("*");
+    for (var i = 0; i < all.length; i++) {
+      var n = all[i];
+      if (n.__miaClear || /bpMessageBlocks|bpComposer|button/i.test(n.className + " " + n.tagName)) continue;
+      var m = /rgba?\((\d+), (\d+), (\d+)(?:, ([\d.]+))?\)/.exec(getComputedStyle(n).backgroundColor);
+      if (!m || +m[1] < 235 || +m[2] < 235 || +m[3] < 235 || (m[4] !== undefined && +m[4] < 0.5)) continue;
+      var r = n.getBoundingClientRect();
+      if (r.width < box.width * 0.6 || r.height < box.height * 0.3) continue;
+      n.style.setProperty("background", "transparent", "important");
+      n.__miaClear = true;
+    }
+  }
+  // find new parts (at most every 50ms) and style them
+  var queued = false;
+  function discover() {
+    var roots = liveRoots(), added = 0;
+    for (var i = 0; i < roots.length; i++) {
+      if (addCss(roots[i])) added++;
+      if (watched.indexOf(roots[i]) === -1) { watched.push(roots[i]); mo.observe(roots[i], { childList: true, subtree: true }); }
+      clearWhite(roots[i]);
+    }
+    if (added) log("glass styles on the live chat (" + added + " part" + (added > 1 ? "s" : "") + ")");
+  }
+  // on every change: known parts get their styles back straight away, before
+  // the browser paints (no unstyled frame); new parts are found shortly after
+  var mo = new MutationObserver(function () {
+    for (var i = 0; i < watched.length; i++) if (addCss(watched[i])) log("glass styles put back after Botpress re-rendered");
+    if (!queued) { queued = true; setTimeout(function () { queued = false; discover(); }, 50); }
+  });
+
+  // Watch the chat box from the start, with no time limit: Botpress only
+  // loads when someone starts a chat, which can be minutes after the page
+  // (the old 30-second poll gave up first, and the chat came up unstyled).
+  wrap = document.getElementById("bp-embedded-webchat");
+  if (!wrap) return;
+  mo.observe(wrap, { childList: true, subtree: true });
+  discover();
 }

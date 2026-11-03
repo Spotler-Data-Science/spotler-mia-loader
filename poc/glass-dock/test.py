@@ -87,6 +87,11 @@ async def main():
                      cols: getComputedStyle(s.querySelector('.mia-cards')).gridTemplateColumns.split(' ').length } }""")
         check("8a start screen: headline, a card per button (icon + a line under each), two columns", st["title"] == "Hello, I\u2019m Mia" and len(st["cards"]) == 4
               and all(c[1] and c[2] for c in st["cards"]) and st["cols"] == 2, st)
+        ns = await page.evaluate("""() => { const s=document.getElementById('mia-start'); return { sh: s.scrollHeight, ch: s.clientHeight, fit: s.className } }""")
+        check("8f the start screen fits without scrolling on first open", ns["sh"] <= ns["ch"] + 1, ns)
+        ic = await page.evaluate("""() => [...document.querySelectorAll('#mia-dock-head button')].map(b => { const r=b.getBoundingClientRect(), s=b.querySelector('svg').getBoundingClientRect();
+            return [Math.abs((r.left + r.width/2) - (s.left + s.width/2)), Math.abs((r.top + r.height/2) - (s.top + s.height/2))] })""")
+        check("8g restart and close icons sit dead centre in their buttons", len(ic) == 2 and all(dx < 0.6 and dy < 0.6 for dx, dy in ic), ic)
         check("8b 'Others often ask': the first three of the pill's questions", st["ask"] == "Others often ask" and st["chips"] == PROMPTS[:3], st)
         check("2a text click opens the chat: greeting + buttons; the pill's row is the empty, focused text field; no other composer or mic", c["open"] and "Hi, I" in c["text"] and c["buttons"] >= 3 and c["value"] == "" and c["focused"] and c["shellComposer"] == "none" and not c["mic"], c)
         check("2f the text field stays in the pill's row (same size; lifts 30px for the privacy line)", before["rowH"] == after["rowH"] and before["rowTop"] - after["rowTop"] == 30, [before, after])
@@ -137,6 +142,19 @@ async def main():
         check("2o no Botpress scroll-down arrow", sd == "none", sd)
         check("2n Botpress re-renders: glass styles put back, a new white panel cleared (stays see-through)", g["css"] and g["bg"] in ("rgba(0, 0, 0, 0)", "transparent") and g["white"] in ("rgba(0, 0, 0, 0)", "transparent"), g)
         await page.screenshot(path=f"{OUT}/2-live.png")
+        await ctx.close()
+
+        # 9. the chat started long after the page loaded (the white chat on staging): still styled
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        await setup(ctx, [POC])
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(35000)
+        await page.click(".mia-arrow")
+        await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+        await page.wait_for_timeout(600)
+        n = await page.evaluate("""() => { const r=window.__bpShadow; return { css: !!r.querySelector('style[data-mia-dock]'), bg: getComputedStyle(r.querySelector('.bpContainer')).backgroundColor,
+            composer: getComputedStyle(r.querySelector('.bpComposerContainer')).display } }""")
+        check("9a chat started 35s after the page loaded: still styled, see-through, no Botpress composer", n == {"css": True, "bg": "rgba(0, 0, 0, 0)", "composer": "none"}, n)
         await ctx.close()
 
         # 8. the start screen's card and question send their message, and it gives way to the chat
@@ -256,7 +274,8 @@ async def main():
         # 6. marketing's own file (marketing.spotler.com) is read first: its questions and greeting
         MKT = json.dumps({"version": "mkt-1", "rows": [{"url_match": "*", "region": "int", "mode": "slideout", "page": "default",
             "title": "Welcome to Spotler", "opener": "Hello from marketing: I'm Mia, Spotler's AI assistant.",
-            "buttons": [{"label": "Show me Mail+", "send": "Show me Mail+", "description": "Our email platform in two minutes", "icon": "mail"}],
+            "buttons": [{"label": "Show me Mail+", "send": "Show me Mail+", "description": "Our email platform in two minutes", "icon": "mail"},
+                        {"label": "Case studies", "send": "Show me case studies", "icon": "https://www.spotler.com/icons/cases.svg"}],
             "prompts": ["Marketing question one?", "Marketing question two?"]}]})
         ctx = await b.new_context(viewport={"width": 1440, "height": 900})
         reqs = await setup(ctx, [POC], mkt=MKT)
@@ -269,6 +288,8 @@ async def main():
         t = await page.evaluate("document.getElementById('mia-start').textContent")
         mk = await page.evaluate("""() => { const c=document.querySelector('#mia-start .mia-card'); return [document.querySelector('#mia-start h2').textContent, c.querySelector('.mia-t span').textContent, c.querySelector('.mia-ico').className] }""")
         check("6e the file sets the headline, and a card's description and icon", mk == ["Welcome to Spotler", "Our email platform in two minutes", "mia-ico i-mail"], mk)
+        pic = await page.evaluate("(document.querySelectorAll('#mia-start .mia-card')[1].querySelector('.mia-ico img') || {}).src")
+        check("6f a card's icon can be a picture (https link)", pic == "https://www.spotler.com/icons/cases.svg", pic)
         check("6a marketing's file read first: the pill types its questions", q and "Marketing question one?".startswith(q) and any("config from network vmkt-1" in l for l in logs), [q, [l for l in logs if "config" in l]])
         check("6b clicking in shows marketing's greeting and buttons", "Hello from marketing" in t and "Show me Mail+" in t, t[:120])
         check("6c marketing's file comes first, GitHub not needed", reqs and not any("githubusercontent" in u for u in reqs), [u for u in reqs if "config.json" in u])
@@ -309,12 +330,18 @@ async def main():
         gap = await page.evaluate("Math.round(innerHeight - document.getElementById('mia-dock').getBoundingClientRect().bottom)")
         check("5c phone: the shadow ends inside the gap below the pill (nothing reaches the bottom edge to be cut off)", gap == 20 and reach <= gap - 6, [gap, reach, sh])
         await page.screenshot(path=f"{OUT}/5-phone.png")
-        await page.click("#mia-dock-q"); await page.wait_for_timeout(800)
+        await page.tap("#mia-dock-q"); await page.wait_for_timeout(800)
+        kb = await page.evaluate("document.activeElement === document.getElementById('mia-dock-in')")
+        check("8h phone: the first tap opens the chat without the keyboard (field not focused)", await page.evaluate("document.getElementById('mia-dock').classList.contains('open')") and not kb, kb)
+        ns = await page.evaluate("(() => { const s=document.getElementById('mia-start'); return { sh: s.scrollHeight, ch: s.clientHeight, fit: s.className } })()")
+        check("8i phone: the start screen fits without scrolling", ns["sh"] <= ns["ch"] + 1, ns)
         ph = await page.evaluate("""() => { const s=document.getElementById('mia-start'); return { cols: getComputedStyle(s.querySelector('.mia-cards')).gridTemplateColumns.split(' ').length,
             fits: s.getBoundingClientRect().right <= innerWidth, scroll: getComputedStyle(s).overflowY,
             headline: s.querySelector('h2').getBoundingClientRect().top >= s.getBoundingClientRect().top - 1 } }""")
         check("8e phone: start screen in one column, inside the screen; if tall it starts at the headline and scrolls", ph == {"cols": 1, "fits": True, "scroll": "auto", "headline": True}, ph)
         await page.screenshot(path=f"{OUT}/5-phone-start.png")
+        await page.tap("#mia-dock-in"); await page.wait_for_timeout(300)
+        check("8j phone: tapping the field then brings up the keyboard (field focused)", await page.evaluate("document.activeElement === document.getElementById('mia-dock-in')"))
         await ctx.close()
 
         # a page wider than the phone (shrunk to fit): the pill is scaled back up to the same physical size

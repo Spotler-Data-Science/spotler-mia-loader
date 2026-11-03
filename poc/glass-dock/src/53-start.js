@@ -9,7 +9,8 @@
      buttons[]            the cards: label, send, and optionally
                             description  the grey line under the label
                             icon         calendar | pricing | support | explore |
-                                         product | chat | mail | document | none
+                                         product | chat | mail | document | none,
+                                         or a picture: an https:// link (png, svg, jpg)
      prompts              the first three become "others often ask"
    A card without description or icon gets one picked from its wording.
    ================================================================== */
@@ -49,6 +50,9 @@ function guessIcon(text) {
 }
 
 function startIcon(name) {
+  if (/^https:\/\//.test(name)) {
+    return el("span", { "class": "mia-ico i-img", "aria-hidden": "true" }, [el("img", { src: name, alt: "" })]);
+  }
   var paths = START_ICONS[name];
   var box = el("span", { "class": "mia-ico i-" + name, "aria-hidden": "true" });
   if (!paths) return box;
@@ -100,6 +104,22 @@ function createStart(parent, row, lang, prompts, onPick) {
   }
 
   parent.appendChild(screen);
+
+  // No scrolling on first open: if it doesn't fit, step down until it does
+  // (3rd question goes, card lines go, the questions go, extra greeting
+  // paragraphs go, a smaller headline). Re-fitted whenever its size settles.
+  var FIT = 5;
+  function fit() {
+    for (var i = 1; i <= FIT; i++) screen.classList.remove("fit-" + i);
+    if (!screen.clientHeight) return;
+    for (var l = 1; l <= FIT && screen.scrollHeight > screen.clientHeight + 1; l++) screen.classList.add("fit-" + l);
+  }
+  var fitTimer;
+  function refit() { clearTimeout(fitTimer); fitTimer = setTimeout(fit, 120); }   // after the open animation
+  if (window.ResizeObserver) new ResizeObserver(refit).observe(screen);
+  else window.addEventListener("resize", refit);
+  refit();
+
   return {
     el: screen,
     hide: function () {

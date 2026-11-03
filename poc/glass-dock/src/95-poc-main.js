@@ -63,7 +63,7 @@ function usePocConfig() {
             var ob = o.buttons[j];
             if (!ob || trim(ob.label) !== b.label) continue;
             if (typeof ob.description === "string") b.description = trim(ob.description).slice(0, 80);
-            if (typeof ob.icon === "string" && (START_ICONS[ob.icon] || ob.icon === "none")) b.icon = ob.icon;
+            if (typeof ob.icon === "string" && (START_ICONS[ob.icon] || ob.icon === "none" || /^https:\/\/\S{1,300}$/.test(ob.icon))) b.icon = ob.icon;
             break;
           }
         });
