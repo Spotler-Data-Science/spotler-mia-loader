@@ -106,6 +106,9 @@ async def main():
                      inH: Math.round(document.getElementById('mia-dock-in').getBoundingClientRect().height), btnH: Math.round(document.querySelector('.mia-arrow').getBoundingClientRect().height) } }""")
         check("2j the open chat stops 8px below the site's menu bar", o["header"] + 7 <= o["top"] <= o["header"] + 11, o)
         check("2k AI assistant · Privacy sits below the text field (30px row); the open glass keeps the closed pill's 24px from the bottom", o["ftTop"] >= o["pillBottom"] - 1 and o["ftH"] == 30 and o["dockBottomGap"] == 24 and o["ftText"] == "AI assistant · Privacy" and o["ftLink"] == "https://spotler.com/privacy-statement", o)
+        al = await page.evaluate("""() => { const d=document.getElementById('mia-dock').getBoundingClientRect(), f=document.getElementById('mia-dock-in').getBoundingClientRect(), a=document.querySelector('#mia-dock-pill .mia-arrow').getBoundingClientRect();
+            return [Math.round(f.left - d.left), Math.round(a.left - f.right), Math.round(d.right - a.right)] }""")
+        check("2m open: field and send button in line with the messages (29px in), 28px between them", al == [29, 28, 29], al)
         check("2l open, the field looks like a field: white box, thin grey outline, as tall as the send button", o["inBorder"] == "1px" and o["inBg"] not in ("rgba(0, 0, 0, 0)", "transparent") and o["inBorderC"].startswith("rgba(11, 31, 77") and o["inH"] == o["btnH"], o)
         check("2h same glass, opacity and corner radius open as closed", before["radius"] == after["radius"] == "34px" and before["bg"] == after["bg"] and before["opacity"] == after["opacity"] == "1", [before, after])
         check("2b still no Botpress", not bp(reqs), bp(reqs))

@@ -37,3 +37,11 @@
 .tight .bar { margin: 0; }
 .tight .back { min-height: 28px; }
 .tight .intro .b { font-size: 18px; line-height: 24px; }
+/* phones: HubSpot's phone layout has no side gutter, so nothing is cropped
+   at the sides (the desktop crop cut off MON / SUN), and the card goes
+   nearly edge to edge */
+@media (max-width: 640px), (pointer: coarse) {
+  .stage iframe { left: 0; width: 100%; }
+  .sheet, .tight .sheet { padding-left: 6px; padding-right: 6px; }
+  .bar, .tight .bar { margin-left: 10px; }   /* "Cancel" stays where it was */
+}

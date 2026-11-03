@@ -172,6 +172,14 @@
   .mia-arrow svg { width: 18px; height: 18px; }
   #mia-dock-q, #mia-dock-in { font-size: 16px; }
 }
+/* open: the field and the send button line up with the messages above
+   (28px inside the glass, as the bubbles are), with the same 28px
+   between them */
+#mia-dock.open #mia-dock-pill, #mia-dock.mia-touch.open #mia-dock-pill { padding-left: 28px; padding-right: 28px; gap: 28px; }
+#mia-dock-pill { transition: padding .5s cubic-bezier(.2,.8,.2,1), gap .5s cubic-bezier(.2,.8,.2,1), height .5s cubic-bezier(.2,.8,.2,1), opacity .25s ease; }
+/* phones: the calendar gets nearly the full screen width (HubSpot's phone layout needs it) */
+#mia-dock.mia-touch.open.cal-open { width: calc(100vw - 16px * var(--mia-k, 1)); }
+@media (max-width: 640px) { #mia-dock.open.cal-open { width: calc(100vw - 16px); } }
 @media (prefers-reduced-motion: reduce) {
   #mia-dock, #mia-dock-chat, #mia-dock-pill, #mia-dock-ft { transition: none; }
   #mia-dock-q::after { animation: none; }
