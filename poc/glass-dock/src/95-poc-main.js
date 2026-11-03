@@ -259,7 +259,11 @@ function bootDock() {
       // the dock's field (the one text box): starts the chat, or goes into it;
       // while Mia replies it's held and sent once her reply is in (build 4)
       onSend: function (text) { dockSend(text, "typed"); return true; },
-      onRestart: function () { if (LS.getJSON(LIVE_KEY) || BP.engaged) resetToShell("restart"); }
+      // a booking open: the restart closes it too and starts afresh
+      onRestart: function () {
+        if (window.spotlerCloseHubSpotModal) try { window.spotlerCloseHubSpotModal(); } catch (e) {}
+        if (LS.getJSON(LIVE_KEY) || BP.engaged) resetToShell("restart");
+      }
     });
     ctx.ui.setPrompts(promptsFor(row, region.id));
     glassLiveChat();
@@ -269,6 +273,20 @@ function bootDock() {
     else { mountShell(); ctx.ui.startTyping(); }
     startTimeoutWatch();
   }
+
+  // HubSpot's page reports its height as it changes step (calendar, form):
+  // the card and the chat follow it, less the 16px gutter cropped top and bottom
+  window.addEventListener("message", function (m) {
+    if (!/^https:\/\/meetings[^.]*\.hubspot\.com$/.test(m.origin || "") || !ctx.ui) return;
+    var d = m.data, h;
+    if (typeof d === "string") { try { d = JSON.parse(d); } catch (e) { return; } }
+    // what HubSpot says (keys only, no personal data): to see if it ever reports its height
+    try { log("POC: HubSpot message", d && typeof d === "object" ? Object.keys(d).join(",") : typeof d); } catch (e) {}
+    h = d && typeof d === "object" ? Number(d.height) : NaN;
+    if (!(h > 300 && h < 3000)) return;
+    log("POC: HubSpot page height " + h);
+    ctx.ui.fitCalendarPage(Math.round(h - 30));
+  });
 
   function dockSend(text, source) {
     if (BP.revealed) liveSend(text);

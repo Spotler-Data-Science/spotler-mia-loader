@@ -218,13 +218,21 @@ async def main():
         await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(1500)
         await page.click(".mia-arrow")
         await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
-        await page.evaluate("window.__bpEmit('customEvent', { action: 'showHubSpotCalendar', url: 'https://meetings-eu1.hubspot.com/isabelle-chadwick' })")
+        await page.evaluate("window.__bpEmit('customEvent', { action: 'showHubSpotCalendar', url: 'https://meetings-eu1.hubspot.com/isabelle-chadwick?posth=1' })")
         await page.wait_for_timeout(5000)
         tall = await page.evaluate("""() => { const r=document.getElementById('spotler-cal').shadowRoot; return { card: Math.round(r.querySelector('.card').getBoundingClientRect().height),
             dock: Math.round(document.getElementById('mia-dock').getBoundingClientRect().height) } }""")
         check("11f tall screen: calendar card at most 740px, dock not stretched", tall["card"] <= 740 and tall["dock"] <= 960, tall)
         sc = await page.evaluate("getComputedStyle(document.getElementById('spotler-cal').shadowRoot.querySelector('.stage iframe')).transform")
         check("11i tall screen: HubSpot's page at full size (no scaling)", sc == "none", sc)
+        fitted = await page.evaluate("""() => { const r=document.getElementById('spotler-cal').shadowRoot, c=r.querySelector('.card'), f=r.querySelector('.stage iframe');
+            return { max: c.style.maxHeight, card: Math.round(c.getBoundingClientRect().height), page: f.contentDocument ? null : 'x' } }""")
+        check("11m HubSpot's reported page height sets the card's height (Back / Confirm sit under the form)", fitted["max"].endswith("px") and abs(int(float(fitted["max"][:-2])) - fitted["card"]) <= 2, fitted)
+        # the restart button with the calendar open: the calendar closes, a fresh start
+        await page.click("#mia-dock-head button[aria-label='%s']" % "Restart conversation")
+        await page.wait_for_timeout(1200)
+        rs = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), document.getElementById('mia-dock').classList.contains('cal-open')]")
+        check("11n restart with the calendar open: the calendar closes too", rs == [False, False], rs)
         await ctx.close()
 
         # 9. the chat started long after the page loaded (the white chat on staging): still styled

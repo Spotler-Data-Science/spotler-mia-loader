@@ -89,11 +89,27 @@ function createDock(labels, handlers) {
     var cal = document.getElementById("spotler-cal");
     return !!(cal && body.contains(cal) && cal.classList.contains("on"));
   }
+  var calPageH = 0;
+  function calCard() {
+    var cal = document.getElementById("spotler-cal");
+    return cal && cal.shadowRoot ? cal.shadowRoot.querySelector(".card") : null;
+  }
+  function fitCalendarPage(h) { calPageH = h; sizeChat(); }
   function sizeChat() {
     if (!dock.classList.contains("open")) return;
     // the calendar (HubSpot's page wants ~715px) gets all the height there is
     var cal = calOpen(), h = chatHeight(cal);
-    if (cal) h += pill.offsetHeight + (parseFloat(getComputedStyle(ft).height) || 0);
+    if (cal) {
+      h += pill.offsetHeight + (parseFloat(getComputedStyle(ft).height) || 0);
+      // HubSpot told us how tall its page is: no taller than that (so its
+      // Back / Confirm buttons sit under the form, not at the screen's foot)
+      var card = calCard();
+      if (calPageH && card) {
+        card.style.maxHeight = calPageH + "px";
+        var other = chat.offsetHeight - card.offsetHeight;
+        if (other > 0 && card.offsetHeight > 0) h = Math.min(h, other + calPageH);
+      }
+    }
     chat.style.height = h + "px";
   }
   function resize() {
@@ -202,7 +218,11 @@ function createDock(labels, handlers) {
     var on = calOpen();
     if (on === dock.classList.contains("cal-open")) return;
     if (on) { sizeChat(); dock.classList.add("cal-open"); }     // measure the field before it goes
-    else { dock.classList.remove("cal-open"); sizeChat(); clearBookingPending(); }
+    else {
+      calPageH = 0;
+      var card = calCard(); if (card) card.style.maxHeight = "";
+      dock.classList.remove("cal-open"); sizeChat(); clearBookingPending();
+    }
   }).observe(body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
 
   // a click anywhere outside the chat closes it (not the calendar's own modal)
@@ -216,6 +236,7 @@ function createDock(labels, handlers) {
   restartBtn.addEventListener("click", function () { if (handlers.onRestart) handlers.onRestart(); });
 
   return {
+    fitCalendarPage: fitCalendarPage,
     body: body,
     webchat: webchat,
     loading: loading,
@@ -254,7 +275,9 @@ var DOCK_LIVE_CSS =
   ".bpMessageBlocksButton{background:rgba(255,255,255,.55) !important;border:1px solid rgba(11,31,77,.14) !important;color:#0B1F4D !important;border-radius:999px !important;padding:4px 12px !important;font-size:14px !important;line-height:20px !important}" +
   ".bpComposerFooter{display:none !important}" +
   // Botpress's "scroll to newest" arrow: not wanted
-  ".bpMessageListScrollDownButton{display:none !important}";
+  ".bpMessageListScrollDownButton{display:none !important}" +
+  // phones: everything 19px in from the glass (messages, start screen, field)
+  "@media (max-width:640px),(pointer:coarse){.bpMessageListViewport{padding:8px 14px 16px !important}}";
 
 // Every part of the live chat: Botpress nests its chat in more than one
 // shadow root (and can use an iframe), so each one gets our styles.
