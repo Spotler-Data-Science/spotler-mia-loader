@@ -157,20 +157,18 @@ async def main():
         await page.wait_for_timeout(5000)
         cal = await page.evaluate("""() => { const l=document.getElementById('spotler-cal'), r=l.shadowRoot, s=getComputedStyle(r.querySelector('.sheet')), c=r.querySelector('.card').getBoundingClientRect(),
             d=document.getElementById('mia-dock'), lr=l.getBoundingClientRect(), dr=d.getBoundingClientRect(),
-            bar=r.querySelector('.bar').getBoundingClientRect(), intro=r.querySelector('.intro').getBoundingClientRect(), back=getComputedStyle(r.querySelector('.back'));
+            bar=r.querySelector('.bar').getBoundingClientRect(), intro=r.querySelector('.card').getBoundingClientRect(), back=getComputedStyle(r.querySelector('.back'));
             return { inDock: !!l.closest('#mia-dock'), on: l.classList.contains('on'), sheetBg: s.backgroundColor, cancelOnTop: bar.top < intro.top, backBg: back.backgroundColor,
                      heading: getComputedStyle(r.querySelector('.intro .b')).fontSize, radius: getComputedStyle(r.querySelector('.card')).borderTopLeftRadius,
                      ft: r.querySelector('.ft').textContent, cardH: Math.round(c.height), iframe: !!r.querySelector('.stage iframe'),
                      field: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), chatBehind: getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity, dockTop: Math.round(dr.top), header: Math.round(document.getElementById('header').getBoundingClientRect().bottom), dockFt: Math.round(document.getElementById('mia-dock-ft').getBoundingClientRect().height),
                      covers: Math.round(dr.bottom - lr.bottom), ftInside: r.querySelector('.ft').getBoundingClientRect().bottom <= lr.bottom + 1 && r.querySelector('.card').getBoundingClientRect().bottom <= r.querySelector('.ft').getBoundingClientRect().top } }""")
-        check("11a calendar inside the dock: glass behind (no white sheet), 'Cancel' a small link on top, a heading, a rounded white card",
+        check("11a calendar inside the dock: glass behind (no white sheet), 'Cancel' a small link on top, a rounded white card",
               cal["inDock"] and cal["on"] and cal["sheetBg"] == "rgba(0, 0, 0, 0)" and cal["cancelOnTop"] and cal["backBg"] == "rgba(0, 0, 0, 0)"
-              and cal["heading"] in ("22px", "18px") and cal["radius"] == "20px" and cal["iframe"] and cal["cardH"] > 300, cal)
-        fit = await page.evaluate("""() => { const r=document.getElementById('spotler-cal').shadowRoot, f=r.querySelector('.stage iframe'), c=r.querySelector('.card').getBoundingClientRect(),
-            m=/matrix\(([\d.]+)/.exec(getComputedStyle(f).transform), s=m ? +m[1] : 1;
-            return { s: Math.round(s * 100) / 100, card: Math.round(c.height), logical: Math.round(f.getBoundingClientRect().height / s) } }""")
-        check("11j a card shorter than HubSpot's page: the page is scaled to fit, its full ~715px visible (no scrolling for Confirm)",
-              fit["card"] < 683 and fit["s"] < 1 and fit["logical"] >= 715 - 1, fit)
+              and cal["radius"] == "20px" and cal["iframe"] and cal["cardH"] > 300, cal)
+        fit = await page.evaluate("""() => { const r=document.getElementById('spotler-cal').shadowRoot, f=r.querySelector('.stage iframe'), h=document.getElementById('mia-dock-head').getBoundingClientRect();
+            return { scaled: getComputedStyle(f).transform, intro: getComputedStyle(r.querySelector('.intro')).display, head: Math.round(h.height) } }""")
+        check("11j HubSpot's page at full size and width (never scaled), no heading, a compact header", fit["scaled"] == "none" and fit["intro"] == "none" and fit["head"] <= 50, fit)
         check("11c the calendar covers the whole dock: no 'Ask Mia' field, its own AI / privacy line at the bottom",
               cal["field"] == 0 and cal["dockFt"] == 0 and cal["ft"] == "AI assistant · Privacy" and cal["ftInside"] and cal["covers"] <= 2 and cal["chatBehind"] == "0", cal)
         check("11d the calendar gets all the height there is (up to just under the menu bar)", cal["header"] + 6 <= cal["dockTop"] <= cal["header"] + 12, cal)

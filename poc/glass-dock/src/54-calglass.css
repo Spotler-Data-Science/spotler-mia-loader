@@ -6,7 +6,7 @@
    link at the top. It covers the whole dock (field and footer hidden).
    ================================================================== */
 .c { font-family: var(--mia-font, inter, sans-serif); color: #0B1F4D; }
-.sheet { background: transparent; justify-content: flex-start; gap: 10px; padding: 2px 20px 14px; }
+.sheet { background: transparent; justify-content: flex-start; gap: 6px; padding: 0 16px 10px; }
 
 /* "‹ Cancel": a small link above the heading, not a big grey bar */
 .bar { order: -1; flex: 0 0 auto; align-self: flex-start; margin: -6px 0 -4px -6px; }
@@ -17,7 +17,8 @@
 .back:hover { background: rgba(255, 255, 255, .6); }
 .back:focus-visible { outline: 2px solid rgba(11, 31, 77, .35); outline-offset: 1px; }
 
-/* Mia's line becomes the heading */
+/* Mia's line: hidden, every pixel goes to the scheduler (it's self-explanatory) */
+.intro, .tight .intro { display: none; }
 .intro .av { display: none; }
 .intro .b { max-width: none; padding: 0; background: transparent; border-radius: 0; color: #0B1F4D;
             font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.005em; }

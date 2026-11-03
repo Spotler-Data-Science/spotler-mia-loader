@@ -81,6 +81,13 @@
    dock's outline glides instead of jumping */
 #mia-dock-pill { transition: padding .5s cubic-bezier(.2,.8,.2,1), height .5s cubic-bezier(.2,.8,.2,1), opacity .25s ease; }
 #mia-dock-ft { transition: height .5s cubic-bezier(.2,.8,.2,1), opacity .25s ease; }
+/* calendar: a compact header, so HubSpot's page gets the height (it can't be scaled: its content
+   has a maximum width, scaling only adds white side margins) */
+#mia-dock-head, #mia-dock-head img { transition: padding .3s ease, width .3s ease, height .3s ease; }
+#mia-dock.cal-open #mia-dock-head { gap: 10px; padding: 10px 14px 0 20px; }
+#mia-dock.cal-open #mia-dock-head img { width: 34px; height: 34px; }
+#mia-dock.cal-open #mia-dock-head b { font-size: 15px; line-height: 20px; }
+#mia-dock.cal-open #mia-dock-head span { font-size: 12.5px; line-height: 16px; }
 #mia-dock.open.cal-open #mia-dock-pill, #mia-dock.open.cal-open #mia-dock-ft {
   height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; opacity: 0; overflow: hidden; pointer-events: none; }
 /* and the conversation underneath doesn't show through its glass (opacity: parts of
