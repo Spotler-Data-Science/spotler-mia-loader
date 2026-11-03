@@ -84,6 +84,43 @@ function promptsFor(row, regionId) {
   return list;
 }
 
+// The hand-over without a visible move: the shared code slides the visible
+// preview to line up with the live chat before the fade (a small "shunt").
+// Here the hidden live chat is lined up to the preview instead, so nothing
+// moves at the swap; the leftover offset is settled when Mia's next message
+// arrives, when the chat moves anyway.
+function lineUpLiveChat(sr) {
+  try {
+    var host = BP.ctx.shell && BP.ctx.shell.host, shr = host && host.shadowRoot;
+    var mine = shr && shr.querySelectorAll(".b"), live = sr.querySelectorAll(".bpMessageBlocksBubble");
+    if (!mine || !mine.length || !live.length) return 0;
+    var d = Math.round(live[live.length - 1].getBoundingClientRect().top - mine[mine.length - 1].getBoundingClientRect().top);
+    if (!d || Math.abs(d) > 160) return 0;
+    var last = live[live.length - 1], msg = last.closest ? last.closest(".bpMessageContainer") : null;
+    var list = sr.querySelector(".bpMessageListViewport") || (msg && msg.parentNode);
+    if (!list) return 0;
+    list.style.transition = "none";
+    list.style.transform = "translateY(" + (-d) + "px)";
+    log("lined up the live chat " + (-d) + "px (nothing moves at the swap)");
+    var settle = new MutationObserver(function (records) {
+      for (var i = 0; i < records.length; i++) {
+        var added = records[i].addedNodes;
+        for (var j = 0; j < added.length; j++) {
+          var n = added[j];
+          if (n.nodeType === 1 && (/bpMessageContainer/.test(n.className) || (n.querySelector && n.querySelector(".bpMessageContainer")))) {
+            settle.disconnect();
+            list.style.transition = "transform .35s cubic-bezier(.2,.8,.2,1)";
+            list.style.transform = "";
+            return;
+          }
+        }
+      }
+    });
+    settle.observe(sr, { childList: true, subtree: true });
+    return 0;
+  } catch (e) { return 0; }
+}
+
 function bootDock() {
   var path = location.pathname;
   var region = detectRegion(path);
@@ -98,6 +135,7 @@ function bootDock() {
   window.__spotlerMiaStarted = SETTINGS.VERSION;     // a production loader firing later stands down
   keepProductionOff();
   usePocConfig();
+  alignShell = lineUpLiveChat;
   SETTINGS.CDN_ORIGINS.forEach(preconnect);
 
   var labels = SETTINGS.LABELS[region.id] || SETTINGS.LABELS["en-GB"];

@@ -62,9 +62,9 @@
       }
       window.__bpShadow = sr;
       var hc = window.__bpHeaderClass || "bpHeaderContainer";
-      sr.innerHTML = '<div class="bpContainer" style="height:100%;background:#fdfdfd;font:14px sans-serif;border-radius:16px;overflow:hidden">' +
+      sr.innerHTML = '<div class="bpContainer" style="height:100%;display:flex;flex-direction:column;background:#fdfdfd;font:14px sans-serif;border-radius:16px;overflow:hidden">' +
         '<div class="' + hc + '" style="display:flex;align-items:center;gap:8px;height:56px;padding:0 12px"><b></b> <span class="desc"></span><button aria-label="close"><svg width="12" height="12"></svg></button></div>' +
-        '<div class="list" style="padding:12px"><div class="bpIntro"><b class="introName"></b><span class="introDesc"></span></div><div class="bpReset bpMessageContainer bpDate" data-direction="system" style="margin-top:16px;font-size:12px;line-height:16px"><span>Today</span></div></div>' +
+        '<div class="list" style="flex:1 1 auto;min-height:0;overflow:auto;display:flex;flex-direction:column;justify-content:flex-end;padding:12px"><div class="bpIntro"><b class="introName"></b><span class="introDesc"></span></div><div class="bpReset bpMessageContainer bpDate" data-direction="system" style="margin-top:16px;font-size:12px;line-height:16px"><span>Today</span></div></div>' +
         '<div class="bpComposerContainer"><textarea class="bpComposer"></textarea></div><div class="bpFooter"></div></div>';
       sr.querySelector(".introName").textContent = cfg.botName || "";
       sr.querySelector(".introDesc").textContent = cfg.botDescription || "";
