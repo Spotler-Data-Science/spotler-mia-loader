@@ -285,7 +285,9 @@ function bootDock() {
     h = d && typeof d === "object" ? Number(d.height) : NaN;
     if (!(h > 300 && h < 3000)) return;
     log("POC: HubSpot page height " + h);
-    ctx.ui.fitCalendarPage(Math.round(h - 30));
+    // visible = page height less the crop at the top (the frame's offset) and 16px at the foot, plus the card's border
+    var cal = document.getElementById("spotler-cal"), f = cal && cal.shadowRoot && cal.shadowRoot.querySelector(".stage iframe");
+    ctx.ui.fitCalendarPage(Math.round(h + (f ? f.offsetTop : -16) - 14));
   });
 
   function dockSend(text, source) {

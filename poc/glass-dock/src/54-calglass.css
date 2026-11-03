@@ -6,7 +6,9 @@
    link at the top. It covers the whole dock (field and footer hidden).
    ================================================================== */
 .c { font-family: var(--mia-font, inter, sans-serif); color: #0B1F4D; }
-.sheet { background: transparent; justify-content: flex-start; gap: 6px; padding: 0 16px 10px; }
+.sheet { background: transparent; justify-content: flex-start; gap: 6px; padding: 0 16px 12px; }
+/* desktop: HubSpot's page has a deep empty top margin: crop 16px more of it */
+.stage iframe { top: -32px; height: calc(100% + 48px); }
 
 /* "‹ Cancel": a small link above the heading, not a big grey bar */
 .bar { order: -1; flex: 0 0 auto; align-self: flex-start; margin: -6px 0 -4px -6px; }
@@ -29,8 +31,9 @@
 /* fills the space up to HubSpot's own height (no white space on tall screens), never pushes the line out */
 .card, .wide .card { flex: 1 1 auto; min-height: 0; max-height: 740px; border-radius: 20px; }
 
-/* the AI / privacy line under the calendar (the dock's field and line are hidden meanwhile) */
-.ft, .tight .ft { display: block; flex: 0 0 auto; align-self: center; margin: 2px 0 0; font-size: 12px; line-height: 16px;
+/* "Cancel" and the AI / privacy line live in the dock's slim header row now */
+.bar, .tight .bar, .ft, .tight .ft { display: none !important; }
+.ft, .tight .ft { flex: 0 0 auto; align-self: center; margin: 2px 0 0; font-size: 12px; line-height: 16px;
       color: #5B6B8C; font-style: italic; text-align: center; }
 .ft a { color: inherit; }
 .tight .sheet { padding: 2px 12px 10px; gap: 8px; }
@@ -41,7 +44,6 @@
    at the sides (the desktop crop cut off MON / SUN), and the card goes
    nearly edge to edge */
 @media (max-width: 640px), (pointer: coarse) {
-  .stage iframe { left: 0; width: 100%; }
+  .stage iframe { left: 0; width: 100%; top: -16px; height: calc(100% + 32px); }
   .sheet, .tight .sheet { padding-left: 6px; padding-right: 6px; }
-  .bar, .tight .bar { margin-left: 10px; }   /* "Cancel" stays where it was */
 }
