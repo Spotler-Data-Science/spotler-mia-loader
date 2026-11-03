@@ -84,20 +84,17 @@
 /* calendar: a compact header, so HubSpot's page gets the height (it can't be scaled: its content
    has a maximum width, scaling only adds white side margins) */
 #mia-dock-head, #mia-dock-head img { transition: padding .3s ease, width .3s ease, height .3s ease; }
-#mia-dock-cancel, #mia-dock-hnote { display: none; }
-#mia-dock.cal-open #mia-dock-head img, #mia-dock.cal-open #mia-dock-head .t { display: none; }
-#mia-dock.cal-open #mia-dock-head #mia-dock-cancel { display: inline-flex; width: auto; align-items: center; gap: 6px; flex: 0 0 auto; height: 36px; padding: 0 12px 0 8px;
-  border: 0; border-radius: 999px; background: transparent; color: #0B1F4D; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
-#mia-dock.cal-open #mia-dock-cancel::before { content: ""; display: block; flex: 0 0 auto; margin-left: 4px; width: 8px; height: 8px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
-#mia-dock.cal-open #mia-dock-cancel:hover { background: rgba(255,255,255,.6); }
-#mia-dock.cal-open #mia-dock-hnote { display: block; flex: 1 1 auto; min-width: 0; text-align: center; }
+#mia-dock-hnote { display: none !important; }
+/* slim row: a small Mia (no subtitle), the AI / privacy line, restart and close */
+#mia-dock.cal-open #mia-dock-head img { width: 28px; height: 28px; }
+#mia-dock.cal-open #mia-dock-head .t { flex: 0 0 auto; }
+#mia-dock.cal-open #mia-dock-head b { font-size: 15px; line-height: 20px; }
+#mia-dock.cal-open #mia-dock-head .t span { display: none; }
+#mia-dock.cal-open #mia-dock-hnote { display: block !important; flex: 1 1 auto; min-width: 0; text-align: center; }
 #mia-dock-hnote p { margin: 0; font-size: 12px; line-height: 16px; font-style: italic; color: #5B6B8C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #mia-dock-hnote a { color: inherit; text-decoration: underline; }
 #mia-dock.cal-open #mia-dock-head button[aria-label] { width: 36px; height: 36px; }
-#mia-dock.cal-open #mia-dock-head { gap: 6px; padding: 8px 12px 6px 12px; }
-#mia-dock.cal-open #mia-dock-head img { width: 34px; height: 34px; }
-#mia-dock.cal-open #mia-dock-head b { font-size: 15px; line-height: 20px; }
-#mia-dock.cal-open #mia-dock-head span { font-size: 12.5px; line-height: 16px; }
+#mia-dock.cal-open #mia-dock-head { gap: 8px; padding: 8px 12px 6px 16px; }
 #mia-dock.open.cal-open #mia-dock-pill, #mia-dock.open.cal-open #mia-dock-ft {
   height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; opacity: 0; overflow: hidden; pointer-events: none; }
 /* and the conversation underneath doesn't show through its glass (opacity: parts of

@@ -93,6 +93,8 @@ async def main():
         check("8f the start screen fits without scrolling on first open", ns["sh"] <= ns["ch"] + 1, ns)
         ic = await page.evaluate("""() => [...document.querySelectorAll('#mia-dock-head button[aria-label]')].map(b => { const r=b.getBoundingClientRect(), s=b.querySelector('svg').getBoundingClientRect();
             return [Math.abs((r.left + r.width/2) - (s.left + s.width/2)), Math.abs((r.top + r.height/2) - (s.top + s.height/2))] })""")
+        hn = await page.evaluate("getComputedStyle(document.getElementById('mia-dock-hnote')).display")
+        check("8h normal chat header: no calendar-only line, no Cancel", hn == "none" and not await page.evaluate("!!document.getElementById('mia-dock-cancel')"), hn)
         check("8g restart and close icons sit dead centre in their buttons", len(ic) == 2 and all(dx < 0.6 and dy < 0.6 for dx, dy in ic), ic)
         check("8b 'Others often ask': the first three of the pill's questions", st["ask"] == "Others often ask" and st["chips"] == PROMPTS[:3], st)
         check("2a text click opens the chat: greeting + buttons; the pill's row is the empty, focused text field; no other composer or mic", c["open"] and "Hi, I" in c["text"] and c["buttons"] >= 3 and c["value"] == "" and c["focused"] and c["shellComposer"] == "none" and not c["mic"], c)
@@ -161,13 +163,13 @@ async def main():
         cal = await page.evaluate("""() => { const l=document.getElementById('spotler-cal'), r=l.shadowRoot, s=getComputedStyle(r.querySelector('.sheet')), c=r.querySelector('.card').getBoundingClientRect(),
             d=document.getElementById('mia-dock'), lr=l.getBoundingClientRect(), dr=d.getBoundingClientRect(),
             bar=r.querySelector('.bar').getBoundingClientRect(), intro=r.querySelector('.card').getBoundingClientRect(), back=getComputedStyle(r.querySelector('.back'));
-            return { inDock: !!l.closest('#mia-dock'), on: l.classList.contains('on'), sheetBg: s.backgroundColor, cancelOnTop: getComputedStyle(document.getElementById('mia-dock-cancel')).display !== 'none' && getComputedStyle(r.querySelector('.bar')).display === 'none',
+            return { inDock: !!l.closest('#mia-dock'), on: l.classList.contains('on'), sheetBg: s.backgroundColor, cancelOnTop: !document.getElementById('mia-dock-cancel') && getComputedStyle(r.querySelector('.bar')).display === 'none',
                      headNote: document.getElementById('mia-dock-hnote').textContent, headH: Math.round(document.getElementById('mia-dock-head').getBoundingClientRect().height), backBg: back.backgroundColor,
                      heading: getComputedStyle(r.querySelector('.intro .b')).fontSize, radius: getComputedStyle(r.querySelector('.card')).borderTopLeftRadius,
                      ft: r.querySelector('.ft').textContent, cardH: Math.round(c.height), iframe: !!r.querySelector('.stage iframe'),
                      field: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), chatBehind: getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity, dockTop: Math.round(dr.top), header: Math.round(document.getElementById('header').getBoundingClientRect().bottom), headerTop: Math.round(document.getElementById('header').getBoundingClientRect().top), dockFt: Math.round(document.getElementById('mia-dock-ft').getBoundingClientRect().height),
                      covers: Math.round(dr.bottom - lr.bottom), ftInside: r.querySelector('.ft').getBoundingClientRect().bottom <= lr.bottom + 1 && r.querySelector('.card').getBoundingClientRect().bottom <= r.querySelector('.ft').getBoundingClientRect().top } }""")
-        check("11a calendar inside the dock: glass behind (no white sheet), 'Cancel' in the dock's slim header row, a rounded white card",
+        check("11a calendar inside the dock: glass behind (no white sheet), no Cancel (header: Mia, AI / privacy, restart, close), a rounded white card",
               cal["inDock"] and cal["on"] and cal["sheetBg"] == "rgba(0, 0, 0, 0)" and cal["cancelOnTop"] and cal["backBg"] == "rgba(0, 0, 0, 0)"
               and cal["radius"] == "20px" and cal["iframe"] and cal["cardH"] > 300, cal)
         fit = await page.evaluate("""() => { const r=document.getElementById('spotler-cal').shadowRoot, f=r.querySelector('.stage iframe'), h=document.getElementById('mia-dock-head').getBoundingClientRect();
@@ -192,7 +194,7 @@ async def main():
             await page.click("#mia-dock-q"); await page.wait_for_timeout(900)
             st = await page.evaluate(BAR)
             check(f"11g after {how}: tapping the bar reopens the chat on the calendar", st["open"] and st["cal"] and st["bar"] == 0, st)
-        await page.click("#mia-dock-cancel")
+        await page.evaluate("document.getElementById('spotler-cal').shadowRoot.querySelector('.back').click()")
         await page.wait_for_timeout(1000)   # the chat fades back in (0.4s)
         back = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity]")
         check("11b 'Cancel' closes the calendar: back to the chat with the field", back == [False, 68, "1"], back)
