@@ -36,7 +36,10 @@ function createDock(labels, handlers) {
   ]);
   var loading = el("div", { id: "mia-dock-loading", "aria-hidden": "true" }, [el("span")]);
   var webchat = el("div", { id: "bp-embedded-webchat" });
-  var body = el("div", { id: "spotler-inline-body" }, [loading, webchat]);
+  // typed while Mia replies in the live chat: held at the foot of the chat
+  // (see-through, no status) until her reply lands, then sent (95-poc-main)
+  var held = el("div", { id: "mia-dock-held", "aria-live": "polite" });
+  var body = el("div", { id: "spotler-inline-body" }, [loading, webchat, held]);
   var chat = el("div", { id: "mia-dock-chat", role: "dialog", "aria-label": labels.title }, [head, body]);
   // the AI / privacy line, under the field when open
   var ft = el("div", { id: "mia-dock-ft" }, [footerNote(labels)]);
@@ -192,6 +195,12 @@ function createDock(labels, handlers) {
     isOpen: function () { return dock.classList.contains("open"); },
     setPrompts: function (list) { if (list && list.length) { prompts = list; idx = 0; } },
     startTyping: startTyping,
+    // the live chat gives up the held messages' height, so they never cover her reply
+    hold: function (text) {
+      held.appendChild(el("div", { "class": "h" }, [el("p", { text: text })]));
+      webchat.style.height = "calc(100% - " + held.offsetHeight + "px)";
+    },
+    clearHeld: function () { held.innerHTML = ""; webchat.style.height = ""; },
     setRow: function () {}
   };
 }

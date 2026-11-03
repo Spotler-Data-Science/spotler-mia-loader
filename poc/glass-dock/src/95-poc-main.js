@@ -92,7 +92,8 @@ function promptsFor(row, regionId) {
 function lineUpLiveChat(sr) {
   try {
     var host = BP.ctx.shell && BP.ctx.shell.host, shr = host && host.shadowRoot;
-    var mine = shr && shr.querySelectorAll(".b"), live = sr.querySelectorAll(".bpMessageBlocksBubble");
+    // held messages (typed while Mia replies) aren't in the live chat yet: line up her reply
+    var mine = shr && shr.querySelectorAll(".m:not(.queued) .b"), live = sr.querySelectorAll(".bpMessageBlocksBubble");
     if (!mine || !mine.length || !live.length) return 0;
     var d = Math.round(live[live.length - 1].getBoundingClientRect().top - mine[mine.length - 1].getBoundingClientRect().top);
     if (!d || Math.abs(d) > 160) return 0;
@@ -121,6 +122,84 @@ function lineUpLiveChat(sr) {
   } catch (e) { return 0; }
 }
 
+/* ---- typing while Mia replies (build 4, loader 1.6.9) ----
+   The dock's field always takes the message and clears. During Mia's first
+   reply the shared code holds it in the preview and sends it after the
+   hand-over (queueWhileReplying). In the live chat the dock holds it the same
+   way: under the chat, until her reply has landed, then everything held goes
+   as one visitor turn, in the order typed (the 1.6.9 rule, so the messages
+   don't interrupt each other's replies). Each of those sends waits in turn. */
+var LIVE = { waiting: false, onReveal: false, outs: 0, since: 0, quiet: 0, held: [], timer: null };
+var LIVE_TICK_MS = 250, LIVE_QUIET_MS = 1000, LIVE_GIVE_UP_MS = 60000;
+
+// Has the bot answered the visitor's latest message? (a reply after the last
+// outgoing message, which is newer than the ones there when we sent, and no
+// typing dots: a multi-part reply is in once it's been quiet for a second)
+function liveReplyIn() {
+  var sr = webchatShadow();
+  if (!sr) return false;
+  var all = sr.querySelectorAll(".bpMessageContainer"), outs = 0, reply = false;
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].getAttribute("data-direction") === "outgoing") { outs++; reply = false; }
+    else if (outs && isReply(all[i])) reply = true;
+  }
+  return reply && outs > LIVE.outs && !sr.querySelector("[class*='TypingIndicator']");
+}
+
+function liveTick() {
+  clearTimeout(LIVE.timer);
+  if (!LIVE.waiting) return;
+  var done = LIVE.onReveal ? BP.revealed : liveReplyIn();
+  LIVE.quiet = done ? LIVE.quiet + LIVE_TICK_MS : 0;
+  var late = now() - LIVE.since > LIVE_GIVE_UP_MS;
+  if (!late && LIVE.quiet < (LIVE.onReveal ? 500 : LIVE_QUIET_MS)) { LIVE.timer = setTimeout(liveTick, LIVE_TICK_MS); return; }
+  if (late) log("no reply after " + LIVE_GIVE_UP_MS / 1000 + "s: sending what's held");
+  LIVE.waiting = false; LIVE.onReveal = false;
+  if (!LIVE.held.length) return;
+  var text = LIVE.held.join("\n");
+  LIVE.held = [];
+  BP.ctx.ui.clearHeld();
+  log("sending the held message");
+  sendAsUser(text);
+}
+
+// Every visitor message into the live chat (the dock's, and the one held
+// during the first reply) starts the wait for Mia's reply.
+function waitForReplies() {
+  var send = sendAsUser;
+  sendAsUser = function (text, attempt) {
+    if (!attempt && BP.revealed) {
+      var sr = webchatShadow();
+      LIVE.waiting = true; LIVE.onReveal = false; LIVE.since = now(); LIVE.quiet = 0;
+      LIVE.outs = sr ? sr.querySelectorAll(".bpMessageContainer[data-direction=outgoing]").length : 0;
+      liveTick();
+    }
+    return send(text, attempt);
+  };
+  // restart, timeout, ended in another tab: nothing held is sent
+  var reset = resetToShell;
+  resetToShell = function (reason) { clearHeld(); return reset(reason); };
+}
+
+function holdInDock(text, untilReveal) {
+  LIVE.held.push(text);
+  BP.ctx.ui.hold(text);
+  log("held while Mia replies (" + LIVE.held.length + ")");
+  if (untilReveal && !LIVE.waiting) { LIVE.waiting = true; LIVE.onReveal = true; LIVE.since = now(); LIVE.quiet = 0; liveTick(); }
+}
+
+function liveSend(text) {
+  if (BP.queued.length) { BP.queued.push(text); return; }   // the first reply's held text is about to go: join it
+  if (LIVE.waiting) { holdInDock(text); return; }
+  sendAsUser(text);
+}
+
+function clearHeld() {
+  clearTimeout(LIVE.timer);
+  LIVE.waiting = false; LIVE.onReveal = false; LIVE.held = [];
+  if (BP.ctx.ui) BP.ctx.ui.clearHeld();
+}
+
 function bootDock() {
   var path = location.pathname;
   var region = detectRegion(path);
@@ -136,6 +215,7 @@ function bootDock() {
   keepProductionOff();
   usePocConfig();
   alignShell = lineUpLiveChat;
+  waitForReplies();
   SETTINGS.CDN_ORIGINS.forEach(preconnect);
 
   var labels = SETTINGS.LABELS[region.id] || SETTINGS.LABELS["en-GB"];
@@ -172,15 +252,12 @@ function bootDock() {
     ctx.ui = createDock(labels, {
       // arrow: the pill's question goes straight into the chat
       onAsk: function (text) {
-        if (BP.loaded && BP.revealed && LS.getJSON(LIVE_KEY)) sendAsUser(text);
-        else if (!BP.engaged) startChat(text, "teaser");
+        if (BP.loaded && BP.revealed && LS.getJSON(LIVE_KEY)) liveSend(text);
+        else dockSend(text, "teaser");
       },
-      // the dock's field (the one text box): starts the chat, or goes into it
-      onSend: function (text) {
-        if (!BP.engaged) { startChat(text, "typed"); return true; }
-        if (BP.revealed) { sendAsUser(text); return true; }
-        return false;     // Mia is still answering the first message: keep it in the field
-      },
+      // the dock's field (the one text box): starts the chat, or goes into it;
+      // while Mia replies it's held and sent once her reply is in (build 4)
+      onSend: function (text) { dockSend(text, "typed"); return true; },
       onRestart: function () { if (LS.getJSON(LIVE_KEY) || BP.engaged) resetToShell("restart"); }
     });
     ctx.ui.setPrompts(promptsFor(row, region.id));
@@ -189,6 +266,13 @@ function bootDock() {
     if (State.getLive(region.id)) { ctx.ui.open(); resume(); }
     else { mountShell(); ctx.ui.startTyping(); }
     startTimeoutWatch();
+  }
+
+  function dockSend(text, source) {
+    if (BP.revealed) liveSend(text);
+    else if (BP.engaged && ctx.shell) queueWhileReplying(text);          // her first reply: held in the preview
+    else if (!ctx.shell) holdInDock(text, true);                        // a saved chat still loading (no preview)
+    else startChat(text, source);
   }
 
   // The start screen, before the first message (and again after a restart).
@@ -209,7 +293,8 @@ function bootDock() {
     ctx.ui.body.insertBefore(host, ctx.ui.body.firstChild);
     ctx.shell = createShell(host, labels, ctx.row, {
       onSend: function (text, source) { startChat(text, source); },
-      onOpen: function () { startChat(null, "open"); }
+      onOpen: function () { startChat(null, "open"); },
+      onQueue: function (text) { queueWhileReplying(text); }
     });
   }
   ctx.remountShell = mountShell;

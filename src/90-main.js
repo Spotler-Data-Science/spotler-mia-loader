@@ -114,7 +114,8 @@ function boot() {
     ctx.ui.body.insertBefore(host, ctx.ui.body.firstChild);
     ctx.shell = createShell(host, labels, ctx.row, {
       onSend: function (text, source) { engage(text, source); },
-      onOpen: function () { engage(null, "open"); }
+      onOpen: function () { engage(null, "open"); },
+      onQueue: function (text) { queueWhileReplying(text); }
     });
   }
   ctx.remountShell = mountShell;

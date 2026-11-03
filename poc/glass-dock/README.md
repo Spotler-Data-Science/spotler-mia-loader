@@ -22,6 +22,10 @@ The production loader (`src/`, `dist/`) is not changed by this folder.
   desktop, height to fit), with the same glass, opacity and corner radius.
   The live chat stays see-through.
 - **Close (✕):** back to the typing pill; a running conversation is kept.
+- **Typing while Mia replies** (loader 1.6.9): the field takes the message and
+  clears. It shows as held (faded, no "Delivered"): in the preview during her
+  first reply, under the live chat after that. Once her reply is in, everything
+  held goes as one visitor turn, in the order typed. A restart drops it.
 
 **Look:** clear white glass with a soft shadow. The send buttons (pill, card,
 live chat) and the pill's typing cursor are the site's "Get a demo" cyan

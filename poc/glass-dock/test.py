@@ -394,6 +394,74 @@ async def main():
             return { cw, k, h: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), physical: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height * 390 / cw) } })()""")
         check("5b page shrunk to fit: pill scaled up, still about 48pt on screen", z["cw"] > 900 and z["k"] > 1 and abs(z["physical"] - 48) <= 2, z)
         await ctx.close()
+
+        # 10. Typing in the dock while Mia replies (build 4, loader 1.6.9): real keystrokes, a slow reply.
+        # The field takes the message and clears; it's held, then sent once her reply is in; several go in order.
+        SENT = "() => window.__bpLog.filter(e => e[0] === 'sendMessage').map(e => e[1])"
+        LIVE_MSGS = """() => [...window.__bpShadow.querySelectorAll('.bpMessageContainer[data-direction=outgoing], .bpMessageContainer[data-direction=incoming]')]
+            .filter(m => !m.querySelector('.bpTypingIndicatorContainer')).map(m => m.getAttribute('data-direction')[0] + ':' + m.textContent)"""
+        async def type_in_dock(page, text):
+            await page.click("#mia-dock-in"); await page.keyboard.type(text); await page.keyboard.press("Enter")
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        await setup(ctx, [POC])
+        await ctx.add_init_script("window.__replyDelay = 2500;")
+        page = await ctx.new_page()
+        logs = []; page.on("console", lambda m, logs=logs: logs.append(m.text))
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(1200)
+        await page.click("#mia-dock-pill"); await page.wait_for_timeout(700)
+        await type_in_dock(page, "What is Spotler Activate?")
+        await page.wait_for_timeout(1200)                   # Mia is writing her first reply (typing dots in the preview)
+        for t in ["and how much does it cost?", "in GBP please"]:
+            await type_in_dock(page, t)
+        h = await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot, q=[...sr.querySelectorAll('.m.queued')];
+            return { queued: q.map(m => m.textContent), field: document.getElementById('mia-dock-in').value, typing: !!sr.querySelector('.typing'),
+              status: q.some(m => m.nextElementSibling && m.nextElementSibling.classList.contains('st')) } }""")
+        sent = await page.evaluate(SENT)
+        check("10a first reply: the dock takes both messages, field clears, held in the preview (no Delivered), nothing sent yet",
+              h["queued"] == ["and how much does it cost?", "in GBP please"] and h["field"] == "" and h["typing"] and not h["status"]
+              and sent == ["What is Spotler Activate?"], [h, sent])
+        await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+        await page.wait_for_function("(" + SENT + ")().length === 2", timeout=6000)
+        await page.wait_for_timeout(3200)                   # her second reply
+        first = "and how much does it cost?\nin GBP please"
+        sent, msgs = await page.evaluate(SENT), await page.evaluate(LIVE_MSGS)
+        check("10b sent once her reply landed, as one visitor turn: 2 visitor messages and 2 answers, in order",
+              sent == ["What is Spotler Activate?", first]
+              and msgs == ["o:What is Spotler Activate?", "i:Bot reply to: What is Spotler Activate?", "o:" + first, "i:Bot reply to: " + first], [sent, msgs])
+        # later replies, in the live chat: the same, held under the chat
+        await page.wait_for_timeout(1200)                   # her reply has been in for a second: the next message goes straight away
+        await type_in_dock(page, "Do you integrate with Shopify?")
+        await page.wait_for_timeout(900)                    # her reply is pending (typing dots)
+        await type_in_dock(page, "and Magento?")
+        await type_in_dock(page, "and WooCommerce?")
+        h = await page.evaluate("""() => { const held=document.getElementById('mia-dock-held'), w=document.getElementById('bp-embedded-webchat'), body=document.getElementById('spotler-inline-body');
+            return { held: [...held.querySelectorAll('.h')].map(x => x.textContent), field: document.getElementById('mia-dock-in').value,
+              visible: getComputedStyle(held).display !== 'none', chatBottom: Math.round(w.getBoundingClientRect().bottom), heldTop: Math.round(held.getBoundingClientRect().top),
+              typing: !!window.__bpShadow.querySelector('.bpTypingIndicatorContainer') } }""")
+        sent = await page.evaluate(SENT)
+        check("10c live chat: the field clears, both held under the chat (not covering it), not sent while she replies",
+              h["held"] == ["and Magento?", "and WooCommerce?"] and h["field"] == "" and h["visible"] and h["chatBottom"] <= h["heldTop"] + 1
+              and h["typing"] and sent[-1] == "Do you integrate with Shopify?", [h, sent[-2:]])
+        await page.wait_for_function("(" + SENT + ")().length === 4", timeout=6000)
+        h = await page.evaluate("() => ({ held: document.getElementById('mia-dock-held').children.length, h: document.getElementById('bp-embedded-webchat').style.height })")
+        await page.wait_for_timeout(3200)
+        second = "and Magento?\nand WooCommerce?"
+        sent, msgs = await page.evaluate(SENT), await page.evaluate(LIVE_MSGS)
+        check("10d sent after her reply, as one turn, in order; the held strip goes and the chat gets its height back",
+              sent[2:] == ["Do you integrate with Shopify?", second] and h == {"held": 0, "h": ""}
+              and msgs[4:] == ["o:Do you integrate with Shopify?", "i:Bot reply to: Do you integrate with Shopify?", "o:" + second, "i:Bot reply to: " + second], [sent[2:], h, msgs[4:]])
+        check("10e logged: held and sent, twice", sum("held while Mia replies" in l for l in logs) == 4 and sum("sending the held message" in l for l in logs) == 2,
+              [l for l in logs if "held" in l])
+        # restart drops anything still held
+        await type_in_dock(page, "one more thing")
+        await page.wait_for_timeout(600)
+        await type_in_dock(page, "never mind")
+        await page.click("#mia-dock-head button[aria-label='Restart conversation']")
+        await page.wait_for_timeout(3500)
+        sent = await page.evaluate(SENT)
+        check("10f restart while a message is held: it's dropped, not sent into the new chat",
+              "never mind" not in sent and await page.evaluate("document.getElementById('mia-dock-held').children.length") == 0, sent[-2:])
+        await ctx.close()
         await b.close()
     print(f"\n{sum(results)}/{len(results)} passed")
     sys.exit(0 if all(results) else 1)

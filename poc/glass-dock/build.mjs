@@ -35,7 +35,7 @@ for (const { f, p } of files) {
 
 const stamp = new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC";
 const version = /SETTINGS\.VERSION = "([^"]+)"/.exec(readFileSync(join(HERE, "src/01-poc-settings.js"), "utf8"))[1];
-const banner = `/* Spotler Mia glass dock POC ${version} - built ${stamp} - INT pages only, staging test - source: github.com/Spotler-Data-Science/spotler-mia-loader/poc/glass-dock */`;
+const banner = `/* Spotler Mia glass dock POC ${version} - built ${stamp} - staging test, every region - source: github.com/Spotler-Data-Science/spotler-mia-loader/poc/glass-dock */`;
 const body = `(function () {\n"use strict";\nvar CSS = ${JSON.stringify(css)};\nvar HTML = ${JSON.stringify(html)};\n${js.join("\n")}\n})();`;
 const min = await minify(body, { ecma: 5, compress: { passes: 2 }, mangle: true, format: { ascii_only: true } });
 if (!min.code) throw new Error("minify failed");
