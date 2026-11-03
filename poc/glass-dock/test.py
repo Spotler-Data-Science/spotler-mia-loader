@@ -11,6 +11,7 @@ INJECT = open(os.path.join(ROOT, "test/mock/inject.js")).read()
 CONFIG = open(os.path.join(ROOT, "test/mock/config.json")).read()
 OUT = os.path.join(ROOT, "poc/glass-dock/out"); os.makedirs(OUT, exist_ok=True)
 PNG = bytes.fromhex("89504e470d0a1a0a0000000d4948445200000001000000010806000000" "1f15c4890000000d49444154789c63f8cfc0f01f0005000201a5f6e0540000000049454e44ae426082")
+HS_PAGE = open(os.path.join(ROOT, "test/mock/hubspot-meetings.html")).read()
 PROMPTS = ["How can Spotler help my business?", "Which Spotler product fits an online shop?", "Can I book a demo this week?",
            "How does Spotler use AI in email marketing?", "What does Spotler cost?"]
 
@@ -33,6 +34,7 @@ async def setup(ctx, tags, phone=False, mkt=None, mkt_cors=True):
             return await route.fulfill(body=mkt, content_type="application/json", headers={"access-control-allow-origin": "*"} if mkt_cors else {})
         if "raw.githubusercontent.com" in url or "cdn.jsdelivr.net" in url:
             return await route.fulfill(body=CONFIG, content_type="application/json", headers={"access-control-allow-origin": "*"})
+        if "meetings" in url and "hubspot.com" in url: return await route.fulfill(body=HS_PAGE, content_type="text/html")
         if url.endswith("/logo.svg"): return await route.fulfill(body="<svg xmlns='http://www.w3.org/2000/svg'/>", content_type="image/svg+xml")
         if "spotler.com" in url: return await route.fulfill(body=page_html, content_type="text/html")
         return await route.fulfill(status=404, body="")
@@ -142,6 +144,35 @@ async def main():
         check("2o no Botpress scroll-down arrow", sd == "none", sd)
         check("2n Botpress re-renders: glass styles put back, a new white panel cleared (stays see-through)", g["css"] and g["bg"] in ("rgba(0, 0, 0, 0)", "transparent") and g["white"] in ("rgba(0, 0, 0, 0)", "transparent"), g)
         await page.screenshot(path=f"{OUT}/2-live.png")
+        await ctx.close()
+
+        # 10. the in-chat calendar, in the dock's style
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        await setup(ctx, [POC])
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(1500)
+        await page.click(".mia-arrow")
+        await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+        await page.evaluate("window.__bpEmit('customEvent', { action: 'showHubSpotCalendar', url: 'https://meetings-eu1.hubspot.com/isabelle-chadwick' })")
+        await page.wait_for_timeout(5000)
+        cal = await page.evaluate("""() => { const l=document.getElementById('spotler-cal'), r=l.shadowRoot, s=getComputedStyle(r.querySelector('.sheet')), c=r.querySelector('.card').getBoundingClientRect(),
+            d=document.getElementById('mia-dock'), lr=l.getBoundingClientRect(), dr=d.getBoundingClientRect(),
+            bar=r.querySelector('.bar').getBoundingClientRect(), intro=r.querySelector('.intro').getBoundingClientRect(), back=getComputedStyle(r.querySelector('.back'));
+            return { inDock: !!l.closest('#mia-dock'), on: l.classList.contains('on'), sheetBg: s.backgroundColor, cancelOnTop: bar.top < intro.top, backBg: back.backgroundColor,
+                     heading: getComputedStyle(r.querySelector('.intro .b')).fontSize, radius: getComputedStyle(r.querySelector('.card')).borderTopLeftRadius,
+                     ft: r.querySelector('.ft').textContent, cardH: Math.round(c.height), iframe: !!r.querySelector('.stage iframe'),
+                     field: getComputedStyle(document.getElementById('mia-dock-pill')).display, chatBehind: getComputedStyle(document.getElementById('bp-embedded-webchat')).visibility, dockFt: getComputedStyle(document.getElementById('mia-dock-ft')).display,
+                     covers: Math.round(dr.bottom - lr.bottom), ftInside: r.querySelector('.ft').getBoundingClientRect().bottom <= lr.bottom + 1 && r.querySelector('.card').getBoundingClientRect().bottom <= r.querySelector('.ft').getBoundingClientRect().top } }""")
+        check("10a calendar inside the dock: glass behind (no white sheet), 'Cancel' a small link on top, a heading, a rounded white card",
+              cal["inDock"] and cal["on"] and cal["sheetBg"] == "rgba(0, 0, 0, 0)" and cal["cancelOnTop"] and cal["backBg"] == "rgba(0, 0, 0, 0)"
+              and cal["heading"] in ("22px", "18px") and cal["radius"] == "20px" and cal["iframe"] and cal["cardH"] > 300, cal)
+        check("10c the calendar covers the whole dock: no 'Ask Mia' field, its own AI / privacy line at the bottom",
+              cal["field"] == "none" and cal["dockFt"] == "none" and cal["ft"] == "AI assistant · Privacy" and cal["ftInside"] and cal["covers"] <= 2 and cal["chatBehind"] == "hidden", cal)
+        await page.screenshot(path=f"{OUT}/10-calendar.png")
+        await page.evaluate("document.getElementById('spotler-cal').shadowRoot.querySelector('.back').click()")
+        await page.wait_for_timeout(500)
+        back = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), getComputedStyle(document.getElementById('mia-dock-pill')).display, getComputedStyle(document.getElementById('bp-embedded-webchat')).visibility]")
+        check("10b 'Cancel' closes the calendar: back to the chat with the field", back == [False, "flex", "visible"], back)
         await ctx.close()
 
         # 9. the chat started long after the page loaded (the white chat on staging): still styled

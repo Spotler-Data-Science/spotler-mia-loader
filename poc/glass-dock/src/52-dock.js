@@ -9,6 +9,7 @@
    hand-over is the production one; the pill's field is their one text box.
    ================================================================== */
 CSS.shell += CSS.shellglass;
+CSS.calendar += CSS.calglass;   // the in-chat calendar in the dock's style
 
 function createDock(labels, handlers) {
   addStyle(CSS.dock);
@@ -71,9 +72,21 @@ function createDock(labels, handlers) {
     var room = window.innerHeight - below - pill.offsetHeight - top - 2;
     return Math.max(220, Math.min(touch ? room : 720, room));
   }
+  // While the calendar is open it covers the whole dock: the field and the
+  // AI / privacy line give it their room, and come back when it closes.
+  function calOpen() {
+    var cal = document.getElementById("spotler-cal");
+    return !!(cal && body.contains(cal) && cal.classList.contains("on"));
+  }
+  function sizeChat() {
+    if (!dock.classList.contains("open")) return;
+    var h = chatHeight();
+    if (calOpen()) h += pill.offsetHeight + (parseFloat(getComputedStyle(ft).height) || 0);
+    chat.style.height = h + "px";
+  }
   function resize() {
     fitTouch();
-    if (dock.classList.contains("open")) chat.style.height = chatHeight() + "px";
+    sizeChat();
   }
   fitTouch();
   window.addEventListener("resize", resize);
@@ -114,7 +127,7 @@ function createDock(labels, handlers) {
     stopTyping();
     dock.classList.add("typing-field");
     dock.classList.add("open");
-    chat.style.height = chatHeight() + "px";
+    sizeChat();
     if (handlers.onOpen) handlers.onOpen();
   }
   function close() {
@@ -152,6 +165,13 @@ function createDock(labels, handlers) {
     if (e.target !== input) focusField();
   });
   closeBtn.addEventListener("click", close);
+  new MutationObserver(function () {
+    var on = calOpen();
+    if (on === dock.classList.contains("cal-open")) return;
+    if (on) { sizeChat(); dock.classList.add("cal-open"); }     // measure the field before it goes
+    else { dock.classList.remove("cal-open"); sizeChat(); }
+  }).observe(body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+
   // a click anywhere outside the chat closes it (not the calendar's own modal)
   document.addEventListener("click", function (e) {
     if (!dock.classList.contains("open")) return;

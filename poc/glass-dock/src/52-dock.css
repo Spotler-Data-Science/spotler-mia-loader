@@ -68,6 +68,10 @@
 #mia-dock-ft p { margin: 0; }
 #mia-dock-ft a { color: inherit; text-decoration: underline; }
 #mia-dock.open #mia-dock-ft { height: var(--mia-ft); padding-bottom: 4px; }
+/* the calendar covers the whole dock: no field, no AI / privacy line (the calendar view has its own) */
+#mia-dock.cal-open #mia-dock-pill, #mia-dock.cal-open #mia-dock-ft { display: none; }
+/* and the conversation underneath doesn't show through its glass */
+#mia-dock.cal-open #bp-embedded-webchat, #mia-dock.cal-open #spotler-mia-shell, #mia-dock.cal-open #mia-start { visibility: hidden !important; }
 #mia-dock.open #mia-dock-pill { cursor: auto; }
 /* the question: a touch larger and darker, so the moving text reads as live */
 #mia-dock-q, #mia-dock-in { flex: 1 1 auto; min-width: 0; font: inherit; font-size: 19px; line-height: 26px; color: #071638; }
