@@ -60,7 +60,7 @@ function createDock(labels, handlers) {
   }
   // The open chat's height: from just below the site's menu bar (8px
   // clear) down to the field, at most 720px.
-  function chatHeight() {
+  function chatHeight(full) {
     var touch = dock.classList.contains("mia-touch");
     var top = 16 * k, hdr = document.getElementById("header") || document.querySelector("header");
     if (hdr) {
@@ -70,7 +70,7 @@ function createDock(labels, handlers) {
     // below the field: the AI / privacy line and the gap to the screen edge
     var below = touch || window.innerWidth <= 640 ? (20 + 26) * k : 24 + 30;
     var room = window.innerHeight - below - pill.offsetHeight - top - 2;
-    return Math.max(220, Math.min(touch ? room : 720, room));
+    return Math.max(220, Math.min(touch || full ? room : 720, room));
   }
   // While the calendar is open it covers the whole dock: the field and the
   // AI / privacy line give it their room, and come back when it closes.
@@ -80,8 +80,9 @@ function createDock(labels, handlers) {
   }
   function sizeChat() {
     if (!dock.classList.contains("open")) return;
-    var h = chatHeight();
-    if (calOpen()) h += pill.offsetHeight + (parseFloat(getComputedStyle(ft).height) || 0);
+    // the calendar (HubSpot's page wants ~715px) gets all the height there is
+    var cal = calOpen(), h = chatHeight(cal);
+    if (cal) h += pill.offsetHeight + (parseFloat(getComputedStyle(ft).height) || 0);
     chat.style.height = h + "px";
   }
   function resize() {

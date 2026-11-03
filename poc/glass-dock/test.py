@@ -161,18 +161,19 @@ async def main():
             return { inDock: !!l.closest('#mia-dock'), on: l.classList.contains('on'), sheetBg: s.backgroundColor, cancelOnTop: bar.top < intro.top, backBg: back.backgroundColor,
                      heading: getComputedStyle(r.querySelector('.intro .b')).fontSize, radius: getComputedStyle(r.querySelector('.card')).borderTopLeftRadius,
                      ft: r.querySelector('.ft').textContent, cardH: Math.round(c.height), iframe: !!r.querySelector('.stage iframe'),
-                     field: getComputedStyle(document.getElementById('mia-dock-pill')).display, chatBehind: getComputedStyle(document.getElementById('bp-embedded-webchat')).visibility, dockFt: getComputedStyle(document.getElementById('mia-dock-ft')).display,
+                     field: getComputedStyle(document.getElementById('mia-dock-pill')).display, chatBehind: getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity, dockTop: Math.round(dr.top), header: Math.round(document.getElementById('header').getBoundingClientRect().bottom), dockFt: getComputedStyle(document.getElementById('mia-dock-ft')).display,
                      covers: Math.round(dr.bottom - lr.bottom), ftInside: r.querySelector('.ft').getBoundingClientRect().bottom <= lr.bottom + 1 && r.querySelector('.card').getBoundingClientRect().bottom <= r.querySelector('.ft').getBoundingClientRect().top } }""")
         check("10a calendar inside the dock: glass behind (no white sheet), 'Cancel' a small link on top, a heading, a rounded white card",
               cal["inDock"] and cal["on"] and cal["sheetBg"] == "rgba(0, 0, 0, 0)" and cal["cancelOnTop"] and cal["backBg"] == "rgba(0, 0, 0, 0)"
               and cal["heading"] in ("22px", "18px") and cal["radius"] == "20px" and cal["iframe"] and cal["cardH"] > 300, cal)
         check("10c the calendar covers the whole dock: no 'Ask Mia' field, its own AI / privacy line at the bottom",
-              cal["field"] == "none" and cal["dockFt"] == "none" and cal["ft"] == "AI assistant · Privacy" and cal["ftInside"] and cal["covers"] <= 2 and cal["chatBehind"] == "hidden", cal)
+              cal["field"] == "none" and cal["dockFt"] == "none" and cal["ft"] == "AI assistant · Privacy" and cal["ftInside"] and cal["covers"] <= 2 and cal["chatBehind"] == "0", cal)
+        check("10d the calendar gets all the height there is (up to just under the menu bar)", cal["header"] + 6 <= cal["dockTop"] <= cal["header"] + 12, cal)
         await page.screenshot(path=f"{OUT}/10-calendar.png")
         await page.evaluate("document.getElementById('spotler-cal').shadowRoot.querySelector('.back').click()")
-        await page.wait_for_timeout(500)
-        back = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), getComputedStyle(document.getElementById('mia-dock-pill')).display, getComputedStyle(document.getElementById('bp-embedded-webchat')).visibility]")
-        check("10b 'Cancel' closes the calendar: back to the chat with the field", back == [False, "flex", "visible"], back)
+        await page.wait_for_timeout(1000)   # the chat fades back in (0.4s)
+        back = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), getComputedStyle(document.getElementById('mia-dock-pill')).display, getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity]")
+        check("10b 'Cancel' closes the calendar: back to the chat with the field", back == [False, "flex", "1"], back)
         await ctx.close()
 
         # 9. the chat started long after the page loaded (the white chat on staging): still styled

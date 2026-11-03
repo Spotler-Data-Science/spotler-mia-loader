@@ -9,7 +9,7 @@
 .sheet { background: transparent; justify-content: flex-start; gap: 10px; padding: 2px 20px 14px; }
 
 /* "‹ Cancel": a small link above the heading, not a big grey bar */
-.bar { order: -1; flex: 0 0 auto; align-self: flex-start; margin: 0 0 -2px; }
+.bar { order: -1; flex: 0 0 auto; align-self: flex-start; margin: -6px 0 -4px -6px; }
 .back { display: inline-flex; width: auto; min-height: 30px; gap: 4px; padding: 4px 10px 4px 6px; border: 0; border-radius: 999px;
         background: transparent; color: #0B1F4D; font-size: 14px; font-weight: 500; }
 .back::before { content: ""; width: 8px; height: 8px; margin-right: 2px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor;
