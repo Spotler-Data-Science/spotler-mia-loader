@@ -219,6 +219,7 @@ function bootDock() {
   SETTINGS.CDN_ORIGINS.forEach(preconnect);
 
   var labels = SETTINGS.LABELS[region.id] || SETTINGS.LABELS["en-GB"];
+  labels.calResume = SETTINGS.POC_CAL_RESUME[SETTINGS.POC_LANG[region.id] || "en"];
   var ctx = { region: region, labels: labels, row: null, ui: null, shell: null };
   BP.ctx = ctx;
   var started = false;

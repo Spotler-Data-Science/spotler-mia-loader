@@ -81,7 +81,7 @@
    dock's outline glides instead of jumping */
 #mia-dock-pill { transition: padding .5s cubic-bezier(.2,.8,.2,1), height .5s cubic-bezier(.2,.8,.2,1), opacity .25s ease; }
 #mia-dock-ft { transition: height .5s cubic-bezier(.2,.8,.2,1), opacity .25s ease; }
-#mia-dock.cal-open #mia-dock-pill, #mia-dock.open.cal-open #mia-dock-ft {
+#mia-dock.open.cal-open #mia-dock-pill, #mia-dock.open.cal-open #mia-dock-ft {
   height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; opacity: 0; overflow: hidden; pointer-events: none; }
 /* and the conversation underneath doesn't show through its glass (opacity: parts of
    Botpress set themselves visible again, which visibility: hidden can't stop) */
@@ -94,6 +94,10 @@
 #mia-dock-q::after { content: ""; display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: -0.15em;
                      background: var(--mia-accent); animation: mia-caret 1s steps(1) infinite; }   /* same cyan as the button */
 @keyframes mia-caret { 50% { opacity: 0; } }
+/* a booking left open: a still line with a small calendar mark, no typing cursor */
+#mia-dock.cal-pending #mia-dock-q::after { display: none; }
+#mia-dock.cal-pending #mia-dock-q::before { content: ""; display: inline-block; width: 16px; height: 16px; margin-right: 10px; vertical-align: -2px;
+  border: 2px solid var(--mia-accent); border-top-width: 5px; border-radius: 4px; box-sizing: border-box; }
 #mia-dock-in { display: none; height: 26px; padding: 0; margin: 0; border: 0; outline: none; background: transparent;
                caret-color: var(--mia-accent); -webkit-appearance: none; appearance: none; }
 #mia-dock-in::placeholder { color: #5B6B8C; opacity: 1; }

@@ -83,6 +83,32 @@ function createDock(labels, handlers) {
     var cal = document.getElementById("spotler-cal");
     return !!(cal && body.contains(cal) && cal.classList.contains("on"));
   }
+  // HubSpot's booking page needs ~715px to show its whole form with the
+  // Back / Confirm buttons; its page is sealed, so when the card is shorter
+  // the page is scaled down to fit (no scrolling for the buttons). Its 16px
+  // gutter stays cropped, scaled with it.
+  var HS_PAGE_H = 715, HS_MIN_SCALE = 0.7;
+  function fitCalendarFrame() {
+    var cal = document.getElementById("spotler-cal"), r = cal && cal.shadowRoot;
+    var card = r && r.querySelector(".card"), frame = r && r.querySelector(".stage iframe");
+    if (!card || !frame || !card.clientHeight) return;
+    // 715px includes HubSpot's 16px top and bottom gutters, which stay cropped
+    var W = card.clientWidth, H = card.clientHeight, s = Math.max(HS_MIN_SCALE, Math.min(1, H / (HS_PAGE_H - 32)));
+    var css = { width: (W + 32 * s) / s + "px", height: (H + 32 * s) / s + "px", top: -16 * s + "px", left: -16 * s + "px",
+                transform: s < 1 ? "scale(" + s.toFixed(4) + ")" : "none", "transform-origin": "0 0", "max-width": "none" };
+    for (var k in css) frame.style.setProperty(k, css[k], "important");
+    if (frame.__miaScale !== s) { frame.__miaScale = s; if (s < 1) log("calendar scaled to " + Math.round(s * 100) + "% to fit"); }
+  }
+  var calWatch = null;
+  function watchCalendar() {
+    var cal = document.getElementById("spotler-cal"), r = cal && cal.shadowRoot;
+    if (!r || calWatch) { fitCalendarFrame(); return; }
+    // new frames (another meeting link) and the shared code's own size nudges: fit again
+    calWatch = new MutationObserver(function () { setTimeout(fitCalendarFrame, 0); });
+    calWatch.observe(r, { childList: true, subtree: true, attributes: true, attributeFilter: ["style", "class"] });
+    if (window.ResizeObserver) new ResizeObserver(function () { fitCalendarFrame(); }).observe(r.querySelector(".card"));
+    fitCalendarFrame();
+  }
   function sizeChat() {
     if (!dock.classList.contains("open")) return;
     // the calendar (HubSpot's page wants ~715px) gets all the height there is
@@ -120,7 +146,7 @@ function createDock(labels, handlers) {
     else timer = setTimeout(function () { next(); type(0); }, SETTINGS.POC_GAP_MS);
   }
   function startTyping() {
-    if (running || dock.classList.contains("typing-field")) return;
+    if (running || dock.classList.contains("typing-field") || dock.classList.contains("cal-pending")) return;
     running = true;
     if (still) { (function swap() { if (!running) return; next(); q.textContent = current; timer = setTimeout(swap, 4000); })(); return; }
     next(); type(0);
@@ -131,6 +157,7 @@ function createDock(labels, handlers) {
   function open() {
     if (dock.classList.contains("open")) return;
     stopTyping();
+    dock.classList.remove("cal-pending");
     dock.classList.add("typing-field");
     dock.classList.add("open");
     sizeChat();
@@ -139,7 +166,22 @@ function createDock(labels, handlers) {
   function close() {
     dock.classList.remove("open");
     chat.style.height = "0px";
+    if (calOpen()) { showBookingPending(); return; }   // the calendar stays; the bar invites them back
     if (!trim(input.value)) { dock.classList.remove("typing-field"); startTyping(); }
+  }
+  // A booking left open: the bar says so (no typing questions) until it's
+  // finished or cancelled; tapping it reopens the chat on the calendar.
+  function showBookingPending() {
+    stopTyping();
+    dock.classList.remove("typing-field");
+    dock.classList.add("cal-pending");
+    q.textContent = labels.calResume || "Finish booking your demo";
+  }
+  function clearBookingPending() {
+    if (!dock.classList.contains("cal-pending")) return;
+    dock.classList.remove("cal-pending");
+    q.textContent = "";
+    if (!dock.classList.contains("open")) startTyping();
   }
   function focusField() { try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); } }
 
@@ -154,6 +196,7 @@ function createDock(labels, handlers) {
   arrow.addEventListener("click", function (e) {
     e.stopPropagation();
     if (dock.classList.contains("open")) { sendTyped(); return; }
+    if (dock.classList.contains("cal-pending")) { open(); return; }   // back to the booking
     var text = currentSend;   // closed: the whole question (or the teaser's message), even mid-typing
     open();
     if (handlers.onAsk) handlers.onAsk(text);
@@ -174,16 +217,16 @@ function createDock(labels, handlers) {
   new MutationObserver(function () {
     var on = calOpen();
     if (on === dock.classList.contains("cal-open")) return;
-    if (on) { sizeChat(); dock.classList.add("cal-open"); }     // measure the field before it goes
-    else { dock.classList.remove("cal-open"); sizeChat(); }
+    if (on) { sizeChat(); dock.classList.add("cal-open"); watchCalendar(); setTimeout(fitCalendarFrame, 600); }     // measure the field before it goes
+    else { dock.classList.remove("cal-open"); sizeChat(); clearBookingPending(); }
   }).observe(body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
 
   // a click anywhere outside the chat closes it (not the calendar's own modal)
   document.addEventListener("click", function (e) {
     if (!dock.classList.contains("open")) return;
     var t = e.target;
-    // not while the calendar is open: a stray click must not lose a half-made booking
-    if (!t || dock.contains(t) || dock.classList.contains("cal-open") || (t.closest && t.closest("#hubspot-modal"))) return;
+    // with the calendar open the booking is kept: the bar then says "finish booking"
+    if (!t || dock.contains(t) || (t.closest && t.closest("#hubspot-modal"))) return;
     close();
   }, true);
   restartBtn.addEventListener("click", function () { if (handlers.onRestart) handlers.onRestart(); });

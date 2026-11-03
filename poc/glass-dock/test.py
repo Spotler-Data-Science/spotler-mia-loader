@@ -166,17 +166,36 @@ async def main():
         check("11a calendar inside the dock: glass behind (no white sheet), 'Cancel' a small link on top, a heading, a rounded white card",
               cal["inDock"] and cal["on"] and cal["sheetBg"] == "rgba(0, 0, 0, 0)" and cal["cancelOnTop"] and cal["backBg"] == "rgba(0, 0, 0, 0)"
               and cal["heading"] in ("22px", "18px") and cal["radius"] == "20px" and cal["iframe"] and cal["cardH"] > 300, cal)
+        fit = await page.evaluate("""() => { const r=document.getElementById('spotler-cal').shadowRoot, f=r.querySelector('.stage iframe'), c=r.querySelector('.card').getBoundingClientRect(),
+            m=/matrix\(([\d.]+)/.exec(getComputedStyle(f).transform), s=m ? +m[1] : 1;
+            return { s: Math.round(s * 100) / 100, card: Math.round(c.height), logical: Math.round(f.getBoundingClientRect().height / s) } }""")
+        check("11j a card shorter than HubSpot's page: the page is scaled to fit, its full ~715px visible (no scrolling for Confirm)",
+              fit["card"] < 683 and fit["s"] < 1 and fit["logical"] >= 715 - 1, fit)
         check("11c the calendar covers the whole dock: no 'Ask Mia' field, its own AI / privacy line at the bottom",
               cal["field"] == 0 and cal["dockFt"] == 0 and cal["ft"] == "AI assistant · Privacy" and cal["ftInside"] and cal["covers"] <= 2 and cal["chatBehind"] == "0", cal)
         check("11d the calendar gets all the height there is (up to just under the menu bar)", cal["header"] + 6 <= cal["dockTop"] <= cal["header"] + 12, cal)
         await page.screenshot(path=f"{OUT}/10-calendar.png")
-        await page.mouse.click(40, 450); await page.wait_for_timeout(400)
-        kept = await page.evaluate("[document.getElementById('mia-dock').classList.contains('open'), document.getElementById('spotler-cal').classList.contains('on')]")
-        check("11e a click outside while the calendar is open keeps the chat and the calendar", kept == [True, True], kept)
+        BAR = """() => { const d=document.getElementById('mia-dock'), p=document.getElementById('mia-dock-pill').getBoundingClientRect();
+            return { open: d.classList.contains('open'), cal: document.getElementById('spotler-cal').classList.contains('on'), bar: Math.round(p.height),
+                     text: document.getElementById('mia-dock-q').textContent } }"""
+        for how in ("a click outside", "the close button"):
+            if how == "a click outside": await page.mouse.click(40, 450)
+            else: await page.click("#mia-dock-head button[aria-label='Close chat']")
+            await page.wait_for_timeout(1500)
+            st = await page.evaluate(BAR)
+            check(f"11e {how} with the calendar open: chat closes, the booking is kept, the bar says 'Finish booking your demo' (and stays put)",
+                  st == {"open": False, "cal": True, "bar": 68, "text": "Finish booking your demo"}, st)
+            await page.click("#mia-dock-q"); await page.wait_for_timeout(900)
+            st = await page.evaluate(BAR)
+            check(f"11g after {how}: tapping the bar reopens the chat on the calendar", st["open"] and st["cal"] and st["bar"] == 0, st)
         await page.evaluate("document.getElementById('spotler-cal').shadowRoot.querySelector('.back').click()")
         await page.wait_for_timeout(1000)   # the chat fades back in (0.4s)
         back = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity]")
         check("11b 'Cancel' closes the calendar: back to the chat with the field", back == [False, 68, "1"], back)
+        # booking cancelled after the chat was closed on it: the bar goes back to typing questions
+        await page.click("#mia-dock-head button[aria-label='Close chat']"); await page.wait_for_timeout(1200)
+        q = await page.evaluate("[document.getElementById('mia-dock').classList.contains('cal-pending'), document.getElementById('mia-dock-q').textContent]")
+        check("11h no booking open: closing the chat brings back the typing questions", q[0] is False and q[1] != "Finish booking your demo", q)
         await ctx.close()
 
         # a tall screen: the calendar card stops at HubSpot's own height (no stretched white space)
@@ -191,6 +210,8 @@ async def main():
         tall = await page.evaluate("""() => { const r=document.getElementById('spotler-cal').shadowRoot; return { card: Math.round(r.querySelector('.card').getBoundingClientRect().height),
             dock: Math.round(document.getElementById('mia-dock').getBoundingClientRect().height) } }""")
         check("11f tall screen: calendar card at most 740px, dock not stretched", tall["card"] <= 740 and tall["dock"] <= 960, tall)
+        sc = await page.evaluate("getComputedStyle(document.getElementById('spotler-cal').shadowRoot.querySelector('.stage iframe')).transform")
+        check("11i tall screen: HubSpot's page at full size (no scaling)", sc == "none", sc)
         await ctx.close()
 
         # 9. the chat started long after the page loaded (the white chat on staging): still styled

@@ -3,7 +3,7 @@
    A test only, for staging: every region the production loader covers.
    The production loader itself is untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.28";
+SETTINGS.VERSION = "poc-glass-0.30";
 
 // The POC's own page table, edited by hand: read first, with the production
 // page table (SETTINGS.CONFIG_URLS) as the backup. Same format as
@@ -28,6 +28,9 @@ SETTINGS.POC_PROMPTS = {
   sv: ["Hur kan Spotler hjälpa mitt företag?", "Vilken Spotler-produkt passar en webbutik?", "Kan jag boka en demo den här veckan?",
        "Hur använder Spotler AI i e-postmarknadsföring?", "Vad kostar Spotler?"]
 };
+// The bar's text when the chat is closed with a demo booking still open.
+SETTINGS.POC_CAL_RESUME = { en: "Finish booking your demo", nl: "Rond je demo-afspraak af", de: "Demo-Buchung abschließen",
+                            es: "Termina de reservar tu demo", sv: "Slutför din demobokning" };
 // Region → language of its questions (the other regions are English).
 SETTINGS.POC_LANG = { "nl": "nl", "de-DE": "de", "es-ES": "es", "sv-SE": "sv" };
 SETTINGS.POC_TYPE_MS = 80;       // per letter (a calm typing pace)
