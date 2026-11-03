@@ -25,7 +25,8 @@
 /* the scheduler: a clean white card */
 .ready .card { border-color: rgba(11, 31, 77, .10); border-radius: 20px; background: #ffffff;
                box-shadow: 0 10px 30px rgba(11, 31, 77, .10), 0 2px 6px rgba(11, 31, 77, .05); }
-.card, .wide .card { flex: 1 1 auto; min-height: 0; border-radius: 20px; }   /* fills the space, never pushes the line below out */
+/* fills the space up to HubSpot's own height (no white space on tall screens), never pushes the line out */
+.card, .wide .card { flex: 1 1 auto; min-height: 0; max-height: 740px; border-radius: 20px; }
 
 /* the AI / privacy line under the calendar (the dock's field and line are hidden meanwhile) */
 .ft, .tight .ft { display: block; flex: 0 0 auto; align-self: center; margin: 2px 0 0; font-size: 12px; line-height: 16px;

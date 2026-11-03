@@ -146,7 +146,7 @@ async def main():
         await page.screenshot(path=f"{OUT}/2-live.png")
         await ctx.close()
 
-        # 10. the in-chat calendar, in the dock's style
+        # 11. the in-chat calendar, in the dock's style
         ctx = await b.new_context(viewport={"width": 1440, "height": 900})
         await setup(ctx, [POC])
         page = await ctx.new_page()
@@ -161,19 +161,36 @@ async def main():
             return { inDock: !!l.closest('#mia-dock'), on: l.classList.contains('on'), sheetBg: s.backgroundColor, cancelOnTop: bar.top < intro.top, backBg: back.backgroundColor,
                      heading: getComputedStyle(r.querySelector('.intro .b')).fontSize, radius: getComputedStyle(r.querySelector('.card')).borderTopLeftRadius,
                      ft: r.querySelector('.ft').textContent, cardH: Math.round(c.height), iframe: !!r.querySelector('.stage iframe'),
-                     field: getComputedStyle(document.getElementById('mia-dock-pill')).display, chatBehind: getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity, dockTop: Math.round(dr.top), header: Math.round(document.getElementById('header').getBoundingClientRect().bottom), dockFt: getComputedStyle(document.getElementById('mia-dock-ft')).display,
+                     field: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), chatBehind: getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity, dockTop: Math.round(dr.top), header: Math.round(document.getElementById('header').getBoundingClientRect().bottom), dockFt: Math.round(document.getElementById('mia-dock-ft').getBoundingClientRect().height),
                      covers: Math.round(dr.bottom - lr.bottom), ftInside: r.querySelector('.ft').getBoundingClientRect().bottom <= lr.bottom + 1 && r.querySelector('.card').getBoundingClientRect().bottom <= r.querySelector('.ft').getBoundingClientRect().top } }""")
-        check("10a calendar inside the dock: glass behind (no white sheet), 'Cancel' a small link on top, a heading, a rounded white card",
+        check("11a calendar inside the dock: glass behind (no white sheet), 'Cancel' a small link on top, a heading, a rounded white card",
               cal["inDock"] and cal["on"] and cal["sheetBg"] == "rgba(0, 0, 0, 0)" and cal["cancelOnTop"] and cal["backBg"] == "rgba(0, 0, 0, 0)"
               and cal["heading"] in ("22px", "18px") and cal["radius"] == "20px" and cal["iframe"] and cal["cardH"] > 300, cal)
-        check("10c the calendar covers the whole dock: no 'Ask Mia' field, its own AI / privacy line at the bottom",
-              cal["field"] == "none" and cal["dockFt"] == "none" and cal["ft"] == "AI assistant · Privacy" and cal["ftInside"] and cal["covers"] <= 2 and cal["chatBehind"] == "0", cal)
-        check("10d the calendar gets all the height there is (up to just under the menu bar)", cal["header"] + 6 <= cal["dockTop"] <= cal["header"] + 12, cal)
+        check("11c the calendar covers the whole dock: no 'Ask Mia' field, its own AI / privacy line at the bottom",
+              cal["field"] == 0 and cal["dockFt"] == 0 and cal["ft"] == "AI assistant · Privacy" and cal["ftInside"] and cal["covers"] <= 2 and cal["chatBehind"] == "0", cal)
+        check("11d the calendar gets all the height there is (up to just under the menu bar)", cal["header"] + 6 <= cal["dockTop"] <= cal["header"] + 12, cal)
         await page.screenshot(path=f"{OUT}/10-calendar.png")
+        await page.mouse.click(40, 450); await page.wait_for_timeout(400)
+        kept = await page.evaluate("[document.getElementById('mia-dock').classList.contains('open'), document.getElementById('spotler-cal').classList.contains('on')]")
+        check("11e a click outside while the calendar is open keeps the chat and the calendar", kept == [True, True], kept)
         await page.evaluate("document.getElementById('spotler-cal').shadowRoot.querySelector('.back').click()")
         await page.wait_for_timeout(1000)   # the chat fades back in (0.4s)
-        back = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), getComputedStyle(document.getElementById('mia-dock-pill')).display, getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity]")
-        check("10b 'Cancel' closes the calendar: back to the chat with the field", back == [False, "flex", "1"], back)
+        back = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity]")
+        check("11b 'Cancel' closes the calendar: back to the chat with the field", back == [False, 68, "1"], back)
+        await ctx.close()
+
+        # a tall screen: the calendar card stops at HubSpot's own height (no stretched white space)
+        ctx = await b.new_context(viewport={"width": 1440, "height": 1600})
+        await setup(ctx, [POC])
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(1500)
+        await page.click(".mia-arrow")
+        await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+        await page.evaluate("window.__bpEmit('customEvent', { action: 'showHubSpotCalendar', url: 'https://meetings-eu1.hubspot.com/isabelle-chadwick' })")
+        await page.wait_for_timeout(5000)
+        tall = await page.evaluate("""() => { const r=document.getElementById('spotler-cal').shadowRoot; return { card: Math.round(r.querySelector('.card').getBoundingClientRect().height),
+            dock: Math.round(document.getElementById('mia-dock').getBoundingClientRect().height) } }""")
+        check("11f tall screen: calendar card at most 740px, dock not stretched", tall["card"] <= 740 and tall["dock"] <= 960, tall)
         await ctx.close()
 
         # 9. the chat started long after the page loaded (the white chat on staging): still styled

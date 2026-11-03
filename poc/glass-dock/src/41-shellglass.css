@@ -23,8 +23,8 @@
 .typing { background: rgba(255, 255, 255, 0.6); }
 /* the dock's own field is the text box: no composer here (and no mic) */
 .cmp { display: none; }
-/* "Delivered" sits right under the bubble and takes 12px, as in Botpress,
-   so the bubbles above it line up at the hand-over */
-.st { margin-top: -8px; font-size: 11.5px; line-height: 12px; color: #5B6B8C; }
+/* "Delivered": a little room under the bubble (the live chat is lined up to
+   the preview at the hand-over, so the few px don't show) */
+.st { margin-top: -4px; font-size: 11.5px; line-height: 14px; color: #5B6B8C; }
 /* the AI / privacy line is under the dock's field instead */
 .ft { display: none; }

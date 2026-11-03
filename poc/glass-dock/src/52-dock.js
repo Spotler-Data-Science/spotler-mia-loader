@@ -73,7 +73,9 @@ function createDock(labels, handlers) {
     // below the field: the AI / privacy line and the gap to the screen edge
     var below = touch || window.innerWidth <= 640 ? (20 + 26) * k : 24 + 30;
     var room = window.innerHeight - below - pill.offsetHeight - top - 2;
-    return Math.max(220, Math.min(touch || full ? room : 720, room));
+    // the calendar (full) gets up to 800px plus the field's and line's room: HubSpot's page
+    // is ~715px, so more would just be empty glass
+    return Math.max(220, Math.min(touch ? room : (full ? 800 : 720), room));
   }
   // While the calendar is open it covers the whole dock: the field and the
   // AI / privacy line give it their room, and come back when it closes.
@@ -180,7 +182,8 @@ function createDock(labels, handlers) {
   document.addEventListener("click", function (e) {
     if (!dock.classList.contains("open")) return;
     var t = e.target;
-    if (!t || dock.contains(t) || (t.closest && t.closest("#hubspot-modal"))) return;
+    // not while the calendar is open: a stray click must not lose a half-made booking
+    if (!t || dock.contains(t) || dock.classList.contains("cal-open") || (t.closest && t.closest("#hubspot-modal"))) return;
     close();
   }, true);
   restartBtn.addEventListener("click", function () { if (handlers.onRestart) handlers.onRestart(); });
