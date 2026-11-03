@@ -1,45 +1,24 @@
 /* ==================================================================
    54 · Calendar in the glass dock (POC): appended to the shared
    calendar view's styles (71-calendar) by 52-dock.js. HubSpot's own
-   page stays as HubSpot draws it; around it: the dock's glass, a clear
-   heading, the scheduler as a clean white card, "‹ Cancel" as a small
-   link at the top. It covers the whole dock (field and footer hidden).
+   page stays as HubSpot draws it; around it: the dock's glass and the
+   scheduler as a clean white card. It covers the whole dock (field and
+   footer hidden); no heading, no Cancel, no line under it.
    ================================================================== */
 .c { font-family: var(--mia-font, inter, sans-serif); color: #0B1F4D; }
 .sheet { background: transparent; justify-content: flex-start; gap: 6px; padding: 0 16px 12px; }
 /* desktop: HubSpot's page has a deep empty top margin: crop 16px more of it */
 .stage iframe { top: -32px; height: calc(100% + 48px); }
 
-/* "‹ Cancel": a small link above the heading, not a big grey bar */
-.bar { order: -1; flex: 0 0 auto; align-self: flex-start; margin: -6px 0 -4px -6px; }
-.back { display: inline-flex; width: auto; min-height: 30px; gap: 4px; padding: 4px 10px 4px 6px; border: 0; border-radius: 999px;
-        background: transparent; color: #0B1F4D; font-size: 14px; font-weight: 500; }
-.back::before { content: ""; width: 8px; height: 8px; margin-right: 2px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor;
-                transform: rotate(45deg); }
-.back:hover { background: rgba(255, 255, 255, .6); }
-.back:focus-visible { outline: 2px solid rgba(11, 31, 77, .35); outline-offset: 1px; }
-
-/* Mia's line: hidden, every pixel goes to the scheduler (it's self-explanatory) */
-.intro, .tight .intro { display: none; }
-.intro .av { display: none; }
-.intro .b { max-width: none; padding: 0; background: transparent; border-radius: 0; color: #0B1F4D;
-            font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.005em; }
+/* Mia's line, Cancel and the line under it: hidden, every pixel goes to the scheduler */
+.intro, .tight .intro, .bar, .tight .bar, .ft, .tight .ft { display: none !important; }
 
 /* the scheduler: a clean white card */
 .ready .card { border-color: rgba(11, 31, 77, .10); border-radius: 20px; background: #ffffff;
                box-shadow: 0 10px 30px rgba(11, 31, 77, .10), 0 2px 6px rgba(11, 31, 77, .05); }
-/* fills the space up to HubSpot's own height (no white space on tall screens), never pushes the line out */
+/* fills the space up to HubSpot's own height (no white space on tall screens) */
 .card, .wide .card { flex: 1 1 auto; min-height: 0; max-height: 740px; border-radius: 20px; }
-
-/* "Cancel" and the AI / privacy line live in the dock's slim header row now */
-.bar, .tight .bar, .ft, .tight .ft { display: none !important; }
-.ft, .tight .ft { flex: 0 0 auto; align-self: center; margin: 2px 0 0; font-size: 12px; line-height: 16px;
-      color: #5B6B8C; font-style: italic; text-align: center; }
-.ft a { color: inherit; }
 .tight .sheet { padding: 2px 12px 10px; gap: 8px; }
-.tight .bar { margin: 0; }
-.tight .back { min-height: 28px; }
-.tight .intro .b { font-size: 18px; line-height: 24px; }
 /* phones: HubSpot's phone layout has no side gutter, so nothing is cropped
    at the sides (the desktop crop cut off MON / SUN), and the card goes
    nearly edge to edge */

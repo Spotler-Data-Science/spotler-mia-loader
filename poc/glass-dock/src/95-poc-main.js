@@ -246,9 +246,6 @@ function bootDock() {
     ctx.row = row;
     log("POC glass dock, region " + region.id + ", page " + (row.page || "default"));
     addStyle(CSS.common);
-    var hs = document.createElement("div");
-    hs.innerHTML = HTML.hubspot;
-    while (hs.firstChild) document.body.appendChild(hs.firstChild);
 
     ctx.ui = createDock(labels, {
       // arrow: the pill's question goes straight into the chat
@@ -280,8 +277,6 @@ function bootDock() {
     if (!/^https:\/\/meetings[^.]*\.hubspot\.com$/.test(m.origin || "") || !ctx.ui) return;
     var d = m.data, h;
     if (typeof d === "string") { try { d = JSON.parse(d); } catch (e) { return; } }
-    // what HubSpot says (keys only, no personal data): to see if it ever reports its height
-    try { log("POC: HubSpot message", d && typeof d === "object" ? Object.keys(d).join(",") : typeof d); } catch (e) {}
     h = d && typeof d === "object" ? Number(d.height) : NaN;
     if (!(h > 300 && h < 3000)) return;
     log("POC: HubSpot page height " + h);

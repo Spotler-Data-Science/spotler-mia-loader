@@ -30,12 +30,9 @@ function createDock(labels, handlers) {
   restartBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg>';
   var closeBtn = el("button", { type: "button", "aria-label": labels.close, title: labels.close });
   closeBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>';
-  // while the calendar is open the header is one slim row: Mia, the
-  // AI / privacy line, restart and close (every other pixel goes to HubSpot)
-  var calNote = el("div", { id: "mia-dock-hnote" }, [footerNote(labels)]);
   var head = el("div", { id: "mia-dock-head" }, [
     img, el("div", { "class": "t" }, [el("b", { text: labels.botName }), el("span", { text: labels.title })]),
-    calNote, restartBtn, closeBtn
+    restartBtn, closeBtn
   ]);
   var loading = el("div", { id: "mia-dock-loading", "aria-hidden": "true" }, [el("span")]);
   var webchat = el("div", { id: "bp-embedded-webchat" });
