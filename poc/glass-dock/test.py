@@ -27,7 +27,7 @@ async def setup(ctx, tags, phone=False, mkt=None, mkt_cors=True):
         url = route.request.url; reqs.append(url)
         if "cdn.botpress.cloud" in url: return await route.fulfill(body=INJECT, content_type="application/javascript")
         if url.endswith((".webp", ".png")): return await route.fulfill(body=PNG, content_type="image/png")
-        if "marketing.spotler.com" in url:
+        if "poc/glass-dock/config.json" in url:
             if mkt is None: return await route.fulfill(status=404, body="")
             if not mkt_cors: return await route.abort("failed")   # what a CORS block looks like to the page
             return await route.fulfill(body=mkt, content_type="application/json", headers={"access-control-allow-origin": "*"} if mkt_cors else {})
@@ -292,7 +292,7 @@ async def main():
         check("6f a card's icon can be a picture (https link)", pic == "https://www.spotler.com/icons/cases.svg", pic)
         check("6a marketing's file read first: the pill types its questions", q and "Marketing question one?".startswith(q) and any("config from network vmkt-1" in l for l in logs), [q, [l for l in logs if "config" in l]])
         check("6b clicking in shows marketing's greeting and buttons", "Hello from marketing" in t and "Show me Mail+" in t, t[:120])
-        check("6c marketing's file comes first, GitHub not needed", reqs and not any("githubusercontent" in u for u in reqs), [u for u in reqs if "config.json" in u])
+        check("6c the POC's own file comes first, the production page table not needed", reqs and not any("/config/config.json" in u for u in reqs), [u for u in reqs if "config.json" in u])
         await ctx.close()
         # its server not allowing spotler.com (no CORS header) or down: the GitHub page table instead
         ctx = await b.new_context(viewport={"width": 1440, "height": 900})
@@ -302,7 +302,7 @@ async def main():
         await page.goto("https://www.spotler.com/")
         await page.wait_for_timeout(2600)
         q = await page.evaluate("document.getElementById('mia-dock-q').textContent")
-        check("6d marketing's file blocked or down: GitHub page table and the built-in questions", any("config fetch failed (marketing.spotler.com)" in l for l in logs) and any("config from network" in l for l in logs) and not "Marketing question".startswith(q or "x"), [q, [l for l in logs if "config" in l]])
+        check("6d marketing's file blocked or down: GitHub page table and the built-in questions", any("config fetch failed (raw.githubusercontent.com)" in l for l in logs) and any("config from network" in l for l in logs) and not "Marketing question".startswith(q or "x"), [q, [l for l in logs if "config" in l]])
         await ctx.close()
 
         # a narrow desktop window: the button shrinks with the bar and fits inside it

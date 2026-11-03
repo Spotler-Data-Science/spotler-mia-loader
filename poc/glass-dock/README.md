@@ -30,12 +30,18 @@ live chat) and the pill's typing cursor are the site's "Get a demo" cyan
 The questions are in `src/01-poc-settings.js` (`POC_PROMPTS`). A page-table row
 with a `prompts` list (strings) overrides them for that page.
 
-## Editing the text (marketing.spotler.com)
+## Editing the text
 
-The tag reads **https://marketing.spotler.com/botpress/config.json** first and
-the GitHub page table only if that file can't be read. It's the same format
-as `config/config.json` (start from `config.example.json` here). On the INT
-rows (`"region": "int"`; `"url_match": "*"` is every page without its own row):
+The tag reads **`poc/glass-dock/config.json`** in this repo first (branch
+`claude/new-session-bl4psv`), and the production page table only if that file
+can't be read or isn't valid. Edit it on GitHub:
+https://github.com/Spotler-Data-Science/spotler-mia-loader/edit/claude/new-session-bl4psv/poc/glass-dock/config.json
+Changes show within about 5 minutes. Later it moves to
+`https://marketing.spotler.com/botpress/config.json` (`POC_CONFIG_URL` in
+`src/01-poc-settings.js`; that server must send `Access-Control-Allow-Origin`).
+
+It's the same format as `config/config.json`. On a row (`"url_match": "*"` is
+every page of that region without its own row):
 
 | Field | What it changes |
 |---|---|

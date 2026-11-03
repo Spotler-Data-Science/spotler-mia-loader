@@ -3,13 +3,15 @@
    A test only, for staging: every region the production loader covers.
    The production loader itself is untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.21";
+SETTINGS.VERSION = "poc-glass-0.22";
 
-// Marketing's own page table, edited by hand: read first, with the GitHub
-// one (SETTINGS.CONFIG_URLS) as the backup. Same format as config/config.json;
-// a row can also have "prompts": the questions the pill types on that page.
-// The server must send Access-Control-Allow-Origin for spotler.com.
-SETTINGS.POC_CONFIG_URL = "https://marketing.spotler.com/botpress/config.json";
+// The POC's own page table, edited by hand: read first, with the production
+// page table (SETTINGS.CONFIG_URLS) as the backup. Same format as
+// config/config.json, plus the POC's fields (prompts, title, card
+// description / icon). For now it's poc/glass-dock/config.json in GitHub;
+// later the file on spotler.com: "https://marketing.spotler.com/botpress/config.json"
+// (its server must send Access-Control-Allow-Origin for spotler.com).
+SETTINGS.POC_CONFIG_URL = "https://raw.githubusercontent.com/Spotler-Data-Science/spotler-mia-loader/refs/heads/claude/new-session-bl4psv/poc/glass-dock/config.json";
 
 // What the pill types, one after the other, in the page's language, when
 // the page table has no "prompts" for the page. On a page with its own row,
