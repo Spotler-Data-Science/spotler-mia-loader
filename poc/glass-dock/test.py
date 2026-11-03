@@ -161,7 +161,7 @@ async def main():
             return { inDock: !!l.closest('#mia-dock'), on: l.classList.contains('on'), sheetBg: s.backgroundColor, cancelOnTop: bar.top < intro.top, backBg: back.backgroundColor,
                      heading: getComputedStyle(r.querySelector('.intro .b')).fontSize, radius: getComputedStyle(r.querySelector('.card')).borderTopLeftRadius,
                      ft: r.querySelector('.ft').textContent, cardH: Math.round(c.height), iframe: !!r.querySelector('.stage iframe'),
-                     field: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), chatBehind: getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity, dockTop: Math.round(dr.top), header: Math.round(document.getElementById('header').getBoundingClientRect().bottom), dockFt: Math.round(document.getElementById('mia-dock-ft').getBoundingClientRect().height),
+                     field: Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), chatBehind: getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity, dockTop: Math.round(dr.top), header: Math.round(document.getElementById('header').getBoundingClientRect().bottom), headerTop: Math.round(document.getElementById('header').getBoundingClientRect().top), dockFt: Math.round(document.getElementById('mia-dock-ft').getBoundingClientRect().height),
                      covers: Math.round(dr.bottom - lr.bottom), ftInside: r.querySelector('.ft').getBoundingClientRect().bottom <= lr.bottom + 1 && r.querySelector('.card').getBoundingClientRect().bottom <= r.querySelector('.ft').getBoundingClientRect().top } }""")
         check("11a calendar inside the dock: glass behind (no white sheet), 'Cancel' a small link on top, a rounded white card",
               cal["inDock"] and cal["on"] and cal["sheetBg"] == "rgba(0, 0, 0, 0)" and cal["cancelOnTop"] and cal["backBg"] == "rgba(0, 0, 0, 0)"
@@ -171,7 +171,7 @@ async def main():
         check("11j HubSpot's page at full size and width (never scaled), no heading, a compact header", fit["scaled"] == "none" and fit["intro"] == "none" and fit["head"] <= 50, fit)
         check("11c the calendar covers the whole dock: no 'Ask Mia' field, its own AI / privacy line at the bottom",
               cal["field"] == 0 and cal["dockFt"] == 0 and cal["ft"] == "AI assistant · Privacy" and cal["ftInside"] and cal["covers"] <= 2 and cal["chatBehind"] == "0", cal)
-        check("11d the calendar gets all the height there is (up to just under the menu bar)", cal["header"] + 6 <= cal["dockTop"] <= cal["header"] + 12, cal)
+        check("11d the calendar grows over the menu bar, up to its top edge (bottom unchanged)", cal["headerTop"] + 10 <= cal["dockTop"] <= cal["headerTop"] + 14 and cal["dockTop"] < cal["header"], cal)
         await page.screenshot(path=f"{OUT}/10-calendar.png")
         BAR = """() => { const d=document.getElementById('mia-dock'), p=document.getElementById('mia-dock-pill').getBoundingClientRect();
             return { open: d.classList.contains('open'), cal: document.getElementById('spotler-cal').classList.contains('on'), bar: Math.round(p.height),
@@ -181,6 +181,8 @@ async def main():
             else: await page.click("#mia-dock-head button[aria-label='Close chat']")
             await page.wait_for_timeout(1500)
             st = await page.evaluate(BAR)
+            lock = await page.evaluate("document.documentElement.classList.contains('mia-scroll-lock')")
+            check(f"11l {how} with the calendar open: the page scrolls again", lock is False, lock)
             check(f"11e {how} with the calendar open: chat closes, the booking is kept, the bar says 'Finish booking your demo' (and stays put)",
                   st == {"open": False, "cal": True, "bar": 68, "text": "Finish booking your demo"}, st)
             await page.click("#mia-dock-q"); await page.wait_for_timeout(900)
@@ -190,10 +192,20 @@ async def main():
         await page.wait_for_timeout(1000)   # the chat fades back in (0.4s)
         back = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity]")
         check("11b 'Cancel' closes the calendar: back to the chat with the field", back == [False, 68, "1"], back)
+        dt = await page.evaluate("[Math.round(document.getElementById('mia-dock').getBoundingClientRect().top), Math.round(document.getElementById('header').getBoundingClientRect().bottom)]")
+        check("11k after 'Cancel' the chat slides back down below the menu bar", dt[1] + 6 <= dt[0] <= dt[1] + 12, dt)
         # booking cancelled after the chat was closed on it: the bar goes back to typing questions
         await page.click("#mia-dock-head button[aria-label='Close chat']"); await page.wait_for_timeout(1200)
         q = await page.evaluate("[document.getElementById('mia-dock').classList.contains('cal-pending'), document.getElementById('mia-dock-q').textContent]")
         check("11h no booking open: closing the chat brings back the typing questions", q[0] is False and q[1] != "Finish booking your demo", q)
+        # another page: a chat the visitor closed stays closed; an open one reopens
+        await page.goto("https://www.spotler.com/pricing"); await page.wait_for_timeout(2500)
+        st = await page.evaluate("document.getElementById('mia-dock').classList.contains('open')")
+        check("12a closed chat, new page: it stays closed", st is False, st)
+        await page.click("#mia-dock-q"); await page.wait_for_timeout(900)
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(2500)
+        st = await page.evaluate("document.getElementById('mia-dock').classList.contains('open')")
+        check("12b open chat, new page: it opens again", st is True, st)
         await ctx.close()
 
         # a tall screen: the calendar card stops at HubSpot's own height (no stretched white space)

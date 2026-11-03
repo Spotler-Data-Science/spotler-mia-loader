@@ -3,7 +3,7 @@
    A test only, for staging: every region the production loader covers.
    The production loader itself is untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.31";
+SETTINGS.VERSION = "poc-glass-0.32";
 
 // The POC's own page table, edited by hand: read first, with the production
 // page table (SETTINGS.CONFIG_URLS) as the backup. Same format as
@@ -37,3 +37,6 @@ SETTINGS.POC_TYPE_MS = 80;       // per letter (a calm typing pace)
 SETTINGS.POC_HOLD_MS = 4500;     // full question on screen
 SETTINGS.POC_ERASE_MS = 30;      // per letter, deleting
 SETTINGS.POC_GAP_MS = 700;       // empty pill between questions
+
+// the visitor closed the chat: it stays closed when they move to another page
+var CLOSED_KEY = "spotler_mia_dock_closed";

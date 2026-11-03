@@ -63,16 +63,22 @@ function createDock(labels, handlers) {
   }
   // The open chat's height: from just below the site's menu bar (8px
   // clear) down to the field, at most 720px.
+  var pillH = 0;
   function chatHeight(full) {
     var touch = dock.classList.contains("mia-touch");
     var top = 16 * k, hdr = document.getElementById("header") || document.querySelector("header");
     if (hdr) {
       var r = hdr.getBoundingClientRect(), pos = getComputedStyle(hdr).position;
-      if ((pos === "fixed" || pos === "sticky") && r.bottom > 0 && r.bottom < window.innerHeight / 2) top = r.bottom + 8 * k;
+      // the calendar (full) may cover the menu bar, up to its top edge; otherwise stay below it
+      if ((pos === "fixed" || pos === "sticky") && r.bottom > 0 && r.bottom < window.innerHeight / 2)
+        top = full ? Math.max(r.top, 0) + 12 * k : r.bottom + 8 * k;
     }
     // below the field: the AI / privacy line and the gap to the screen edge
     var below = touch || window.innerWidth <= 640 ? (20 + 26) * k : 24 + 30;
-    var room = window.innerHeight - below - pill.offsetHeight - top - 2;
+    // the field's own height (still folded just after the calendar closes: use the last full one)
+    var ph = pill.offsetHeight;
+    if (ph > 20) pillH = ph; else if (!full) ph = pillH;
+    var room = window.innerHeight - below - ph - top - 2;
     // the calendar (full) gets up to 800px plus the field's and line's room: HubSpot's page
     // is ~715px, so more would just be empty glass
     return Math.max(220, Math.min(touch ? room : (full ? 800 : 720), room));
@@ -134,12 +140,16 @@ function createDock(labels, handlers) {
     dock.classList.remove("cal-pending");
     dock.classList.add("typing-field");
     dock.classList.add("open");
+    SS.del(CLOSED_KEY);
+    if (calOpen()) document.documentElement.classList.add("mia-scroll-lock");
     sizeChat();
     if (handlers.onOpen) handlers.onOpen();
   }
   function close() {
     dock.classList.remove("open");
     chat.style.height = "0px";
+    SS.set(CLOSED_KEY, "1");                                   // stays closed on the next page
+    document.documentElement.classList.remove("mia-scroll-lock");   // the page scrolls again
     if (calOpen()) { showBookingPending(); return; }   // the calendar stays; the bar invites them back
     if (!trim(input.value)) { dock.classList.remove("typing-field"); startTyping(); }
   }

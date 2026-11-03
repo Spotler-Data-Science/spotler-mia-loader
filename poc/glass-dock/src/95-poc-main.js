@@ -264,7 +264,8 @@ function bootDock() {
     ctx.ui.setPrompts(promptsFor(row, region.id));
     glassLiveChat();
 
-    if (State.getLive(region.id)) { ctx.ui.open(); resume(); }
+    // a chat from an earlier page: reopened, unless the visitor had closed it
+    if (State.getLive(region.id)) { if (SS.get(CLOSED_KEY) !== "1") ctx.ui.open(); else ctx.ui.startTyping(); resume(); }
     else { mountShell(); ctx.ui.startTyping(); }
     startTimeoutWatch();
   }
