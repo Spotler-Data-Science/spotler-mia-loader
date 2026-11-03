@@ -10,6 +10,10 @@
   padding: 12px 28px 18px; color: #071638; font-family: var(--mia-font, inherit);
   scrollbar-width: none; transition: opacity .2s ease, transform .2s ease;
 }
+/* while the chat opens: laid out at its final size, the glass grows around it
+   (the dock sets the size), so nothing re-wraps or moves on the way */
+#mia-dock.opening #mia-start { top: auto; right: auto; left: calc(50% - var(--mia-open-w) / 2);
+  width: var(--mia-open-w); height: var(--mia-open-h); overflow: hidden; }
 #mia-start::-webkit-scrollbar { display: none; }
 #mia-start.going { opacity: 0; transform: translateY(-8px); pointer-events: none; }
 /* sits low when there's room; when there isn't, starts at the headline and scrolls

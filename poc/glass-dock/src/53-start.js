@@ -122,6 +122,7 @@ function createStart(parent, row, lang, prompts, onPick) {
 
   return {
     el: screen,
+    fit: function () { clearTimeout(fitTimer); fit(); },
     hide: function () {
       if (!screen.parentNode) return;
       screen.classList.add("going");

@@ -75,9 +75,13 @@ async def main():
         before = await page.evaluate(LOOK)
         await page.click("#mia-dock-q")
         mid = None
+        START = "[document.getElementById('mia-start').className, getComputedStyle(document.querySelector('#mia-start h2')).fontSize, Math.round(document.querySelector('#mia-start .mia-cards').getBoundingClientRect().height)]"
+        early = await page.evaluate(START)
         await page.wait_for_timeout(200); mid = await page.evaluate(LOOK)
         await page.wait_for_timeout(600)
         after = await page.evaluate(LOOK)
+        late = await page.evaluate(START)
+        check("8j opening: the start screen has its final layout from the first frame (no small-then-bigger jump)", early == late, [early, late])
         c = await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell').shadowRoot, i=document.getElementById('mia-dock-in'), s=document.getElementById('mia-start');
             return { open: document.getElementById('mia-dock').classList.contains('open'), text: s.textContent, buttons: s.querySelectorAll('.mia-card').length,
                      value: i.value, focused: document.activeElement === i, shellComposer: getComputedStyle(sr.querySelector('.cmp')).display,

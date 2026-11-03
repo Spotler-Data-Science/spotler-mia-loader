@@ -150,19 +150,40 @@ function createDock(labels, handlers) {
   function stopTyping() { running = false; clearTimeout(timer); }
 
   // ---- open / close: the chat grows up out of the pill, which stays put ----
+  var openingTimer;
   function open() {
     if (dock.classList.contains("open")) return;
     stopTyping();
     dock.classList.remove("cal-pending");
     dock.classList.add("typing-field");
-    dock.classList.add("open");
     SS.del(CLOSED_KEY);
     if (calOpen()) document.documentElement.classList.add("mia-scroll-lock");
+    // Lay the content out at the final size first (so the start screen picks its
+    // layout once, instead of fitting the small closed size and then jumping),
+    // then grow from the closed size as usual.
+    var w0 = dock.getBoundingClientRect().width;
+    dock.style.transition = chat.style.transition = "none";
+    dock.classList.add("open");
     sizeChat();
+    var h = chat.style.height;
+    void chat.offsetHeight;
+    if (handlers.onLayout) handlers.onLayout();
+    // and the content holds that final size while the glass grows around it
+    var r = body.getBoundingClientRect();
+    dock.style.setProperty("--mia-open-w", r.width + "px");
+    dock.style.setProperty("--mia-open-h", r.height + "px");
+    dock.classList.add("opening");
+    clearTimeout(openingTimer);
+    openingTimer = setTimeout(function () { dock.classList.remove("opening"); }, 560);
+    dock.style.width = w0 + "px"; chat.style.height = "0px";
+    void chat.offsetHeight;
+    dock.style.transition = chat.style.transition = "";
+    dock.style.width = ""; chat.style.height = h;
     if (handlers.onOpen) handlers.onOpen();
   }
   function close() {
-    dock.classList.remove("open");
+    clearTimeout(openingTimer);
+    dock.classList.remove("open", "opening");
     chat.style.height = "0px";
     SS.set(CLOSED_KEY, "1");                                   // stays closed on the next page
     document.documentElement.classList.remove("mia-scroll-lock");   // the page scrolls again

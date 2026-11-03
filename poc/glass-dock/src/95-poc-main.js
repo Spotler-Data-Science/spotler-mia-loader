@@ -256,6 +256,8 @@ function bootDock() {
       // the dock's field (the one text box): starts the chat, or goes into it;
       // while Mia replies it's held and sent once her reply is in (build 4)
       onSend: function (text) { dockSend(text, "typed"); return true; },
+      // opening: the start screen fits the final size before the chat grows
+      onLayout: function () { if (startScreen) startScreen.fit(); },
       // a booking open: the restart closes it too and starts afresh
       onRestart: function () {
         if (window.spotlerCloseHubSpotModal) try { window.spotlerCloseHubSpotModal(); } catch (e) {}
