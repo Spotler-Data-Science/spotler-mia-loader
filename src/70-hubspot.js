@@ -19,8 +19,11 @@ function initHubSpot() {
     var hsLastOwnerSlug = null;
     var bookingReported = false;
 
-    var OWNER_EMAILS = { "isabelle-chadwick": "isabelle.chadwick@spotler.com" };
-    var OWNER_NAMES  = { "isabelle-chadwick": "Isabelle Chadwick" };
+    // Calendar owner (HubSpot slug) -> email / name, for the booking report.
+    // Empty: the bot knows which rep it sent the visitor to (the slug is
+    // still reported as ownerSlug).
+    var OWNER_EMAILS = {};
+    var OWNER_NAMES  = {};
 
     var FREE_MAIL_DOMAINS = [
       "gmail", "googlemail", "hotmail", "outlook", "live", "yahoo",
@@ -524,6 +527,12 @@ function initHubSpot() {
 
     function showCalendar(url, contact) {
       if (!url) return;
+      // Only HubSpot's own meeting pages open in the chat: the bot's message
+      // can never put another site in front of the visitor.
+      if (!/^https:\/\/meetings(-[a-z0-9]+)?\.hubspot\.com\/[^\s]*$/i.test(url)) {
+        console.warn("[HS] not a HubSpot meetings link, not opened:", url);
+        return;
+      }
 
       bookingReported = false;
       hsLastEmail = (contact && contact.email) || hsLastEmail;

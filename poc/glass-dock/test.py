@@ -28,7 +28,7 @@ async def setup(ctx, tags, phone=False, mkt=None, mkt_cors=True):
         url = route.request.url; reqs.append(url)
         if "cdn.botpress.cloud" in url: return await route.fulfill(body=INJECT, content_type="application/javascript")
         if url.endswith((".webp", ".png")): return await route.fulfill(body=PNG, content_type="image/png")
-        if "poc/glass-dock/config.json" in url:
+        if "marketing.spotler.com/botpress/config.json" in url:
             if mkt is None: return await route.fulfill(status=404, body="")
             if not mkt_cors: return await route.abort("failed")   # what a CORS block looks like to the page
             return await route.fulfill(body=mkt, content_type="application/json", headers={"access-control-allow-origin": "*"} if mkt_cors else {})
@@ -198,6 +198,11 @@ async def main():
             await page.click("#mia-dock-q"); await page.wait_for_timeout(900)
             st = await page.evaluate(BAR)
             check(f"11g after {how}: tapping the bar reopens the chat on the calendar", st["open"] and st["cal"] and st["bar"] == 0, st)
+        # only HubSpot's meeting pages open: any other link from the bot is ignored
+        await page.evaluate("window.__bpEmit('customEvent', { action: 'showHubSpotCalendar', url: 'https://evil.example.com/meetings.hubspot.com/x' })")
+        await page.wait_for_timeout(600)
+        src = await page.evaluate("document.getElementById('spotler-cal').shadowRoot.querySelector('.stage iframe').src")
+        check("11o a link that isn't a HubSpot meetings page is never opened", "meetings-eu1.hubspot.com" in src and "evil" not in src, src)
         await page.evaluate("document.getElementById('spotler-cal').shadowRoot.querySelector('.back').click()")
         await page.wait_for_timeout(1000)   # the chat fades back in (0.4s)
         back = await page.evaluate("[document.getElementById('spotler-cal').classList.contains('on'), Math.round(document.getElementById('mia-dock-pill').getBoundingClientRect().height), getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity]")
@@ -415,7 +420,7 @@ async def main():
         await page.goto("https://www.spotler.com/")
         await page.wait_for_timeout(2600)
         q = await page.evaluate("document.getElementById('mia-dock-q').textContent")
-        check("6d marketing's file blocked or down: GitHub page table and the built-in questions", any("config fetch failed (raw.githubusercontent.com)" in l for l in logs) and any("config from network" in l for l in logs) and not "Marketing question".startswith(q or "x"), [q, [l for l in logs if "config" in l]])
+        check("6d marketing's file blocked or down: GitHub page table and the built-in questions", any("config fetch failed (marketing.spotler.com)" in l for l in logs) and any("config from network" in l for l in logs) and not "Marketing question".startswith(q or "x"), [q, [l for l in logs if "config" in l]])
         await ctx.close()
 
         # a narrow desktop window: the button shrinks with the bar and fits inside it

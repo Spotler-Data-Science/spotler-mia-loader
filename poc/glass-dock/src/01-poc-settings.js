@@ -1,22 +1,21 @@
 /* ==================================================================
    01 · POC settings (glass dock). Loaded after the shared 00-settings.
-   A test only, for staging: every region the production loader covers.
-   The production loader itself is untouched.
+   Every region the production loader covers. The production loader's own
+   settings are untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.41";
+SETTINGS.VERSION = "poc-glass-1.0";
 
 // The bot the dock talks to (the production loader's own setting is left
 // alone). Ids: Botpress dashboard -> bot -> Webchat -> Share.
 SETTINGS.BOT_ID = "7fd567ab-816f-4219-9588-ef0fbe77a342";
 SETTINGS.CLIENT_ID = "877f50a2-6eee-4e43-99bd-eb9548fdf9c3";
 
-// The POC's own page table, edited by hand: read first, with the production
-// page table (SETTINGS.CONFIG_URLS) as the backup. Same format as
-// config/config.json, plus the POC's fields (prompts, title, card
-// description / icon). For now it's poc/glass-dock/config.json in GitHub;
-// later the file on spotler.com: "https://marketing.spotler.com/botpress/config.json"
-// (its server must send Access-Control-Allow-Origin for spotler.com).
-SETTINGS.POC_CONFIG_URL = "https://raw.githubusercontent.com/Spotler-Data-Science/spotler-mia-loader/refs/heads/claude/new-session-bl4psv/poc/glass-dock/config.json";
+// The dock's page table: marketing's file on spotler.com, read first, with
+// the production page table (SETTINGS.CONFIG_URLS, GitHub) as the backup.
+// Same format as config/config.json, plus the dock's fields (prompts,
+// title, card description / icon). Its server must allow www.spotler.com to
+// read it (Access-Control-Allow-Origin).
+SETTINGS.POC_CONFIG_URL = "https://marketing.spotler.com/botpress/config.json";
 
 // What the pill types, one after the other, in the page's language, when
 // the page table has no "prompts" for the page. On a page with its own row,
