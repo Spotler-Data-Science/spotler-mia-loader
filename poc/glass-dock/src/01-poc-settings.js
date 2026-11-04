@@ -3,7 +3,12 @@
    A test only, for staging: every region the production loader covers.
    The production loader itself is untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-0.40";
+SETTINGS.VERSION = "poc-glass-0.41";
+
+// The bot the dock talks to (the production loader's own setting is left
+// alone). Ids: Botpress dashboard -> bot -> Webchat -> Share.
+SETTINGS.BOT_ID = "7fd567ab-816f-4219-9588-ef0fbe77a342";
+SETTINGS.CLIENT_ID = "877f50a2-6eee-4e43-99bd-eb9548fdf9c3";
 
 // The POC's own page table, edited by hand: read first, with the production
 // page table (SETTINGS.CONFIG_URLS) as the backup. Same format as

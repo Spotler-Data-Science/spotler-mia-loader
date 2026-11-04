@@ -299,6 +299,9 @@ async def main():
         sent = [e[1] for e in log if e[0] == "sendMessage"]
         ev = [json.loads(e[1]) for e in log if e[0] == "sendEvent"]
         check("3a arrow sends the pill's whole question straight into the chat", sent == [PROMPTS[0]] and await page.evaluate("document.getElementById('mia-dock').classList.contains('open')"), sent)
+        ip = [json.loads(e[1]) for e in log if e[0] == "initProps"]
+        check("3f the chat starts with the go-live bot (7fd567ab..., client 877f50a2...)",
+              ip and ip[0]["botId"] == "7fd567ab-816f-4219-9588-ef0fbe77a342" and ip[0]["clientId"] == "877f50a2-6eee-4e43-99bd-eb9548fdf9c3", ip)
         sw = await page.evaluate("window.__swap")
         # (the mock's live chat isn't styled like Botpress, so Mia's reply can't line up here;
         # on the real site it does: 41px bubble, 20px "Delivered", reply right under)
