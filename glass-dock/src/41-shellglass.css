@@ -16,10 +16,11 @@
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
 .col { width: 100%; }
 /* reply buttons: a slight blue, so they stand apart from the grey bubbles */
-.btn { padding: 11px 12px; border-radius: 999px; background: rgba(225, 238, 252, 0.9);
+.btn { padding: 11px 12px; border-radius: 999px; background: rgba(214, 232, 252, 0.5);
+       -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
        border: 1px solid rgba(47, 140, 210, 0.28); color: #0B1F4D; font-size: 14px; }
-.btn:hover { background: rgba(210, 230, 250, 0.95); }
-.btn[disabled]:hover { background: rgba(225, 238, 252, 0.9); }
+.btn:hover { background: rgba(200, 224, 250, 0.7); }
+.btn[disabled]:hover { background: rgba(214, 232, 252, 0.5); }
 /* the bot's reply, mirrored before the hand-over: its buttons as Botpress
    draws them (a row of chips), so nothing re-flows at the swap */
 .grow .row { display: flex; flex-wrap: wrap; gap: 8px; }
