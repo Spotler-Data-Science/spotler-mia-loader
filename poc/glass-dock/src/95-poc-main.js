@@ -54,7 +54,8 @@ function usePocConfig() {
         if (o.prompts instanceof Array) {
           var list = o.prompts.filter(function (p) { return typeof p === "string" && trim(p); })
             .slice(0, 10).map(function (p) { return trim(p).slice(0, 120); });
-          if (list.length) r.prompts = list;
+          // a page's own list replaces the cycle; a region default's is the base for its pages
+          if (list.length) { if (r.url_match === "*") r.prompts = list; else r.pagePrompts = list; }
         }
         // the start screen: headline, and a description / icon per card
         if (typeof o.title === "string" && trim(o.title)) r.title = trim(o.title).slice(0, 80);
@@ -74,12 +75,13 @@ function usePocConfig() {
   };
 }
 
-// The pill's questions for this page: the page table's "prompts" if it has
-// them; otherwise the page's own teaser first (on a page with its own row),
-// then the general questions in the region's language.
+// The pill's questions for this page: the page's own "prompts" if its row
+// has them; otherwise the page's teaser first (on a page with its own row),
+// then the region's "prompts" from its default row (or the built-in ones).
 function promptsFor(row, regionId) {
-  if (row.prompts && row.prompts.length) return row.prompts;
-  var list = (SETTINGS.POC_PROMPTS[SETTINGS.POC_LANG[regionId] || "en"] || SETTINGS.POC_PROMPTS.en).slice();
+  if (row.pagePrompts && row.pagePrompts.length) return row.pagePrompts;
+  var list = (row.prompts && row.prompts.length ? row.prompts
+    : SETTINGS.POC_PROMPTS[SETTINGS.POC_LANG[regionId] || "en"] || SETTINGS.POC_PROMPTS.en).slice();
   if (row.page && row.page !== "default" && row.teaser_text) list.unshift({ text: row.teaser_text, send: row.teaser_send || row.teaser_text });
   return list;
 }

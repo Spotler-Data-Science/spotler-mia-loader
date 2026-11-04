@@ -412,6 +412,19 @@ async def main():
         check("6b clicking in shows marketing's greeting and buttons", "Hello from marketing" in t and "Show me Mail+" in t, t[:120])
         check("6c the POC's own file comes first, the production page table not needed", reqs and not any("/config/config.json" in u for u in reqs), [u for u in reqs if "config.json" in u])
         await ctx.close()
+        # a page with its own row: its teaser first, then the region's questions; a page's own list replaces them
+        MKT2 = json.loads(MKT)
+        MKT2["rows"] += [{"url_match": "/pricing", "region": "int", "page": "pricing", "teaser_text": "Pricing teaser?", "teaser_send": "Tell me about pricing"},
+                         {"url_match": "/cases", "region": "int", "page": "cases", "teaser_text": "Cases teaser?", "prompts": ["Case one?", "Case two?"]}]
+        for path, want in (("/pricing", ["Pricing teaser?", "Marketing question one?", "Marketing question two?"]), ("/cases", ["Case one?", "Case two?"])):
+            ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+            await setup(ctx, [POC], mkt=json.dumps(MKT2))
+            page = await ctx.new_page()
+            await page.goto("https://www.spotler.com" + path); await page.wait_for_timeout(2600)
+            await page.click("#mia-dock-q"); await page.wait_for_timeout(700)
+            chips = await page.evaluate("[...document.querySelectorAll('#mia-start .mia-chip')].map(c => c.textContent)")
+            check(f"6g {path}: " + ("the page's teaser first, then the region's questions" if path == "/pricing" else "the page's own questions"), chips == want, chips)
+            await ctx.close()
         # its server not allowing spotler.com (no CORS header) or down: the GitHub page table instead
         ctx = await b.new_context(viewport={"width": 1440, "height": 900})
         await setup(ctx, [POC], mkt=MKT, mkt_cors=False)

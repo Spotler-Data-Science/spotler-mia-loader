@@ -31,8 +31,11 @@ The production loader (`src/`, `dist/`) is not changed by this folder.
 live chat) and the pill's typing cursor are the site's "Get a demo" cyan
 `#2FACE6`, with a white arrow like that button.
 
-The questions are in `src/01-poc-settings.js` (`POC_PROMPTS`). A page-table row
-with a `prompts` list (strings) overrides them for that page.
+The questions come from the page table: each region's default row (`*`) has
+a `prompts` list; on a page with its own row, that page's teaser is typed
+first, then the region's list. A page row with its own `prompts` list replaces
+the cycle on that page. `POC_PROMPTS` in `src/01-poc-settings.js` is only the
+fallback when the file can't be read.
 
 ## Editing the text
 
@@ -101,11 +104,11 @@ CHROMIUM=/opt/pw-browsers/chromium python3 poc/glass-dock/test.py
 
 - Labels (placeholder, header, privacy line and link) follow the region.
 - The greeting and buttons come from the page table, per region and page.
-- The pill's questions: the row's `prompts` if the page table has them;
+- The pill's questions: the page row's own `prompts` if it has them;
   otherwise, on a page with its own row, its teaser first (the arrow sends its
-  `teaser_send`), then five general questions in the region's language
-  (`POC_PROMPTS` in `src/01-poc-settings.js`: English, Dutch, German, Spanish,
-  Swedish).
+  `teaser_send`), then the region default row's `prompts` (or, without the
+  file, the built-in `POC_PROMPTS` in `src/01-poc-settings.js`: English, Dutch,
+  German, Spanish, Swedish).
 
 ## Known POC limits
 

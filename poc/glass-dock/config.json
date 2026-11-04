@@ -1,6 +1,6 @@
 {
-  "version": "2026-11-02.2",
-  "generatedBy": "marketing.spotler.com page table (glass dock POC): config/config.json plus 'prompts' on the INT default row",
+  "version": "2026-11-04.1",
+  "generatedBy": "marketing.spotler.com page table (glass dock): config/config.json plus the dock's fields (title, prompts, card description / icon) on every region's default row",
   "rows": [
     {
       "url_match": "*",
@@ -9,26 +9,42 @@
       "mode": "slideout",
       "page": "default",
       "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "title": "Hello, I’m Mia",
       "buttons": [
         {
           "label": "What can Spotler do for me?",
-          "send": "What can Spotler do for me?"
+          "send": "What can Spotler do for me?",
+          "description": "See what Spotler can do for you",
+          "icon": "explore"
         },
         {
           "label": "Book a demo",
-          "send": "Book a demo"
+          "send": "Book a demo",
+          "description": "Meet one of our product experts",
+          "icon": "calendar"
         },
         {
           "label": "See pricing",
-          "send": "See pricing"
+          "send": "See pricing",
+          "description": "Compare our packages",
+          "icon": "pricing"
         },
         {
           "label": "Product support",
-          "send": "Product support"
+          "send": "Product support",
+          "description": "Get help and find answers",
+          "icon": "support"
         }
       ],
       "teaser_text": "Questions about Spotler? Ask me anything!",
-      "teaser_send": "I have a question about Spotler"
+      "teaser_send": "I have a question about Spotler",
+      "prompts": [
+        "How can Spotler help my business?",
+        "Which Spotler product fits an online shop?",
+        "Can I book a demo this week?",
+        "How does Spotler use AI in email marketing?",
+        "What does Spotler cost?"
+      ]
     },
     {
       "url_match": "/b2b/email-marketing-automation",
@@ -301,26 +317,42 @@
       "mode": "slideout",
       "page": "default",
       "opener": "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of verwijs je door naar een collega.",
+      "title": "Hoi, ik ben Mia",
       "buttons": [
         {
           "label": "Wat kan Spotler voor mij betekenen?",
-          "send": "Wat kan Spotler voor mij betekenen?"
+          "send": "Wat kan Spotler voor mij betekenen?",
+          "description": "Ontdek wat Spotler voor je kan doen",
+          "icon": "explore"
         },
         {
           "label": "Een demo boeken",
-          "send": "Een demo boeken"
+          "send": "Een demo boeken",
+          "description": "Met een van onze productexperts",
+          "icon": "calendar"
         },
         {
           "label": "Bekijk prijzen",
-          "send": "Bekijk prijzen"
+          "send": "Bekijk prijzen",
+          "description": "Vergelijk onze pakketten",
+          "icon": "pricing"
         },
         {
           "label": "Productondersteuning",
-          "send": "Productondersteuning"
+          "send": "Productondersteuning",
+          "description": "Hulp en antwoorden",
+          "icon": "support"
         }
       ],
       "teaser_text": "Vragen over Spotler? Vraag maar raak!",
-      "teaser_send": "Ik heb een vraag over Spotler"
+      "teaser_send": "Ik heb een vraag over Spotler",
+      "prompts": [
+        "Hoe kan Spotler mijn bedrijf helpen?",
+        "Welk Spotler-product past bij een webshop?",
+        "Kan ik deze week een demo boeken?",
+        "Hoe gebruikt Spotler AI in e-mailmarketing?",
+        "Wat kost Spotler?"
+      ]
     },
     {
       "url_match": "/nl-nl/b2b/email-marketing-automation",
@@ -693,26 +725,42 @@
       "mode": "slideout",
       "page": "default",
       "opener": "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder verweise Sie an einen Kollegen.",
+      "title": "Hallo, ich bin Mia",
       "buttons": [
         {
           "label": "Was kann Spotler für mich tun?",
-          "send": "Was kann Spotler für mich tun?"
+          "send": "Was kann Spotler für mich tun?",
+          "description": "Was Spotler für Sie tun kann",
+          "icon": "explore"
         },
         {
           "label": "Demo buchen",
-          "send": "Demo buchen"
+          "send": "Demo buchen",
+          "description": "Mit einem unserer Produktexperten",
+          "icon": "calendar"
         },
         {
           "label": "Preise ansehen",
-          "send": "Preise ansehen"
+          "send": "Preise ansehen",
+          "description": "Unsere Pakete im Vergleich",
+          "icon": "pricing"
         },
         {
           "label": "Produktsupport",
-          "send": "Produktsupport"
+          "send": "Produktsupport",
+          "description": "Hilfe und Antworten",
+          "icon": "support"
         }
       ],
       "teaser_text": "Fragen zu Spotler? Fragen Sie einfach!",
-      "teaser_send": "Ich habe eine Frage zu Spotler"
+      "teaser_send": "Ich habe eine Frage zu Spotler",
+      "prompts": [
+        "Wie kann Spotler meinem Unternehmen helfen?",
+        "Welches Spotler-Produkt passt zu einem Onlineshop?",
+        "Kann ich diese Woche eine Demo buchen?",
+        "Wie nutzt Spotler KI im E-Mail-Marketing?",
+        "Was kostet Spotler?"
+      ]
     },
     {
       "url_match": "*",
@@ -721,26 +769,42 @@
       "mode": "slideout",
       "page": "default",
       "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "title": "Hello, I’m Mia",
       "buttons": [
         {
           "label": "What can Spotler do for me?",
-          "send": "What can Spotler do for me?"
+          "send": "What can Spotler do for me?",
+          "description": "See what Spotler can do for you",
+          "icon": "explore"
         },
         {
           "label": "Book a demo",
-          "send": "Book a demo"
+          "send": "Book a demo",
+          "description": "Meet one of our product experts",
+          "icon": "calendar"
         },
         {
           "label": "Product support",
-          "send": "Product support"
+          "send": "Product support",
+          "description": "Get help and find answers",
+          "icon": "support"
         },
         {
           "label": "Pricing",
-          "send": "Pricing"
+          "send": "Pricing",
+          "description": "Compare our packages",
+          "icon": "pricing"
         }
       ],
       "teaser_text": "Questions about Spotler? Ask me anything!",
-      "teaser_send": "I have a question about Spotler"
+      "teaser_send": "I have a question about Spotler",
+      "prompts": [
+        "How can Spotler help my business?",
+        "Which Spotler product fits an online shop?",
+        "Can I book a demo this week?",
+        "How does Spotler use AI in email marketing?",
+        "What does Spotler cost?"
+      ]
     },
     {
       "url_match": "/b2b/email-marketing-automation",
@@ -909,26 +973,42 @@
       "mode": "slideout",
       "page": "default",
       "opener": "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o te indico a qué compañero dirigirte.",
+      "title": "Hola, soy Mia",
       "buttons": [
         {
           "label": "¿Qué puede hacer Spotler por mí?",
-          "send": "¿Qué puede hacer Spotler por mí?"
+          "send": "¿Qué puede hacer Spotler por mí?",
+          "description": "Descubre lo que Spotler puede hacer por ti",
+          "icon": "explore"
         },
         {
           "label": "Reservar una demo",
-          "send": "Reservar una demo"
+          "send": "Reservar una demo",
+          "description": "Con uno de nuestros expertos en producto",
+          "icon": "calendar"
         },
         {
           "label": "Ver precios",
-          "send": "Ver precios"
+          "send": "Ver precios",
+          "description": "Compara nuestros paquetes",
+          "icon": "pricing"
         },
         {
           "label": "Soporte de producto",
-          "send": "Soporte de producto"
+          "send": "Soporte de producto",
+          "description": "Ayuda y respuestas",
+          "icon": "support"
         }
       ],
       "teaser_text": "¿Preguntas sobre Spotler? ¡Pregúntame lo que quieras!",
-      "teaser_send": "Tengo una pregunta sobre Spotler"
+      "teaser_send": "Tengo una pregunta sobre Spotler",
+      "prompts": [
+        "¿Cómo puede Spotler ayudar a mi empresa?",
+        "¿Qué producto de Spotler encaja con una tienda online?",
+        "¿Puedo reservar una demo esta semana?",
+        "¿Cómo usa Spotler la IA en el email marketing?",
+        "¿Cuánto cuesta Spotler?"
+      ]
     },
     {
       "url_match": "*",
@@ -937,26 +1017,42 @@
       "mode": "slideout",
       "page": "default",
       "opener": "Hej, jag är Mia, Spotlers AI-assistent. Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller hänvisar dig till en kollega.",
+      "title": "Hej, jag är Mia",
       "buttons": [
         {
           "label": "Vad kan Spotler göra för mig?",
-          "send": "Vad kan Spotler göra för mig?"
+          "send": "Vad kan Spotler göra för mig?",
+          "description": "Se vad Spotler kan göra för dig",
+          "icon": "explore"
         },
         {
           "label": "Boka en demo",
-          "send": "Boka en demo"
+          "send": "Boka en demo",
+          "description": "Med en av våra produktexperter",
+          "icon": "calendar"
         },
         {
           "label": "Se priser",
-          "send": "Se priser"
+          "send": "Se priser",
+          "description": "Jämför våra paket",
+          "icon": "pricing"
         },
         {
           "label": "Produktsupport",
-          "send": "Produktsupport"
+          "send": "Produktsupport",
+          "description": "Hjälp och svar",
+          "icon": "support"
         }
       ],
       "teaser_text": "Frågor om Spotler? Fråga mig vad som helst!",
-      "teaser_send": "Jag har en fråga om Spotler"
+      "teaser_send": "Jag har en fråga om Spotler",
+      "prompts": [
+        "Hur kan Spotler hjälpa mitt företag?",
+        "Vilken Spotler-produkt passar en webbutik?",
+        "Kan jag boka en demo den här veckan?",
+        "Hur använder Spotler AI i e-postmarknadsföring?",
+        "Vad kostar Spotler?"
+      ]
     },
     {
       "url_match": "*",
@@ -965,26 +1061,42 @@
       "mode": "slideout",
       "page": "default",
       "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "title": "Hello, I’m Mia",
       "buttons": [
         {
           "label": "What can Spotler do for me?",
-          "send": "What can Spotler do for me?"
+          "send": "What can Spotler do for me?",
+          "description": "See what Spotler can do for you",
+          "icon": "explore"
         },
         {
           "label": "Book a demo",
-          "send": "Book a demo"
+          "send": "Book a demo",
+          "description": "Meet one of our product experts",
+          "icon": "calendar"
         },
         {
           "label": "Product support",
-          "send": "Product support"
+          "send": "Product support",
+          "description": "Get help and find answers",
+          "icon": "support"
         },
         {
           "label": "Pricing",
-          "send": "Pricing"
+          "send": "Pricing",
+          "description": "Compare our packages",
+          "icon": "pricing"
         }
       ],
       "teaser_text": "Questions about Spotler? Ask me anything!",
-      "teaser_send": "I have a question about Spotler"
+      "teaser_send": "I have a question about Spotler",
+      "prompts": [
+        "How can Spotler help my business?",
+        "Which Spotler product fits an online shop?",
+        "Can I book a demo this week?",
+        "How does Spotler use AI in email marketing?",
+        "What does Spotler cost?"
+      ]
     },
     {
       "url_match": "/b2b/email-marketing-automation",
