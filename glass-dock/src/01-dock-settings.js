@@ -3,7 +3,7 @@
    Every region the production loader covers. The production loader's own
    settings are untouched.
    ================================================================== */
-SETTINGS.VERSION = "glass-dock-1.4";
+SETTINGS.VERSION = "glass-dock-1.5";
 
 // The bot the dock talks to (the production loader's own setting is left
 // alone). Ids: Botpress dashboard -> bot -> Webchat -> Share.

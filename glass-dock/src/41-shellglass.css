@@ -9,10 +9,10 @@
 .list { margin-bottom: 0; }
 /* Mia's replies: a grey glass bubble, less see-through than the dock (the
    live chat's are styled the same in 52-dock.js, so the hand-over matches) */
-.b { padding: 10px 16px; background: rgba(240, 243, 248, 0.88); border: 1px solid rgba(11, 31, 77, 0.08); border-radius: 18px;
+.b { padding: 10px 16px; background: rgba(249, 250, 252, 0.92); border: 1px solid rgba(11, 31, 77, 0.08); border-radius: 18px;
      color: #0B1F4D; font-size: 15px; line-height: 23px; max-width: 85%; }
 .col .b { max-width: 85%; }
-.m.out .b { padding: 9px 16px; background: rgba(214, 230, 255, 0.85); color: #0B1F4D; border-radius: 18px; max-width: 85%; border: 0; }
+.m.out .b { padding: 9px 16px; background: rgba(234, 242, 255, 0.92); color: #0B1F4D; border-radius: 18px; max-width: 85%; border: 0; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
 .col { width: 100%; }
 /* reply buttons: a slight blue, so they stand apart from the grey bubbles */

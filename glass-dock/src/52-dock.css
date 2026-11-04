@@ -45,7 +45,7 @@
 #mia-dock-held { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; flex-direction: column;
                  align-items: flex-end; gap: 8px; padding: 0 28px 16px; pointer-events: none; }
 #mia-dock-held:empty { display: none; }
-#mia-dock-held .h { max-width: 85%; padding: 9px 16px; border-radius: 18px; background: rgba(214,230,255,.85); color: #0B1F4D;
+#mia-dock-held .h { max-width: 85%; padding: 9px 16px; border-radius: 18px; background: rgba(234,242,255,.92); color: #0B1F4D;
                     font-family: var(--mia-font, inter, sans-serif); font-size: 15px; line-height: 23px; opacity: .6;
                     white-space: pre-wrap; overflow-wrap: anywhere; }
 #mia-dock-held p { margin: 0; }
