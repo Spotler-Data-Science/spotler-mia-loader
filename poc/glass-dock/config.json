@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-04.2",
+  "version": "2026-11-04.3",
   "generatedBy": "marketing.spotler.com page table (glass dock): config/config.json plus the dock's fields (title, prompts, card description / icon) on every region's default row",
   "rows": [
     {
@@ -39,10 +39,10 @@
       "teaser_text": "Questions about Spotler? Ask me anything!",
       "teaser_send": "I have a question about Spotler",
       "prompts": [
-        "How can Spotler help my business?",
-        "Which Spotler product fits an online shop?",
+        "How can Spotler help me?",
+        "Which product fits a webshop?",
         "Can I book a demo this week?",
-        "How does Spotler use AI in email marketing?",
+        "How does Spotler use AI?",
         "What does Spotler cost?"
       ]
     },
@@ -163,10 +163,10 @@
       "match_type": "contains",
       "region": "en-GB",
       "page": "commerce-transactional-emails",
-      "teaser_text": "How do you get 99.8% delivery?",
-      "teaser_send": "How do you get 99.8% delivery?",
+      "teaser_text": "How reliable is your delivery?",
+      "teaser_send": "How reliable is your delivery?",
       "prompts": [
-        "How do you get 99.8% delivery?",
+        "How reliable is your delivery?",
         "What are transactional emails?",
         "Can I send order confirmations?",
         "Does it work with my webshop?"
@@ -467,10 +467,10 @@
       "teaser_text": "Vragen over Spotler? Vraag maar raak!",
       "teaser_send": "Ik heb een vraag over Spotler",
       "prompts": [
-        "Hoe kan Spotler mijn bedrijf helpen?",
-        "Welk Spotler-product past bij een webshop?",
-        "Kan ik deze week een demo boeken?",
-        "Hoe gebruikt Spotler AI in e-mailmarketing?",
+        "Hoe helpt Spotler mijn bedrijf?",
+        "Wat past bij een webshop?",
+        "Kan ik een demo boeken?",
+        "Hoe gebruikt Spotler AI?",
         "Wat kost Spotler?"
       ]
     },
@@ -790,10 +790,10 @@
       "teaser_text": "Questions about Spotler? Ask me anything!",
       "teaser_send": "I have a question about Spotler",
       "prompts": [
-        "How can Spotler help my business?",
-        "Which Spotler product fits an online shop?",
+        "How can Spotler help me?",
+        "Which product fits a webshop?",
         "Can I book a demo this week?",
-        "How does Spotler use AI in email marketing?",
+        "How does Spotler use AI?",
         "What does Spotler cost?"
       ],
       "title": "Hello, I’m Mia"
@@ -915,10 +915,10 @@
       "match_type": "contains",
       "region": "int",
       "page": "ecommerce-transactional-emails",
-      "teaser_text": "How do you get 99.8% delivery?",
-      "teaser_send": "How do you get 99.8% delivery?",
+      "teaser_text": "How reliable is your delivery?",
+      "teaser_send": "How reliable is your delivery?",
       "prompts": [
-        "How do you get 99.8% delivery?",
+        "How reliable is your delivery?",
         "What are transactional emails?",
         "Can I send order confirmations?",
         "Does it work with my webshop?"
@@ -1115,11 +1115,305 @@
       "teaser_text": "Fragen zu Spotler? Fragen Sie einfach!",
       "teaser_send": "Ich habe eine Frage zu Spotler",
       "prompts": [
-        "Wie kann Spotler meinem Unternehmen helfen?",
-        "Welches Spotler-Produkt passt zu einem Onlineshop?",
-        "Kann ich diese Woche eine Demo buchen?",
-        "Wie nutzt Spotler KI im E-Mail-Marketing?",
+        "Wie hilft Spotler meiner Firma?",
+        "Was passt zu einem Onlineshop?",
+        "Kann ich eine Demo buchen?",
+        "Wie nutzt Spotler KI?",
         "Was kostet Spotler?"
+      ]
+    },
+    {
+      "url_match": "/de-de/b2b/email-marketing-automatisierung",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "b2b-email-marketing-automatisierung",
+      "teaser_text": "Wie funktioniert Automation?",
+      "teaser_send": "Wie funktioniert Automation?",
+      "prompts": [
+        "Wie funktioniert Automation?",
+        "Leads automatisch nachfassen?",
+        "Welche E-Mail-Flows lohnen sich?",
+        "Gibt es eine CRM-Anbindung?"
+      ]
+    },
+    {
+      "url_match": "/de-de/b2b/crm-lead-management",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "b2b-crm-lead-management",
+      "teaser_text": "Wie funktioniert Ihr CRM?",
+      "teaser_send": "Wie funktioniert Ihr CRM?",
+      "prompts": [
+        "Wie funktioniert Ihr CRM?",
+        "Wie funktioniert Lead Scoring?",
+        "Sieht Sales die Marketingdaten?",
+        "Kann ich CRM-Daten übernehmen?"
+      ]
+    },
+    {
+      "url_match": "/de-de/b2b/event-management",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "b2b-event-management",
+      "teaser_text": "Wie verwalte ich Anmeldungen?",
+      "teaser_send": "Wie verwalte ich Anmeldungen?",
+      "prompts": [
+        "Wie verwalte ich Anmeldungen?",
+        "Kann ich Erinnerungen senden?",
+        "Gibt es einen Check-in vor Ort?",
+        "Wie fasse ich nach Events nach?"
+      ]
+    },
+    {
+      "url_match": "/de-de/b2b/website-personalisierung",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "b2b-website-personalisierung",
+      "teaser_text": "Was bringt Personalisierung?",
+      "teaser_send": "Was bringt Personalisierung?",
+      "prompts": [
+        "Was bringt Personalisierung?",
+        "Inhalte pro Besucher anzeigen?",
+        "Sehe ich, welche Firmen kommen?",
+        "Brauche ich dafür Entwickler?"
+      ]
+    },
+    {
+      "url_match": "/de-de/b2b/dialogorientiertes-marketing",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "b2b-dialogorientiertes-marketing",
+      "teaser_text": "Was ist Dialogmarketing?",
+      "teaser_send": "Was ist Dialogmarketing?",
+      "prompts": [
+        "Was ist Dialogmarketing?",
+        "Kann ich einen Chatbot einbauen?",
+        "Funktioniert es mit WhatsApp?",
+        "Übernimmt mein Team Chats?"
+      ]
+    },
+    {
+      "url_match": "/de-de/b2b/social-media-publishing",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "b2b-social-media-publishing",
+      "teaser_text": "Kann ich Social Posts planen?",
+      "teaser_send": "Kann ich Social Posts planen?",
+      "prompts": [
+        "Kann ich Social Posts planen?",
+        "Welche Kanäle gibt es?",
+        "Sehe ich, wie Posts performen?",
+        "Kann mein Team Posts freigeben?"
+      ]
+    },
+    {
+      "url_match": "/de-de/commerce/kundendatenplattform",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "commerce-kundendatenplattform",
+      "teaser_text": "Brauche ich eine CDP?",
+      "teaser_send": "Brauche ich eine CDP?",
+      "prompts": [
+        "Brauche ich eine CDP?",
+        "Welche Daten bündelt sie?",
+        "Wie erstelle ich Segmente?",
+        "Passt sie zu meinem Onlineshop?"
+      ]
+    },
+    {
+      "url_match": "/de-de/commerce/email-marketing-automatisierung",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "commerce-email-marketing-automatisierung",
+      "teaser_text": "Wie steigert E-Mail den Umsatz?",
+      "teaser_send": "Wie steigert E-Mail den Umsatz?",
+      "prompts": [
+        "Wie steigert E-Mail den Umsatz?",
+        "Warenkorbabbrecher zurückholen?",
+        "Welche E-Mail-Flows lohnen sich?",
+        "Passt es zu meinem Onlineshop?"
+      ]
+    },
+    {
+      "url_match": "/de-de/commerce/transaktions-emails",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "commerce-transaktions-emails",
+      "teaser_text": "Wie sicher ist die Zustellung?",
+      "teaser_send": "Wie sicher ist die Zustellung?",
+      "prompts": [
+        "Wie sicher ist die Zustellung?",
+        "Was sind Transaktions-E-Mails?",
+        "Auch Bestellbestätigungen?",
+        "Passt es zu meinem Onlineshop?"
+      ]
+    },
+    {
+      "url_match": "/de-de/commerce/onsite-search-merchandising",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "commerce-onsite-search-merchandising",
+      "teaser_text": "Wie steigert Suche den Umsatz?",
+      "teaser_send": "Wie steigert Suche den Umsatz?",
+      "prompts": [
+        "Wie steigert Suche den Umsatz?",
+        "Kann ich Produkte hervorheben?",
+        "Versteht die Suche Tippfehler?",
+        "Welche Shopsysteme passen?"
+      ]
+    },
+    {
+      "url_match": "/de-de/commerce/whatsapp-sms-social-media",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "commerce-whatsapp-sms-social-media",
+      "teaser_text": "Kann ich WhatsApp nutzen?",
+      "teaser_send": "Kann ich WhatsApp nutzen?",
+      "prompts": [
+        "Kann ich WhatsApp nutzen?",
+        "Kann ich SMS versenden?",
+        "Alle Chats in einem Postfach?",
+        "Welche Kanäle gibt es?"
+      ]
+    },
+    {
+      "url_match": "/de-de/preise",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "preise",
+      "teaser_text": "Welcher Plan passt zu mir?",
+      "teaser_send": "Welcher Plan passt zu mir?",
+      "prompts": [
+        "Welcher Plan passt zu mir?",
+        "Was kostet Spotler?",
+        "Was ist in jedem Plan enthalten?",
+        "Bekomme ich ein Angebot?"
+      ]
+    },
+    {
+      "url_match": "/de-de/produkte",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "produkte",
+      "teaser_text": "Welches Produkt passt zu mir?",
+      "teaser_send": "Welches Produkt passt zu mir?",
+      "prompts": [
+        "Welches Produkt passt zu mir?",
+        "Was ist der Unterschied?",
+        "Arbeiten die Produkte zusammen?",
+        "Kann ich eine Demo buchen?"
+      ]
+    },
+    {
+      "url_match": "/de-de/b2b",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "b2b",
+      "teaser_text": "Wie hilft Spotler B2B-Teams?",
+      "teaser_send": "Wie hilft Spotler B2B-Teams?",
+      "prompts": [
+        "Wie hilft Spotler B2B-Teams?",
+        "Wie gewinne ich mehr Leads?",
+        "Welche B2B-Tools gibt es?",
+        "Kann ich eine Demo buchen?"
+      ]
+    },
+    {
+      "url_match": "/de-de/commerce",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "commerce",
+      "teaser_text": "Wie wächst mein Onlineshop?",
+      "teaser_send": "Wie wächst mein Onlineshop?",
+      "prompts": [
+        "Wie wächst mein Onlineshop?",
+        "Welche Tools für meinen Shop?",
+        "Passt es zu meiner Plattform?",
+        "Kann ich eine Demo buchen?"
+      ]
+    },
+    {
+      "url_match": "/de-de/oeffentlicher-sektor",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "oeffentlicher-sektor",
+      "teaser_text": "Arbeiten Sie mit Behörden?",
+      "teaser_send": "Arbeiten Sie mit Behörden?",
+      "prompts": [
+        "Arbeiten Sie mit Behörden?",
+        "Sind Sie DSGVO-konform?",
+        "Wo liegen meine Daten?",
+        "Kann ich eine Demo buchen?"
+      ]
+    },
+    {
+      "url_match": "/de-de/integrationen",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "integrationen",
+      "teaser_text": "Passt Spotler zu meinem Stack?",
+      "teaser_send": "Passt Spotler zu meinem Stack?",
+      "prompts": [
+        "Passt Spotler zu meinem Stack?",
+        "Welche Integrationen gibt es?",
+        "Gibt es eine API?",
+        "Gibt es eine CRM-Anbindung?"
+      ]
+    },
+    {
+      "url_match": "/de-de/erfolgsgeschichten",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "erfolgsgeschichten",
+      "teaser_text": "Was erreichen Ihre Kunden?",
+      "teaser_send": "Was erreichen Ihre Kunden?",
+      "prompts": [
+        "Was erreichen Ihre Kunden?",
+        "Beispiele aus meiner Branche?",
+        "Wie schnell gibt es Ergebnisse?",
+        "Kann ich eine Demo buchen?"
+      ]
+    },
+    {
+      "url_match": "/de-de/anwendungsfall",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "anwendungsfall",
+      "teaser_text": "Was erreichen Ihre Kunden?",
+      "teaser_send": "Was erreichen Ihre Kunden?",
+      "prompts": [
+        "Was erreichen Ihre Kunden?",
+        "Beispiele aus meiner Branche?",
+        "Wie schnell gibt es Ergebnisse?",
+        "Kann ich eine Demo buchen?"
+      ]
+    },
+    {
+      "url_match": "/de-de/services",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "services",
+      "teaser_text": "Welche Services bieten Sie?",
+      "teaser_send": "Welche Services bieten Sie?",
+      "prompts": [
+        "Welche Services bieten Sie?",
+        "Helfen Sie beim Start?",
+        "Bieten Sie Schulungen an?",
+        "Übernehmen Sie Kampagnen?"
+      ]
+    },
+    {
+      "url_match": "/de-de/ressourcen",
+      "match_type": "contains",
+      "region": "de-DE",
+      "page": "ressourcen",
+      "teaser_text": "Spotler Insights abonnieren",
+      "teaser_send": "Spotler Insights abonnieren",
+      "prompts": [
+        "Spotler Insights abonnieren",
+        "Tipps fürs E-Mail-Marketing?",
+        "Welchen Guide zuerst lesen?",
+        "Gibt es Webinare?"
       ]
     },
     {
@@ -1159,10 +1453,10 @@
       "teaser_text": "Questions about Spotler? Ask me anything!",
       "teaser_send": "I have a question about Spotler",
       "prompts": [
-        "How can Spotler help my business?",
-        "Which Spotler product fits an online shop?",
+        "How can Spotler help me?",
+        "Which product fits a webshop?",
         "Can I book a demo this week?",
-        "How does Spotler use AI in email marketing?",
+        "How does Spotler use AI?",
         "What does Spotler cost?"
       ]
     },
@@ -1283,10 +1577,10 @@
       "match_type": "contains",
       "region": "en-DE",
       "page": "ecommerce-transactional-emails",
-      "teaser_text": "How do you get 99.8% delivery?",
-      "teaser_send": "How do you get 99.8% delivery?",
+      "teaser_text": "How reliable is your delivery?",
+      "teaser_send": "How reliable is your delivery?",
       "prompts": [
-        "How do you get 99.8% delivery?",
+        "How reliable is your delivery?",
         "What are transactional emails?",
         "Can I send order confirmations?",
         "Does it work with my webshop?"
@@ -1483,11 +1777,291 @@
       "teaser_text": "¿Preguntas sobre Spotler? ¡Pregúntame lo que quieras!",
       "teaser_send": "Tengo una pregunta sobre Spotler",
       "prompts": [
-        "¿Cómo puede Spotler ayudar a mi empresa?",
-        "¿Qué producto de Spotler encaja con una tienda online?",
-        "¿Puedo reservar una demo esta semana?",
-        "¿Cómo usa Spotler la IA en el email marketing?",
+        "¿Cómo me ayuda Spotler?",
+        "¿Qué va bien para una tienda?",
+        "¿Puedo reservar una demo?",
+        "¿Cómo usa Spotler la IA?",
         "¿Cuánto cuesta Spotler?"
+      ]
+    },
+    {
+      "url_match": "/es-es/b2b/email-marketing-automation",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "b2b-email-marketing-automation",
+      "teaser_text": "¿Qué es el email automation?",
+      "teaser_send": "¿Qué es el email automation?",
+      "prompts": [
+        "¿Qué es el email automation?",
+        "¿Puedo automatizar mis leads?",
+        "¿Qué flujos de email funcionan?",
+        "¿Se conecta con mi CRM?"
+      ]
+    },
+    {
+      "url_match": "/es-es/b2b/crm-gestion-de-leads",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "b2b-crm-gestion-de-leads",
+      "teaser_text": "¿Cómo funciona vuestro CRM?",
+      "teaser_send": "¿Cómo funciona vuestro CRM?",
+      "prompts": [
+        "¿Cómo funciona vuestro CRM?",
+        "¿Cómo funciona el lead scoring?",
+        "¿Une ventas y marketing?",
+        "¿Puedo migrar mis datos de CRM?"
+      ]
+    },
+    {
+      "url_match": "/es-es/b2b/gestion-de-eventos",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "b2b-gestion-de-eventos",
+      "teaser_text": "¿Cómo gestiono inscripciones?",
+      "teaser_send": "¿Cómo gestiono inscripciones?",
+      "prompts": [
+        "¿Cómo gestiono inscripciones?",
+        "¿Puedo enviar recordatorios?",
+        "¿Hay check-in en el evento?",
+        "¿Cómo hago el seguimiento?"
+      ]
+    },
+    {
+      "url_match": "/es-es/b2b/personalizacion-del-sitio-web",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "b2b-personalizacion-del-sitio-web",
+      "teaser_text": "¿Qué aporta la personalización?",
+      "teaser_send": "¿Qué aporta la personalización?",
+      "prompts": [
+        "¿Qué aporta la personalización?",
+        "¿Contenido según cada visitante?",
+        "¿Veo qué empresas me visitan?",
+        "¿Necesito un desarrollador?"
+      ]
+    },
+    {
+      "url_match": "/es-es/b2b/marketing-conversacional",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "b2b-marketing-conversacional",
+      "teaser_text": "¿Qué es el marketing por chat?",
+      "teaser_send": "¿Qué es el marketing por chat?",
+      "prompts": [
+        "¿Qué es el marketing por chat?",
+        "¿Puedo añadir un chatbot?",
+        "¿Funciona con WhatsApp?",
+        "¿Mi equipo puede seguir chats?"
+      ]
+    },
+    {
+      "url_match": "/es-es/b2b/publicacion-en-redes-sociales",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "b2b-publicacion-en-redes-sociales",
+      "teaser_text": "¿Puedo programar publicaciones?",
+      "teaser_send": "¿Puedo programar publicaciones?",
+      "prompts": [
+        "¿Puedo programar publicaciones?",
+        "¿En qué redes puedo publicar?",
+        "¿Veo cómo rinden mis posts?",
+        "¿Mi equipo puede aprobar posts?"
+      ]
+    },
+    {
+      "url_match": "/es-es/commerce/plataforma-de-datos-de-clientes",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "commerce-plataforma-de-datos-de-clientes",
+      "teaser_text": "¿Necesito un CDP?",
+      "teaser_send": "¿Necesito un CDP?",
+      "prompts": [
+        "¿Necesito un CDP?",
+        "¿Qué datos puedo unificar?",
+        "¿Cómo creo segmentos?",
+        "¿Se conecta con mi tienda?"
+      ]
+    },
+    {
+      "url_match": "/es-es/commerce/email-marketing-automation",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "commerce-email-marketing-automation",
+      "teaser_text": "¿Cómo vendo más con el email?",
+      "teaser_send": "¿Cómo vendo más con el email?",
+      "prompts": [
+        "¿Cómo vendo más con el email?",
+        "¿Recupero carritos abandonados?",
+        "¿Qué flujos de email funcionan?",
+        "¿Se conecta con mi tienda?"
+      ]
+    },
+    {
+      "url_match": "/es-es/commerce/correos-electronicos-transaccionales",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "commerce-correos-electronicos-transaccionales",
+      "teaser_text": "¿Qué tan fiable es la entrega?",
+      "teaser_send": "¿Qué tan fiable es la entrega?",
+      "prompts": [
+        "¿Qué tan fiable es la entrega?",
+        "¿Qué son emails transaccionales?",
+        "¿Puedo enviar confirmaciones?",
+        "¿Funciona con mi tienda online?"
+      ]
+    },
+    {
+      "url_match": "/es-es/commerce/busqueda-y-comercializacion",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "commerce-busqueda-y-comercializacion",
+      "teaser_text": "¿Cómo vende más la búsqueda?",
+      "teaser_send": "¿Cómo vende más la búsqueda?",
+      "prompts": [
+        "¿Cómo vende más la búsqueda?",
+        "¿Puedo destacar productos?",
+        "¿Entiende errores de escritura?",
+        "¿Con qué plataformas funciona?"
+      ]
+    },
+    {
+      "url_match": "/es-es/commerce/whatsapp-sms-redes-sociales",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "commerce-whatsapp-sms-redes-sociales",
+      "teaser_text": "¿Puedo usar WhatsApp?",
+      "teaser_send": "¿Puedo usar WhatsApp?",
+      "prompts": [
+        "¿Puedo usar WhatsApp?",
+        "¿Puedo enviar campañas de SMS?",
+        "¿Todos los chats en un buzón?",
+        "¿Qué canales hay?"
+      ]
+    },
+    {
+      "url_match": "/es-es/precios",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "precios",
+      "teaser_text": "¿Qué plan encaja conmigo?",
+      "teaser_send": "¿Qué plan encaja conmigo?",
+      "prompts": [
+        "¿Qué plan encaja conmigo?",
+        "¿Cuánto cuesta Spotler?",
+        "¿Qué incluye cada plan?",
+        "¿Puedo pedir un presupuesto?"
+      ]
+    },
+    {
+      "url_match": "/es-es/productos",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "productos",
+      "teaser_text": "¿Qué producto encaja conmigo?",
+      "teaser_send": "¿Qué producto encaja conmigo?",
+      "prompts": [
+        "¿Qué producto encaja conmigo?",
+        "¿En qué se diferencian?",
+        "¿Los productos funcionan juntos?",
+        "¿Puedo reservar una demo?"
+      ]
+    },
+    {
+      "url_match": "/es-es/b2b",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "b2b",
+      "teaser_text": "¿Cómo ayuda Spotler en B2B?",
+      "teaser_send": "¿Cómo ayuda Spotler en B2B?",
+      "prompts": [
+        "¿Cómo ayuda Spotler en B2B?",
+        "¿Cómo consigo más leads?",
+        "¿Qué herramientas B2B tenéis?",
+        "¿Puedo reservar una demo?"
+      ]
+    },
+    {
+      "url_match": "/es-es/commerce",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "commerce",
+      "teaser_text": "¿Cómo hago crecer mi tienda?",
+      "teaser_send": "¿Cómo hago crecer mi tienda?",
+      "prompts": [
+        "¿Cómo hago crecer mi tienda?",
+        "¿Qué herramientas para tiendas?",
+        "¿Se conecta con mi plataforma?",
+        "¿Puedo reservar una demo?"
+      ]
+    },
+    {
+      "url_match": "/es-es/sector-publico",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "sector-publico",
+      "teaser_text": "¿Trabajáis con administraciones?",
+      "teaser_send": "¿Trabajáis con administraciones?",
+      "prompts": [
+        "¿Trabajáis con administraciones?",
+        "¿Cumplís con el RGPD?",
+        "¿Dónde se guardan mis datos?",
+        "¿Puedo reservar una demo?"
+      ]
+    },
+    {
+      "url_match": "/es-es/integraciones",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "integraciones",
+      "teaser_text": "¿Encaja Spotler en mi stack?",
+      "teaser_send": "¿Encaja Spotler en mi stack?",
+      "prompts": [
+        "¿Encaja Spotler en mi stack?",
+        "¿Qué integraciones tenéis?",
+        "¿Tenéis una API?",
+        "¿Se conecta con mi CRM?"
+      ]
+    },
+    {
+      "url_match": "/es-es/historias-de-exito",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "historias-de-exito",
+      "teaser_text": "¿Qué resultados logran clientes?",
+      "teaser_send": "¿Qué resultados logran clientes?",
+      "prompts": [
+        "¿Qué resultados logran clientes?",
+        "¿Casos de mi sector?",
+        "¿Cuándo se ven resultados?",
+        "¿Puedo reservar una demo?"
+      ]
+    },
+    {
+      "url_match": "/es-es/servicios",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "servicios",
+      "teaser_text": "¿Qué servicios ofrecéis?",
+      "teaser_send": "¿Qué servicios ofrecéis?",
+      "prompts": [
+        "¿Qué servicios ofrecéis?",
+        "¿Me ayudáis a empezar?",
+        "¿Ofrecéis formación?",
+        "¿Gestionáis campañas por mí?"
+      ]
+    },
+    {
+      "url_match": "/es-es/recursos",
+      "match_type": "contains",
+      "region": "es-ES",
+      "page": "recursos",
+      "teaser_text": "Suscríbeme a Spotler Insights",
+      "teaser_send": "Suscríbeme a Spotler Insights",
+      "prompts": [
+        "Suscríbeme a Spotler Insights",
+        "¿Guías de email marketing?",
+        "¿Qué guía leo primero?",
+        "¿Tenéis webinars?"
       ]
     },
     {
@@ -1527,11 +2101,305 @@
       "teaser_text": "Frågor om Spotler? Fråga mig vad som helst!",
       "teaser_send": "Jag har en fråga om Spotler",
       "prompts": [
-        "Hur kan Spotler hjälpa mitt företag?",
-        "Vilken Spotler-produkt passar en webbutik?",
-        "Kan jag boka en demo den här veckan?",
-        "Hur använder Spotler AI i e-postmarknadsföring?",
+        "Hur kan Spotler hjälpa mig?",
+        "Vad passar en webbutik?",
+        "Kan jag boka en demo?",
+        "Hur använder Spotler AI?",
         "Vad kostar Spotler?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/b2b/email-marketing-automation",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "b2b-email-marketing-automation",
+      "teaser_text": "Hur fungerar e-postautomation?",
+      "teaser_send": "Hur fungerar e-postautomation?",
+      "prompts": [
+        "Hur fungerar e-postautomation?",
+        "Kan jag automatisera leads?",
+        "Vilka e-postflöden funkar bäst?",
+        "Kopplas det till mitt CRM?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/b2b/crm-lead-management",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "b2b-crm-lead-management",
+      "teaser_text": "Hur fungerar ert CRM?",
+      "teaser_send": "Hur fungerar ert CRM?",
+      "prompts": [
+        "Hur fungerar ert CRM?",
+        "Hur fungerar lead scoring?",
+        "Ser sälj marknadsdatan?",
+        "Kan jag flytta min CRM-data?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/b2b/evenemangshantering",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "b2b-evenemangshantering",
+      "teaser_text": "Hur hanterar jag anmälningar?",
+      "teaser_send": "Hur hanterar jag anmälningar?",
+      "prompts": [
+        "Hur hanterar jag anmälningar?",
+        "Kan jag skicka påminnelser?",
+        "Kan gäster checka in på plats?",
+        "Hur följer jag upp evenemang?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/b2b/personlig-anpassning-av-webbplats",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "b2b-personlig-anpassning-av-webbplats",
+      "teaser_text": "Vad ger personalisering?",
+      "teaser_send": "Vad ger personalisering?",
+      "prompts": [
+        "Vad ger personalisering?",
+        "Visa innehåll per besökare?",
+        "Ser jag vilka företag besöker?",
+        "Behöver jag en utvecklare?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/b2b/konversationsbaserad-marknadsforing",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "b2b-konversationsbaserad-marknadsforing",
+      "teaser_text": "Hur funkar chattmarknadsföring?",
+      "teaser_send": "Hur funkar chattmarknadsföring?",
+      "prompts": [
+        "Hur funkar chattmarknadsföring?",
+        "Kan jag lägga till en chatbot?",
+        "Fungerar det med WhatsApp?",
+        "Kan mitt team ta över chattar?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/b2b/publicering-i-sociala-medier",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "b2b-publicering-i-sociala-medier",
+      "teaser_text": "Kan jag schemalägga inlägg?",
+      "teaser_send": "Kan jag schemalägga inlägg?",
+      "prompts": [
+        "Kan jag schemalägga inlägg?",
+        "Vilka kanaler kan jag posta i?",
+        "Ser jag hur inläggen presterar?",
+        "Kan teamet godkänna inlägg?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/handel/plattform-for-kunddata",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "handel-plattform-for-kunddata",
+      "teaser_text": "Behöver jag en CDP?",
+      "teaser_send": "Behöver jag en CDP?",
+      "prompts": [
+        "Behöver jag en CDP?",
+        "Vilken data kan jag samla?",
+        "Hur skapar jag segment?",
+        "Kopplas den till min webbshop?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/handel/email-marketing-automation",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "handel-email-marketing-automation",
+      "teaser_text": "Hur ökar e-post min försäljning?",
+      "teaser_send": "Hur ökar e-post min försäljning?",
+      "prompts": [
+        "Hur ökar e-post min försäljning?",
+        "Vinna tillbaka kundvagnar?",
+        "Vilka e-postflöden funkar bäst?",
+        "Kopplas det till min webbshop?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/handel/transaktionella-epostmeddelanden",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "handel-transaktionella-epostmeddelanden",
+      "teaser_text": "Hur pålitlig är leveransen?",
+      "teaser_send": "Hur pålitlig är leveransen?",
+      "prompts": [
+        "Hur pålitlig är leveransen?",
+        "Vad är transaktionella mejl?",
+        "Skicka orderbekräftelser?",
+        "Funkar det med min webbshop?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/handel/sokning-pa-plats-merchandising",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "handel-sokning-pa-plats-merchandising",
+      "teaser_text": "Hur ökar sökning försäljningen?",
+      "teaser_send": "Hur ökar sökning försäljningen?",
+      "prompts": [
+        "Hur ökar sökning försäljningen?",
+        "Kan jag lyfta fram produkter?",
+        "Klarar sökningen stavfel?",
+        "Vilka plattformar stöds?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/handel/whatsapp-sms-sociala-medier",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "handel-whatsapp-sms-sociala-medier",
+      "teaser_text": "Kan jag använda WhatsApp?",
+      "teaser_send": "Kan jag använda WhatsApp?",
+      "prompts": [
+        "Kan jag använda WhatsApp?",
+        "Kan jag skicka sms-kampanjer?",
+        "Alla chattar i en inkorg?",
+        "Vilka kanaler finns det?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/priser",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "priser",
+      "teaser_text": "Vilken plan passar mig?",
+      "teaser_send": "Vilken plan passar mig?",
+      "prompts": [
+        "Vilken plan passar mig?",
+        "Vad kostar Spotler?",
+        "Vad ingår i varje plan?",
+        "Kan jag få en offert?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/produkter",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "produkter",
+      "teaser_text": "Vilken produkt passar mig?",
+      "teaser_send": "Vilken produkt passar mig?",
+      "prompts": [
+        "Vilken produkt passar mig?",
+        "Vad är skillnaden?",
+        "Fungerar produkterna ihop?",
+        "Kan jag boka en demo?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/b2b",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "b2b",
+      "teaser_text": "Hur hjälper Spotler B2B-team?",
+      "teaser_send": "Hur hjälper Spotler B2B-team?",
+      "prompts": [
+        "Hur hjälper Spotler B2B-team?",
+        "Hur får jag fler leads?",
+        "Vilka B2B-verktyg finns?",
+        "Kan jag boka en demo?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/handel",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "handel",
+      "teaser_text": "Hur växer min webbshop?",
+      "teaser_send": "Hur växer min webbshop?",
+      "prompts": [
+        "Hur växer min webbshop?",
+        "Vilka verktyg för min webbshop?",
+        "Kopplas det till min plattform?",
+        "Kan jag boka en demo?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/offentlig-sektor",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "offentlig-sektor",
+      "teaser_text": "Jobbar ni med offentlig sektor?",
+      "teaser_send": "Jobbar ni med offentlig sektor?",
+      "prompts": [
+        "Jobbar ni med offentlig sektor?",
+        "Följer ni GDPR?",
+        "Var lagras min data?",
+        "Kan jag boka en demo?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/integrationer",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "integrationer",
+      "teaser_text": "Passar Spotler min tech stack?",
+      "teaser_send": "Passar Spotler min tech stack?",
+      "prompts": [
+        "Passar Spotler min tech stack?",
+        "Vilka integrationer finns?",
+        "Har ni ett API?",
+        "Kopplas det till mitt CRM?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/framgangshistorier",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "framgangshistorier",
+      "teaser_text": "Vilka resultat får kunderna?",
+      "teaser_send": "Vilka resultat får kunderna?",
+      "prompts": [
+        "Vilka resultat får kunderna?",
+        "Exempel från min bransch?",
+        "Hur snabbt syns resultat?",
+        "Kan jag boka en demo?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/kundcases",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "kundcases",
+      "teaser_text": "Vilka resultat får kunderna?",
+      "teaser_send": "Vilka resultat får kunderna?",
+      "prompts": [
+        "Vilka resultat får kunderna?",
+        "Exempel från min bransch?",
+        "Hur snabbt syns resultat?",
+        "Kan jag boka en demo?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/tjanster",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "tjanster",
+      "teaser_text": "Vilka tjänster erbjuder ni?",
+      "teaser_send": "Vilka tjänster erbjuder ni?",
+      "prompts": [
+        "Vilka tjänster erbjuder ni?",
+        "Hjälper ni mig att komma igång?",
+        "Erbjuder ni utbildning?",
+        "Kan ni sköta kampanjer åt mig?"
+      ]
+    },
+    {
+      "url_match": "/sv-se/kunskapsbank",
+      "match_type": "contains",
+      "region": "sv-SE",
+      "page": "kunskapsbank",
+      "teaser_text": "Prenumerera på Spotler Insights",
+      "teaser_send": "Prenumerera på Spotler Insights",
+      "prompts": [
+        "Prenumerera på Spotler Insights",
+        "Tips om e-postmarknadsföring?",
+        "Vilken guide läser jag först?",
+        "Har ni webbinarier?"
       ]
     },
     {
@@ -1571,10 +2439,10 @@
       "teaser_text": "Questions about Spotler? Ask me anything!",
       "teaser_send": "I have a question about Spotler",
       "prompts": [
-        "How can Spotler help my business?",
-        "Which Spotler product fits an online shop?",
+        "How can Spotler help me?",
+        "Which product fits a webshop?",
         "Can I book a demo this week?",
-        "How does Spotler use AI in email marketing?",
+        "How does Spotler use AI?",
         "What does Spotler cost?"
       ]
     },
@@ -1695,10 +2563,10 @@
       "match_type": "contains",
       "region": "en-AU",
       "page": "ecommerce-transactional-emails",
-      "teaser_text": "How do you get 99.8% delivery?",
-      "teaser_send": "How do you get 99.8% delivery?",
+      "teaser_text": "How reliable is your delivery?",
+      "teaser_send": "How reliable is your delivery?",
       "prompts": [
-        "How do you get 99.8% delivery?",
+        "How reliable is your delivery?",
         "What are transactional emails?",
         "Can I send order confirmations?",
         "Does it work with my webshop?"

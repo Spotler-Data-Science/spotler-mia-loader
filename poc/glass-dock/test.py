@@ -12,8 +12,8 @@ CONFIG = open(os.path.join(ROOT, "test/mock/config.json")).read()
 OUT = os.path.join(ROOT, "poc/glass-dock/out"); os.makedirs(OUT, exist_ok=True)
 PNG = bytes.fromhex("89504e470d0a1a0a0000000d4948445200000001000000010806000000" "1f15c4890000000d49444154789c63f8cfc0f01f0005000201a5f6e0540000000049454e44ae426082")
 HS_PAGE = open(os.path.join(ROOT, "test/mock/hubspot-meetings.html")).read()
-PROMPTS = ["How can Spotler help my business?", "Which Spotler product fits an online shop?", "Can I book a demo this week?",
-           "How does Spotler use AI in email marketing?", "What does Spotler cost?"]
+PROMPTS = ["How can Spotler help me?", "Which product fits a webshop?", "Can I book a demo this week?",
+           "How does Spotler use AI?", "What does Spotler cost?"]
 
 results = []
 def check(name, cond, detail=""):
@@ -369,8 +369,8 @@ async def main():
                                            ("/nl-nl/", "nl", "Stel Mia een vraag...", "Hoi", "AI-assistent · Privacy")]:
             ctx, page, _ = await region_page(path)
             q = await page.evaluate("document.getElementById('mia-dock-q').textContent")
-            first = {"de": "Wie kann Spotler meinem Unternehmen helfen?", "sv": "Hur kan Spotler hjälpa mitt företag?",
-                     "es": "¿Cómo puede Spotler ayudar a mi empresa?", "nl": "Hoe kan Spotler mijn bedrijf helpen?"}[lang]
+            first = {"de": "Wie hilft Spotler meiner Firma?", "sv": "Hur kan Spotler hjälpa mig?",
+                     "es": "¿Cómo me ayuda Spotler?", "nl": "Hoe helpt Spotler mijn bedrijf?"}[lang]
             await page.click("#mia-dock-q"); await page.wait_for_timeout(700)
             d = await page.evaluate("""() => ({ ph: document.getElementById('mia-dock-in').placeholder, ft: document.getElementById('mia-dock-ft').textContent,
                 text: document.getElementById('mia-start').textContent })""")

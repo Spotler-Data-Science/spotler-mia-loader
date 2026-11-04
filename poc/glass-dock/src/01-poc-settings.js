@@ -3,7 +3,7 @@
    Every region the production loader covers. The production loader's own
    settings are untouched.
    ================================================================== */
-SETTINGS.VERSION = "poc-glass-1.0";
+SETTINGS.VERSION = "poc-glass-1.1";
 
 // The bot the dock talks to (the production loader's own setting is left
 // alone). Ids: Botpress dashboard -> bot -> Webchat -> Share.
@@ -21,16 +21,11 @@ SETTINGS.POC_CONFIG_URL = "https://marketing.spotler.com/botpress/config.json";
 // the page table has no "prompts" for the page. On a page with its own row,
 // that page's teaser comes first (the arrow sends its teaser_send).
 SETTINGS.POC_PROMPTS = {
-  en: ["How can Spotler help my business?", "Which Spotler product fits an online shop?", "Can I book a demo this week?",
-       "How does Spotler use AI in email marketing?", "What does Spotler cost?"],
-  nl: ["Hoe kan Spotler mijn bedrijf helpen?", "Welk Spotler-product past bij een webshop?", "Kan ik deze week een demo boeken?",
-       "Hoe gebruikt Spotler AI in e-mailmarketing?", "Wat kost Spotler?"],
-  de: ["Wie kann Spotler meinem Unternehmen helfen?", "Welches Spotler-Produkt passt zu einem Onlineshop?", "Kann ich diese Woche eine Demo buchen?",
-       "Wie nutzt Spotler KI im E-Mail-Marketing?", "Was kostet Spotler?"],
-  es: ["¿Cómo puede Spotler ayudar a mi empresa?", "¿Qué producto de Spotler encaja con una tienda online?", "¿Puedo reservar una demo esta semana?",
-       "¿Cómo usa Spotler la IA en el email marketing?", "¿Cuánto cuesta Spotler?"],
-  sv: ["Hur kan Spotler hjälpa mitt företag?", "Vilken Spotler-produkt passar en webbutik?", "Kan jag boka en demo den här veckan?",
-       "Hur använder Spotler AI i e-postmarknadsföring?", "Vad kostar Spotler?"]
+  en: ["How can Spotler help me?", "Which product fits a webshop?", "Can I book a demo this week?", "How does Spotler use AI?", "What does Spotler cost?"],
+  nl: ["Hoe helpt Spotler mijn bedrijf?", "Wat past bij een webshop?", "Kan ik een demo boeken?", "Hoe gebruikt Spotler AI?", "Wat kost Spotler?"],
+  de: ["Wie hilft Spotler meiner Firma?", "Was passt zu einem Onlineshop?", "Kann ich eine Demo buchen?", "Wie nutzt Spotler KI?", "Was kostet Spotler?"],
+  es: ["¿Cómo me ayuda Spotler?", "¿Qué va bien para una tienda?", "¿Puedo reservar una demo?", "¿Cómo usa Spotler la IA?", "¿Cuánto cuesta Spotler?"],
+  sv: ["Hur kan Spotler hjälpa mig?", "Vad passar en webbutik?", "Kan jag boka en demo?", "Hur använder Spotler AI?", "Vad kostar Spotler?"]
 };
 // The bar's text when the chat is closed with a demo booking still open.
 SETTINGS.POC_CAL_RESUME = { en: "Finish booking your demo", nl: "Rond je demo-afspraak af", de: "Demo-Buchung abschließen",
