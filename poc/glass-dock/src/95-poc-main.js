@@ -92,8 +92,11 @@ function promptsFor(row, regionId) {
 function lineUpLiveChat(sr) {
   try {
     var host = BP.ctx.shell && BP.ctx.shell.host, shr = host && host.shadowRoot;
-    // held messages (typed while Mia replies) aren't in the live chat yet: line up her reply
-    var mine = shr && shr.querySelectorAll(".m:not(.queued) .b"), live = sr.querySelectorAll(".bpMessageBlocksBubble");
+    // line up on the visitor's message (the same text in both; Mia's reply can
+    // wrap a line differently); held messages aren't in the live chat yet
+    var mine = shr && shr.querySelectorAll(".m.out:not(.queued) .b"),
+        live = sr.querySelectorAll(".bpMessageContainer[data-direction=outgoing] .bpMessageBlocksBubble");
+    if (!mine || !mine.length || !live.length) { mine = shr && shr.querySelectorAll(".m:not(.queued) .b"); live = sr.querySelectorAll(".bpMessageBlocksBubble"); }
     if (!mine || !mine.length || !live.length) return 0;
     var d = Math.round(live[live.length - 1].getBoundingClientRect().top - mine[mine.length - 1].getBoundingClientRect().top);
     if (!d || Math.abs(d) > 160) return 0;

@@ -92,7 +92,7 @@
     sendEvent: function (e) { log.push(["sendEvent", JSON.stringify(e)]); if (e.type === "language" && !e.__quiet && !window.__skipGreeting) { addMsg("incoming", "Greeting from Botpress"); } return Promise.resolve(); },
     sendMessage: function (t) {
       log.push(["sendMessage", t]);
-      setTimeout(function () { addMsg("outgoing", t); var d = document.createElement("span"); d.className = "bpStatus"; d.textContent = "Delivered"; list.appendChild(d); emit("message", { text: t }); }, 200);
+      setTimeout(function () { addMsg("outgoing", t); var d = document.createElement("span"); d.className = "bpStatus bpMessageDeliveryStatusLabel"; d.style.cssText = "display:block;text-align:right;font-size:12px;line-height:20px"; d.textContent = "Delivered"; list.appendChild(d); emit("message", { text: t }); }, 200);
       // Like v3.7: the typing dots are an incoming message of their own
       // until the reply replaces them.
       var typing;

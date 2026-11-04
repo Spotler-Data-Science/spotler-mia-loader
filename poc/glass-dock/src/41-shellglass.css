@@ -25,16 +25,18 @@
 .cmp { display: none; }
 /* "Delivered": a little room under the bubble (the live chat is lined up to
    the preview at the hand-over, so the few px don't show) */
-.st { margin-top: -4px; font-size: 11.5px; line-height: 14px; color: #5B6B8C; }
+/* "Delivered" as the live chat lays it out: right under the bubble, 20px
+   tall, Mia's reply right under it (the list's 8px gaps cancelled) */
+.st { margin: -8px 0 -8px; font-size: 11.5px; line-height: 20px; color: #5B6B8C; }
 /* the AI / privacy line is under the dock's field instead */
 .ft { display: none; }
 /* phones: the messages 19px in from the glass, like the start screen and the field */
 @media (max-width: 640px), (pointer: coarse) { .vp { padding-left: 14px; padding-right: 14px; } }
 /* "Delivered" and Mia's typing dots open their space smoothly (they used to
-   pop in and shove the conversation up 18px, then 38px). The negative
-   margin starts by cancelling the list's 8px gap, so nothing steps. */
+   pop in and shove the conversation up). The typing row's negative margin
+   starts by cancelling the list's 8px gap, so nothing steps. */
 .st { animation: miaRiseSt .3s ease-out both; }
 .m.in.anim:has(> .typing) { animation: miaRiseTyping .35s ease-out both, miaIn .4s ease-out both; }
-@keyframes miaRiseSt { from { max-height: 0; margin-top: -8px; opacity: 0; } to { max-height: 14px; margin-top: -4px; opacity: 1; } }
+@keyframes miaRiseSt { from { max-height: 0; opacity: 0; } to { max-height: 20px; opacity: 1; } }
 @keyframes miaRiseTyping { from { max-height: 0; margin-top: -8px; } to { max-height: 32px; margin-top: 0; } }
 @media (prefers-reduced-motion: reduce) { .st, .m.in.anim:has(> .typing) { animation: none; } }
