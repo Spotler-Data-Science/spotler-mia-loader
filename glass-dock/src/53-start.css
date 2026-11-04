@@ -1,5 +1,5 @@
 /* ==================================================================
-   53 · Start screen (POC): what the open chat shows before the first
+   53 · Start screen: what the open chat shows before the first
    message. A headline, the greeting, option cards and "others often
    ask" questions, all from the page table (per page and language).
    Lives in the page (not the preview's shadow root), over the preview.

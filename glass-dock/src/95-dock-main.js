@@ -1,9 +1,9 @@
 /* ==================================================================
-   95 · Boot (POC glass dock): every region. Claims the page so the
+   95 · Boot (glass dock): every region. Claims the page so the
    production loader stands down. If the production loader got here
-   first and only shows its preview (no chat running), the POC takes
+   first and only shows its preview (no chat running), the dock takes
    its panel off the page and runs instead; with a chat running, the
-   POC leaves it alone.
+   dock leaves it alone.
    ================================================================== */
 var PROD_UI = ["spotler-agent-panel", "spotler-agent-pill", "spotler-agent-teaser", "spotler-inline-agent"];
 var PROD_CLASSES = ["agent-panel-open", "mia-fit-1", "mia-fit-2", "mia-fit-3", "mia-fit-4", "mia-bar-fit", "mia-bar-tight", "mia-full-page"];
@@ -23,10 +23,10 @@ function removeProductionLoader() {
 // The production loader may still be waiting for its page table: watch
 // for its panel for a while and take it off as soon as it appears.
 function keepProductionOff() {
-  if (removeProductionLoader()) log("POC: production slide-out removed");
+  if (removeProductionLoader()) log("old slide-out removed");
   if (!window.MutationObserver) return;
   var mo = new MutationObserver(function () {
-    if (removeProductionLoader()) log("POC: production slide-out removed");
+    if (removeProductionLoader()) log("old slide-out removed");
   });
   mo.observe(document.body, { childList: true });
   setTimeout(function () { mo.disconnect(); }, 15000);
@@ -42,8 +42,8 @@ function detectRegion(path) {
 // own cache (never mixed with the production loader's), and the rows keep
 // their "prompts" (the shared check only keeps the production columns).
 function usePocConfig() {
-  SETTINGS.CONFIG_URLS = [SETTINGS.POC_CONFIG_URL].concat(SETTINGS.CONFIG_URLS);
-  CONFIG_CACHE_KEY = "spotler_mia_poc_config";
+  SETTINGS.CONFIG_URLS = [SETTINGS.DOCK_CONFIG_URL].concat(SETTINGS.CONFIG_URLS);
+  CONFIG_CACHE_KEY = "spotler_mia_dock_config";
   var check = validateConfig;
   validateConfig = function (raw) {
     var cfg = check(raw);
@@ -81,7 +81,7 @@ function usePocConfig() {
 function promptsFor(row, regionId) {
   if (row.pagePrompts && row.pagePrompts.length) return row.pagePrompts;
   var list = (row.prompts && row.prompts.length ? row.prompts
-    : SETTINGS.POC_PROMPTS[SETTINGS.POC_LANG[regionId] || "en"] || SETTINGS.POC_PROMPTS.en).slice();
+    : SETTINGS.DOCK_PROMPTS[SETTINGS.DOCK_LANG[regionId] || "en"] || SETTINGS.DOCK_PROMPTS.en).slice();
   if (row.page && row.page !== "default" && row.teaser_text) list.unshift({ text: row.teaser_text, send: row.teaser_send || row.teaser_text });
   return list;
 }
@@ -208,13 +208,13 @@ function clearHeld() {
 function bootDock() {
   var path = location.pathname;
   var region = detectRegion(path);
-  if (region.id === "none" || SETTINGS.ENABLED_REGIONS.indexOf(region.id) === -1) { log("POC off: no chat for this locale"); return; }
+  if (region.id === "none" || SETTINGS.ENABLED_REGIONS.indexOf(region.id) === -1) { log("off: no chat for this locale"); return; }
   if (window.__spotlerMiaStarted || document.getElementById("bp-embedded-webchat")) {
     if (window.botpress || LS.getJSON(LIVE_KEY)) {
-      log("POC off: the production chat is in use on this page");
+      log("off: the old chat is in use on this page");
       return;
     }
-    log("POC: production loader " + window.__spotlerMiaStarted + " started first, taking over");
+    log("old loader " + window.__spotlerMiaStarted + " started first, taking over");
   }
   window.__spotlerMiaStarted = SETTINGS.VERSION;     // a production loader firing later stands down
   keepProductionOff();
@@ -224,7 +224,7 @@ function bootDock() {
   SETTINGS.CDN_ORIGINS.forEach(preconnect);
 
   var labels = SETTINGS.LABELS[region.id] || SETTINGS.LABELS["en-GB"];
-  labels.calResume = SETTINGS.POC_CAL_RESUME[SETTINGS.POC_LANG[region.id] || "en"];
+  labels.calResume = SETTINGS.DOCK_CAL_RESUME[SETTINGS.DOCK_LANG[region.id] || "en"];
   var ctx = { region: region, labels: labels, row: null, ui: null, shell: null };
   BP.ctx = ctx;
   var started = false;
@@ -238,7 +238,7 @@ function bootDock() {
       ctx.row = fresh;
       ctx.ui.setPrompts(promptsFor(fresh, region.id));
       if (!ctx.ui.isOpen()) mountShell();
-      log("POC: page settings updated from the live file");
+      log("page settings updated from the live file");
       return;
     }
     if (started) return;
@@ -249,7 +249,7 @@ function bootDock() {
 
   function start(row) {
     ctx.row = row;
-    log("POC glass dock, region " + region.id + ", page " + (row.page || "default"));
+    log("glass dock " + SETTINGS.VERSION + ", region " + region.id + ", page " + (row.page || "default"));
     addStyle(CSS.common);
 
     ctx.ui = createDock(labels, {
@@ -286,7 +286,7 @@ function bootDock() {
     if (typeof d === "string") { try { d = JSON.parse(d); } catch (e) { return; } }
     h = d && typeof d === "object" ? Number(d.height) : NaN;
     if (!(h > 300 && h < 3000)) return;
-    log("POC: HubSpot page height " + h);
+    log("HubSpot page height " + h);
     // visible = page height less the crop at the top (the frame's offset) and 16px at the foot, plus the card's border
     var cal = document.getElementById("spotler-cal"), f = cal && cal.shadowRoot && cal.shadowRoot.querySelector(".stage iframe");
     ctx.ui.fitCalendarPage(Math.round(h + (f ? f.offsetTop : -16) - 14));
@@ -310,7 +310,7 @@ function bootDock() {
     if (ctx.shell && ctx.shell.host && ctx.shell.host.parentNode) ctx.shell.host.parentNode.removeChild(ctx.shell.host);
     if (startScreen && startScreen.el.parentNode) startScreen.el.parentNode.removeChild(startScreen.el);
     startScreen = State.getLive(region.id) ? null
-      : createStart(ctx.ui.body, ctx.row, SETTINGS.POC_LANG[region.id] || "en", promptsFor(ctx.row, region.id), startChat);
+      : createStart(ctx.ui.body, ctx.row, SETTINGS.DOCK_LANG[region.id] || "en", promptsFor(ctx.row, region.id), startChat);
     var host = el("div", { id: "spotler-mia-shell" });
     host.style.setProperty("--mia-video-w", ctx.ui.videoWidth + "px");
     try { host.style.setProperty("--mia-font", getComputedStyle(document.body).fontFamily); } catch (e) {}   // the site's own font
@@ -325,5 +325,5 @@ function bootDock() {
 }
 
 onDomReady(function () {
-  try { bootDock(); } catch (e) { log("POC boot failed", e); }
+  try { bootDock(); } catch (e) { log("boot failed", e); }
 });

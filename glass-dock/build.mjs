@@ -1,14 +1,14 @@
 // Builds the glass-dock POC tag: the production loader's shared src/
 // files plus this folder's src/ (the dock, its boot, its settings),
 // joined in filename order. Run from the repo root:
-//   node poc/glass-dock/build.mjs  →  poc/glass-dock/dist/mia-poc-glass.gtm.html
+//   node glass-dock/build.mjs  →  glass-dock/dist/mia-glass-dock.gtm.html
 import { readFileSync, writeFileSync, readdirSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { minify } from "terser";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(HERE, "..", "..");
+const ROOT = join(HERE, "..");
 // Production files the POC doesn't use: its own container and boot replace them.
 // 70-hubspot.html is the slide-out's pop-up calendar: the dock always shows it in the chat.
 const SKIP = ["50-slideout.js", "50-slideout.css", "55-embedded.js", "55-embedded.css", "90-main.js", "70-hubspot.html"];
@@ -66,14 +66,14 @@ for (const { f, p } of files) {
 }
 
 const stamp = new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC";
-const version = /SETTINGS\.VERSION = "([^"]+)"/.exec(readFileSync(join(HERE, "src/01-poc-settings.js"), "utf8"))[1];
-const banner = `/* Spotler Mia glass dock POC ${version} - built ${stamp} - live, every region - source: github.com/Spotler-Data-Science/spotler-mia-loader/poc/glass-dock */`;
+const version = /SETTINGS\.VERSION = "([^"]+)"/.exec(readFileSync(join(HERE, "src/01-dock-settings.js"), "utf8"))[1];
+const banner = `/* Spotler Mia ${version} - built ${stamp} - live, every region - source: github.com/Spotler-Data-Science/spotler-mia-loader/glass-dock */`;
 const body = `(function () {\n"use strict";\nvar CSS = ${JSON.stringify(css)};\nvar HTML = ${JSON.stringify(html)};\n${js.join("\n")}\n})();`;
 const min = await minify(body, { ecma: 5, compress: { passes: 2 }, mangle: true, format: { ascii_only: true } });
 if (!min.code) throw new Error("minify failed");
 if (/[^\x00-\x7e]/.test(banner + min.code)) throw new Error("non-ASCII character in the GTM tag");
 
 mkdirSync(join(HERE, "dist"), { recursive: true });
-writeFileSync(join(HERE, "dist/mia-poc-glass.gtm.html"), `<script>\n${banner}\n${min.code}\n</script>\n`);
-writeFileSync(join(HERE, "dist/mia-poc-glass.debug.html"), `<script>\n${banner}\n${body}\n</script>\n`);
-console.log(`built ${files.length} files → poc/glass-dock/dist/mia-poc-glass.gtm.html (${(min.code.length / 1024).toFixed(1)} KB)`);
+writeFileSync(join(HERE, "dist/mia-glass-dock.gtm.html"), `<script>\n${banner}\n${min.code}\n</script>\n`);
+writeFileSync(join(HERE, "dist/mia-glass-dock.debug.html"), `<script>\n${banner}\n${body}\n</script>\n`);
+console.log(`built ${files.length} files → glass-dock/dist/mia-glass-dock.gtm.html (${(min.code.length / 1024).toFixed(1)} KB)`);

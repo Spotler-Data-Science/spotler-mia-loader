@@ -1,5 +1,5 @@
 /* ==================================================================
-   52 · Glass dock (POC)
+   52 · Glass dock
    Resting: a glass pill fixed to the bottom that types a question,
    holds it, erases it and types the next. Nothing from Botpress loads.
      arrow      → that question goes straight into the chat
@@ -37,7 +37,7 @@ function createDock(labels, handlers) {
   var loading = el("div", { id: "mia-dock-loading", "aria-hidden": "true" }, [el("span")]);
   var webchat = el("div", { id: "bp-embedded-webchat" });
   // typed while Mia replies in the live chat: held at the foot of the chat
-  // (see-through, no status) until her reply lands, then sent (95-poc-main)
+  // (see-through, no status) until her reply lands, then sent (95-dock-main)
   var held = el("div", { id: "mia-dock-held", "aria-live": "polite" });
   var body = el("div", { id: "spotler-inline-body" }, [loading, webchat, held]);
   var chat = el("div", { id: "mia-dock-chat", role: "dialog", "aria-label": labels.title }, [head, body]);
@@ -122,7 +122,7 @@ function createDock(labels, handlers) {
 
   // ---- the typing question ----
   // each question: a string, or {text, send} (a page teaser: shown text, sent text)
-  var prompts = SETTINGS.POC_PROMPTS.en, idx = 0, current = "", currentSend = "", timer = null, running = false;
+  var prompts = SETTINGS.DOCK_PROMPTS.en, idx = 0, current = "", currentSend = "", timer = null, running = false;
   var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   function next() {
     var p = prompts[idx++ % prompts.length];
@@ -132,14 +132,14 @@ function createDock(labels, handlers) {
   function type(n) {
     if (!running) return;
     q.textContent = current.slice(0, n);
-    if (n < current.length) timer = setTimeout(function () { type(n + 1); }, SETTINGS.POC_TYPE_MS);
-    else timer = setTimeout(function () { erase(n); }, SETTINGS.POC_HOLD_MS);
+    if (n < current.length) timer = setTimeout(function () { type(n + 1); }, SETTINGS.DOCK_TYPE_MS);
+    else timer = setTimeout(function () { erase(n); }, SETTINGS.DOCK_HOLD_MS);
   }
   function erase(n) {
     if (!running) return;
     q.textContent = current.slice(0, n);
-    if (n > 0) timer = setTimeout(function () { erase(n - 1); }, SETTINGS.POC_ERASE_MS);
-    else timer = setTimeout(function () { next(); type(0); }, SETTINGS.POC_GAP_MS);
+    if (n > 0) timer = setTimeout(function () { erase(n - 1); }, SETTINGS.DOCK_ERASE_MS);
+    else timer = setTimeout(function () { next(); type(0); }, SETTINGS.DOCK_GAP_MS);
   }
   function startTyping() {
     if (running || dock.classList.contains("typing-field") || dock.classList.contains("cal-pending")) return;

@@ -1,15 +1,15 @@
 """Headless checks for the glass-dock POC, against the mocked Botpress.
-Run from the repo root: node build.mjs && node poc/glass-dock/build.mjs && python3 poc/glass-dock/test.py"""
+Run from the repo root: node build.mjs && node glass-dock/build.mjs && python3 glass-dock/test.py"""
 import asyncio, json, os, sys
 from playwright.async_api import async_playwright
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-POC = open(os.path.join(ROOT, "poc/glass-dock/dist/mia-poc-glass.gtm.html")).read()
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+POC = open(os.path.join(ROOT, "glass-dock/dist/mia-glass-dock.gtm.html")).read()
 PROD = open(os.path.join(ROOT, "dist/mia-loader.gtm.html")).read()
 RAW = open(os.path.join(ROOT, "test/mock/page.html")).read()
 INJECT = open(os.path.join(ROOT, "test/mock/inject.js")).read()
 CONFIG = open(os.path.join(ROOT, "test/mock/config.json")).read()
-OUT = os.path.join(ROOT, "poc/glass-dock/out"); os.makedirs(OUT, exist_ok=True)
+OUT = os.path.join(ROOT, "glass-dock/out"); os.makedirs(OUT, exist_ok=True)
 PNG = bytes.fromhex("89504e470d0a1a0a0000000d4948445200000001000000010806000000" "1f15c4890000000d49444154789c63f8cfc0f01f0005000201a5f6e0540000000049454e44ae426082")
 HS_PAGE = open(os.path.join(ROOT, "test/mock/hubspot-meetings.html")).read()
 PROMPTS = ["How can Spotler help me?", "Which product fits a webshop?", "Can I book a demo this week?",

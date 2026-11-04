@@ -1,5 +1,5 @@
 /* ==================================================================
-   53 · Start screen (POC)
+   53 · Start screen
    Before the first message the open chat shows a start screen instead
    of an empty chat: a headline, the greeting, option cards and a few
    "others often ask" questions. Everything comes from the page's row
@@ -27,7 +27,7 @@ var START_ICONS = {
 
 // Defaults per language: the headline, the "others often ask" heading, and a
 // description for each kind of card.
-SETTINGS.POC_START = {
+SETTINGS.DOCK_START = {
   en: { title: "Hello, I’m Mia", others: "Others often ask",
         calendar: "Meet one of our product experts", pricing: "Compare our packages", support: "Get help and find answers", explore: "See what Spotler can do for you" },
   nl: { title: "Hoi, ik ben Mia", others: "Anderen vragen vaak",
@@ -65,7 +65,7 @@ function startIcon(name) {
 // Builds the start screen into `parent`. onPick(text, source) sends a
 // card's or a question's message. Returns { el, hide }.
 function createStart(parent, row, lang, prompts, onPick) {
-  var L = SETTINGS.POC_START[lang] || SETTINGS.POC_START.en;
+  var L = SETTINGS.DOCK_START[lang] || SETTINGS.DOCK_START.en;
   var screen = el("div", { id: "mia-start" });
 
   var intro = el("div", { "class": "mia-intro" }, [el("h2", { text: row.title || L.title })]);
