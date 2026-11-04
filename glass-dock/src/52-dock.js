@@ -288,7 +288,9 @@ var DOCK_LIVE_CSS =
   // laid out exactly like the preview, so the hand-over doesn't re-flow:
   // the site's font, the preview's spacing (no room kept for a composer),
   // the same bubble padding and text size
-  ".bpContainer,.bpContainer *{font-family:var(--mia-font,inter,sans-serif) !important}" +
+  // (":not(#mia-x)" lifts the rule above Botpress's own font rules, which load
+  // after ours and would otherwise win: the chat stays in the site's font)
+  ".bpContainer:not(#mia-x),.bpContainer *:not(#mia-x){font-family:var(--mia-font,inter,sans-serif) !important}" +
   ".bpMessageListContainer{margin-bottom:0 !important;padding:4px !important}" +
   ".bpMessageListViewport{padding:8px 24px 16px !important}" +
   // Mia's replies: a grey glass bubble (as the preview's, 41-shellglass.css)

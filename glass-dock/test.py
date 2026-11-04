@@ -307,6 +307,13 @@ async def main():
         ip = [json.loads(e[1]) for e in log if e[0] == "initProps"]
         check("3f the chat starts with the go-live bot (7fd567ab..., client 877f50a2...)",
               ip and ip[0]["botId"] == "7fd567ab-816f-4219-9588-ef0fbe77a342" and ip[0]["clientId"] == "877f50a2-6eee-4e43-99bd-eb9548fdf9c3", ip)
+        # a later Botpress font rule (as Botpress's own styles load after the tag's) can't win: the site's font
+        await page.wait_for_timeout(1500)
+        ff = await page.evaluate("""() => { const r=window.__bpShadow, st=document.createElement('style');
+            st.textContent='.bpMessageBlocksBubble,.bpMessageBlocksBubble *{font-family:monospace !important}'; (r.head||r).appendChild(st);
+            const b=r.querySelector('.bpMessageBlocksBubble p') || r.querySelector('.bpMessageBlocksBubble');
+            return [getComputedStyle(b).fontFamily, getComputedStyle(document.getElementById('mia-dock')).getPropertyValue('--mia-font').trim()] }""")
+        check("3g the live chat uses the site's font, even over Botpress's own font rules", ff[0] == ff[1] and "monospace" not in ff[0], ff)
         sw = await page.evaluate("window.__swap")
         # (the mock's live chat isn't styled like Botpress, so Mia's reply can't line up here;
         # on the real site it does: 41px bubble, 20px "Delivered", reply right under)
