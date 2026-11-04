@@ -30,3 +30,11 @@
 .ft { display: none; }
 /* phones: the messages 19px in from the glass, like the start screen and the field */
 @media (max-width: 640px), (pointer: coarse) { .vp { padding-left: 14px; padding-right: 14px; } }
+/* "Delivered" and Mia's typing dots open their space smoothly (they used to
+   pop in and shove the conversation up 18px, then 38px). The negative
+   margin starts by cancelling the list's 8px gap, so nothing steps. */
+.st { animation: miaRiseSt .3s ease-out both; }
+.m.in.anim:has(> .typing) { animation: miaRiseTyping .35s ease-out both, miaIn .4s ease-out both; }
+@keyframes miaRiseSt { from { max-height: 0; margin-top: -8px; opacity: 0; } to { max-height: 14px; margin-top: -4px; opacity: 1; } }
+@keyframes miaRiseTyping { from { max-height: 0; margin-top: -8px; } to { max-height: 32px; margin-top: 0; } }
+@media (prefers-reduced-motion: reduce) { .st, .m.in.anim:has(> .typing) { animation: none; } }
