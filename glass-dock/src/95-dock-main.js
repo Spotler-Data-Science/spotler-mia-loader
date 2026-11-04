@@ -182,8 +182,17 @@ function waitForReplies() {
     return send(text, attempt);
   };
   // restart, timeout, ended in another tab: nothing held is sent
+  // and the old conversation goes at once: the new start screen is see-through
+  // glass, so a fading live chat would show through it
   var reset = resetToShell;
-  resetToShell = function (reason) { clearHeld(); return reset(reason); };
+  resetToShell = function (reason) {
+    clearHeld();
+    var w = BP.ctx.ui && BP.ctx.ui.webchat;
+    if (w) w.style.transition = "none";
+    var out = reset(reason);
+    if (w) { void w.offsetWidth; w.style.transition = ""; }
+    return out;
+  };
 }
 
 function holdInDock(text, untilReveal) {

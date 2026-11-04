@@ -549,6 +549,8 @@ async def main():
         await page.wait_for_timeout(600)
         await type_in_dock(page, "never mind")
         await page.click("#mia-dock-head button[aria-label='Restart conversation']")
+        op = await page.evaluate("getComputedStyle(document.getElementById('bp-embedded-webchat')).opacity")
+        check("10g restart: the old conversation is gone at once (nothing shows through the new start screen)", op == "0", op)
         await page.wait_for_timeout(3500)
         sent = await page.evaluate(SENT)
         check("10f restart while a message is held: it's dropped, not sent into the new chat",
