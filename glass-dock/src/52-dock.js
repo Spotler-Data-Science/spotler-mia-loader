@@ -291,9 +291,12 @@ var DOCK_LIVE_CSS =
   ".bpContainer,.bpContainer *{font-family:var(--mia-font,inter,sans-serif) !important}" +
   ".bpMessageListContainer{margin-bottom:0 !important;padding:4px !important}" +
   ".bpMessageListViewport{padding:8px 24px 16px !important}" +
-  ".bpMessageContainer[data-direction=incoming] .bpMessageBlocksBubble{background:transparent !important;padding:0 !important;color:#0B1F4D !important;font-size:15px !important;line-height:23px !important;max-width:100% !important}" +
+  // Mia's replies: a grey glass bubble (as the preview's, 41-shellglass.css)
+  ".bpMessageContainer[data-direction=incoming] .bpMessageBlocksBubble{background:rgba(240,243,248,.88) !important;border:1px solid rgba(11,31,77,.08) !important;border-radius:18px !important;padding:10px 16px !important;color:#0B1F4D !important;font-size:15px !important;line-height:23px !important;max-width:85% !important}" +
   ".bpMessageContainer[data-direction=outgoing] .bpMessageBlocksBubble{background:rgba(214,230,255,.85) !important;color:#0B1F4D !important;border-radius:18px !important;padding:9px 16px !important;font-size:15px !important;line-height:23px !important;max-width:85% !important}" +
-  ".bpMessageBlocksButton{background:rgba(255,255,255,.55) !important;border:1px solid rgba(11,31,77,.14) !important;color:#0B1F4D !important;border-radius:999px !important;padding:4px 12px !important;font-size:14px !important;line-height:20px !important}" +
+  // reply buttons: a slight blue
+  ".bpMessageBlocksButton{background:rgba(225,238,252,.9) !important;border:1px solid rgba(47,140,210,.28) !important;color:#0B1F4D !important;border-radius:999px !important;padding:4px 12px !important;font-size:14px !important;line-height:20px !important}" +
+  ".bpMessageBlocksButton:hover{background:rgba(210,230,250,.95) !important}" +
   ".bpComposerFooter{display:none !important}" +
   // Botpress's "scroll to newest" arrow: not wanted
   ".bpMessageListScrollDownButton{display:none !important}" +
