@@ -10,16 +10,18 @@ SETTINGS.VERSION = "glass-dock-1.8";
 SETTINGS.BOT_ID = "7fd567ab-816f-4219-9588-ef0fbe77a342";
 SETTINGS.CLIENT_ID = "877f50a2-6eee-4e43-99bd-eb9548fdf9c3";
 
-// The dock's page table: marketing's file on spotler.com, and nothing else
-// (no GitHub: the live tag never depends on a repository). Same format as
-// config/config.json, plus the dock's fields (prompts, title, card
-// description / icon). Its server must allow www.spotler.com to read it
-// (Access-Control-Allow-Origin). If it can't be read: the copy this browser
-// saved on an earlier visit, else the built-in defaults (each region's
-// greeting, cards and general questions; no page-specific questions).
-SETTINGS.DOCK_CONFIG_URL = "https://marketing.spotler.com/botpress/config.json";
+// The dock's page table: a file in the site's own WordPress uploads, read
+// from whatever host the page is on (spotler.com, www.spotler.com or
+// staging), so it's always the same site and no CORS header is needed.
+// Nothing else (no GitHub: the live tag never depends on a repository).
+// Same format as config/config.json, plus the dock's fields (prompts, title,
+// card description / icon). If it can't be read: the copy this browser saved
+// on an earlier visit, else the built-in defaults (each region's greeting,
+// cards and general questions; no page-specific questions).
+// Updating it: replace the media file so the URL stays the same.
+SETTINGS.DOCK_CONFIG_PATH = "/wp-content/uploads/2026/11/botpress-config.json";
+SETTINGS.DOCK_CONFIG_URL = location.protocol + "//" + location.host + SETTINGS.DOCK_CONFIG_PATH;
 SETTINGS.CONFIG_URLS = [SETTINGS.DOCK_CONFIG_URL];
-SETTINGS.CDN_ORIGINS = SETTINGS.CDN_ORIGINS.concat(["https://marketing.spotler.com"]);
 
 // One font for the whole chat (fixed texts and the Botpress conversation):
 // the Open Sans spotler.com already loads; no font of the tag's own.

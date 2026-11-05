@@ -43,7 +43,7 @@ function detectRegion(path) {
 // their "prompts" (the shared check only keeps the production columns).
 function usePocConfig() {
   SETTINGS.CONFIG_URLS = [SETTINGS.DOCK_CONFIG_URL];
-  CONFIG_CACHE_KEY = "spotler_mia_dock_config";
+  CONFIG_CACHE_KEY = "spotler_mia_dock_settings";   // new name in 1.8: copies saved by earlier versions are ignored
   var check = validateConfig;
   validateConfig = function (raw) {
     var cfg = check(raw);

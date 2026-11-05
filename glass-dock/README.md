@@ -40,13 +40,15 @@ fallback when the file can't be read.
 
 ## Editing the text
 
-The tag reads **`glass-dock/config.json`** in this repo first (branch
-`claude/new-session-bl4psv`), and the production page table only if that file
-can't be read or isn't valid. Edit it on GitHub:
-https://github.com/Spotler-Data-Science/spotler-mia-loader/edit/claude/new-session-bl4psv/glass-dock/config.json
-Changes show within about 5 minutes. Later it moves to
-`https://marketing.spotler.com/botpress/config.json` (`DOCK_CONFIG_URL` in
-`src/01-dock-settings.js`; that server must send `Access-Control-Allow-Origin`).
+The tag reads the page table from the site's own WordPress uploads:
+`/wp-content/uploads/2026/11/botpress-config.json` on whatever host the page is
+on (spotler.com, www.spotler.com, the staging site), so it's always the same
+site and no CORS header is needed (`DOCK_CONFIG_PATH` in
+`src/01-dock-settings.js`). It never reads GitHub. The master copy is
+`glass-dock/config.json` in this repo; to publish a change, replace the media
+file in WordPress (a "replace media" plugin keeps the URL the same), on live
+and on staging. If the file can't be read: the copy the browser saved on an
+earlier visit, else the built-in defaults (no page-specific questions).
 
 It's the same format as `config/config.json`. On a row (`"url_match": "*"` is
 every page of that region without its own row):
@@ -58,10 +60,8 @@ every page of that region without its own row):
 | `title` | the start screen's headline (default per language: "Hello, I'm Mia", "Hallo, ich bin Mia"…) |
 | `buttons` | the start screen's cards: `[{"label": "…", "send": "…", "description": "…", "icon": "…"}]`. `description` (the grey line) and `icon` are optional: without them they're picked from the label (demo, pricing, support, otherwise explore). Icons: `calendar`, `pricing`, `support`, `explore`, `product`, `chat`, `mail`, `document`, `none`, or a picture: an `https://` link to a png, svg or jpg (shown 44×44) |
 
-The file's server must send `Access-Control-Allow-Origin: https://www.spotler.com`
-(or `*`), or browsers refuse to read it and the tag falls back to GitHub; the
-console then shows `config fetch failed (marketing.spotler.com)`. A good read
-shows `config from network v<version>`. Changes show within about 5 minutes,
+A good read shows `config from network v<version>` in the console; a missing
+or broken file shows `config fetch failed (<host>)`. Changes show within about 5 minutes,
 and every first message must still say Mia is Spotler's AI assistant.
 
 The start screen never scrolls on first open: when it doesn't fit, it drops
@@ -87,7 +87,7 @@ The production `50-slideout`, `55-embedded` and `90-main` are left out.
 
 ```bash
 node build.mjs                        # production tag (the tests use it too)
-node glass-dock/build.mjs         # → glass-dock/dist/mia-glass-dock.gtm.html
+node glass-dock/build.mjs         # → glass-dock/dist/mia-glass-dock-<version>.live.gtm.html and .staging.gtm.html
 CHROMIUM=/opt/pw-browsers/chromium python3 glass-dock/test.py
 ```
 

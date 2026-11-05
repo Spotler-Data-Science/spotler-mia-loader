@@ -31,7 +31,7 @@ async def setup(ctx, tags, phone=False, mkt=None, mkt_cors=True):
         url = route.request.url; reqs.append(url)
         if "cdn.botpress.cloud" in url: return await route.fulfill(body=INJECT, content_type="application/javascript")
         if url.endswith((".webp", ".png")): return await route.fulfill(body=PNG, content_type="image/png")
-        if "marketing.spotler.com/botpress/config.json" in url:
+        if "/wp-content/uploads/2026/11/botpress-config.json" in url:
             if mkt is None: return await route.fulfill(body=CONFIG, content_type="application/json", headers={"access-control-allow-origin": "*"})   # the marketing file: the mock page table
             if not mkt_cors: return await route.abort("failed")   # what a CORS block looks like to the page
             return await route.fulfill(body=mkt, content_type="application/json", headers={"access-control-allow-origin": "*"} if mkt_cors else {})
@@ -399,7 +399,7 @@ async def main():
         check("7g a locale without chat (/fr-fr/): no dock", not await page.evaluate("!!document.getElementById('mia-dock')"))
         await ctx.close()
 
-        # 6. marketing's own file (marketing.spotler.com) is read first: its questions and greeting
+        # 6. the page table in the site's own uploads is read first: its questions and greeting
         MKT = json.dumps({"version": "mkt-1", "rows": [{"url_match": "*", "region": "int", "mode": "slideout", "page": "default",
             "title": "Welcome to Spotler", "opener": "Hello from marketing: I'm Mia, Spotler's AI assistant.",
             "buttons": [{"label": "Show me Mail+", "send": "Show me Mail+", "description": "Our email platform in two minutes", "icon": "mail"},
@@ -443,7 +443,7 @@ async def main():
         await page.goto("https://www.spotler.com/")
         await page.wait_for_timeout(2600)
         q = await page.evaluate("document.getElementById('mia-dock-q').textContent")
-        check("6d marketing's file blocked or down: the built-in defaults, never GitHub", any("config fetch failed (marketing.spotler.com)" in l for l in logs) and any("config from built-in default" in l for l in logs)
+        check("6d marketing's file blocked or down: the built-in defaults, never GitHub", any("config fetch failed (www.spotler.com)" in l for l in logs) and any("config from built-in default" in l for l in logs)
               and not "Marketing question".startswith(q or "x") and not any(("github" in u or "jsdelivr" in u) for u in reqs), [q, [l for l in logs if "config" in l], [u for u in reqs if "github" in u or "jsdelivr" in u]])
         await ctx.close()
 
