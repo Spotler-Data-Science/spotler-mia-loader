@@ -13,7 +13,7 @@
   position: fixed; left: 50%; bottom: 24px; z-index: 2147483000;
   width: min(600px, calc(100vw - 32px)); transform: translateX(-50%);
   display: flex; flex-direction: column; overflow: hidden; border-radius: var(--mia-r);
-  font-family: inherit; color: #0B1F4D; -webkit-font-smoothing: antialiased;
+  font-family: var(--mia-font, 'Open Sans', sans-serif); color: #0B1F4D; -webkit-font-smoothing: antialiased;
   transition: width .5s cubic-bezier(.2,.8,.2,1), bottom .5s cubic-bezier(.2,.8,.2,1);
 }
 /* open: wider, the same gap to the screen edge; the field lifts to make room for the AI / privacy line under it */
@@ -177,3 +177,16 @@
   #mia-dock, #mia-dock-chat, #mia-dock-pill, #mia-dock-ft { transition: none; }
   #mia-dock-q::after { animation: none; }
 }
+/* One font for the whole chat, pinned on every element inside it, so the
+   site's own rules for p, a, h2, button... can't swap it (the id makes it
+   outrank them; nothing outside the chat is touched) */
+#mia-dock, #mia-dock * { font-family: var(--mia-font, 'Open Sans', sans-serif); }
+/* The AI / privacy line: 14px, pinned the same way (the site's paragraph
+   style set it to 16px) */
+#mia-dock #mia-dock-ft, #mia-dock #mia-dock-ft p, #mia-dock #mia-dock-ft a {
+  font-size: 14px !important; line-height: 18px !important; font-family: var(--mia-font, 'Open Sans', sans-serif) !important; }
+/* Hide switch for the site's popups: <html class="mia-hidden"> hides the
+   whole chat (bar, open chat, calendar); removing the class brings it back
+   exactly as it was. Pure CSS, so it works whenever the class is set,
+   before or after the chat loads; the conversation stays in place. */
+html.mia-hidden #mia-dock { display: none !important; }

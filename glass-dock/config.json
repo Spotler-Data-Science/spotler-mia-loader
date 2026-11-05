@@ -1,6 +1,6 @@
 {
-  "version": "2026-11-04.3",
-  "generatedBy": "marketing.spotler.com page table (glass dock): config/config.json plus the dock's fields (title, prompts, card description / icon) on every region's default row",
+  "version": "2026-11-05.1",
+  "generatedBy": "Glass dock page table for marketing.spotler.com/botpress/config.json (read by the live tag; no GitHub)",
   "rows": [
     {
       "url_match": "*",
@@ -8,7 +8,7 @@
       "region": "en-GB",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       "title": "Hello, I’m Mia",
       "buttons": [
         {
@@ -173,20 +173,6 @@
       ]
     },
     {
-      "url_match": "commerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "en-GB",
-      "page": "commerce-onsite-search-merchandising",
-      "teaser_text": "How can search boost my sales?",
-      "teaser_send": "How can search boost my sales?",
-      "prompts": [
-        "How can search boost my sales?",
-        "Can I boost products in search?",
-        "Does search handle typos?",
-        "Which platforms do you support?"
-      ]
-    },
-    {
       "url_match": "commerce/whatsapp-sms-social-media",
       "match_type": "contains",
       "region": "en-GB",
@@ -219,10 +205,10 @@
       "match_type": "contains",
       "region": "en-GB",
       "page": "products",
-      "teaser_text": "Which product fits my needs?",
-      "teaser_send": "Which product fits my needs?",
+      "teaser_text": "Which product would suit me?",
+      "teaser_send": "Which product would suit me?",
       "prompts": [
-        "Which product fits my needs?",
+        "Which product would suit me?",
         "How do your products differ?",
         "Do your products work together?",
         "Can I book a demo?"
@@ -436,7 +422,7 @@
       "region": "nl",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of verwijs je door naar een collega.",
+      "opener": "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of zorg dat de juiste collega je per e-mail opvolgt.",
       "title": "Hoi, ik ben Mia",
       "buttons": [
         {
@@ -601,20 +587,6 @@
       ]
     },
     {
-      "url_match": "/nl-nl/commerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "nl",
-      "page": "commerce-onsite-search-merchandising",
-      "teaser_text": "Hoe helpt zoeken mijn omzet?",
-      "teaser_send": "Hoe helpt zoeken mijn omzet?",
-      "prompts": [
-        "Hoe helpt zoeken mijn omzet?",
-        "Kan ik producten uitlichten?",
-        "Kan zoeken tikfouten aan?",
-        "Welke platformen werken ermee?"
-      ]
-    },
-    {
       "url_match": "/nl-nl/commerce/whatsapp-sms-socials",
       "match_type": "contains",
       "region": "nl",
@@ -760,7 +732,7 @@
       "region": "int",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       "buttons": [
         {
           "label": "Book a demo",
@@ -925,20 +897,6 @@
       ]
     },
     {
-      "url_match": "/ecommerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "int",
-      "page": "ecommerce-onsite-search-merchandising",
-      "teaser_text": "How can search boost my sales?",
-      "teaser_send": "How can search boost my sales?",
-      "prompts": [
-        "How can search boost my sales?",
-        "Can I boost products in search?",
-        "Does search handle typos?",
-        "Which platforms do you support?"
-      ]
-    },
-    {
       "url_match": "/ecommerce/whatsapp-sms-social-media",
       "match_type": "contains",
       "region": "int",
@@ -971,10 +929,10 @@
       "match_type": "contains",
       "region": "int",
       "page": "products",
-      "teaser_text": "Which product fits my needs?",
-      "teaser_send": "Which product fits my needs?",
+      "teaser_text": "Which product would suit me?",
+      "teaser_send": "Which product would suit me?",
       "prompts": [
-        "Which product fits my needs?",
+        "Which product would suit me?",
         "How do your products differ?",
         "Do your products work together?",
         "Can I book a demo?"
@@ -1084,7 +1042,7 @@
       "region": "de-DE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder verweise Sie an einen Kollegen.",
+      "opener": "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder sorge dafür, dass sich die richtige Ansprechperson per E-Mail bei Ihnen meldet.",
       "title": "Hallo, ich bin Mia",
       "buttons": [
         {
@@ -1249,20 +1207,6 @@
       ]
     },
     {
-      "url_match": "/de-de/commerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "de-DE",
-      "page": "commerce-onsite-search-merchandising",
-      "teaser_text": "Wie steigert Suche den Umsatz?",
-      "teaser_send": "Wie steigert Suche den Umsatz?",
-      "prompts": [
-        "Wie steigert Suche den Umsatz?",
-        "Kann ich Produkte hervorheben?",
-        "Versteht die Suche Tippfehler?",
-        "Welche Shopsysteme passen?"
-      ]
-    },
-    {
       "url_match": "/de-de/commerce/whatsapp-sms-social-media",
       "match_type": "contains",
       "region": "de-DE",
@@ -1422,7 +1366,7 @@
       "region": "en-DE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       "title": "Hello, I’m Mia",
       "buttons": [
         {
@@ -1587,20 +1531,6 @@
       ]
     },
     {
-      "url_match": "/ecommerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "en-DE",
-      "page": "ecommerce-onsite-search-merchandising",
-      "teaser_text": "How can search boost my sales?",
-      "teaser_send": "How can search boost my sales?",
-      "prompts": [
-        "How can search boost my sales?",
-        "Can I boost products in search?",
-        "Does search handle typos?",
-        "Which platforms do you support?"
-      ]
-    },
-    {
       "url_match": "/ecommerce/whatsapp-sms-social-media",
       "match_type": "contains",
       "region": "en-DE",
@@ -1633,10 +1563,10 @@
       "match_type": "contains",
       "region": "en-DE",
       "page": "products",
-      "teaser_text": "Which product fits my needs?",
-      "teaser_send": "Which product fits my needs?",
+      "teaser_text": "Which product would suit me?",
+      "teaser_send": "Which product would suit me?",
       "prompts": [
-        "Which product fits my needs?",
+        "Which product would suit me?",
         "How do your products differ?",
         "Do your products work together?",
         "Can I book a demo?"
@@ -1746,7 +1676,7 @@
       "region": "es-ES",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o te indico a qué compañero dirigirte.",
+      "opener": "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o me aseguro de que la persona adecuada de nuestro equipo te escriba por email.",
       "title": "Hola, soy Mia",
       "buttons": [
         {
@@ -1911,20 +1841,6 @@
       ]
     },
     {
-      "url_match": "/es-es/commerce/busqueda-y-comercializacion",
-      "match_type": "contains",
-      "region": "es-ES",
-      "page": "commerce-busqueda-y-comercializacion",
-      "teaser_text": "¿Cómo vende más la búsqueda?",
-      "teaser_send": "¿Cómo vende más la búsqueda?",
-      "prompts": [
-        "¿Cómo vende más la búsqueda?",
-        "¿Puedo destacar productos?",
-        "¿Entiende errores de escritura?",
-        "¿Con qué plataformas funciona?"
-      ]
-    },
-    {
       "url_match": "/es-es/commerce/whatsapp-sms-redes-sociales",
       "match_type": "contains",
       "region": "es-ES",
@@ -1957,10 +1873,10 @@
       "match_type": "contains",
       "region": "es-ES",
       "page": "productos",
-      "teaser_text": "¿Qué producto encaja conmigo?",
-      "teaser_send": "¿Qué producto encaja conmigo?",
+      "teaser_text": "¿Qué producto me conviene?",
+      "teaser_send": "¿Qué producto me conviene?",
       "prompts": [
-        "¿Qué producto encaja conmigo?",
+        "¿Qué producto me conviene?",
         "¿En qué se diferencian?",
         "¿Los productos funcionan juntos?",
         "¿Puedo reservar una demo?"
@@ -2070,7 +1986,7 @@
       "region": "sv-SE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hej, jag är Mia, Spotlers AI-assistent. Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller hänvisar dig till en kollega.",
+      "opener": "Hej, jag är Mia, Spotlers AI-assistent. Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller ser till att rätt kollega hör av sig till dig via e-post.",
       "title": "Hej, jag är Mia",
       "buttons": [
         {
@@ -2235,20 +2151,6 @@
       ]
     },
     {
-      "url_match": "/sv-se/handel/sokning-pa-plats-merchandising",
-      "match_type": "contains",
-      "region": "sv-SE",
-      "page": "handel-sokning-pa-plats-merchandising",
-      "teaser_text": "Hur ökar sökning försäljningen?",
-      "teaser_send": "Hur ökar sökning försäljningen?",
-      "prompts": [
-        "Hur ökar sökning försäljningen?",
-        "Kan jag lyfta fram produkter?",
-        "Klarar sökningen stavfel?",
-        "Vilka plattformar stöds?"
-      ]
-    },
-    {
       "url_match": "/sv-se/handel/whatsapp-sms-sociala-medier",
       "match_type": "contains",
       "region": "sv-SE",
@@ -2408,7 +2310,7 @@
       "region": "en-AU",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       "title": "Hello, I’m Mia",
       "buttons": [
         {
@@ -2573,20 +2475,6 @@
       ]
     },
     {
-      "url_match": "/ecommerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "en-AU",
-      "page": "ecommerce-onsite-search-merchandising",
-      "teaser_text": "How can search boost my sales?",
-      "teaser_send": "How can search boost my sales?",
-      "prompts": [
-        "How can search boost my sales?",
-        "Can I boost products in search?",
-        "Does search handle typos?",
-        "Which platforms do you support?"
-      ]
-    },
-    {
       "url_match": "/ecommerce/whatsapp-sms-social-media",
       "match_type": "contains",
       "region": "en-AU",
@@ -2619,10 +2507,10 @@
       "match_type": "contains",
       "region": "en-AU",
       "page": "products",
-      "teaser_text": "Which product fits my needs?",
-      "teaser_send": "Which product fits my needs?",
+      "teaser_text": "Which product would suit me?",
+      "teaser_send": "Which product would suit me?",
       "prompts": [
-        "Which product fits my needs?",
+        "Which product would suit me?",
         "How do your products differ?",
         "Do your products work together?",
         "Can I book a demo?"

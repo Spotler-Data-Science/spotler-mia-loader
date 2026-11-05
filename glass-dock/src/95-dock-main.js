@@ -42,7 +42,7 @@ function detectRegion(path) {
 // own cache (never mixed with the production loader's), and the rows keep
 // their "prompts" (the shared check only keeps the production columns).
 function usePocConfig() {
-  SETTINGS.CONFIG_URLS = [SETTINGS.DOCK_CONFIG_URL].concat(SETTINGS.CONFIG_URLS);
+  SETTINGS.CONFIG_URLS = [SETTINGS.DOCK_CONFIG_URL];
   CONFIG_CACHE_KEY = "spotler_mia_dock_config";
   var check = validateConfig;
   validateConfig = function (raw) {
@@ -298,7 +298,7 @@ function bootDock() {
     log("HubSpot page height " + h);
     // visible = page height less the crop at the top (the frame's offset) and 16px at the foot, plus the card's border
     var cal = document.getElementById("spotler-cal"), f = cal && cal.shadowRoot && cal.shadowRoot.querySelector(".stage iframe");
-    ctx.ui.fitCalendarPage(Math.round(h + (f ? f.offsetTop : -16) - 14));
+    ctx.ui.fitCalendarPage(Math.min(740, Math.round(h + (f ? f.offsetTop : -16) - 14)));   // never above the card's own 740px cap
   });
 
   function dockSend(text, source) {
@@ -322,7 +322,7 @@ function bootDock() {
       : createStart(ctx.ui.body, ctx.row, SETTINGS.DOCK_LANG[region.id] || "en", promptsFor(ctx.row, region.id), startChat);
     var host = el("div", { id: "spotler-mia-shell" });
     host.style.setProperty("--mia-video-w", ctx.ui.videoWidth + "px");
-    try { host.style.setProperty("--mia-font", getComputedStyle(document.body).fontFamily); } catch (e) {}   // the site's own font
+    host.style.setProperty("--mia-font", SETTINGS.DOCK_FONT);   // Open Sans, as the rest of the chat
     ctx.ui.body.insertBefore(host, ctx.ui.body.firstChild);
     ctx.shell = createShell(host, labels, ctx.row, {
       onSend: function (text, source) { startChat(text, source); },

@@ -3,19 +3,27 @@
    Every region the production loader covers. The production loader's own
    settings are untouched.
    ================================================================== */
-SETTINGS.VERSION = "glass-dock-1.7";
+SETTINGS.VERSION = "glass-dock-1.8";
 
 // The bot the dock talks to (the production loader's own setting is left
 // alone). Ids: Botpress dashboard -> bot -> Webchat -> Share.
 SETTINGS.BOT_ID = "7fd567ab-816f-4219-9588-ef0fbe77a342";
 SETTINGS.CLIENT_ID = "877f50a2-6eee-4e43-99bd-eb9548fdf9c3";
 
-// The dock's page table: marketing's file on spotler.com, read first, with
-// the production page table (SETTINGS.CONFIG_URLS, GitHub) as the backup.
-// Same format as config/config.json, plus the dock's fields (prompts,
-// title, card description / icon). Its server must allow www.spotler.com to
-// read it (Access-Control-Allow-Origin).
+// The dock's page table: marketing's file on spotler.com, and nothing else
+// (no GitHub: the live tag never depends on a repository). Same format as
+// config/config.json, plus the dock's fields (prompts, title, card
+// description / icon). Its server must allow www.spotler.com to read it
+// (Access-Control-Allow-Origin). If it can't be read: the copy this browser
+// saved on an earlier visit, else the built-in defaults (each region's
+// greeting, cards and general questions; no page-specific questions).
 SETTINGS.DOCK_CONFIG_URL = "https://marketing.spotler.com/botpress/config.json";
+SETTINGS.CONFIG_URLS = [SETTINGS.DOCK_CONFIG_URL];
+SETTINGS.CDN_ORIGINS = SETTINGS.CDN_ORIGINS.concat(["https://marketing.spotler.com"]);
+
+// One font for the whole chat (fixed texts and the Botpress conversation):
+// the Open Sans spotler.com already loads; no font of the tag's own.
+SETTINGS.DOCK_FONT = "'Open Sans', sans-serif";
 
 // What the pill types, one after the other, in the page's language, when
 // the page table has no "prompts" for the page. On a page with its own row,

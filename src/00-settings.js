@@ -31,7 +31,7 @@ var SETTINGS = {
   // proactiveClickAt), so a real rollback is pasting the previous tag back:
   // BOT_ID: "b4965474-62de-4d69-af64-13f61d4492dc",
   // CLIENT_ID: "bc17c11d-632b-451e-94bc-cb000c467d10",
-  CDN_ORIGINS: ["https://cdn.botpress.cloud", "https://files.bpcontent.cloud", "https://raw.githubusercontent.com"],
+  CDN_ORIGINS: ["https://cdn.botpress.cloud", "https://files.bpcontent.cloud"],   // + the page table's host (05-config-urls.js)
 
   // ---- Conversation lifecycle ----
   TIMEOUT_MS: 15 * 60 * 1000,     // must equal the Botpress inactivity timeout
@@ -99,23 +99,23 @@ var SETTINGS = {
                botName: "Mia", botTagline: "Jouw AI-marketingassistent.",
                aiLabel: "AI-assistent", privacy: "Privacy", privacyUrl: "https://spotler.com/nl-nl/privacy-statement",
                calCancel: "Annuleren", calTitle: "Plan een afspraak", calIntro: "Kies een moment dat jou uitkomt." },
-    // New locales: no locale privacy page confirmed yet, so the INT one.
+    // New locales: each with its own privacy page.
     "de-DE": { title: "Spotler KI-Assistent", pill: "Fragen Sie Mia", placeholder: "Stellen Sie Mia eine Frage...",
                restart: "Gespräch neu starten", close: "Chat schließen", dismiss: "Schließen", today: "Heute", delivered: "Zugestellt",
                botName: "Mia", botTagline: "Ihr KI-Marketingassistent.",
-               aiLabel: "KI-Assistent", privacy: "Datenschutz", privacyUrl: "https://spotler.com/privacy-statement",
+               aiLabel: "KI-Assistent", privacy: "Datenschutz", privacyUrl: "https://spotler.com/de-de/datenschutzerklaerung",
                calCancel: "Abbrechen", calTitle: "Termin buchen", calIntro: "Wählen Sie einen passenden Termin." },
     "es-ES": { title: "Asistente de IA de Spotler", pill: "Pregunta a Mia", placeholder: "Haz una pregunta a Mia...",
                restart: "Reiniciar conversación", close: "Cerrar chat", dismiss: "Cerrar", today: "Hoy", delivered: "Entregado",
                botName: "Mia", botTagline: "Tu asistente de marketing con IA.",
-               aiLabel: "Asistente de IA", privacy: "Privacidad", privacyUrl: "https://spotler.com/privacy-statement",
+               aiLabel: "Asistente de IA", privacy: "Privacidad", privacyUrl: "https://spotler.com/es-es/politica-de-privacidad",
                calCancel: "Cancelar", calTitle: "Reserva una reunión", calIntro: "Elige el momento que mejor te venga." },
     "sv-SE": { title: "Spotler AI-assistent", pill: "Fråga Mia", placeholder: "Ställ en fråga till Mia...",
                restart: "Starta om samtalet", close: "Stäng chatten", dismiss: "Stäng", today: "Idag", delivered: "Levererat",
                botName: "Mia", botTagline: "Din AI-marknadsföringsassistent.",
-               aiLabel: "AI-assistent", privacy: "Integritet", privacyUrl: "https://spotler.com/privacy-statement",
+               aiLabel: "AI-assistent", privacy: "Integritet", privacyUrl: "https://spotler.com/sv-se/privacy-statement",
                calCancel: "Avbryt", calTitle: "Boka ett möte", calIntro: "Välj en tid som passar dig." }
-    // en-DE and en-AU use the INT labels (set below SETTINGS).
+    // en-DE and en-AU: the INT labels with their own privacy page (set below SETTINGS).
   },
 
   // The English text in the bot's own Botpress config script: swapped for
@@ -129,7 +129,7 @@ var SETTINGS = {
   // Blank line in an opener = a new bubble. Buttons attach to the last bubble.
   DEFAULT_ROWS: [
     { url_match: "*", region: "en-GB", mode: "slideout", page: "default",
-      opener: "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      opener: "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       buttons: [
         { label: "What can Spotler do for me?", send: "What can Spotler do for me?" },
         { label: "Book a demo", send: "Book a demo" },
@@ -139,7 +139,7 @@ var SETTINGS = {
       teaser_text: "Questions about Spotler? Ask me anything!",
       teaser_send: "I have a question about Spotler" },
     { url_match: "*", region: "int", mode: "slideout", page: "default",
-      opener: "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      opener: "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       buttons: [
         { label: "What can Spotler do for me?", send: "What can Spotler do for me?" },
         { label: "Book a demo", send: "Book a demo" },
@@ -149,7 +149,7 @@ var SETTINGS = {
       teaser_text: "Questions about Spotler? Ask me anything!",
       teaser_send: "I have a question about Spotler" },
     { url_match: "*", region: "nl", mode: "slideout", page: "default",
-      opener: "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of verwijs je door naar een collega.",
+      opener: "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of zorg dat de juiste collega je per e-mail opvolgt.",
       buttons: [
         { label: "Wat kan Spotler voor mij betekenen?", send: "Wat kan Spotler voor mij betekenen?" },
         { label: "Een demo boeken", send: "Een demo boeken" },
@@ -159,7 +159,7 @@ var SETTINGS = {
       teaser_text: "Vragen over Spotler? Vraag maar raak!",
       teaser_send: "Ik heb een vraag over Spotler" },
     { url_match: "*", region: "de-DE", mode: "slideout", page: "default",
-      opener: "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder verweise Sie an einen Kollegen.",
+      opener: "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder sorge dafür, dass sich die richtige Ansprechperson per E-Mail bei Ihnen meldet.",
       buttons: [
         { label: "Was kann Spotler für mich tun?", send: "Was kann Spotler für mich tun?" },
         { label: "Demo buchen", send: "Demo buchen" },
@@ -169,7 +169,7 @@ var SETTINGS = {
       teaser_text: "Fragen zu Spotler? Fragen Sie einfach!",
       teaser_send: "Ich habe eine Frage zu Spotler" },
     { url_match: "*", region: "es-ES", mode: "slideout", page: "default",
-      opener: "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o te indico a qué compañero dirigirte.",
+      opener: "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o me aseguro de que la persona adecuada de nuestro equipo te escriba por email.",
       buttons: [
         { label: "¿Qué puede hacer Spotler por mí?", send: "¿Qué puede hacer Spotler por mí?" },
         { label: "Reservar una demo", send: "Reservar una demo" },
@@ -179,7 +179,7 @@ var SETTINGS = {
       teaser_text: "¿Preguntas sobre Spotler? ¡Pregúntame lo que quieras!",
       teaser_send: "Tengo una pregunta sobre Spotler" },
     { url_match: "*", region: "sv-SE", mode: "slideout", page: "default",
-      opener: "Hej, jag är Mia, Spotlers AI-assistent. Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller hänvisar dig till en kollega.",
+      opener: "Hej, jag är Mia, Spotlers AI-assistent. Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller ser till att rätt kollega hör av sig till dig via e-post.",
       buttons: [
         { label: "Vad kan Spotler göra för mig?", send: "Vad kan Spotler göra för mig?" },
         { label: "Boka en demo", send: "Boka en demo" },
@@ -192,13 +192,19 @@ var SETTINGS = {
   ]
 };
 
-SETTINGS.CONFIG_URLS = [
-  "https://raw.githubusercontent.com/Spotler-Data-Science/spotler-mia-loader/" + SETTINGS.CONFIG_BRANCH + "/config/config.json",
-  "https://cdn.jsdelivr.net/gh/Spotler-Data-Science/spotler-mia-loader@" + SETTINGS.CONFIG_BRANCH + "/config/config.json"
-];
+// (SETTINGS.CONFIG_URLS, the page table's addresses, is set in 05-config-urls.js)
 
-// English-language locales outside the UK: the INT labels and fallback row.
-SETTINGS.LABELS["en-DE"] = SETTINGS.LABELS["en-AU"] = SETTINGS.LABELS["int"];
+// English-language locales outside the UK: the INT labels with their own
+// privacy page, and the INT fallback row.
+(function () {
+  var own = { "en-DE": "https://spotler.com/en-de/privacy-statement", "en-AU": "https://spotler.com/en-au/privacy-statement" };
+  for (var region in own) {
+    var copy = {}, k;
+    for (k in SETTINGS.LABELS["int"]) if (SETTINGS.LABELS["int"].hasOwnProperty(k)) copy[k] = SETTINGS.LABELS["int"][k];
+    copy.privacyUrl = own[region];
+    SETTINGS.LABELS[region] = copy;
+  }
+})();
 (function () {
   var rows = SETTINGS.DEFAULT_ROWS, base = null, i, k;
   for (i = 0; i < rows.length; i++) if (rows[i].region === "int") base = rows[i];

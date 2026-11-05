@@ -45,7 +45,7 @@ function createDock(labels, handlers) {
   var ft = el("div", { id: "mia-dock-ft" }, [footerNote(labels)]);
   var dock = el("div", { id: "mia-dock", "class": "mia-glass" }, [chat, pill, ft]);
   document.body.appendChild(dock);
-  try { dock.style.setProperty("--mia-font", getComputedStyle(document.body).fontFamily); } catch (e) {}   // the site's own font
+  dock.style.setProperty("--mia-font", SETTINGS.DOCK_FONT);   // Open Sans for the whole chat (01-dock-settings.js)
 
   // Phones: if the page is shrunk to fit (layout wider than the screen),
   // scale the pill back up so it matches the browser's own toolbar.

@@ -4,7 +4,10 @@ import asyncio, json, os, sys
 from playwright.async_api import async_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-POC = open(os.path.join(ROOT, "glass-dock/dist/mia-glass-dock.gtm.html")).read()
+# the staging build (mia-dev) unless DOCK_TAG names another file
+DOCK_FILE = os.environ.get("DOCK_TAG") or os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.8.staging.gtm.html")
+POC = open(DOCK_FILE).read()
+EXPECT_BOT = ("7fd567ab-816f-4219-9588-ef0fbe77a342", "877f50a2-6eee-4e43-99bd-eb9548fdf9c3") if ".live." in DOCK_FILE else ("76065f80-2d7f-43a4-9217-26d320157352", "dadbe1bf-4b11-49a4-ab85-3e9dd59f3254")
 PROD = open(os.path.join(ROOT, "dist/mia-loader.gtm.html")).read()
 RAW = open(os.path.join(ROOT, "test/mock/page.html")).read()
 INJECT = open(os.path.join(ROOT, "test/mock/inject.js")).read()
@@ -29,7 +32,7 @@ async def setup(ctx, tags, phone=False, mkt=None, mkt_cors=True):
         if "cdn.botpress.cloud" in url: return await route.fulfill(body=INJECT, content_type="application/javascript")
         if url.endswith((".webp", ".png")): return await route.fulfill(body=PNG, content_type="image/png")
         if "marketing.spotler.com/botpress/config.json" in url:
-            if mkt is None: return await route.fulfill(status=404, body="")
+            if mkt is None: return await route.fulfill(body=CONFIG, content_type="application/json", headers={"access-control-allow-origin": "*"})   # the marketing file: the mock page table
             if not mkt_cors: return await route.abort("failed")   # what a CORS block looks like to the page
             return await route.fulfill(body=mkt, content_type="application/json", headers={"access-control-allow-origin": "*"} if mkt_cors else {})
         if "raw.githubusercontent.com" in url or "cdn.jsdelivr.net" in url:
@@ -305,15 +308,15 @@ async def main():
         ev = [json.loads(e[1]) for e in log if e[0] == "sendEvent"]
         check("3a arrow sends the pill's whole question straight into the chat", sent == [PROMPTS[0]] and await page.evaluate("document.getElementById('mia-dock').classList.contains('open')"), sent)
         ip = [json.loads(e[1]) for e in log if e[0] == "initProps"]
-        check("3f the chat starts with the go-live bot (7fd567ab..., client 877f50a2...)",
-              ip and ip[0]["botId"] == "7fd567ab-816f-4219-9588-ef0fbe77a342" and ip[0]["clientId"] == "877f50a2-6eee-4e43-99bd-eb9548fdf9c3", ip)
+        check("3f the chat starts with this file's bot (staging: mia-dev, live: mia-live)",
+              ip and ip[0]["botId"] == EXPECT_BOT[0] and ip[0]["clientId"] == EXPECT_BOT[1], ip)
         # a later Botpress font rule (as Botpress's own styles load after the tag's) can't win: the site's font
         await page.wait_for_timeout(1500)
         ff = await page.evaluate("""() => { const r=window.__bpShadow, st=document.createElement('style');
             st.textContent='.bpMessageBlocksBubble,.bpMessageBlocksBubble *{font-family:monospace !important}'; (r.head||r).appendChild(st);
             const b=r.querySelector('.bpMessageBlocksBubble p') || r.querySelector('.bpMessageBlocksBubble');
             return [getComputedStyle(b).fontFamily, getComputedStyle(document.getElementById('mia-dock')).getPropertyValue('--mia-font').trim()] }""")
-        check("3g the live chat uses the site's font, even over Botpress's own font rules", ff[0] == ff[1] and "monospace" not in ff[0], ff)
+        check("3g the live chat is in the chat's font (Open Sans), even over Botpress's own font rules", ff[0].replace('"', "'") == ff[1].replace('"', "'") and "Open Sans" in ff[0], ff)
         sw = await page.evaluate("window.__swap")
         # (the mock's live chat isn't styled like Botpress, so Mia's reply can't line up here;
         # on the real site it does: 41px bubble, 20px "Delivered", reply right under)
@@ -432,15 +435,16 @@ async def main():
             chips = await page.evaluate("[...document.querySelectorAll('#mia-start .mia-chip')].map(c => c.textContent)")
             check(f"6g {path}: " + ("the page's teaser first, then the region's questions" if path == "/pricing" else "the page's own questions"), chips == want, chips)
             await ctx.close()
-        # its server not allowing spotler.com (no CORS header) or down: the GitHub page table instead
+        # its server not allowing spotler.com (no CORS header) or down: the built-in defaults (no GitHub)
         ctx = await b.new_context(viewport={"width": 1440, "height": 900})
-        await setup(ctx, [POC], mkt=MKT, mkt_cors=False)
+        reqs = await setup(ctx, [POC], mkt=MKT, mkt_cors=False)
         page = await ctx.new_page()
         logs = []; page.on("console", lambda m: logs.append(m.text))
         await page.goto("https://www.spotler.com/")
         await page.wait_for_timeout(2600)
         q = await page.evaluate("document.getElementById('mia-dock-q').textContent")
-        check("6d marketing's file blocked or down: GitHub page table and the built-in questions", any("config fetch failed (marketing.spotler.com)" in l for l in logs) and any("config from network" in l for l in logs) and not "Marketing question".startswith(q or "x"), [q, [l for l in logs if "config" in l]])
+        check("6d marketing's file blocked or down: the built-in defaults, never GitHub", any("config fetch failed (marketing.spotler.com)" in l for l in logs) and any("config from built-in default" in l for l in logs)
+              and not "Marketing question".startswith(q or "x") and not any(("github" in u or "jsdelivr" in u) for u in reqs), [q, [l for l in logs if "config" in l], [u for u in reqs if "github" in u or "jsdelivr" in u]])
         await ctx.close()
 
         # a narrow desktop window: the button shrinks with the bar and fits inside it
@@ -562,6 +566,71 @@ async def main():
         sent = await page.evaluate(SENT)
         check("10f restart while a message is held: it's dropped, not sent into the new chat",
               "never mind" not in sent and await page.evaluate("document.getElementById('mia-dock-held').children.length") == 0, sent[-2:])
+        await ctx.close()
+
+        # 12. 1.8 checks, against the real page table (glass-dock/config.json as the marketing file)
+        REAL = open(os.path.join(ROOT, "glass-dock/config.json"), encoding="utf-8").read()
+        OPEN_EN = "Hi, I\u2019m Mia, Spotler\u2019s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email."
+        CASES = [  # path, chip, opener start, privacy link
+            ("/en-gb/products", "Which product would suit me?", OPEN_EN, "https://spotler.com/en-gb/privacy-statement"),
+            ("/products", "Which product would suit me?", OPEN_EN, "https://spotler.com/privacy-statement"),
+            ("/nl-nl/producten", "Welk product past bij mij?", "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of zorg dat de juiste collega je per e-mail opvolgt.", "https://spotler.com/nl-nl/privacy-statement"),
+            ("/de-de/produkte", "Welches Produkt passt zu mir?", "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder sorge daf\u00fcr, dass sich die richtige Ansprechperson per E-Mail bei Ihnen meldet.", "https://spotler.com/de-de/datenschutzerklaerung"),
+            ("/en-de/products", "Which product would suit me?", OPEN_EN, "https://spotler.com/en-de/privacy-statement"),
+            ("/es-es/productos", "\u00bfQu\u00e9 producto me conviene?", "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o me aseguro de que la persona adecuada de nuestro equipo te escriba por email.", "https://spotler.com/es-es/politica-de-privacidad"),
+            ("/sv-se/produkter", "Vilken produkt passar mig?", "Hej, jag \u00e4r Mia, Spotlers AI-assistent. Jag svarar p\u00e5 fr\u00e5gor om v\u00e5ra produkter, hj\u00e4lper dig att boka en demo eller ser till att r\u00e4tt kollega h\u00f6r av sig till dig via e-post.", "https://spotler.com/sv-se/privacy-statement"),
+            ("/en-au/products", "Which product would suit me?", OPEN_EN, "https://spotler.com/en-au/privacy-statement"),
+        ]
+        SITE_CSS = "p, a { font-size: 16px; font-family: Montserrat, sans-serif; } body { font-family: Montserrat, sans-serif; }"
+        for path, chip, opener, priv in CASES:
+            ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+            reqs = await setup(ctx, [POC], mkt=REAL)
+            page = await ctx.new_page()
+            await page.goto("https://www.spotler.com" + path); await page.wait_for_timeout(1800)
+            await page.add_style_tag(content=SITE_CSS)
+            await page.click("#mia-dock-q"); await page.wait_for_timeout(900)
+            r = await page.evaluate("""() => { const s=document.getElementById('mia-start'), a=document.querySelector('#mia-dock-ft a'), ft=document.querySelector('#mia-dock-ft p');
+                return { chip: (s.querySelector('.mia-chip')||{}).textContent, opener: [...s.querySelectorAll('.mia-intro p')].map(p=>p.textContent).join(' '),
+                         href: a ? a.getAttribute('href') : null, ftSize: getComputedStyle(ft).fontSize, ftFont: getComputedStyle(ft).fontFamily,
+                         fixed: [getComputedStyle(s.querySelector('h2')).fontFamily, getComputedStyle(s.querySelector('.mia-intro p')).fontFamily, getComputedStyle(document.getElementById('mia-dock-in')).fontFamily] } }""")
+            check(f"12a {path}: product chip '{chip}'", r["chip"] == chip, r["chip"])
+            check(f"12b {path}: opener in its language, a colleague follows up by email", r["opener"] == opener, r["opener"])
+            check(f"12c {path}: privacy link {priv}", r["href"] in (priv, None), r["href"])
+            check(f"12d {path}: footer 14px in Open Sans, over the site's 16px Montserrat paragraphs", r["ftSize"] == "14px" and "Open Sans" in r["ftFont"], [r["ftSize"], r["ftFont"]])
+            check(f"12e {path}: fixed texts in Open Sans", all("Open Sans" in f and "Montserrat" not in f for f in r["fixed"]), r["fixed"])
+            check(f"12f {path}: nothing fetched from GitHub", not any(("github" in u or "jsdelivr" in u) for u in reqs), [u for u in reqs if "github" in u or "jsdelivr" in u])
+            await ctx.close()
+
+        # the conversation in Open Sans; the hide switch keeps it intact
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        await setup(ctx, [POC], mkt=REAL)
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(1800)
+        await page.add_style_tag(content=SITE_CSS)
+        await page.click(".mia-arrow")
+        await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
+        await page.wait_for_timeout(1500)
+        conv = await page.evaluate("getComputedStyle(window.__bpShadow.querySelector('.bpMessageBlocksBubble p') || window.__bpShadow.querySelector('.bpMessageBlocksBubble')).fontFamily")
+        check("12g the Botpress conversation is in Open Sans", "Open Sans" in conv and "Montserrat" not in conv, conv)
+        STATE = """() => { const d=document.getElementById('mia-dock'); return { shown: getComputedStyle(d).display !== 'none' && d.getBoundingClientRect().height > 0,
+                     open: d.classList.contains('open'), msgs: window.__bpShadow.querySelectorAll('.bpMessageContainer').length } }"""
+        before = await page.evaluate(STATE)
+        await page.evaluate("document.documentElement.classList.add('mia-hidden')"); await page.wait_for_timeout(300)
+        hidden = await page.evaluate(STATE)
+        await page.evaluate("document.documentElement.classList.remove('mia-hidden')"); await page.wait_for_timeout(300)
+        after = await page.evaluate(STATE)
+        check("12h mia-hidden on <html> hides the whole chat", before["shown"] and not hidden["shown"], [before, hidden])
+        check("12i removing mia-hidden brings it back as it was, conversation intact", after == before and after["msgs"] > 0, [before, after])
+        await ctx.close()
+        # set before the chat loads
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        await setup(ctx, ["<script>document.documentElement.classList.add('mia-hidden')</script>", POC], mkt=REAL)   # the site sets it before the tag runs
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(1800)
+        early = await page.evaluate("[!!document.getElementById('mia-dock'), getComputedStyle(document.getElementById('mia-dock')).display]")
+        await page.evaluate("document.documentElement.classList.remove('mia-hidden')"); await page.wait_for_timeout(300)
+        late = await page.evaluate("getComputedStyle(document.getElementById('mia-dock')).display")
+        check("12j mia-hidden set before the chat loads: it loads hidden, and shows once removed", early == [True, "none"] and late != "none", [early, late])
         await ctx.close()
         await b.close()
     print(f"\n{sum(results)}/{len(results)} passed")

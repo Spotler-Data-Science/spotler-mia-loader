@@ -1,7 +1,8 @@
 // Builds the glass-dock POC tag: the production loader's shared src/
 // files plus this folder's src/ (the dock, its boot, its settings),
 // joined in filename order. Run from the repo root:
-//   node glass-dock/build.mjs  →  glass-dock/dist/mia-glass-dock.gtm.html
+//   node glass-dock/build.mjs  →  glass-dock/dist/mia-glass-dock-<version>.live.gtm.html (mia-live)
+//                              and glass-dock/dist/mia-glass-dock-<version>.staging.gtm.html (mia-dev)
 import { readFileSync, writeFileSync, readdirSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,7 +12,8 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 // Production files the POC doesn't use: its own container and boot replace them.
 // 70-hubspot.html is the slide-out's pop-up calendar: the dock always shows it in the chat.
-const SKIP = ["50-slideout.js", "50-slideout.css", "55-embedded.js", "55-embedded.css", "90-main.js", "70-hubspot.html"];
+// 05-config-urls.js is the old loader's GitHub page table: the dock never reads GitHub.
+const SKIP = ["50-slideout.js", "50-slideout.css", "55-embedded.js", "55-embedded.css", "90-main.js", "70-hubspot.html", "05-config-urls.js"];
 const files = [
   ...readdirSync(join(ROOT, "src")).filter(f => !SKIP.includes(f)).map(f => ({ f, p: join(ROOT, "src", f) })),
   ...readdirSync(join(HERE, "src")).map(f => ({ f, p: join(HERE, "src", f) }))
@@ -67,13 +69,30 @@ for (const { f, p } of files) {
 
 const stamp = new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC";
 const version = /SETTINGS\.VERSION = "([^"]+)"/.exec(readFileSync(join(HERE, "src/01-dock-settings.js"), "utf8"))[1];
-const banner = `/* Spotler Mia ${version} - built ${stamp} - live, every region - source: github.com/Spotler-Data-Science/spotler-mia-loader/glass-dock */`;
+const ver = version.replace(/^glass-dock-/, "");
 const body = `(function () {\n"use strict";\nvar CSS = ${JSON.stringify(css)};\nvar HTML = ${JSON.stringify(html)};\n${js.join("\n")}\n})();`;
-const min = await minify(body, { ecma: 5, compress: { passes: 2 }, mangle: true, format: { ascii_only: true } });
-if (!min.code) throw new Error("minify failed");
-if (/[^\x00-\x7e]/.test(banner + min.code)) throw new Error("non-ASCII character in the GTM tag");
 
+// Two tags from one build, as with 1.0: staging talks to mia-dev, live to
+// mia-live. Every bot / client id in the source is set to the target's, so
+// each file holds only its own ids. The files carry the version in their
+// name, so earlier builds are never overwritten.
+const BOTS = {
+  live:    { name: "mia-live", bot: "7fd567ab-816f-4219-9588-ef0fbe77a342", client: "877f50a2-6eee-4e43-99bd-eb9548fdf9c3" },
+  staging: { name: "mia-dev",  bot: "76065f80-2d7f-43a4-9217-26d320157352", client: "dadbe1bf-4b11-49a4-ab85-3e9dd59f3254" }
+};
+const ALL_BOTS = Object.values(BOTS).map(b => b.bot), ALL_CLIENTS = Object.values(BOTS).map(b => b.client);
 mkdirSync(join(HERE, "dist"), { recursive: true });
-writeFileSync(join(HERE, "dist/mia-glass-dock.gtm.html"), `<script>\n${banner}\n${min.code}\n</script>\n`);
-writeFileSync(join(HERE, "dist/mia-glass-dock.debug.html"), `<script>\n${banner}\n${body}\n</script>\n`);
-console.log(`built ${files.length} files → glass-dock/dist/mia-glass-dock.gtm.html (${(min.code.length / 1024).toFixed(1)} KB)`);
+for (const [target, t] of Object.entries(BOTS)) {
+  let src = body;
+  ALL_BOTS.forEach(id => { src = src.split(id).join(t.bot); });
+  ALL_CLIENTS.forEach(id => { src = src.split(id).join(t.client); });
+  const banner = `/* Spotler Mia ${version} - ${target} (${t.name}) - built ${stamp} - every region */`;
+  const min = await minify(src, { ecma: 5, compress: { passes: 2 }, mangle: true, format: { ascii_only: true } });
+  if (!min.code) throw new Error("minify failed");
+  if (/[^\x00-\x7e]/.test(banner + min.code)) throw new Error("non-ASCII character in the GTM tag");
+  if (/github|jsdelivr/i.test(banner + min.code)) throw new Error("the tag must not reference GitHub");
+  const out = `glass-dock/dist/mia-glass-dock-${ver}.${target}.gtm.html`;
+  writeFileSync(join(HERE, `dist/mia-glass-dock-${ver}.${target}.gtm.html`), `<script>\n${banner}\n${min.code}\n</script>\n`);
+  if (target === "staging") writeFileSync(join(HERE, `dist/mia-glass-dock-${ver}.debug.html`), `<script>\n${banner}\n${src}\n</script>\n`);
+  console.log(`built ${files.length} files → ${out} (${(min.code.length / 1024).toFixed(1)} KB)`);
+}

@@ -445,6 +445,9 @@ async def main():
                ("/es-es/precios", "es-ES", "Asistente de IA de Spotler", "Hola, soy Mia", "Reservar una demo", "Haz una pregunta a Mia..."),
                ("/sv-se/priser", "sv-SE", "Spotler AI-assistent", "Hej, jag är Mia", "Boka en demo", "Ställ en fråga till Mia..."),
                ("/en-au/pricing", "en-AU", "Spotler AI Assistant", "Hi, I’m Mia", "Book a demo", "Ask Mia a question...")]
+        PRIVACY = {"de-DE": "https://spotler.com/de-de/datenschutzerklaerung", "en-DE": "https://spotler.com/en-de/privacy-statement",
+                   "es-ES": "https://spotler.com/es-es/politica-de-privacidad", "sv-SE": "https://spotler.com/sv-se/privacy-statement",
+                   "en-AU": "https://spotler.com/en-au/privacy-statement"}
         for path, loc, title, opener, btn, ph in NEW:
             ctx = await b.new_context(viewport={"width": 1440, "height": 900})
             await setup(ctx)
@@ -453,7 +456,7 @@ async def main():
             st = await page.evaluate("""() => { const sr=document.getElementById('spotler-mia-shell') && document.getElementById('spotler-mia-shell').shadowRoot;
                 return sr ? { title: document.getElementById('spotler-agent-title').textContent, text: sr.textContent, ph: sr.querySelector('textarea').getAttribute('placeholder'),
                   privacy: sr.querySelector('.ft a').href } : null }""")
-            check(f"20a {loc}: shell on, its labels and opener", st and st["title"] == title and opener in st["text"] and btn in st["text"] and st["ph"] == ph and st["privacy"] == "https://spotler.com/privacy-statement", st)
+            check(f"20a {loc}: shell on, its labels and opener", st and st["title"] == title and opener in st["text"] and btn in st["text"] and st["ph"] == ph and st["privacy"] == PRIVACY[loc], st)
             await page.evaluate("(b) => { const sr=document.getElementById('spotler-mia-shell').shadowRoot; [...sr.querySelectorAll('.btn')].find(x=>x.textContent===b).click(); }", btn)
             await page.wait_for_function("document.getElementById('bp-embedded-webchat').classList.contains('bp-ready')", timeout=8000)
             bplog = await page.evaluate("window.__bpLog")
