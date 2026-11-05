@@ -44,7 +44,7 @@ function createDock(labels, handlers) {
   var ft = el("div", { id: "mia-dock-ft" }, [footerNote(labels)]);
   var dock = el("div", { id: "mia-dock", "class": "mia-glass" }, [chat, pill, ft]);
   document.body.appendChild(dock);
-  try { dock.style.setProperty("--mia-font", getComputedStyle(document.body).fontFamily); } catch (e) {}   // the site's own font
+  dock.style.setProperty("--mia-font", SETTINGS.POC_FONT);   // Open Sans, already loaded by the site
 
   // Phones: if the page is shrunk to fit (layout wider than the screen),
   // scale the pill back up so it matches the browser's own toolbar.
@@ -193,9 +193,9 @@ var DOCK_LIVE_CSS =
   ".bpComposerContainer{display:none !important}" +
   ".bpMessageListMarqueeContainer,.bpMessageAvatarContainer{display:none !important}" +
   // laid out exactly like the preview, so the hand-over doesn't re-flow:
-  // the site's font, the preview's spacing (no room kept for a composer),
+  // Open Sans (as the rest of the chat), the preview's spacing (no room kept for a composer),
   // the same bubble padding and text size
-  ".bpContainer,.bpContainer *{font-family:var(--mia-font,inter,sans-serif) !important}" +
+  ".bpContainer,.bpContainer *{font-family:" + SETTINGS.POC_FONT + " !important}" +
   ".bpMessageListContainer{margin-bottom:0 !important;padding:4px !important}" +
   ".bpMessageListViewport{padding:8px 24px 16px !important}" +
   ".bpMessageContainer[data-direction=incoming] .bpMessageBlocksBubble{background:transparent !important;padding:0 !important;color:#0B1F4D !important;font-size:15px !important;line-height:23px !important;max-width:100% !important}" +

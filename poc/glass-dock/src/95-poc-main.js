@@ -289,7 +289,7 @@ function bootDock() {
       : createStart(ctx.ui.body, ctx.row, SETTINGS.POC_LANG[region.id] || "en", promptsFor(ctx.row, region.id), startChat);
     var host = el("div", { id: "spotler-mia-shell" });
     host.style.setProperty("--mia-video-w", ctx.ui.videoWidth + "px");
-    try { host.style.setProperty("--mia-font", getComputedStyle(document.body).fontFamily); } catch (e) {}   // the site's own font
+    host.style.setProperty("--mia-font", SETTINGS.POC_FONT);   // Open Sans, already loaded by the site
     ctx.ui.body.insertBefore(host, ctx.ui.body.firstChild);
     ctx.shell = createShell(host, labels, ctx.row, {
       onSend: function (text, source) { startChat(text, source); },

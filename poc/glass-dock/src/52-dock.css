@@ -13,7 +13,7 @@
   position: fixed; left: 50%; bottom: 24px; z-index: 2147483000;
   width: min(600px, calc(100vw - 32px)); transform: translateX(-50%);
   display: flex; flex-direction: column; overflow: hidden; border-radius: var(--mia-r);
-  font-family: inherit; color: #0B1F4D; -webkit-font-smoothing: antialiased;
+  font-family: var(--mia-font, "Open Sans", sans-serif); color: #0B1F4D; -webkit-font-smoothing: antialiased;
   transition: width .5s cubic-bezier(.2,.8,.2,1), bottom .5s cubic-bezier(.2,.8,.2,1);
 }
 /* open: wider, the same gap to the screen edge; the field lifts to make room for the AI / privacy line under it */
@@ -47,7 +47,7 @@
                  align-items: flex-end; gap: 8px; padding: 0 28px 16px; pointer-events: none; }
 #mia-dock-held:empty { display: none; }
 #mia-dock-held .h { max-width: 85%; padding: 9px 16px; border-radius: 18px; background: rgba(214,230,255,.85); color: #0B1F4D;
-                    font-family: var(--mia-font, inter, sans-serif); font-size: 15px; line-height: 23px; opacity: .6;
+                    font-family: var(--mia-font, "Open Sans", sans-serif); font-size: 15px; line-height: 23px; opacity: .6;
                     white-space: pre-wrap; overflow-wrap: anywhere; }
 #mia-dock-held p { margin: 0; }
 #mia-dock-loading { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; z-index: 5; }
@@ -154,3 +154,20 @@
   #mia-dock, #mia-dock-chat, #mia-dock-pill, #mia-dock-ft { transition: none; }
   #mia-dock-q::after { animation: none; }
 }
+
+/* The AI / privacy line: 14px Open Sans, whatever the site's own p / a rules
+   say (its paragraph style made it 16px). Scoped to the dock only. */
+html body #mia-dock #mia-dock-ft, html body #mia-dock #mia-dock-ft p, html body #mia-dock #mia-dock-ft a {
+  font-family: var(--mia-font, "Open Sans", sans-serif) !important; font-size: 14px !important; line-height: 18px !important;
+  margin: 0 !important; letter-spacing: normal !important; }
+html body #mia-dock.mia-touch #mia-dock-ft, html body #mia-dock.mia-touch #mia-dock-ft p, html body #mia-dock.mia-touch #mia-dock-ft a {
+  font-size: calc(14px * var(--mia-k, 1)) !important; line-height: calc(18px * var(--mia-k, 1)) !important; }
+
+/* Hide switch for the site's popups: <html class="mia-hidden"> hides the
+   whole chat (pill, open chat, calendar). Nothing is removed or re-laid
+   out, so taking the class off brings it back exactly as it was,
+   conversation included. Works whenever the class is set, before or
+   after the chat loads. clip-path also stops clicks on anything inside. */
+html.mia-hidden #mia-dock, html.mia-hidden #hubspot-modal, html.mia-hidden #spotler-cal {
+  visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;
+  clip-path: inset(50%) !important; transition: none !important; }

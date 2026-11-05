@@ -1,6 +1,6 @@
 /* Glass look for the static preview (appended to the shell's own styles
    by 52-dock.js). The card behind it is the glass; the preview is clear. */
-.c { background: transparent; border: 0; color: #0B1F4D; font-family: var(--mia-font, inter, sans-serif); }
+.c { background: transparent; border: 0; color: #0B1F4D; font-family: var(--mia-font, "Open Sans", sans-serif); }
 .mq { display: none; }
 /* its greeting and buttons are on the start screen (53-start) instead */
 .op { display: none; }

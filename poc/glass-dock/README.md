@@ -37,9 +37,9 @@ with a `prompts` list (strings) overrides them for that page.
 ## Editing the text
 
 The tag reads **`poc/glass-dock/config.json`** in this repo first (branch
-`claude/new-session-bl4psv`), and the production page table only if that file
+`poc-glass-1.1`; 0.24 and 1.0 read `claude/new-session-bl4psv`), and the production page table only if that file
 can't be read or isn't valid. Edit it on GitHub:
-https://github.com/Spotler-Data-Science/spotler-mia-loader/edit/claude/new-session-bl4psv/poc/glass-dock/config.json
+https://github.com/Spotler-Data-Science/spotler-mia-loader/edit/poc-glass-1.1/poc/glass-dock/config.json
 Changes show within about 5 minutes. Later it moves to
 `https://marketing.spotler.com/botpress/config.json` (`POC_CONFIG_URL` in
 `src/01-poc-settings.js`; that server must send `Access-Control-Allow-Origin`).
@@ -83,8 +83,10 @@ The production `50-slideout`, `55-embedded` and `90-main` are left out.
 
 ```bash
 node build.mjs                        # production tag (the tests use it too)
-node poc/glass-dock/build.mjs         # → poc/glass-dock/dist/mia-poc-glass.gtm.html
+node poc/glass-dock/build.mjs         # → dist/mia-poc-glass-<version>.gtm.html (staging, mia-dev)
+                                      #   and mia-poc-glass-<version>.live.gtm.html (live, mia-live)
 CHROMIUM=/opt/pw-browsers/chromium python3 poc/glass-dock/test.py
+python3 poc/glass-dock/test_1_1.py     # 1.1: texts, privacy links, 14px footer, Open Sans, mia-hidden
 ```
 
 ## Putting it on staging
@@ -97,9 +99,31 @@ CHROMIUM=/opt/pw-browsers/chromium python3 poc/glass-dock/test.py
    chat is already running, the POC leaves it alone.
 3. Check the console for `[Mia] POC glass dock, region …, page …`.
 
+## Hiding the chat for a popup (1.1)
+
+`<html class="mia-hidden">` hides the whole chat (pill, open chat, booking
+calendar); removing the class brings it back exactly as it was, conversation
+included. It's CSS only, so it works whenever the class is set, even before
+the chat loads. In each popup:
+
+```js
+// open:
+document.documentElement.classList.add('mia-hidden');
+// close:
+document.documentElement.classList.remove('mia-hidden');
+```
+
+## Look (1.1)
+
+The whole chat, the Botpress conversation included, is in Open Sans (loaded
+by spotler.com; the tag downloads no font), `SETTINGS.POC_FONT`. The AI /
+privacy line is pinned to 14px so the site's paragraph style can't change it.
+
 ## Languages and pages
 
 - Labels (placeholder, header, privacy line and link) follow the region.
+  The privacy links for DE, en-DE, ES, SE and AU are set in
+  `src/01-poc-settings.js` (en-DE and AU have their own copy of the INT labels).
 - The greeting and buttons come from the page table, per region and page.
 - The pill's questions: the row's `prompts` if the page table has them;
   otherwise, on a page with its own row, its teaser first (the arrow sends its

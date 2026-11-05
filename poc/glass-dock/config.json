@@ -1,6 +1,6 @@
 {
-  "version": "2026-11-02.2",
-  "generatedBy": "marketing.spotler.com page table (glass dock POC): config/config.json plus 'prompts' on the INT default row",
+  "version": "2026-11-05.1",
+  "generatedBy": "marketing.spotler.com page table (glass dock POC): config/config.json plus 'prompts' on the INT default row; poc-glass-1.1: new opener and products chip, rows for products outside the 7 removed",
   "rows": [
     {
       "url_match": "*",
@@ -8,7 +8,7 @@
       "region": "en-GB",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products, help you book a demo, or make sure the right colleague follows up by email.",
       "buttons": [
         {
           "label": "What can Spotler do for me?",
@@ -47,46 +47,6 @@
       "teaser_send": "Tell me about CRM and lead management"
     },
     {
-      "url_match": "/b2b/event-management",
-      "match_type": "contains",
-      "region": "en-GB",
-      "page": "b2b-event-management",
-      "teaser_text": "Flawless and engaging events? Let me help you with that!",
-      "teaser_send": "Tell me about your event management tools"
-    },
-    {
-      "url_match": "/b2b/website-personalisation",
-      "match_type": "contains",
-      "region": "en-GB",
-      "page": "b2b-website-personalisation",
-      "teaser_text": "Let's make your website content more relevant for your visitors",
-      "teaser_send": "Tell me about website personalisation"
-    },
-    {
-      "url_match": "/b2b/conversational-marketing",
-      "match_type": "contains",
-      "region": "en-GB",
-      "page": "b2b-conversational-marketing",
-      "teaser_text": "If you want to start conversations with your customers, talk to me first ;-)",
-      "teaser_send": "Tell me about conversational marketing"
-    },
-    {
-      "url_match": "/b2b/social-media-publishing",
-      "match_type": "contains",
-      "region": "en-GB",
-      "page": "b2b-social-media-publishing",
-      "teaser_text": "Want to plan your social posts in advance? Let me help you!",
-      "teaser_send": "Tell me about social media publishing"
-    },
-    {
-      "url_match": "commerce/customer-data-platform",
-      "match_type": "contains",
-      "region": "en-GB",
-      "page": "commerce-customer-data-platform",
-      "teaser_text": "Wondering if a CDP suits you?",
-      "teaser_send": "Tell me about your customer data platform"
-    },
-    {
       "url_match": "commerce/email-marketing-automation",
       "match_type": "contains",
       "region": "en-GB",
@@ -103,22 +63,6 @@
       "teaser_send": "Tell me about your transactional emails"
     },
     {
-      "url_match": "commerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "en-GB",
-      "page": "commerce-onsite-search-merchandising",
-      "teaser_text": "Best search engine for your store? Let's chat!",
-      "teaser_send": "Tell me about onsite search and merchandising"
-    },
-    {
-      "url_match": "commerce/whatsapp-sms-social-media",
-      "match_type": "contains",
-      "region": "en-GB",
-      "page": "commerce-whatsapp-sms-social-media",
-      "teaser_text": "Apply real-time messaging with customers? Let me help you!",
-      "teaser_send": "Tell me about WhatsApp, SMS and social messaging"
-    },
-    {
       "url_match": "/pricing",
       "match_type": "contains",
       "region": "en-GB",
@@ -131,7 +75,7 @@
       "match_type": "contains",
       "region": "en-GB",
       "page": "products",
-      "teaser_text": "Not sure which product fits? Ask!",
+      "teaser_text": "Which product would suit me?",
       "teaser_send": "Help me figure out which product fits my needs"
     },
     {
@@ -300,7 +244,7 @@
       "region": "nl",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of verwijs je door naar een collega.",
+      "opener": "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of zorg dat de juiste collega per e-mail contact met je opneemt.",
       "buttons": [
         {
           "label": "Wat kan Spotler voor mij betekenen?",
@@ -339,46 +283,6 @@
       "teaser_send": "Vertel me over CRM en lead management"
     },
     {
-      "url_match": "/nl-nl/b2b/event-management",
-      "match_type": "contains",
-      "region": "nl",
-      "page": "b2b-event-management",
-      "teaser_text": "Vlekkeloze events die aanslaan? Laat mij je helpen",
-      "teaser_send": "Vertel me over jullie event management tools"
-    },
-    {
-      "url_match": "/nl-nl/b2b/website-personalisatie",
-      "match_type": "contains",
-      "region": "nl",
-      "page": "b2b-website-personalisatie",
-      "teaser_text": "Zullen we jouw website content relevanter maken voor bezoekers?",
-      "teaser_send": "Vertel me over website personalisatie"
-    },
-    {
-      "url_match": "/nl-nl/b2b/conversational-marketing",
-      "match_type": "contains",
-      "region": "nl",
-      "page": "b2b-conversational-marketing",
-      "teaser_text": "Als je goede conversaties met klanten wil, moet je eerst even met mij praten ;-)",
-      "teaser_send": "Vertel me over conversational marketing"
-    },
-    {
-      "url_match": "/nl-nl/b2b/social-media-publishing",
-      "match_type": "contains",
-      "region": "nl",
-      "page": "b2b-social-media-publishing",
-      "teaser_text": "Wil je al je social posts vooraf inplannen? Laat mij je helpen!",
-      "teaser_send": "Vertel me over social media publishing"
-    },
-    {
-      "url_match": "/nl-nl/commerce/customer-data-platform",
-      "match_type": "contains",
-      "region": "nl",
-      "page": "commerce-customer-data-platform",
-      "teaser_text": "Vraag je jezelf af of een CDP ook bij jou past?",
-      "teaser_send": "Vertel me over jullie customer data platform"
-    },
-    {
       "url_match": "/nl-nl/commerce/email-marketing-automation",
       "match_type": "contains",
       "region": "nl",
@@ -395,22 +299,6 @@
       "teaser_send": "Vertel me over jullie transactionele e-mails"
     },
     {
-      "url_match": "/nl-nl/commerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "nl",
-      "page": "commerce-onsite-search-merchandising",
-      "teaser_text": "De beste zoekfunctie binnen jouw webshop? Let's chat!",
-      "teaser_send": "Vertel me over onsite search en merchandising"
-    },
-    {
-      "url_match": "/nl-nl/commerce/whatsapp-sms-socials",
-      "match_type": "contains",
-      "region": "nl",
-      "page": "commerce-whatsapp-sms-socials",
-      "teaser_text": "Real-time messaging met klanten toepassen? Laat mij je helpen!",
-      "teaser_send": "Vertel me over WhatsApp, SMS en social messaging"
-    },
-    {
       "url_match": "/nl-nl/prijzen",
       "match_type": "contains",
       "region": "nl",
@@ -423,7 +311,7 @@
       "match_type": "contains",
       "region": "nl",
       "page": "producten",
-      "teaser_text": "Niet zeker welk product bij jou past? Ik kan je helpen!",
+      "teaser_text": "Welk product past bij mij?",
       "teaser_send": "Help me bepalen welk product bij mij past"
     },
     {
@@ -488,7 +376,7 @@
       "region": "int",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products, help you book a demo, or make sure the right colleague follows up by email.",
       "buttons": [
         {
           "label": "Book a demo",
@@ -543,46 +431,6 @@
       "teaser_send": "Tell me about CRM and lead management"
     },
     {
-      "url_match": "/b2b/event-management",
-      "match_type": "contains",
-      "region": "int",
-      "page": "b2b-event-management",
-      "teaser_text": "Flawless and engaging events? Let me help you with that!",
-      "teaser_send": "Tell me about your event management tools"
-    },
-    {
-      "url_match": "/b2b/website-personalisation",
-      "match_type": "contains",
-      "region": "int",
-      "page": "b2b-website-personalisation",
-      "teaser_text": "Let's make your website content more relevant for your visitors",
-      "teaser_send": "Tell me about website personalisation"
-    },
-    {
-      "url_match": "/b2b/conversational-marketing",
-      "match_type": "contains",
-      "region": "int",
-      "page": "b2b-conversational-marketing",
-      "teaser_text": "If you want to start conversations with your customers, talk to me first ;-)",
-      "teaser_send": "Tell me about conversational marketing"
-    },
-    {
-      "url_match": "/b2b/social-media-publishing",
-      "match_type": "contains",
-      "region": "int",
-      "page": "b2b-social-media-publishing",
-      "teaser_text": "Want to plan your social posts in advance? Let me help you!",
-      "teaser_send": "Tell me about social media publishing"
-    },
-    {
-      "url_match": "/ecommerce/customer-data-platform",
-      "match_type": "contains",
-      "region": "int",
-      "page": "ecommerce-customer-data-platform",
-      "teaser_text": "Wondering if a CDP suits you?",
-      "teaser_send": "Tell me about your customer data platform"
-    },
-    {
       "url_match": "/ecommerce/email-marketing-automation",
       "match_type": "contains",
       "region": "int",
@@ -599,22 +447,6 @@
       "teaser_send": "Tell me about your transactional emails"
     },
     {
-      "url_match": "/ecommerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "int",
-      "page": "ecommerce-onsite-search-merchandising",
-      "teaser_text": "Best search engine for your store? Let's chat!",
-      "teaser_send": "Tell me about onsite search and merchandising"
-    },
-    {
-      "url_match": "/ecommerce/whatsapp-sms-social-media",
-      "match_type": "contains",
-      "region": "int",
-      "page": "ecommerce-whatsapp-sms-social-media",
-      "teaser_text": "Real-time messaging with customers? Let me help you!",
-      "teaser_send": "Tell me about WhatsApp, SMS and social messaging"
-    },
-    {
       "url_match": "/pricing",
       "match_type": "contains",
       "region": "int",
@@ -627,7 +459,7 @@
       "match_type": "contains",
       "region": "int",
       "page": "products",
-      "teaser_text": "Not sure which product fits? Ask!",
+      "teaser_text": "Which product would suit me?",
       "teaser_send": "Help me figure out which product fits my needs"
     },
     {
@@ -692,7 +524,7 @@
       "region": "de-DE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder verweise Sie an einen Kollegen.",
+      "opener": "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo anzufordern, oder sorge dafür, dass sich die passende Ansprechperson per E-Mail bei Ihnen meldet.",
       "buttons": [
         {
           "label": "Was kann Spotler für mich tun?",
@@ -720,7 +552,7 @@
       "region": "en-DE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products, help you book a demo, or make sure the right colleague follows up by email.",
       "buttons": [
         {
           "label": "What can Spotler do for me?",
@@ -759,46 +591,6 @@
       "teaser_send": "Tell me about CRM and lead management"
     },
     {
-      "url_match": "/b2b/event-management",
-      "match_type": "contains",
-      "region": "en-DE",
-      "page": "b2b-event-management",
-      "teaser_text": "Flawless and engaging events? Let me help you with that!",
-      "teaser_send": "Tell me about your event management tools"
-    },
-    {
-      "url_match": "/b2b/website-personalisation",
-      "match_type": "contains",
-      "region": "en-DE",
-      "page": "b2b-website-personalisation",
-      "teaser_text": "Let's make your website content more relevant for your visitors",
-      "teaser_send": "Tell me about website personalisation"
-    },
-    {
-      "url_match": "/b2b/conversational-marketing",
-      "match_type": "contains",
-      "region": "en-DE",
-      "page": "b2b-conversational-marketing",
-      "teaser_text": "If you want to start conversations with your customers, talk to me first ;-)",
-      "teaser_send": "Tell me about conversational marketing"
-    },
-    {
-      "url_match": "/b2b/social-media-publishing",
-      "match_type": "contains",
-      "region": "en-DE",
-      "page": "b2b-social-media-publishing",
-      "teaser_text": "Want to plan your social posts in advance? Let me help you!",
-      "teaser_send": "Tell me about social media publishing"
-    },
-    {
-      "url_match": "/ecommerce/customer-data-platform",
-      "match_type": "contains",
-      "region": "en-DE",
-      "page": "ecommerce-customer-data-platform",
-      "teaser_text": "Wondering if a CDP suits you?",
-      "teaser_send": "Tell me about your customer data platform"
-    },
-    {
       "url_match": "/ecommerce/email-marketing-automation",
       "match_type": "contains",
       "region": "en-DE",
@@ -815,22 +607,6 @@
       "teaser_send": "Tell me about your transactional emails"
     },
     {
-      "url_match": "/ecommerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "en-DE",
-      "page": "ecommerce-onsite-search-merchandising",
-      "teaser_text": "Best search engine for your store? Let's chat!",
-      "teaser_send": "Tell me about onsite search and merchandising"
-    },
-    {
-      "url_match": "/ecommerce/whatsapp-sms-social-media",
-      "match_type": "contains",
-      "region": "en-DE",
-      "page": "ecommerce-whatsapp-sms-social-media",
-      "teaser_text": "Real-time messaging with customers? Let me help you!",
-      "teaser_send": "Tell me about WhatsApp, SMS and social messaging"
-    },
-    {
       "url_match": "/pricing",
       "match_type": "contains",
       "region": "en-DE",
@@ -843,7 +619,7 @@
       "match_type": "contains",
       "region": "en-DE",
       "page": "products",
-      "teaser_text": "Not sure which product fits? Ask!",
+      "teaser_text": "Which product would suit me?",
       "teaser_send": "Help me figure out which product fits my needs"
     },
     {
@@ -908,7 +684,7 @@
       "region": "es-ES",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o te indico a qué compañero dirigirte.",
+      "opener": "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a solicitar una demo o me encargo de que la persona adecuada del equipo te contacte por email.",
       "buttons": [
         {
           "label": "¿Qué puede hacer Spotler por mí?",
@@ -936,7 +712,7 @@
       "region": "sv-SE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hej, jag är Mia, Spotlers AI-assistent. Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller hänvisar dig till en kollega.",
+      "opener": "Hej, jag är Mia, Spotlers AI-assistent. Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller ser till att rätt kollega hör av sig till dig via e-post.",
       "buttons": [
         {
           "label": "Vad kan Spotler göra för mig?",
@@ -964,7 +740,7 @@
       "region": "en-AU",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or point you to a colleague.",
+      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products, help you book a demo, or make sure the right colleague follows up by email.",
       "buttons": [
         {
           "label": "What can Spotler do for me?",
@@ -1003,46 +779,6 @@
       "teaser_send": "Tell me about CRM and lead management"
     },
     {
-      "url_match": "/b2b/event-management",
-      "match_type": "contains",
-      "region": "en-AU",
-      "page": "b2b-event-management",
-      "teaser_text": "Flawless and engaging events? Let me help you with that!",
-      "teaser_send": "Tell me about your event management tools"
-    },
-    {
-      "url_match": "/b2b/website-personalisation",
-      "match_type": "contains",
-      "region": "en-AU",
-      "page": "b2b-website-personalisation",
-      "teaser_text": "Let's make your website content more relevant for your visitors",
-      "teaser_send": "Tell me about website personalisation"
-    },
-    {
-      "url_match": "/b2b/conversational-marketing",
-      "match_type": "contains",
-      "region": "en-AU",
-      "page": "b2b-conversational-marketing",
-      "teaser_text": "If you want to start conversations with your customers, talk to me first ;-)",
-      "teaser_send": "Tell me about conversational marketing"
-    },
-    {
-      "url_match": "/b2b/social-media-publishing",
-      "match_type": "contains",
-      "region": "en-AU",
-      "page": "b2b-social-media-publishing",
-      "teaser_text": "Want to plan your social posts in advance? Let me help you!",
-      "teaser_send": "Tell me about social media publishing"
-    },
-    {
-      "url_match": "/ecommerce/customer-data-platform",
-      "match_type": "contains",
-      "region": "en-AU",
-      "page": "ecommerce-customer-data-platform",
-      "teaser_text": "Wondering if a CDP suits you?",
-      "teaser_send": "Tell me about your customer data platform"
-    },
-    {
       "url_match": "/ecommerce/email-marketing-automation",
       "match_type": "contains",
       "region": "en-AU",
@@ -1059,22 +795,6 @@
       "teaser_send": "Tell me about your transactional emails"
     },
     {
-      "url_match": "/ecommerce/onsite-search-merchandising",
-      "match_type": "contains",
-      "region": "en-AU",
-      "page": "ecommerce-onsite-search-merchandising",
-      "teaser_text": "Best search engine for your store? Let's chat!",
-      "teaser_send": "Tell me about onsite search and merchandising"
-    },
-    {
-      "url_match": "/ecommerce/whatsapp-sms-social-media",
-      "match_type": "contains",
-      "region": "en-AU",
-      "page": "ecommerce-whatsapp-sms-social-media",
-      "teaser_text": "Real-time messaging with customers? Let me help you!",
-      "teaser_send": "Tell me about WhatsApp, SMS and social messaging"
-    },
-    {
       "url_match": "/pricing",
       "match_type": "contains",
       "region": "en-AU",
@@ -1087,7 +807,7 @@
       "match_type": "contains",
       "region": "en-AU",
       "page": "products",
-      "teaser_text": "Not sure which product fits? Ask!",
+      "teaser_text": "Which product would suit me?",
       "teaser_send": "Help me figure out which product fits my needs"
     },
     {

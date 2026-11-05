@@ -4,7 +4,7 @@ import asyncio, json, os, sys
 from playwright.async_api import async_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-POC = open(os.path.join(ROOT, "poc/glass-dock/dist/mia-poc-glass.gtm.html")).read()
+POC = open(os.path.join(ROOT, "poc/glass-dock/dist/mia-poc-glass-1.1.gtm.html"), encoding="utf8").read()
 PROD = open(os.path.join(ROOT, "dist/mia-loader.gtm.html")).read()
 RAW = open(os.path.join(ROOT, "test/mock/page.html")).read()
 INJECT = open(os.path.join(ROOT, "test/mock/inject.js")).read()
