@@ -5,7 +5,7 @@ from playwright.async_api import async_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # the staging build (mia-dev) unless DOCK_TAG names another file
-DOCK_FILE = os.environ.get("DOCK_TAG") or os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.10.staging.gtm.html")
+DOCK_FILE = os.environ.get("DOCK_TAG") or os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.11.staging.gtm.html")
 POC = open(DOCK_FILE).read()
 EXPECT_BOT = ("7fd567ab-816f-4219-9588-ef0fbe77a342", "877f50a2-6eee-4e43-99bd-eb9548fdf9c3") if ".live." in DOCK_FILE else ("76065f80-2d7f-43a4-9217-26d320157352", "dadbe1bf-4b11-49a4-ab85-3e9dd59f3254")
 PROD = open(os.path.join(ROOT, "dist/mia-loader.gtm.html")).read()
@@ -598,6 +598,8 @@ async def main():
             check(f"12c {path}: privacy link {priv}", r["href"] in (priv, None), r["href"])
             check(f"12d {path}: footer 14px in Open Sans, over the site's 16px Montserrat paragraphs", r["ftSize"] == "14px" and "Open Sans" in r["ftFont"], [r["ftSize"], r["ftFont"]])
             check(f"12e {path}: fixed texts in Open Sans", all("Open Sans" in f and "Montserrat" not in f for f in r["fixed"]), r["fixed"])
+            col = await page.evaluate("['#mia-start h2', '#mia-start .mia-intro p', '#mia-start .mia-t b', '#mia-start .mia-chip', '#mia-dock-head b'].map(q => document.querySelector(q) ? getComputedStyle(document.querySelector(q)).color : 'none')")
+            check(f"12k {path}: navy texts in #002A4D", all(c == "rgb(0, 42, 77)" for c in col), col)
             check(f"12f {path}: nothing fetched from GitHub", not any(("github" in u or "jsdelivr" in u) for u in reqs), [u for u in reqs if "github" in u or "jsdelivr" in u])
             await ctx.close()
 
@@ -665,6 +667,8 @@ async def main():
         await page.wait_for_timeout(1500)
         conv = await page.evaluate("getComputedStyle(window.__bpShadow.querySelector('.bpMessageBlocksBubble p') || window.__bpShadow.querySelector('.bpMessageBlocksBubble')).fontFamily")
         check("12g the Botpress conversation is in Open Sans", "Open Sans" in conv and "Montserrat" not in conv, conv)
+        cc = await page.evaluate("getComputedStyle(window.__bpShadow.querySelector('.bpMessageContainer[data-direction=incoming] .bpMessageBlocksBubble')).color")
+        check("12l Mia's replies in #002A4D", cc == "rgb(0, 42, 77)", cc)
         STATE = """() => { const d=document.getElementById('mia-dock'); return { shown: getComputedStyle(d).display !== 'none' && d.getBoundingClientRect().height > 0,
                      open: d.classList.contains('open'), msgs: window.__bpShadow.querySelectorAll('.bpMessageContainer').length } }"""
         before = await page.evaluate(STATE)

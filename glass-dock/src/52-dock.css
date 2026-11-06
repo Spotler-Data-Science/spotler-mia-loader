@@ -13,7 +13,7 @@
   position: fixed; left: 50%; bottom: 24px; z-index: 2147483000;
   width: min(600px, calc(100vw - 32px)); transform: translateX(-50%);
   display: flex; flex-direction: column; overflow: hidden; border-radius: var(--mia-r);
-  font-family: var(--mia-font, 'Open Sans', sans-serif); color: #0B1F4D; -webkit-font-smoothing: antialiased;
+  font-family: var(--mia-font, 'Open Sans', sans-serif); color: #002A4D; -webkit-font-smoothing: antialiased;
   transition: width .5s cubic-bezier(.2,.8,.2,1), bottom .5s cubic-bezier(.2,.8,.2,1), transform .35s ease, opacity .3s ease;
 }
 /* open: wider, the same gap to the screen edge; the field lifts to make room for the AI / privacy line under it */
@@ -36,7 +36,7 @@
 #mia-dock-head b { display: block; font-size: 18px; line-height: 24px; font-weight: 600; }
 #mia-dock-head span { display: block; font-size: 14px; line-height: 20px; color: #5B6B8C; }
 #mia-dock-head button { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0;
-                        border: 0; border-radius: 50%; background: transparent; color: #0B1F4D; cursor: pointer; }
+                        border: 0; border-radius: 50%; background: transparent; color: #002A4D; cursor: pointer; }
 #mia-dock-head button:hover { background: rgba(255,255,255,.6); }
 #mia-dock-head button svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 #spotler-inline-body { position: relative; flex: 1 1 auto; min-height: 0; }
@@ -45,13 +45,13 @@
 #mia-dock-held { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; flex-direction: column;
                  align-items: flex-end; gap: 8px; padding: 0 28px 16px; pointer-events: none; }
 #mia-dock-held:empty { display: none; }
-#mia-dock-held .h { max-width: 85%; padding: 9px 16px; border-radius: 18px; background: rgba(234,242,255,.92); color: #0B1F4D;
+#mia-dock-held .h { max-width: 85%; padding: 9px 16px; border-radius: 18px; background: rgba(234,242,255,.92); color: #002A4D;
                     font-family: var(--mia-font, inter, sans-serif); font-size: 15px; line-height: 23px; opacity: .6;
                     white-space: pre-wrap; overflow-wrap: anywhere; }
 #mia-dock-held p { margin: 0; }
 #mia-dock-loading { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; z-index: 5; }
 #mia-dock-loading.on { display: flex; }
-#mia-dock-loading span { width: 28px; height: 28px; border: 3px solid rgba(11,31,77,.15); border-top-color: #0B1F4D;
+#mia-dock-loading span { width: 28px; height: 28px; border: 3px solid rgba(11,31,77,.15); border-top-color: #002A4D;
                          border-radius: 50%; animation: mia-spin .8s linear infinite; }
 @keyframes mia-spin { to { transform: rotate(360deg); } }
 
@@ -89,7 +89,7 @@
   opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
 #mia-dock.open #mia-dock-pill { cursor: auto; }
 /* the question: a touch larger and darker, so the moving text reads as live */
-#mia-dock-q, #mia-dock-in { flex: 1 1 auto; min-width: 0; font: inherit; font-size: 19px; line-height: 26px; color: #071638; }
+#mia-dock-q, #mia-dock-in { flex: 1 1 auto; min-width: 0; font: inherit; font-size: 19px; line-height: 26px; color: #002A4D; }
 #mia-dock-q { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #mia-dock-q::after { content: ""; display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: -0.15em;
                      background: var(--mia-accent); animation: mia-caret 1s steps(1) infinite; }   /* same cyan as the button */

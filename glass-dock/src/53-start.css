@@ -7,7 +7,7 @@
 #mia-start {
   position: absolute; inset: 0; z-index: 3; overflow-y: auto; overscroll-behavior: contain;
   display: flex; flex-direction: column; gap: 18px;
-  padding: 12px 28px 18px; color: #071638; font-family: var(--mia-font, inherit);
+  padding: 12px 28px 18px; color: #002A4D; font-family: var(--mia-font, inherit);
   scrollbar-width: none; transition: opacity .2s ease, transform .2s ease;
 }
 /* while the chat opens: laid out at its final size, the glass grows around it
@@ -19,8 +19,8 @@
 /* sits low when there's room; when there isn't, starts at the headline and scrolls
    (justify-content: flex-end would cut the top off unreachably) */
 #mia-start .mia-intro { flex: 0 0 auto; margin-top: auto; }
-#mia-start h2 { margin: 0 0 8px; font: inherit; font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -.01em; color: #0B1F4D; }
-#mia-start .mia-intro p { margin: 0; max-width: 640px; font-size: 17px; line-height: 26px; color: #1D2B4F; white-space: pre-line; }
+#mia-start h2 { margin: 0 0 8px; font: inherit; font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -.01em; color: #002A4D; }
+#mia-start .mia-intro p { margin: 0; max-width: 640px; font-size: 17px; line-height: 26px; color: #002A4D; white-space: pre-line; }
 #mia-start .mia-intro p + p { margin-top: 8px; }
 
 /* option cards: 2 columns, 1 on phones */
@@ -35,9 +35,9 @@
 #mia-start .mia-ico { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; }
 #mia-start .mia-ico svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 #mia-start .mia-t { flex: 1 1 auto; min-width: 0; }
-#mia-start .mia-t b { display: block; font-size: 16px; line-height: 22px; font-weight: 600; color: #0B1F4D; }
+#mia-start .mia-t b { display: block; font-size: 16px; line-height: 22px; font-weight: 600; color: #002A4D; }
 #mia-start .mia-t span { display: block; margin-top: 2px; font-size: 13.5px; line-height: 19px; color: #5B6B8C; }
-#mia-start .mia-chev { flex: 0 0 auto; width: 18px; height: 18px; fill: none; stroke: #0B1F4D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: .7; }
+#mia-start .mia-chev { flex: 0 0 auto; width: 18px; height: 18px; fill: none; stroke: #002A4D; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: .7; }
 /* icon colours: soft tint, darker line */
 #mia-start .i-calendar, #mia-start .i-product { background: #E3F3FC; color: #1E8FC4; }
 #mia-start .i-pricing, #mia-start .i-chat { background: #E8EAFB; color: #4B55C8; }
@@ -46,10 +46,10 @@
 
 /* others often ask */
 #mia-start .mia-ask { flex: 0 0 auto; }
-#mia-start .mia-ask h3 { margin: 0 0 10px; font: inherit; font-size: 16px; line-height: 22px; font-weight: 600; color: #0B1F4D; }
+#mia-start .mia-ask h3 { margin: 0 0 10px; font: inherit; font-size: 16px; line-height: 22px; font-weight: 600; color: #002A4D; }
 #mia-start .mia-chips { display: flex; flex-wrap: wrap; gap: 10px; }
 #mia-start .mia-chip { padding: 8px 16px; border: 1px solid rgba(11,31,77,.16); border-radius: 999px; background: rgba(255,255,255,.55);
-  font: inherit; font-size: 14px; line-height: 20px; color: #0B1F4D; cursor: pointer; transition: background-color .15s ease, border-color .15s ease; }
+  font: inherit; font-size: 14px; line-height: 20px; color: #002A4D; cursor: pointer; transition: background-color .15s ease, border-color .15s ease; }
 #mia-start .mia-chip:hover { background: rgba(255,255,255,.9); border-color: rgba(11,31,77,.28); }
 
 /* narrow screens and phones: one column, smaller headline */

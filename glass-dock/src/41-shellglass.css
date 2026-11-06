@@ -1,6 +1,6 @@
 /* Glass look for the static preview (appended to the shell's own styles
    by 52-dock.js). The card behind it is the glass; the preview is clear. */
-.c { background: transparent; border: 0; color: #0B1F4D; font-family: var(--mia-font, inter, sans-serif); }
+.c { background: transparent; border: 0; color: #002A4D; font-family: var(--mia-font, inter, sans-serif); }
 .mq { display: none; }
 /* its greeting and buttons are on the start screen (53-start) instead */
 .op { display: none; }
@@ -10,15 +10,15 @@
 /* Mia's replies: a glass bubble like the start screen's question chips (the
    live chat's are styled the same in 52-dock.js, so the hand-over matches) */
 .b { padding: 10px 16px; background: rgba(255, 255, 255, 0.55); border: 1px solid rgba(11, 31, 77, 0.16); border-radius: 18px;
-     color: #0B1F4D; font-size: 15px; line-height: 23px; max-width: 85%; }
+     color: #002A4D; font-size: 15px; line-height: 23px; max-width: 85%; }
 .col .b { max-width: 85%; }
-.m.out .b { padding: 9px 16px; background: rgba(234, 242, 255, 0.92); color: #0B1F4D; border-radius: 18px; max-width: 85%; border: 0; }
+.m.out .b { padding: 9px 16px; background: rgba(234, 242, 255, 0.92); color: #002A4D; border-radius: 18px; max-width: 85%; border: 0; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
 .col { width: 100%; }
 /* reply buttons: a slight blue, so they stand apart from the grey bubbles */
 .btn { padding: 11px 12px; border-radius: 999px; background: rgba(214, 232, 252, 0.5);
        -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-       border: 1px solid rgba(47, 140, 210, 0.28); color: #0B1F4D; font-size: 14px; }
+       border: 1px solid rgba(47, 140, 210, 0.28); color: #002A4D; font-size: 14px; }
 .btn:hover { background: rgba(200, 224, 250, 0.7); }
 .btn[disabled]:hover { background: rgba(214, 232, 252, 0.5); }
 /* the bot's reply, mirrored before the hand-over: its buttons as Botpress

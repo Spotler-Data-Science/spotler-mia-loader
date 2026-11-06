@@ -5,7 +5,7 @@
    scheduler as a clean white card. It covers the whole dock (field and
    footer hidden); no heading, no Cancel, no line under it.
    ================================================================== */
-.c { font-family: var(--mia-font, inter, sans-serif); color: #0B1F4D; }
+.c { font-family: var(--mia-font, inter, sans-serif); color: #002A4D; }
 .sheet { background: transparent; justify-content: flex-start; gap: 6px; padding: 0 16px 12px; }
 /* desktop: HubSpot's page has a deep empty top margin: crop 16px more of it */
 .stage iframe { top: -32px; height: calc(100% + 48px); }
