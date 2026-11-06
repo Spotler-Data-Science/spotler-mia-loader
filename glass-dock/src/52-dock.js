@@ -133,6 +133,44 @@ function createDock(labels, handlers) {
     lastY = y;
   }
   window.addEventListener("scroll", function () { if (!awayFrame) awayFrame = requestAnimationFrame(checkAway); }, { passive: true });
+
+  // The site's own overlays (the mobile menu, popups, a large cookie banner):
+  // when a fixed layer covers the bar's spot and most of the screen, the
+  // resting bar slides away too, and comes back when it closes. Checked after
+  // clicks, scrolls, resizes and page changes; never while the chat is open.
+  function coveredBySite() {
+    if (dock.classList.contains("open") || !document.elementsFromPoint) return false;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var y = vh - 50, xs = [vw * 0.25, vw * 0.5, vw * 0.75];
+    for (var i = 0; i < xs.length; i++) {
+      var list = document.elementsFromPoint(xs[i], y), top = null;
+      for (var j = 0; j < list.length; j++) {
+        if (dock.contains(list[j]) || list[j] === document.body || list[j] === document.documentElement) continue;
+        top = list[j]; break;
+      }
+      for (var n = top; n && n !== document.body && n !== document.documentElement; n = n.parentElement) {
+        if (getComputedStyle(n).position !== "fixed") continue;
+        var r = n.getBoundingClientRect();
+        if (r.width >= vw * 0.8 && r.height >= vh * 0.4) return true;
+        break;
+      }
+    }
+    return false;
+  }
+  var coverTimer = 0;
+  function checkCovered(delay) {
+    clearTimeout(coverTimer);
+    coverTimer = setTimeout(function () { dock.classList.toggle("mia-covered", coveredBySite()); }, delay || 0);
+  }
+  document.addEventListener("click", function () { checkCovered(60); checkCovered(450); }, true);   // menus animate open
+  window.addEventListener("scroll", function () { checkCovered(150); }, { passive: true });
+  window.addEventListener("resize", function () { checkCovered(150); });
+  if (window.MutationObserver) {
+    new MutationObserver(function () { checkCovered(250); })
+      .observe(document.body, { childList: true, attributes: true, attributeFilter: ["class", "style"] });
+    new MutationObserver(function () { checkCovered(250); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ["class", "style"] });
+  }
   window.addEventListener("orientationchange", function () { setTimeout(resize, 300); });
 
   // ---- the typing question ----
@@ -168,7 +206,7 @@ function createDock(labels, handlers) {
   var openingTimer;
   function open() {
     if (dock.classList.contains("open")) return;
-    dock.classList.remove("mia-away");
+    dock.classList.remove("mia-away", "mia-covered");
     stopTyping();
     dock.classList.remove("cal-pending");
     dock.classList.add("typing-field");

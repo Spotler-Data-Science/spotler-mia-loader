@@ -192,4 +192,4 @@
 html.mia-hidden #mia-dock { display: none !important; }
 /* Near the end of the page the resting pill slides down off the screen
    (52-dock.js adds mia-away), so it doesn't cover the site's footer */
-#mia-dock.mia-away:not(.open) { transform: translate(-50%, calc(100% + 40px)); opacity: 0; pointer-events: none; }
+#mia-dock.mia-away:not(.open), #mia-dock.mia-covered:not(.open) { transform: translate(-50%, calc(100% + 40px)); opacity: 0; pointer-events: none; }

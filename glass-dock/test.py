@@ -5,7 +5,7 @@ from playwright.async_api import async_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # the staging build (mia-dev) unless DOCK_TAG names another file
-DOCK_FILE = os.environ.get("DOCK_TAG") or os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.9.staging.gtm.html")
+DOCK_FILE = os.environ.get("DOCK_TAG") or os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.10.staging.gtm.html")
 POC = open(DOCK_FILE).read()
 EXPECT_BOT = ("7fd567ab-816f-4219-9588-ef0fbe77a342", "877f50a2-6eee-4e43-99bd-eb9548fdf9c3") if ".live." in DOCK_FILE else ("76065f80-2d7f-43a4-9217-26d320157352", "dadbe1bf-4b11-49a4-ab85-3e9dd59f3254")
 PROD = open(os.path.join(ROOT, "dist/mia-loader.gtm.html")).read()
@@ -622,6 +622,28 @@ async def main():
         op = await page.evaluate("[document.getElementById('mia-dock').classList.contains('open'), document.getElementById('mia-dock').classList.contains('mia-away'), Math.round(document.getElementById('mia-dock').getBoundingClientRect().bottom) <= innerHeight]")
         check("13d opening the chat at the end of the page: it's fully on screen", op == [True, False, True], op)
         await ctx.close()
+        # 1.10: the site's mobile menu (a fixed layer over the screen, no scrolling) hides the bar; closing it brings it back
+        ctx = await b.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)
+        await setup(ctx, [POC], phone=True, mkt=REAL)
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(1500)
+        await page.evaluate("""() => { const b=document.createElement('button'); b.id='burger'; b.textContent='menu'; b.style.cssText='position:fixed;top:10px;right:10px;z-index:10';
+            b.onclick=()=>{ const m=document.getElementById('site-menu'); if (m) m.remove(); else { const d=document.createElement('nav'); d.id='site-menu';
+              d.style.cssText='position:fixed;top:60px;left:0;right:0;bottom:0;background:#fff;z-index:9999'; d.innerHTML='<ul><li>Products</li><li>Login</li></ul>'; document.body.appendChild(d); } };
+            document.body.appendChild(b);
+            const f=document.createElement('a'); f.style.cssText='position:fixed;right:12px;bottom:12px;width:56px;height:56px;background:#2FACE6;z-index:50'; document.body.appendChild(f); }""")
+        await page.wait_for_timeout(500)
+        COV = "[document.getElementById('mia-dock').classList.contains('mia-covered'), getComputedStyle(document.getElementById('mia-dock')).opacity]"
+        small = await page.evaluate(COV)
+        await page.click("#burger"); await page.wait_for_timeout(800)
+        menu = await page.evaluate(COV)
+        await page.click("#burger"); await page.wait_for_timeout(800)
+        closed = await page.evaluate(COV)
+        check("14a a small fixed button near the bar doesn't hide it", small == [False, "1"], small)
+        check("14b the site's menu opens over the screen: the bar slides away", menu == [True, "0"], menu)
+        check("14c the menu closes: the bar comes back", closed == [False, "1"], closed)
+        await ctx.close()
+
         # a page too short to scroll: the pill never slides away
         ctx = await b.new_context(viewport={"width": 1440, "height": 900})
         await setup(ctx, [POC], mkt=REAL)
