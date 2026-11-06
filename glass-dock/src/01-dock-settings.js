@@ -3,7 +3,7 @@
    Every region the production loader covers. The production loader's own
    settings are untouched.
    ================================================================== */
-SETTINGS.VERSION = "glass-dock-1.8";
+SETTINGS.VERSION = "glass-dock-1.9";
 
 // The bot the dock talks to (the production loader's own setting is left
 // alone). Ids: Botpress dashboard -> bot -> Webchat -> Share.
@@ -30,6 +30,26 @@ SETTINGS.DOCK_FONT = "'Open Sans', sans-serif";
 // What the pill types, one after the other, in the page's language, when
 // the page table has no "prompts" for the page. On a page with its own row,
 // that page's teaser comes first (the arrow sends its teaser_send).
+// Each region's built-in greeting (used when the page table can't be read).
+// No "Hi, I'm Mia" opening: the headline already says it, and the header
+// ("Spotler AI Assistant") and footer ("AI assistant · Privacy") say it's AI.
+// The old slide-out loader keeps its own wording (src/00-settings.js).
+SETTINGS.DOCK_OPENERS = {
+  "en": "I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
+  "nl": "Ik beantwoord vragen over onze producten, help je met een demo-afspraak of zorg dat de juiste collega je per e-mail opvolgt.",
+  "de": "Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder sorge dafür, dass sich die richtige Ansprechperson per E-Mail bei Ihnen meldet.",
+  "es": "Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o me aseguro de que la persona adecuada de nuestro equipo te escriba por email.",
+  "sv": "Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller ser till att rätt kollega hör av sig till dig via e-post."
+};
+(function () {
+  var lang = { "nl": "nl", "de-DE": "de", "es-ES": "es", "sv-SE": "sv" };
+  SETTINGS.DEFAULT_ROWS.forEach(function (r) { r.opener = SETTINGS.DOCK_OPENERS[lang[r.region] || "en"]; });
+})();
+
+// How close to the end of the page (px) the resting pill slides away, so it
+// doesn't cover the site's footer; scrolling back up brings it back.
+SETTINGS.DOCK_AWAY_PX = 120;
+
 SETTINGS.DOCK_PROMPTS = {
   en: ["How can Spotler help me?", "Which product fits a webshop?", "Can I book a demo this week?", "How does Spotler use AI?", "What does Spotler cost?"],
   nl: ["Hoe helpt Spotler mijn bedrijf?", "Wat past bij een webshop?", "Kan ik een demo boeken?", "Hoe gebruikt Spotler AI?", "Wat kost Spotler?"],

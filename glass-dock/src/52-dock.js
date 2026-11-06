@@ -118,6 +118,21 @@ function createDock(labels, handlers) {
   }
   fitTouch();
   window.addEventListener("resize", resize);
+
+  // Near the end of the page the resting pill slides down out of the way (it
+  // would cover the site's footer); scrolling up brings it straight back.
+  // Never while the chat is open, and never on a page too short to scroll.
+  var lastY = window.pageYOffset || 0, awayFrame = 0;
+  function checkAway() {
+    awayFrame = 0;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var max = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) - window.innerHeight;
+    var near = max > 200 && y >= max - SETTINGS.DOCK_AWAY_PX && !dock.classList.contains("open");
+    if (near && y >= lastY) dock.classList.add("mia-away");
+    else if (!near || y < lastY - 4) dock.classList.remove("mia-away");
+    lastY = y;
+  }
+  window.addEventListener("scroll", function () { if (!awayFrame) awayFrame = requestAnimationFrame(checkAway); }, { passive: true });
   window.addEventListener("orientationchange", function () { setTimeout(resize, 300); });
 
   // ---- the typing question ----
@@ -153,6 +168,7 @@ function createDock(labels, handlers) {
   var openingTimer;
   function open() {
     if (dock.classList.contains("open")) return;
+    dock.classList.remove("mia-away");
     stopTyping();
     dock.classList.remove("cal-pending");
     dock.classList.add("typing-field");

@@ -5,7 +5,7 @@ from playwright.async_api import async_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # the staging build (mia-dev) unless DOCK_TAG names another file
-DOCK_FILE = os.environ.get("DOCK_TAG") or os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.8.staging.gtm.html")
+DOCK_FILE = os.environ.get("DOCK_TAG") or os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.9.staging.gtm.html")
 POC = open(DOCK_FILE).read()
 EXPECT_BOT = ("7fd567ab-816f-4219-9588-ef0fbe77a342", "877f50a2-6eee-4e43-99bd-eb9548fdf9c3") if ".live." in DOCK_FILE else ("76065f80-2d7f-43a4-9217-26d320157352", "dadbe1bf-4b11-49a4-ab85-3e9dd59f3254")
 PROD = open(os.path.join(ROOT, "dist/mia-loader.gtm.html")).read()
@@ -570,15 +570,15 @@ async def main():
 
         # 12. 1.8 checks, against the real page table (glass-dock/config.json as the marketing file)
         REAL = open(os.path.join(ROOT, "glass-dock/config.json"), encoding="utf-8").read()
-        OPEN_EN = "Hi, I\u2019m Mia, Spotler\u2019s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email."
+        OPEN_EN = "I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email."
         CASES = [  # path, chip, opener start, privacy link
             ("/en-gb/products", "Which product would suit me?", OPEN_EN, "https://spotler.com/en-gb/privacy-statement"),
             ("/products", "Which product would suit me?", OPEN_EN, "https://spotler.com/privacy-statement"),
-            ("/nl-nl/producten", "Welk product past bij mij?", "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of zorg dat de juiste collega je per e-mail opvolgt.", "https://spotler.com/nl-nl/privacy-statement"),
-            ("/de-de/produkte", "Welches Produkt passt zu mir?", "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder sorge daf\u00fcr, dass sich die richtige Ansprechperson per E-Mail bei Ihnen meldet.", "https://spotler.com/de-de/datenschutzerklaerung"),
+            ("/nl-nl/producten", "Welk product past bij mij?", "Ik beantwoord vragen over onze producten, help je met een demo-afspraak of zorg dat de juiste collega je per e-mail opvolgt.", "https://spotler.com/nl-nl/privacy-statement"),
+            ("/de-de/produkte", "Welches Produkt passt zu mir?", "Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder sorge daf\u00fcr, dass sich die richtige Ansprechperson per E-Mail bei Ihnen meldet.", "https://spotler.com/de-de/datenschutzerklaerung"),
             ("/en-de/products", "Which product would suit me?", OPEN_EN, "https://spotler.com/en-de/privacy-statement"),
-            ("/es-es/productos", "\u00bfQu\u00e9 producto me conviene?", "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o me aseguro de que la persona adecuada de nuestro equipo te escriba por email.", "https://spotler.com/es-es/politica-de-privacidad"),
-            ("/sv-se/produkter", "Vilken produkt passar mig?", "Hej, jag \u00e4r Mia, Spotlers AI-assistent. Jag svarar p\u00e5 fr\u00e5gor om v\u00e5ra produkter, hj\u00e4lper dig att boka en demo eller ser till att r\u00e4tt kollega h\u00f6r av sig till dig via e-post.", "https://spotler.com/sv-se/privacy-statement"),
+            ("/es-es/productos", "\u00bfQu\u00e9 producto me conviene?", "Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o me aseguro de que la persona adecuada de nuestro equipo te escriba por email.", "https://spotler.com/es-es/politica-de-privacidad"),
+            ("/sv-se/produkter", "Vilken produkt passar mig?", "Jag svarar p\u00e5 fr\u00e5gor om v\u00e5ra produkter, hj\u00e4lper dig att boka en demo eller ser till att r\u00e4tt kollega h\u00f6r av sig till dig via e-post.", "https://spotler.com/sv-se/privacy-statement"),
             ("/en-au/products", "Which product would suit me?", OPEN_EN, "https://spotler.com/en-au/privacy-statement"),
         ]
         SITE_CSS = "p, a { font-size: 16px; font-family: Montserrat, sans-serif; } body { font-family: Montserrat, sans-serif; }"
@@ -600,6 +600,37 @@ async def main():
             check(f"12e {path}: fixed texts in Open Sans", all("Open Sans" in f and "Montserrat" not in f for f in r["fixed"]), r["fixed"])
             check(f"12f {path}: nothing fetched from GitHub", not any(("github" in u or "jsdelivr" in u) for u in reqs), [u for u in reqs if "github" in u or "jsdelivr" in u])
             await ctx.close()
+
+        # 1.9: near the end of the page the resting pill slides away; scrolling up brings it back
+        ctx = await b.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)
+        await setup(ctx, [POC], phone=True, mkt=REAL)
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(1500)
+        await page.evaluate("document.body.style.minHeight = '4000px'")
+        AWAY = "[document.getElementById('mia-dock').classList.contains('mia-away'), Math.round(document.getElementById('mia-dock').getBoundingClientRect().top), innerHeight, getComputedStyle(document.getElementById('mia-dock')).opacity]"
+        await page.evaluate("scrollTo(0, 1000)"); await page.wait_for_timeout(500)
+        mid = await page.evaluate(AWAY)
+        await page.evaluate("scrollTo(0, document.documentElement.scrollHeight)"); await page.wait_for_timeout(600)
+        end = await page.evaluate(AWAY)
+        await page.evaluate("scrollBy(0, -60)"); await page.wait_for_timeout(600)
+        back = await page.evaluate(AWAY)
+        check("13a mid-page the pill stays", mid[0] is False and mid[1] < mid[2], mid)
+        check("13b at the end of the page it slides down off the screen", end[0] is True and end[1] >= end[2] and end[3] == "0", end)
+        check("13c scrolling back up brings it back", back[0] is False and back[1] < back[2], back)
+        await page.evaluate("scrollTo(0, document.documentElement.scrollHeight)"); await page.wait_for_timeout(600)
+        await page.evaluate("document.querySelector('#mia-dock-q').click()"); await page.wait_for_timeout(900)
+        op = await page.evaluate("[document.getElementById('mia-dock').classList.contains('open'), document.getElementById('mia-dock').classList.contains('mia-away'), Math.round(document.getElementById('mia-dock').getBoundingClientRect().bottom) <= innerHeight]")
+        check("13d opening the chat at the end of the page: it's fully on screen", op == [True, False, True], op)
+        await ctx.close()
+        # a page too short to scroll: the pill never slides away
+        ctx = await b.new_context(viewport={"width": 1440, "height": 900})
+        await setup(ctx, [POC], mkt=REAL)
+        page = await ctx.new_page()
+        await page.goto("https://www.spotler.com/"); await page.wait_for_timeout(1500)
+        await page.evaluate("scrollTo(0, document.documentElement.scrollHeight); dispatchEvent(new Event('scroll'))"); await page.wait_for_timeout(500)
+        st = await page.evaluate("[document.documentElement.scrollHeight - innerHeight, document.getElementById('mia-dock').classList.contains('mia-away')]")
+        check("13e a page that barely scrolls: the pill stays", st[1] is False, st)
+        await ctx.close()
 
         # the conversation in Open Sans; the hide switch keeps it intact
         ctx = await b.new_context(viewport={"width": 1440, "height": 900})

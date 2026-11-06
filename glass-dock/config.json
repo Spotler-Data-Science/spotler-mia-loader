@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-05.1",
+  "version": "2026-11-06.1",
   "generatedBy": "Glass dock page table for marketing.spotler.com/botpress/config.json (read by the live tag; no GitHub)",
   "rows": [
     {
@@ -8,7 +8,7 @@
       "region": "en-GB",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
+      "opener": "I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       "title": "Hello, I’m Mia",
       "buttons": [
         {
@@ -319,7 +319,7 @@
       "mode": "half",
       "page": "feedbackpro-zendesk",
       "campaign": "feedbackpro",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I know FeedbackPro inside out.\n\nAsk me anything.",
+      "opener": "I know FeedbackPro inside out.\n\nAsk me anything.",
       "buttons": [
         {
           "label": "How does FeedbackPro work?",
@@ -354,7 +354,7 @@
       "mode": "half",
       "page": "feedbackpro-platform",
       "campaign": "feedbackpro",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I know FeedbackPro inside out.\n\nAsk me anything.",
+      "opener": "I know FeedbackPro inside out.\n\nAsk me anything.",
       "buttons": [
         {
           "label": "How does FeedbackPro work?",
@@ -391,7 +391,7 @@
       "campaign": "mailplus",
       "headline": "Mail+ – built to make marketers lives easier",
       "intro": "Let’s chat! I’ll show you how Mail+ can help you. 👋",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant 👋 I know Mail+ inside out.\n\nWhether it’s automations, landing pages or segmentation, ask me anything.",
+      "opener": "I know Mail+ inside out.\n\nWhether it’s automations, landing pages or segmentation, ask me anything.",
       "buttons": [
         {
           "label": "How do the automations save me time?",
@@ -422,7 +422,7 @@
       "region": "nl",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hoi, ik ben Mia, de AI-assistent van Spotler. Ik beantwoord vragen over onze producten, help je met een demo-afspraak of zorg dat de juiste collega je per e-mail opvolgt.",
+      "opener": "Ik beantwoord vragen over onze producten, help je met een demo-afspraak of zorg dat de juiste collega je per e-mail opvolgt.",
       "title": "Hoi, ik ben Mia",
       "buttons": [
         {
@@ -732,7 +732,7 @@
       "region": "int",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
+      "opener": "I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       "buttons": [
         {
           "label": "Book a demo",
@@ -1042,7 +1042,7 @@
       "region": "de-DE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hallo, ich bin Mia, die KI-Assistentin von Spotler. Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder sorge dafür, dass sich die richtige Ansprechperson per E-Mail bei Ihnen meldet.",
+      "opener": "Ich beantworte Fragen zu unseren Produkten, helfe Ihnen, eine Demo zu buchen, oder sorge dafür, dass sich die richtige Ansprechperson per E-Mail bei Ihnen meldet.",
       "title": "Hallo, ich bin Mia",
       "buttons": [
         {
@@ -1366,7 +1366,7 @@
       "region": "en-DE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
+      "opener": "I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       "title": "Hello, I’m Mia",
       "buttons": [
         {
@@ -1676,7 +1676,7 @@
       "region": "es-ES",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hola, soy Mia, la asistente de IA de Spotler. Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o me aseguro de que la persona adecuada de nuestro equipo te escriba por email.",
+      "opener": "Respondo preguntas sobre nuestros productos, te ayudo a reservar una demo o me aseguro de que la persona adecuada de nuestro equipo te escriba por email.",
       "title": "Hola, soy Mia",
       "buttons": [
         {
@@ -1986,7 +1986,7 @@
       "region": "sv-SE",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hej, jag är Mia, Spotlers AI-assistent. Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller ser till att rätt kollega hör av sig till dig via e-post.",
+      "opener": "Jag svarar på frågor om våra produkter, hjälper dig att boka en demo eller ser till att rätt kollega hör av sig till dig via e-post.",
       "title": "Hej, jag är Mia",
       "buttons": [
         {
@@ -2310,7 +2310,7 @@
       "region": "en-AU",
       "mode": "slideout",
       "page": "default",
-      "opener": "Hi, I’m Mia, Spotler’s AI assistant. I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
+      "opener": "I can answer questions about our products and help you book a demo, or make sure the right colleague follows up by email.",
       "title": "Hello, I’m Mia",
       "buttons": [
         {
