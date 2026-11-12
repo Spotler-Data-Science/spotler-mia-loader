@@ -142,8 +142,9 @@ function createShowcase(parent, sc, onSend) {
     if (s.title) words.appendChild(el("h2", { "class": "mia-sc-title", text: scText(s.title, 120) }));
     if (s.text) words.appendChild(el("p", { "class": "mia-sc-text", text: scText(s.text, 300) }));
     if (s.points && s.points.length) {
-      var ul = el("ul", { "class": "mia-sc-points" });
-      s.points.slice(0, 4).forEach(function (t) { ul.appendChild(el("li", {}, [scIcon("check"), el("span", { text: scText(t, 120) })])); });
+      // plain blocks, not ul / li: the site's own list styles never reach them
+      var ul = el("div", { "class": "mia-sc-points", role: "list" });
+      s.points.slice(0, 4).forEach(function (t) { ul.appendChild(el("div", { "class": "mia-sc-point", role: "listitem" }, [scIcon("check"), el("span", { text: scText(t, 120) })])); });
       words.appendChild(ul);
     }
     if (!s.goal && !s.prompt && s.cta) words.appendChild(ctaButton(s.cta, s));

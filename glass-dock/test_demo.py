@@ -140,6 +140,18 @@ async def main():
         await page.evaluate("document.querySelectorAll('.mia-sc-action')[1].click()"); await page.wait_for_timeout(1500)
         check("D23 after an action button: no showcase left over the chat", await page.evaluate("document.querySelectorAll('#mia-showcase').length") == 0)
         await ctx.close()
+        # a site with heavy styles of its own (lists, paragraphs, headings): nothing leaks into the slides
+        HOSTILE = ("ul, ol { list-style: disc !important; margin: -24px 0 0 !important; padding-left: 30px; } li { margin: 0 0 -6px; line-height: 1.1; display: list-item; }"
+                   " p { margin: 0 0 -20px; height: 24px; line-height: 2; float: left; } h2 { margin: 40px 0; text-transform: uppercase; } span { display: inline; }")
+        ctx, page, logs = await page_at(b, "/en-gb/services", vp={"width": 1536, "height": 840})
+        await page.add_style_tag(content=HOSTILE); await page.wait_for_timeout(500)
+        r = await page.evaluate("""() => { const s=document.querySelector('.mia-sc-slide.on'), t=s.querySelector('.mia-sc-text').getBoundingClientRect(), h=s.querySelector('.mia-sc-title').getBoundingClientRect(),
+            l=s.querySelector('.mia-sc-points').getBoundingClientRect(), pts=[...s.querySelectorAll('.mia-sc-point')].map(e => e.getBoundingClientRect());
+            return { order: h.bottom <= t.top + 1 && t.bottom <= l.top + 1, gaps: pts.every((p, i) => !i || pts[i-1].bottom <= p.top + 1),
+                     bullets: getComputedStyle(s.querySelector('.mia-sc-point')).display, upper: getComputedStyle(s.querySelector('.mia-sc-title')).textTransform } }""")
+        await page.screenshot(path=f"{OUT}/demo-hostile.png")
+        check("D24 the site's list / paragraph / heading styles don't reach the slides", r["order"] and r["gaps"] and r["bullets"] == "flex" and r["upper"] == "none", r)
+        await ctx.close()
         for f in ("demo-staging", "demo-showcase"):
             n = len(open(os.path.join(ROOT, f"glass-dock/dist/mia-glass-dock-1.11.{f}.gtm.html")).read())
             check(f"D17 {f} tag under GTM's 102,400 characters", n <= 102400, n)

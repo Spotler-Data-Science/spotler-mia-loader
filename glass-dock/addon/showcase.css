@@ -22,4 +22,8 @@
 #mia-showcase .mia-sc-ghost { visibility: hidden; }
 #mia-showcase .mia-sc-typed { position: absolute; inset: 0; }
 #mia-showcase .mia-sc-art svg { display: block; width: 100%; height: 100%; overflow: visible; }
-#mia-showcase .mia-sc-points { list-style: none; margin: 0; padding: 0; }
+/* the site's own styles stay out: its p / h2 / span rules (margins, floats, heights, positions) */
+#mia-showcase h2, #mia-showcase p, #mia-showcase span, #mia-showcase .mia-sc-points, #mia-showcase .mia-sc-point {
+  float: none; clear: none; height: auto; min-height: 0; max-height: none; transform: none; text-indent: 0; text-transform: none; letter-spacing: normal; }
+#mia-showcase h2, #mia-showcase p { margin: 0; padding: 0; border: 0; background: none; position: static; }
+#mia-showcase h2::before, #mia-showcase h2::after, #mia-showcase p::before, #mia-showcase p::after { content: none; }
