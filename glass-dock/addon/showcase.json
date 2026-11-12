@@ -7,7 +7,7 @@
     "height": 860
   },
   "placeholder": "Tell Spot what you want to achieve...",
-  "autoplayMs": 20000,
+  "autoplayMs": 7000,
   "labels": {
     "goal": "Your goal",
     "prompt": "Suggested prompt",
@@ -34,8 +34,7 @@
       "cta": {
         "label": "How does it work?",
         "send": "What is the Spotler MCP and what can it do for me?"
-      },
-      "autoplayMs": 5000
+      }
     },
     {
       "step": "Your goal",
@@ -76,7 +75,7 @@
     {
       "step": "You're in charge",
       "badge": "Spotler MCP",
-      "art": "shield",
+      "art": "charge",
       "title": "You stay in charge.",
       "text": "The MCP prepares and analyses. You decide what happens next.",
       "points": [
@@ -169,6 +168,12 @@
     "@keyframes mia-sc-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}",
     "@media (prefers-reduced-motion:reduce){#mia-showcase *,#mia-showcase *::before,#mia-showcase *::after{animation:none !important}#mia-showcase .mia-sc-draw{stroke-dashoffset:0 !important}}",
     "#mia-showcase .mia-sc-art.mia-sc-art-lg{width:420px;height:268px}",
+    "#mia-showcase .mia-sc-ring-btn{transform-box:fill-box;transform-origin:center;animation:mia-sc-ringbtn 2.2s 1.8s ease-out infinite;opacity:0}",
+    "@keyframes mia-sc-ringbtn{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.25,1.6);opacity:0}}",
+    "#mia-showcase .mia-sc-slide.on .mia-sc-tap{animation:mia-sc-tap 2.2s 1.6s ease-in-out infinite both}",
+    "@keyframes mia-sc-tap{0%,100%{transform:translate(14px,12px);opacity:0}25%{opacity:1}45%,60%{transform:none;opacity:1}55%{transform:scale(.92)}}",
+    "#mia-showcase .mia-sc-tap{transform-box:fill-box;transform-origin:top left}",
+    "#mia-showcase .mia-sc-art{display:flex;align-items:center;justify-content:center}",
     "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
     "@media (max-height:860px){#mia-showcase{padding-top:2px;padding-bottom:8px}#mia-showcase .mia-sc-wrap{gap:10px}#mia-showcase .mia-sc-card{padding-top:16px;padding-bottom:12px}#mia-showcase .mia-sc-title{font-size:28px;line-height:34px;margin:8px 0 6px}#mia-showcase .mia-sc-text{font-size:16px;line-height:23px}#mia-showcase .mia-sc-flow{margin-top:14px}#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:12px 16px}#mia-showcase .mia-sc-code{font-size:13px;line-height:20px}#mia-showcase .mia-sc-dots{margin-top:12px}#mia-showcase .mia-sc-cta{padding:11px 20px}#mia-showcase .mia-sc-action{padding:8px 16px}}",
     "@media (max-height:720px){#mia-showcase .mia-sc-art{width:170px;height:113px}#mia-showcase .mia-sc-art.mia-sc-art-lg{width:340px;height:217px}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",

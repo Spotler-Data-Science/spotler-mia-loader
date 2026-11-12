@@ -8,7 +8,7 @@
 #mia-showcase .mia-sc-wrap { flex: 1 0 auto; display: flex; flex-direction: column; }
 /* the slides share one spot, so the box keeps the tallest slide's height: no jump between slides */
 #mia-showcase .mia-sc-track { display: grid; }
-#mia-showcase .mia-sc-slide { grid-area: 1 / 1; visibility: hidden; }
+#mia-showcase .mia-sc-slide { grid-area: 1 / 1; align-self: center; visibility: hidden; }
 #mia-showcase .mia-sc-slide.on { visibility: visible; }
 #mia-showcase button { font: inherit; color: inherit; cursor: pointer; }
 #mia-showcase .mia-sc-ico { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }

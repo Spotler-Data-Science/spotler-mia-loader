@@ -131,6 +131,29 @@ SHOWCASE_ART.hub = (function () {
     '<path d="M186 95l5 13.5 13.5 5-13.5 5-5 13.5-5-13.5-13.5-5 13.5-5z" fill="#fff"/>' +
     '<text x="184" y="174" text-anchor="middle" font-size="12" font-weight="800" fill="' + B + '" letter-spacing=".08em">SPOTLER MCP</text></svg>';
 })();
+// "You stay in charge": Spot's plan as a draft, its steps ticking off, waiting
+// for the visitor's Approve (centred, the same size as the first slide's picture).
+SHOWCASE_ART.charge = (function () {
+  var svg = '<svg viewBox="22 0 360 230" font-family="Open Sans, Arial, sans-serif">' +
+    '<rect x="84" y="26" width="208" height="184" rx="18" fill="' + P + '"/>' +
+    '<rect x="70" y="14" width="220" height="190" rx="18" fill="#fff" stroke="' + N + '" stroke-opacity=".14"/>' +
+    '<text x="90" y="44" font-size="13.5" font-weight="700" fill="' + N + '">Spot\'s plan</text>' +
+    '<rect x="222" y="29" width="50" height="21" rx="10.5" fill="' + P + '"/><text x="247" y="43.5" text-anchor="middle" font-size="11" font-weight="700" fill="' + B + '">Draft</text>';
+  var W = [132, 112, 92];
+  for (var i = 0; i < 3; i++) {
+    var y = 72 + i * 28, d = (0.3 + i * 0.45).toFixed(2);
+    svg += '<circle cx="98" cy="' + y + '" r="9" fill="' + B + '" fill-opacity=".14"/>' +
+      '<path class="mia-sc-draw" style="animation-delay:' + d + 's" d="M93.5 ' + y + 'l3 3 6-6.5" fill="none" stroke="' + B + '" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M118 ' + y + 'h' + W[i] + '" stroke="' + N + '" stroke-opacity=".22" stroke-width="7" stroke-linecap="round"/>';
+  }
+  return svg +
+    '<rect class="mia-sc-ring-btn" x="86" y="152" width="104" height="36" rx="18" fill="none" stroke="' + B + '" stroke-width="2"/>' +
+    '<rect x="90" y="156" width="96" height="28" rx="14" fill="' + B + '"/><text x="138" y="174.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">Approve</text>' +
+    '<rect x="196" y="156" width="74" height="28" rx="14" fill="#fff" stroke="' + B + '" stroke-opacity=".35"/><text x="233" y="174.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="' + B + '">Edit</text>' +
+    '<g transform="translate(266 2) scale(.42)"><path d="M120 12l58 20v40c0 38-25 64-58 76-33-12-58-38-58-76V32z" fill="' + B + '" stroke="#fff" stroke-width="6"/>' +
+    '<path d="M98 80l15 15 30-30" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></g>' +
+    '<g class="mia-sc-tap"><path d="M160 178v19l5-4.5 3.6 8.2 3.4-1.5-3.6-8 6.8-.3z" fill="' + N + '" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></g></svg>';
+})();
 function scArt(s) {
   var art = SHOWCASE_ART[s.art];
   if (art) {
