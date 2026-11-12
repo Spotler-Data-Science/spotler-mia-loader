@@ -107,10 +107,36 @@ var SHOWCASE_ART = {
     '<rect x="176" y="112" width="56" height="28" rx="14" fill="#fff" stroke="' + N + '" stroke-opacity=".15"/><rect x="182" y="117" width="44" height="18" rx="9" fill="' + C + '" fill-opacity=".25"/><circle cx="216" cy="126" r="7" fill="' + B + '"/>' +
     '<rect x="6" y="20" width="54" height="24" rx="12" fill="#fff" stroke="' + N + '" stroke-opacity=".15"/><path d="M18 32h30" stroke="' + N + '" stroke-opacity=".35" stroke-width="4" stroke-linecap="round"/>'
 };
+// The first slide's bigger picture: an AI assistant on the left, the MCP in the
+// middle, Spotler's products on the right, with data running along the lines.
+SHOWCASE_ART.hub = (function () {
+  var T = ["Mail+", "Activate", "CRM", "FeedbackPro"], Y = [14, 66, 118, 170], dots = [B, C, "#7A5CFF", "#1FB37A"];
+  var svg = '<svg viewBox="0 0 360 230" font-family="Open Sans, Arial, sans-serif">' +
+    '<rect x="4" y="80" width="112" height="70" rx="18" fill="#fff" stroke="' + N + '" stroke-opacity=".14"/>' +
+    '<text x="20" y="104" font-size="12" font-weight="700" fill="' + N + '">AI assistant</text>' +
+    '<path d="M20 120h78M20 134h52" stroke="' + N + '" stroke-opacity=".25" stroke-width="5" stroke-linecap="round"/>' +
+    '<path d="M28 150l-6 12 18-12z" fill="#fff"/>' +
+    '<path id="mia-sc-p0" class="mia-sc-flow-line" d="M116 115H150" stroke="' + B + '" stroke-width="2.5" fill="none"/>';
+  for (var i = 0; i < 4; i++) {
+    var y = Y[i] + 23;
+    svg += '<path id="mia-sc-p' + (i + 1) + '" class="mia-sc-flow-line" d="M222 115H234C250 115 238 ' + y + ' 250 ' + y + '" stroke="' + B + '" stroke-width="2.5" fill="none"/>' +
+      '<rect x="250" y="' + Y[i] + '" width="108" height="46" rx="14" fill="#fff" stroke="' + N + '" stroke-opacity=".14"/>' +
+      '<circle cx="265" cy="' + y + '" r="5.5" fill="' + dots[i] + '"/>' +
+      '<text x="276" y="' + (y + 4.5) + '" font-size="12.5" font-weight="700" fill="' + N + '">' + T[i] + '</text>' +
+      '<circle r="3.5" fill="' + C + '"><animateMotion dur="2.4s" begin="' + (i * 0.6) + 's" repeatCount="indefinite"><mpath href="#mia-sc-p' + (i + 1) + '"/></animateMotion></circle>';
+  }
+  return svg + '<circle r="3.5" fill="' + C + '"><animateMotion dur="1.2s" repeatCount="indefinite"><mpath href="#mia-sc-p0"/></animateMotion></circle>' +
+    '<circle class="mia-sc-pulse" cx="186" cy="115" r="36" fill="none" stroke="' + B + '" stroke-width="2"/>' +
+    '<circle cx="186" cy="115" r="36" fill="' + B + '"/><circle cx="186" cy="115" r="36" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>' +
+    '<path d="M186 95l5 13.5 13.5 5-13.5 5-5 13.5-5-13.5-13.5-5 13.5-5z" fill="#fff"/>' +
+    '<text x="184" y="174" text-anchor="middle" font-size="12" font-weight="800" fill="' + B + '" letter-spacing=".08em">SPOTLER MCP</text></svg>';
+})();
 function scArt(s) {
-  if (SHOWCASE_ART[s.art]) {
-    var box = el("div", { "class": "mia-sc-art", "aria-hidden": "true" });
-    box.innerHTML = '<svg viewBox="0 0 240 160">' + SHOWCASE_ART[s.art] + "</svg>";   // built-in pictures only, never page table text
+  var art = SHOWCASE_ART[s.art];
+  if (art) {
+    var big = art.indexOf("<svg") === 0;
+    var box = el("div", { "class": "mia-sc-art" + (big ? " mia-sc-art-lg" : ""), "aria-hidden": "true" });
+    box.innerHTML = big ? art : '<svg viewBox="0 0 240 160">' + art + "</svg>";   // built-in pictures only, never page table text
     return box;
   }
   return /^https:\/\/\S{1,300}$/.test(String(s.image || "")) ? el("img", { "class": "mia-sc-art", src: s.image, alt: "" }) : null;
@@ -121,7 +147,7 @@ var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)"
 // continues the chat, as the start screen's cards do.
 function createShowcase(parent, sc, onSend) {
   var root = el("div", { id: "mia-showcase" });
-  var slides = (sc.slides || []).slice(0, 12), cur = 0, timer = 0, stopped = false;
+  var slides = (sc.slides || []).slice(0, 12), cur = 0, timer = 0, auto = true, waited = 0;
   var track = el("div", { "class": "mia-sc-track", "aria-roledescription": "carousel" });
   var dots = el("div", { "class": "mia-sc-dots" });
   var L = sc.labels || {};
@@ -180,14 +206,15 @@ function createShowcase(parent, sc, onSend) {
     track.appendChild(slide);
     var dot = el("button", { "class": "mia-sc-dot", type: "button", "aria-label": (i + 1) + " / " + slides.length + (s.step ? ": " + scText(s.step, 30) : "") },
       s.step ? [el("span", { text: scText(s.step, 30) })] : []);
-    dot.addEventListener("click", function () { stop(); go(i); });
+    dot.addEventListener("click", function () { if (i < cur) auto = false; go(i); });
     dots.appendChild(dot);
   });
 
   var prev = el("button", { "class": "mia-sc-nav mia-sc-prev", type: "button", "aria-label": scText(L.previous || "Previous", 40) }, [scIcon("left")]);
   var next = el("button", { "class": "mia-sc-nav mia-sc-next", type: "button", "aria-label": scText(L.next || "Next", 40) }, [scIcon("right")]);
-  prev.addEventListener("click", function () { stop(); go(cur - 1); });
-  next.addEventListener("click", function () { stop(); go(cur + 1); });
+  // going back means the visitor is reading: no more moving on by itself (until a restart)
+  prev.addEventListener("click", function () { auto = false; go(cur - 1); });
+  next.addEventListener("click", function () { go(cur + 1); });
   var stage = el("div", { "class": "mia-sc-stage" }, [track, prev, next]);
   var wrap = el("div", { "class": "mia-sc-wrap" });
   root.appendChild(wrap);
@@ -208,6 +235,7 @@ function createShowcase(parent, sc, onSend) {
   function go(i) {
     if (!slides.length) return;
     cur = (i + slides.length) % slides.length;
+    waited = 0;
     var all = track.children, ds = dots.children;
     for (var k = 0; k < all.length; k++) {
       all[k].classList.toggle("on", k === cur); ds[k].classList.toggle("on", k === cur); ds[k].classList.toggle("done", k < cur);
@@ -230,12 +258,17 @@ function createShowcase(parent, sc, onSend) {
       if (n >= full.length) { clearInterval(typing); slide.classList.remove("typing"); }
     }, 18);
   }
-  function stop() { stopped = true; clearInterval(timer); }
+  function stop() { auto = false; clearInterval(timer); }
   go(0);
-  var ms = +sc.autoplayMs;
-  if (ms >= 2000 && slides.length > 1) {
-    timer = setInterval(function () { if (!stopped && !root.matches(":hover") && !root.contains(document.activeElement)) go(cur + 1); }, ms);
-  }
+  // Moves on by itself: each slide's "autoplayMs" (else the showcase's), counted only
+  // while the chat is open and the tab in view; stops at the last slide.
+  function delay(i) { var ms = +slides[i].autoplayMs || +sc.autoplayMs; return ms >= 2000 ? ms : 0; }
+  if (slides.length > 1) timer = setInterval(function () {
+    if (!auto || !root.clientHeight || document.hidden || !delay(cur)) return;
+    if ((waited += 250) < delay(cur)) return;
+    if (cur >= slides.length - 1) { auto = false; return; }
+    go(cur + 1);
+  }, 250);
   parent.appendChild(root);
 
   // No scrolling: on a short screen the page table's CSS tightens the

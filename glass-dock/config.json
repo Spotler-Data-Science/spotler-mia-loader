@@ -305,8 +305,8 @@
           "width": 1100,
           "height": 860
         },
-        "placeholder": "Tell Mia what you want to achieve...",
-        "autoplayMs": 0,
+        "placeholder": "Tell Spot what you want to achieve...",
+        "autoplayMs": 20000,
         "labels": {
           "goal": "Your goal",
           "prompt": "Suggested prompt",
@@ -322,9 +322,9 @@
           {
             "step": "Meet the MCP",
             "badge": "Spotler MCP",
-            "art": "connect",
+            "art": "hub",
             "title": "Your AI assistant, working inside Spotler.",
-            "text": "The Spotler MCP connects AI assistants such as Mia, Claude and ChatGPT to your Spotler account, so you can work in plain words.",
+            "text": "The Spotler MCP connects AI assistants such as Claude and ChatGPT to your Spotler account, so you can work in plain words.",
             "points": [
               "Ask questions about your live account data",
               "Prepare emails, journeys and surveys as drafts",
@@ -333,14 +333,15 @@
             "cta": {
               "label": "How does it work?",
               "send": "What is the Spotler MCP and what can it do for me?"
-            }
+            },
+            "autoplayMs": 5000
           },
           {
             "step": "Your goal",
             "badge": "Spotler MCP · Activate",
             "art": "goal",
-            "title": "Tell Mia what you want to achieve.",
-            "text": "Describe your goal and Mia writes the prompt to run with the Spotler MCP.",
+            "title": "Tell Spot what you want to achieve.",
+            "text": "Describe your goal and Spot writes the prompt to run with the Spotler MCP.",
             "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
             "prompt": "In Spotler Activate, create a draft journey that nurtures new ecommerce leads with relevant messages, and recommends the next best product, content or offer based on how each lead browses and engages. Show me your plan first and wait for my go-ahead."
           },
@@ -349,7 +350,7 @@
             "badge": "Spotler MCP · Mail+",
             "art": "email",
             "title": "Write your next email from a brief.",
-            "text": "Mia turns your idea into a draft in Mail+, in the style of the emails you already send.",
+            "text": "Spot turns your idea into a draft in Mail+, in the style of the emails you already send.",
             "goal": "Create an invitation for our Q4 webinar, in the style of our last newsletter.",
             "prompt": "In Spotler Mail+, create a draft invitation for our Q4 webinar in the style of my last newsletter. Keep it under 150 words, suggest two subject lines, and leave it as a draft for me to review."
           },
@@ -380,7 +381,7 @@
             "points": [
               "Drafts only: nothing goes to your audience without you",
               "The same permissions as your own login",
-              "Ask Mia to show its plan and wait for your go-ahead"
+              "Ask Spot to show its plan and wait for your go-ahead"
             ],
             "cta": {
               "label": "Book a walkthrough",
@@ -466,11 +467,12 @@
           "#mia-showcase .mia-sc-slide.on .mia-sc-words>*{animation:mia-sc-up .45s ease both}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(2){animation-delay:.05s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(3){animation-delay:.1s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(4){animation-delay:.15s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(5){animation-delay:.2s}",
           "@keyframes mia-sc-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}",
           "@media (prefers-reduced-motion:reduce){#mia-showcase *,#mia-showcase *::before,#mia-showcase *::after{animation:none !important}#mia-showcase .mia-sc-draw{stroke-dashoffset:0 !important}}",
+          "#mia-showcase .mia-sc-art.mia-sc-art-lg{width:420px;height:268px}",
           "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
           "@media (max-height:860px){#mia-showcase{padding-top:2px;padding-bottom:8px}#mia-showcase .mia-sc-wrap{gap:10px}#mia-showcase .mia-sc-card{padding-top:16px;padding-bottom:12px}#mia-showcase .mia-sc-title{font-size:28px;line-height:34px;margin:8px 0 6px}#mia-showcase .mia-sc-text{font-size:16px;line-height:23px}#mia-showcase .mia-sc-flow{margin-top:14px}#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:12px 16px}#mia-showcase .mia-sc-code{font-size:13px;line-height:20px}#mia-showcase .mia-sc-dots{margin-top:12px}#mia-showcase .mia-sc-cta{padding:11px 20px}#mia-showcase .mia-sc-action{padding:8px 16px}}",
-          "@media (max-height:720px){#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
+          "@media (max-height:720px){#mia-showcase .mia-sc-art{width:170px;height:113px}#mia-showcase .mia-sc-art.mia-sc-art-lg{width:340px;height:217px}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
           "@media (max-width:1100px){#mia-showcase .mia-sc-dot span{display:none}#mia-showcase .mia-sc-dot{padding:6px}}",
-          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-point{font-size:15px}}"
+          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-art.mia-sc-art-lg{width:380px;height:243px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-point{font-size:15px}}"
         ]
       }
     },
@@ -1205,8 +1207,8 @@
           "width": 1100,
           "height": 860
         },
-        "placeholder": "Tell Mia what you want to achieve...",
-        "autoplayMs": 0,
+        "placeholder": "Tell Spot what you want to achieve...",
+        "autoplayMs": 20000,
         "labels": {
           "goal": "Your goal",
           "prompt": "Suggested prompt",
@@ -1222,9 +1224,9 @@
           {
             "step": "Meet the MCP",
             "badge": "Spotler MCP",
-            "art": "connect",
+            "art": "hub",
             "title": "Your AI assistant, working inside Spotler.",
-            "text": "The Spotler MCP connects AI assistants such as Mia, Claude and ChatGPT to your Spotler account, so you can work in plain words.",
+            "text": "The Spotler MCP connects AI assistants such as Claude and ChatGPT to your Spotler account, so you can work in plain words.",
             "points": [
               "Ask questions about your live account data",
               "Prepare emails, journeys and surveys as drafts",
@@ -1233,14 +1235,15 @@
             "cta": {
               "label": "How does it work?",
               "send": "What is the Spotler MCP and what can it do for me?"
-            }
+            },
+            "autoplayMs": 5000
           },
           {
             "step": "Your goal",
             "badge": "Spotler MCP · Activate",
             "art": "goal",
-            "title": "Tell Mia what you want to achieve.",
-            "text": "Describe your goal and Mia writes the prompt to run with the Spotler MCP.",
+            "title": "Tell Spot what you want to achieve.",
+            "text": "Describe your goal and Spot writes the prompt to run with the Spotler MCP.",
             "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
             "prompt": "In Spotler Activate, create a draft journey that nurtures new ecommerce leads with relevant messages, and recommends the next best product, content or offer based on how each lead browses and engages. Show me your plan first and wait for my go-ahead."
           },
@@ -1249,7 +1252,7 @@
             "badge": "Spotler MCP · Mail+",
             "art": "email",
             "title": "Write your next email from a brief.",
-            "text": "Mia turns your idea into a draft in Mail+, in the style of the emails you already send.",
+            "text": "Spot turns your idea into a draft in Mail+, in the style of the emails you already send.",
             "goal": "Create an invitation for our Q4 webinar, in the style of our last newsletter.",
             "prompt": "In Spotler Mail+, create a draft invitation for our Q4 webinar in the style of my last newsletter. Keep it under 150 words, suggest two subject lines, and leave it as a draft for me to review."
           },
@@ -1280,7 +1283,7 @@
             "points": [
               "Drafts only: nothing goes to your audience without you",
               "The same permissions as your own login",
-              "Ask Mia to show its plan and wait for your go-ahead"
+              "Ask Spot to show its plan and wait for your go-ahead"
             ],
             "cta": {
               "label": "Book a walkthrough",
@@ -1366,11 +1369,12 @@
           "#mia-showcase .mia-sc-slide.on .mia-sc-words>*{animation:mia-sc-up .45s ease both}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(2){animation-delay:.05s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(3){animation-delay:.1s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(4){animation-delay:.15s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(5){animation-delay:.2s}",
           "@keyframes mia-sc-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}",
           "@media (prefers-reduced-motion:reduce){#mia-showcase *,#mia-showcase *::before,#mia-showcase *::after{animation:none !important}#mia-showcase .mia-sc-draw{stroke-dashoffset:0 !important}}",
+          "#mia-showcase .mia-sc-art.mia-sc-art-lg{width:420px;height:268px}",
           "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
           "@media (max-height:860px){#mia-showcase{padding-top:2px;padding-bottom:8px}#mia-showcase .mia-sc-wrap{gap:10px}#mia-showcase .mia-sc-card{padding-top:16px;padding-bottom:12px}#mia-showcase .mia-sc-title{font-size:28px;line-height:34px;margin:8px 0 6px}#mia-showcase .mia-sc-text{font-size:16px;line-height:23px}#mia-showcase .mia-sc-flow{margin-top:14px}#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:12px 16px}#mia-showcase .mia-sc-code{font-size:13px;line-height:20px}#mia-showcase .mia-sc-dots{margin-top:12px}#mia-showcase .mia-sc-cta{padding:11px 20px}#mia-showcase .mia-sc-action{padding:8px 16px}}",
-          "@media (max-height:720px){#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
+          "@media (max-height:720px){#mia-showcase .mia-sc-art{width:170px;height:113px}#mia-showcase .mia-sc-art.mia-sc-art-lg{width:340px;height:217px}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
           "@media (max-width:1100px){#mia-showcase .mia-sc-dot span{display:none}#mia-showcase .mia-sc-dot{padding:6px}}",
-          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-point{font-size:15px}}"
+          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-art.mia-sc-art-lg{width:380px;height:243px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-point{font-size:15px}}"
         ]
       }
     },
@@ -2015,8 +2019,8 @@
           "width": 1100,
           "height": 860
         },
-        "placeholder": "Tell Mia what you want to achieve...",
-        "autoplayMs": 0,
+        "placeholder": "Tell Spot what you want to achieve...",
+        "autoplayMs": 20000,
         "labels": {
           "goal": "Your goal",
           "prompt": "Suggested prompt",
@@ -2032,9 +2036,9 @@
           {
             "step": "Meet the MCP",
             "badge": "Spotler MCP",
-            "art": "connect",
+            "art": "hub",
             "title": "Your AI assistant, working inside Spotler.",
-            "text": "The Spotler MCP connects AI assistants such as Mia, Claude and ChatGPT to your Spotler account, so you can work in plain words.",
+            "text": "The Spotler MCP connects AI assistants such as Claude and ChatGPT to your Spotler account, so you can work in plain words.",
             "points": [
               "Ask questions about your live account data",
               "Prepare emails, journeys and surveys as drafts",
@@ -2043,14 +2047,15 @@
             "cta": {
               "label": "How does it work?",
               "send": "What is the Spotler MCP and what can it do for me?"
-            }
+            },
+            "autoplayMs": 5000
           },
           {
             "step": "Your goal",
             "badge": "Spotler MCP · Activate",
             "art": "goal",
-            "title": "Tell Mia what you want to achieve.",
-            "text": "Describe your goal and Mia writes the prompt to run with the Spotler MCP.",
+            "title": "Tell Spot what you want to achieve.",
+            "text": "Describe your goal and Spot writes the prompt to run with the Spotler MCP.",
             "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
             "prompt": "In Spotler Activate, create a draft journey that nurtures new ecommerce leads with relevant messages, and recommends the next best product, content or offer based on how each lead browses and engages. Show me your plan first and wait for my go-ahead."
           },
@@ -2059,7 +2064,7 @@
             "badge": "Spotler MCP · Mail+",
             "art": "email",
             "title": "Write your next email from a brief.",
-            "text": "Mia turns your idea into a draft in Mail+, in the style of the emails you already send.",
+            "text": "Spot turns your idea into a draft in Mail+, in the style of the emails you already send.",
             "goal": "Create an invitation for our Q4 webinar, in the style of our last newsletter.",
             "prompt": "In Spotler Mail+, create a draft invitation for our Q4 webinar in the style of my last newsletter. Keep it under 150 words, suggest two subject lines, and leave it as a draft for me to review."
           },
@@ -2090,7 +2095,7 @@
             "points": [
               "Drafts only: nothing goes to your audience without you",
               "The same permissions as your own login",
-              "Ask Mia to show its plan and wait for your go-ahead"
+              "Ask Spot to show its plan and wait for your go-ahead"
             ],
             "cta": {
               "label": "Book a walkthrough",
@@ -2176,11 +2181,12 @@
           "#mia-showcase .mia-sc-slide.on .mia-sc-words>*{animation:mia-sc-up .45s ease both}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(2){animation-delay:.05s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(3){animation-delay:.1s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(4){animation-delay:.15s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(5){animation-delay:.2s}",
           "@keyframes mia-sc-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}",
           "@media (prefers-reduced-motion:reduce){#mia-showcase *,#mia-showcase *::before,#mia-showcase *::after{animation:none !important}#mia-showcase .mia-sc-draw{stroke-dashoffset:0 !important}}",
+          "#mia-showcase .mia-sc-art.mia-sc-art-lg{width:420px;height:268px}",
           "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
           "@media (max-height:860px){#mia-showcase{padding-top:2px;padding-bottom:8px}#mia-showcase .mia-sc-wrap{gap:10px}#mia-showcase .mia-sc-card{padding-top:16px;padding-bottom:12px}#mia-showcase .mia-sc-title{font-size:28px;line-height:34px;margin:8px 0 6px}#mia-showcase .mia-sc-text{font-size:16px;line-height:23px}#mia-showcase .mia-sc-flow{margin-top:14px}#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:12px 16px}#mia-showcase .mia-sc-code{font-size:13px;line-height:20px}#mia-showcase .mia-sc-dots{margin-top:12px}#mia-showcase .mia-sc-cta{padding:11px 20px}#mia-showcase .mia-sc-action{padding:8px 16px}}",
-          "@media (max-height:720px){#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
+          "@media (max-height:720px){#mia-showcase .mia-sc-art{width:170px;height:113px}#mia-showcase .mia-sc-art.mia-sc-art-lg{width:340px;height:217px}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
           "@media (max-width:1100px){#mia-showcase .mia-sc-dot span{display:none}#mia-showcase .mia-sc-dot{padding:6px}}",
-          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-point{font-size:15px}}"
+          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-art.mia-sc-art-lg{width:380px;height:243px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-point{font-size:15px}}"
         ]
       }
     },
@@ -3135,8 +3141,8 @@
           "width": 1100,
           "height": 860
         },
-        "placeholder": "Tell Mia what you want to achieve...",
-        "autoplayMs": 0,
+        "placeholder": "Tell Spot what you want to achieve...",
+        "autoplayMs": 20000,
         "labels": {
           "goal": "Your goal",
           "prompt": "Suggested prompt",
@@ -3152,9 +3158,9 @@
           {
             "step": "Meet the MCP",
             "badge": "Spotler MCP",
-            "art": "connect",
+            "art": "hub",
             "title": "Your AI assistant, working inside Spotler.",
-            "text": "The Spotler MCP connects AI assistants such as Mia, Claude and ChatGPT to your Spotler account, so you can work in plain words.",
+            "text": "The Spotler MCP connects AI assistants such as Claude and ChatGPT to your Spotler account, so you can work in plain words.",
             "points": [
               "Ask questions about your live account data",
               "Prepare emails, journeys and surveys as drafts",
@@ -3163,14 +3169,15 @@
             "cta": {
               "label": "How does it work?",
               "send": "What is the Spotler MCP and what can it do for me?"
-            }
+            },
+            "autoplayMs": 5000
           },
           {
             "step": "Your goal",
             "badge": "Spotler MCP · Activate",
             "art": "goal",
-            "title": "Tell Mia what you want to achieve.",
-            "text": "Describe your goal and Mia writes the prompt to run with the Spotler MCP.",
+            "title": "Tell Spot what you want to achieve.",
+            "text": "Describe your goal and Spot writes the prompt to run with the Spotler MCP.",
             "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
             "prompt": "In Spotler Activate, create a draft journey that nurtures new ecommerce leads with relevant messages, and recommends the next best product, content or offer based on how each lead browses and engages. Show me your plan first and wait for my go-ahead."
           },
@@ -3179,7 +3186,7 @@
             "badge": "Spotler MCP · Mail+",
             "art": "email",
             "title": "Write your next email from a brief.",
-            "text": "Mia turns your idea into a draft in Mail+, in the style of the emails you already send.",
+            "text": "Spot turns your idea into a draft in Mail+, in the style of the emails you already send.",
             "goal": "Create an invitation for our Q4 webinar, in the style of our last newsletter.",
             "prompt": "In Spotler Mail+, create a draft invitation for our Q4 webinar in the style of my last newsletter. Keep it under 150 words, suggest two subject lines, and leave it as a draft for me to review."
           },
@@ -3210,7 +3217,7 @@
             "points": [
               "Drafts only: nothing goes to your audience without you",
               "The same permissions as your own login",
-              "Ask Mia to show its plan and wait for your go-ahead"
+              "Ask Spot to show its plan and wait for your go-ahead"
             ],
             "cta": {
               "label": "Book a walkthrough",
@@ -3296,11 +3303,12 @@
           "#mia-showcase .mia-sc-slide.on .mia-sc-words>*{animation:mia-sc-up .45s ease both}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(2){animation-delay:.05s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(3){animation-delay:.1s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(4){animation-delay:.15s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(5){animation-delay:.2s}",
           "@keyframes mia-sc-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}",
           "@media (prefers-reduced-motion:reduce){#mia-showcase *,#mia-showcase *::before,#mia-showcase *::after{animation:none !important}#mia-showcase .mia-sc-draw{stroke-dashoffset:0 !important}}",
+          "#mia-showcase .mia-sc-art.mia-sc-art-lg{width:420px;height:268px}",
           "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
           "@media (max-height:860px){#mia-showcase{padding-top:2px;padding-bottom:8px}#mia-showcase .mia-sc-wrap{gap:10px}#mia-showcase .mia-sc-card{padding-top:16px;padding-bottom:12px}#mia-showcase .mia-sc-title{font-size:28px;line-height:34px;margin:8px 0 6px}#mia-showcase .mia-sc-text{font-size:16px;line-height:23px}#mia-showcase .mia-sc-flow{margin-top:14px}#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:12px 16px}#mia-showcase .mia-sc-code{font-size:13px;line-height:20px}#mia-showcase .mia-sc-dots{margin-top:12px}#mia-showcase .mia-sc-cta{padding:11px 20px}#mia-showcase .mia-sc-action{padding:8px 16px}}",
-          "@media (max-height:720px){#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
+          "@media (max-height:720px){#mia-showcase .mia-sc-art{width:170px;height:113px}#mia-showcase .mia-sc-art.mia-sc-art-lg{width:340px;height:217px}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
           "@media (max-width:1100px){#mia-showcase .mia-sc-dot span{display:none}#mia-showcase .mia-sc-dot{padding:6px}}",
-          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-point{font-size:15px}}"
+          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-art.mia-sc-art-lg{width:380px;height:243px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-point{font-size:15px}}"
         ]
       }
     },

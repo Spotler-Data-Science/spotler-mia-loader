@@ -278,6 +278,7 @@ function bootDock() {
       onRestart: function () {
         if (window.spotlerCloseHubSpotModal) try { window.spotlerCloseHubSpotModal(); } catch (e) {}
         if (LS.getJSON(LIVE_KEY) || BP.engaged) resetToShell("restart");
+        else if (ctx.row.showcase) mountShell();   // the demo's showcase: back to its first slide
       }
     });
     ctx.ui.setPrompts(promptsFor(row, region.id));
