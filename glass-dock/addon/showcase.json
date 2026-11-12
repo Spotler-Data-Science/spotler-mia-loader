@@ -1,0 +1,109 @@
+{
+  "autoOpen": true,
+  "autoOpenOnPhones": false,
+  "autoOpenDelayMs": 500,
+  "size": {
+    "width": 1100,
+    "height": 860
+  },
+  "placeholder": "Tell Mia what you want to achieve...",
+  "autoplayMs": 0,
+  "labels": {
+    "goal": "Your goal",
+    "prompt": "Suggested MCP prompt",
+    "copy": "Copy prompt",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "cta": {
+    "label": "Generate my prompt",
+    "send": "Generate my prompt: {goal}"
+  },
+  "slides": [
+    {
+      "badge": "Spotler MCP",
+      "title": "Tell Mia what you want to achieve.",
+      "text": "Describe your goal and Mia will generate the perfect prompt to run in Spotler MCP.",
+      "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
+      "prompt": "Create a multi-step campaign in Spotler MCP that nurtures ecommerce leads with relevant messaging, and recommends the next best action (e.g., product, content or offer) based on lead behavior and engagement."
+    },
+    {
+      "badge": "Spotler MCP · Mail+",
+      "title": "Write your next email from a brief.",
+      "text": "Mia turns your idea into a prompt that drafts the email in Mail+, in the style of the newsletters you already send.",
+      "goal": "Create a welcome email for new subscribers, in the style of our recent newsletters.",
+      "prompt": "In Spotler Mail+, create a draft welcome email for new subscribers. Use our three most recent newsletters as the style reference, keep it under 150 words, and leave it as an editable draft."
+    },
+    {
+      "badge": "Spotler MCP · FeedbackPro",
+      "title": "Ask why your scores moved.",
+      "text": "Go from a question to an answer: Mia writes the prompt that digs into your survey results for you.",
+      "goal": "I want to know why our NPS dropped this month.",
+      "prompt": "Using Spotler FeedbackPro, compare this month's NPS with last month's, break it down by segment and region, and summarise the main themes in the open answers that explain the drop."
+    },
+    {
+      "badge": "Spotler MCP · Activate",
+      "title": "Find where your journeys lose people.",
+      "text": "Mia builds the prompt that checks your journeys and shows the step where contacts get stuck.",
+      "goal": "Why did my abandoned cart journey stop getting new people?",
+      "prompt": "In Spotler Activate, show the entries for my abandoned cart journey over the last 30 days, find the step where contacts get stuck, and tell me when new entries dropped."
+    }
+  ],
+  "actions": [
+    {
+      "label": "See MCP examples",
+      "icon": "layers",
+      "send": "Show me examples of what I can do with Spotler MCP"
+    },
+    {
+      "label": "Explore use cases",
+      "icon": "grid",
+      "send": "What can I use the Spotler MCP for?"
+    },
+    {
+      "label": "Book a walkthrough",
+      "icon": "calendar",
+      "send": "I'd like to book a Spotler MCP walkthrough"
+    }
+  ],
+  "css": [
+    "#mia-showcase{padding:8px 28px 14px;gap:14px;color:#002A4D;font-family:var(--mia-font,inherit)}",
+    "#mia-showcase .mia-sc-card{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center;margin-top:auto;padding:26px 30px 18px;border:1px solid rgba(255,255,255,.7);border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(234,242,255,.55));box-shadow:0 10px 36px rgba(0,42,77,.10),inset 0 1px 0 rgba(255,255,255,.8)}",
+    "#mia-showcase .mia-sc-head{display:flex;align-items:center;gap:28px}",
+    "#mia-showcase .mia-sc-words{flex:1 1 auto;min-width:0}",
+    "#mia-showcase .mia-sc-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(0,98,255,.10);color:#0047CC;font-size:13px;font-weight:700}",
+    "#mia-showcase .mia-sc-badge .mia-sc-ico{width:14px;height:14px}",
+    "#mia-showcase .mia-sc-title{margin:12px 0 8px;font:inherit;font-size:34px;line-height:40px;font-weight:700;letter-spacing:-.01em;color:#002A4D}",
+    "#mia-showcase .mia-sc-text{margin:0;max-width:560px;font-size:17px;line-height:26px;color:#33506B}",
+    "#mia-showcase .mia-sc-img{flex:0 0 auto;width:230px;max-height:170px;object-fit:contain}",
+    "#mia-showcase .mia-sc-flow{display:grid;grid-template-columns:minmax(0,1fr) 36px minmax(0,1.25fr);align-items:stretch;gap:12px;margin-top:22px}",
+    "#mia-showcase .mia-sc-left{display:flex;flex-direction:column;gap:12px}",
+    "#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:16px 18px;border:1px solid rgba(0,42,77,.10);border-radius:18px;background:rgba(255,255,255,.78)}",
+    "#mia-showcase .mia-sc-goal{flex:1 1 auto}",
+    "#mia-showcase .mia-sc-label{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:700;color:#0047CC}",
+    "#mia-showcase .mia-sc-label .mia-sc-ico{width:16px;height:16px}",
+    "#mia-showcase .mia-sc-goal-text{margin:0;font-size:16px;line-height:24px;font-style:italic;color:#002A4D}",
+    "#mia-showcase .mia-sc-between{display:flex;align-items:center;justify-content:center;color:#0062FF}",
+    "#mia-showcase .mia-sc-between .mia-sc-ico{width:26px;height:26px}",
+    "#mia-showcase .mia-sc-copy{margin-left:auto;display:inline-flex;width:32px;height:32px;padding:7px;border:0;border-radius:10px;background:rgba(0,98,255,.08);color:#0047CC}",
+    "#mia-showcase .mia-sc-copy:hover{background:rgba(0,98,255,.16)}",
+    "#mia-showcase .mia-sc-code{margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:22px;color:#1B3A57}",
+    "#mia-showcase .mia-sc-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border:0;border-radius:999px;background:#0062FF;color:#fff;font-size:16px;font-weight:700;box-shadow:0 6px 18px rgba(0,98,255,.28);transition:transform .15s ease,background .15s ease}",
+    "#mia-showcase .mia-sc-cta:hover{background:#0050D6;transform:translateY(-1px)}",
+    "#mia-showcase .mia-sc-cta .mia-sc-ico{width:18px;height:18px}",
+    "#mia-showcase .mia-sc-nav{position:absolute;top:50%;width:40px;height:40px;margin-top:-20px;padding:10px;border:1px solid rgba(0,42,77,.10);border-radius:50%;background:rgba(255,255,255,.85);color:#002A4D;box-shadow:0 4px 14px rgba(0,42,77,.10)}",
+    "#mia-showcase .mia-sc-prev{left:-50px}#mia-showcase .mia-sc-next{right:-50px}",
+    "#mia-showcase .mia-sc-nav .mia-sc-ico{width:20px;height:20px}",
+    "#mia-showcase .mia-sc-dots{display:flex;justify-content:center;gap:8px;margin-top:18px}",
+    "#mia-showcase .mia-sc-dot{width:8px;height:8px;padding:0;border:0;border-radius:999px;background:rgba(0,42,77,.20);transition:width .2s ease,background .2s ease}",
+    "#mia-showcase .mia-sc-dot.on{width:24px;background:#0062FF}",
+    "#mia-showcase .mia-sc-slide.on{animation:mia-sc-in .35s ease}",
+    "@keyframes mia-sc-in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}",
+    "#mia-showcase .mia-sc-actions{flex:0 0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}",
+    "#mia-showcase .mia-sc-action{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(0,98,255,.18);border-radius:999px;background:rgba(234,242,255,.75);color:#002A4D;font-size:15px;font-weight:600}",
+    "#mia-showcase .mia-sc-action:hover{background:rgba(214,229,255,.9)}",
+    "#mia-showcase .mia-sc-action .mia-sc-ico{width:18px;height:18px;color:#0062FF}",
+    "#mia-showcase .mia-sc-card{padding-left:64px;padding-right:64px}",
+    "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-img{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}"
+  ]
+}

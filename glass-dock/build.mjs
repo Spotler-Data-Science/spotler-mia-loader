@@ -112,7 +112,8 @@ for (const f of readdirSync(join(HERE, "dist")).filter(f => f.startsWith(`mia-gl
 
 if (DEMO) {
   const src = readFileSync(join(HERE, "addon/showcase.js"), "utf8")
-    .replace('"/*CSS*/"', JSON.stringify(minCss(readFileSync(join(HERE, "addon/showcase.css"), "utf8"))));
+    .replace('"/*CSS*/"', JSON.stringify(minCss(readFileSync(join(HERE, "addon/showcase.css"), "utf8"))))
+    .replace("/*SHOWCASE*/null", JSON.stringify(JSON.parse(readFileSync(join(HERE, "addon/showcase.json"), "utf8"))));
   const es = src.replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, "").replace(/"(?:[^"\\]|\\.)*"/g, '""');
   if (/(^|[^\w.])(let|const|class)\s|=>|`/m.test(es)) throw new Error("ES6 syntax in the showcase add-on");
   const min = await minify(src, { ecma: 5, compress: { passes: 2 }, mangle: true, format: { ascii_only: true } });

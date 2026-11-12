@@ -16,13 +16,20 @@ function cleanShowcase(o) {
 }
 var SHOWCASE_HELPERS = { el: el, SS: SS, addStyle: addStyle, trim: trim };
 function showcaseAddon() { var a = window.SpotlerMiaShowcase; return a && a.apply && a.create ? a : null; }
+// The page's showcase: the page table's if its row has one, else the add-on's built-in one for this page
+function showcaseFor(row, a) {
+  if (row.showcase) return row.showcase;
+  return a && a.builtIn ? cleanShowcase(a.builtIn(location.pathname)) : null;
+}
 // The add-on fires before this tag (GTM tag sequencing); if it's late, wait
 // for it up to 5s, then swap the start screen for the showcase.
-function applyShowcase(ui, sc, remount) {
+function applyShowcase(ui, row, remount) {
   var tries = 0;
   (function go() {
-    var a = showcaseAddon();
+    var a = showcaseAddon(), sc;
     if (a) {
+      if (!(sc = showcaseFor(row, a))) return;
+      row.showcase = sc;
       a.apply(ui, sc, SHOWCASE_HELPERS);
       if (tries && document.getElementById("mia-start") && remount) remount();
       return;
@@ -30,7 +37,7 @@ function applyShowcase(ui, sc, remount) {
     if (++tries <= 50) setTimeout(go, 100); else log("showcase add-on not found");
   })();
 }
-function createShowcase(parent, sc, onSend) {
-  var a = showcaseAddon();
-  return a ? a.create(parent, sc, onSend, SHOWCASE_HELPERS) : null;
+function createShowcase(parent, row, onSend) {
+  var a = showcaseAddon(), sc = a && showcaseFor(row, a);
+  return sc ? a.create(parent, sc, onSend, SHOWCASE_HELPERS) : null;
 }

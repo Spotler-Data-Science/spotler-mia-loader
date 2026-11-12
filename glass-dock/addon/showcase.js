@@ -14,6 +14,10 @@
 "use strict";
 var el, SS, addStyle, trim;
 var BASE_CSS = "/*CSS*/";
+// The Services page's showcase, built in (the page table's, when a row has
+// one, comes first). English Services pages: /services, /en-gb|en-de|en-au/services.
+var BUILT_IN = /*SHOWCASE*/null;
+var BUILT_IN_PATH = /^\/(?:en-gb\/|en-de\/|en-au\/)?services\/?$/i;
 var SHOWCASE_ICONS = {
   bolt: ["M13 2 4 14h7l-1 8 9-12h-7z"],
   user: ["M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z", "M4 21a8 8 0 0 1 16 0"],
@@ -170,6 +174,7 @@ function createShowcase(parent, sc, onSend) {
 
 function use(h) { el = h.el; SS = h.SS; addStyle = h.addStyle; trim = h.trim; }
 window.SpotlerMiaShowcase = {
+  builtIn: function (path) { return BUILT_IN_PATH.test(path || "") ? BUILT_IN : null; },
   apply: function (ui, sc, h) { use(h); applyShowcase(ui, sc); },
   create: function (parent, sc, onSend, h) { use(h); return createShowcase(parent, sc, onSend); }
 };

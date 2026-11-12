@@ -9,12 +9,16 @@ from playwright.async_api import async_playwright
 ADDON = open(os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.11.demo-showcase.gtm.html")).read()
 LATE = "<script>setTimeout(function(){var s=document.createElement('script');s.textContent=" + __import__("json").dumps(ADDON.split("\n", 2)[2].rsplit("</script>", 1)[0]) + ";document.head.appendChild(s);}, 1200)</script>"
 REAL = open(os.path.join(ROOT, "glass-dock/config.json"), encoding="utf-8").read()
+_c = __import__("json").loads(REAL)
+for _r in _c["rows"]: _r.pop("showcase", None)
+_c["version"] = "2026-11-06.1"
+PLAIN = __import__("json").dumps(_c)   # the page table as staging has it now: no showcase
 SENT = "() => window.__bpLog.filter(e => e[0] === 'sendMessage').map(e => e[1])"
 check, OUT = t.check, t.OUT
 
-async def page_at(b, path, vp={"width": 1440, "height": 900}, phone=False, ctx=None, tags=None):
+async def page_at(b, path, vp={"width": 1440, "height": 900}, phone=False, ctx=None, tags=None, cfg=None):
     ctx = ctx or await b.new_context(viewport=vp, **({"is_mobile": True, "has_touch": True} if phone else {}))
-    await t.setup(ctx, tags or [ADDON, t.POC], phone=phone, mkt=REAL)
+    await t.setup(ctx, tags or [ADDON, t.POC], phone=phone, mkt=cfg or REAL)
     page = await ctx.new_page(); logs = []; page.on("console", lambda m: logs.append(m.text))
     await page.goto("https://www.spotler.com" + path); await page.wait_for_timeout(2200)
     return ctx, page, logs
@@ -97,6 +101,15 @@ async def main():
         r = await page.evaluate("[!!document.getElementById('mia-start'), !!document.getElementById('mia-showcase')]")
         check("D16 no add-on: the normal start screen, nothing breaks", r == [True, False] and any("showcase add-on not found" in l for l in logs), [r, [l for l in logs if "showcase" in l]])
         await ctx.close()
+        for path, want in (("/en-gb/services", True), ("/services/", True), ("/en-au/services", True), ("/en-gb/pricing", False), ("/nl-nl/services", False)):
+            ctx, page, logs = await page_at(b, path, cfg=PLAIN)
+            r = await page.evaluate("[document.getElementById('mia-dock').classList.contains('open'), !!document.getElementById('mia-showcase'), document.querySelectorAll('.mia-sc-slide').length, !!document.getElementById('mia-showcase-style')]")
+            check(f"D18 page table without showcase, {path}: built-in showcase {'shown' if want else 'not shown'}", r == ([True, True, 4, True] if want else [False, False, 0, False]), r)
+            if path == "/en-gb/services":
+                await page.screenshot(path=f"{OUT}/demo-builtin.png")
+                await page.click(".mia-sc-slide.on .mia-sc-cta"); await page.wait_for_timeout(1500)
+                check("D19 built-in: 'Generate my prompt' sends the goal", (await page.evaluate(SENT))[:1] == ["Generate my prompt: I want to build a campaign that nurtures ecommerce leads and recommends the next best action."], await page.evaluate(SENT))
+            await ctx.close()
         for f in ("demo-staging", "demo-showcase"):
             n = len(open(os.path.join(ROOT, f"glass-dock/dist/mia-glass-dock-1.11.{f}.gtm.html")).read())
             check(f"D17 {f} tag under GTM's 102,400 characters", n <= 102400, n)

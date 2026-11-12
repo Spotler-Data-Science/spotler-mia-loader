@@ -130,6 +130,10 @@ CHROMIUM=/opt/pw-browsers/chromium python3 glass-dock/test.py
   set to fire before the demo tag (GTM tag sequencing; if it comes late the demo tag waits
   up to 5s, and without it the page gets the normal start screen).
 
+The add-on also carries the Services showcase built in (`glass-dock/addon/showcase.json`, for
+`/services` and `/en-gb|en-de|en-au/services`), so the demo works whatever page table the site
+has; a page row with its own `showcase` takes over from it.
+
 A page row with a `showcase`
 object (see the `/services` rows in `config.json`) then:
 
