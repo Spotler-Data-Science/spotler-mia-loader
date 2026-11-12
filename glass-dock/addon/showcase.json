@@ -6,7 +6,7 @@
     "width": 1100,
     "height": 860
   },
-  "placeholder": "Tell Spot what you want to achieve...",
+  "placeholder": "Tell Mia what you want to achieve...",
   "autoplayMs": 7000,
   "labels": {
     "goal": "Your goal",
@@ -40,8 +40,8 @@
       "step": "Your goal",
       "badge": "Spotler MCP · Activate",
       "art": "goal",
-      "title": "Tell Spot what you want to achieve.",
-      "text": "Describe your goal and Spot writes the prompt to run with the Spotler MCP.",
+      "title": "Tell Mia what you want to achieve.",
+      "text": "Describe your goal and Mia writes the prompt for Spot to run with the Spotler MCP.",
       "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
       "prompt": "In Spotler Activate, create a draft journey that nurtures new ecommerce leads with relevant messages, and recommends the next best product, content or offer based on how each lead browses and engages. Show me your plan first and wait for my go-ahead."
     },
