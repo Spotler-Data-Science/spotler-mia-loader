@@ -118,3 +118,21 @@ CHROMIUM=/opt/pw-browsers/chromium python3 glass-dock/test.py
 - The source sent to the bot for the arrow is `teaser` (inside the website
   contract).
 - Pages set to a half or full campaign card get the dock instead of the card.
+
+## Showcase demo (staging only)
+
+`node glass-dock/build.mjs --demo` builds `dist/mia-glass-dock-<ver>.demo-staging.gtm.html`
+(mia-dev bot only): the normal tag plus `glass-dock/demo/`. A page row with a `showcase`
+object (see the `/services` rows in `config.json`) then:
+
+- opens the chat by itself on page load (not on phones unless `autoOpenOnPhones`;
+  not again on that page in the session once the visitor closes it);
+- makes it bigger (`size.width` / `size.height`, px);
+- shows a carousel of `slides` (badge, title, text, optional https `image`, goal, prompt)
+  and `actions` buttons in place of the start screen; the text field stays open
+  (`placeholder` sets its text);
+- "Generate my prompt" sends `cta.send` with `{goal}` filled in, e.g.
+  `Generate my prompt: I want to ...`; actions send their `send` text;
+- takes its look from `showcase.css` (a list of CSS lines, scoped to `#mia-showcase`).
+
+The live and staging tags ignore `showcase`. Tests: `python3 glass-dock/test_demo.py`.

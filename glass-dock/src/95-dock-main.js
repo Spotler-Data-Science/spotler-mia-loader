@@ -59,6 +59,8 @@ function usePocConfig() {
         }
         // the start screen: headline, and a description / icon per card
         if (typeof o.title === "string" && trim(o.title)) r.title = trim(o.title).slice(0, 80);
+        // the demo build's showcase (other builds leave it out)
+        if (o.showcase && typeof cleanShowcase === "function") r.showcase = cleanShowcase(o.showcase);
         (r.buttons || []).forEach(function (b) {
           for (var j = 0; o.buttons && j < o.buttons.length; j++) {
             var ob = o.buttons[j];
@@ -280,6 +282,7 @@ function bootDock() {
     });
     ctx.ui.setPrompts(promptsFor(row, region.id));
     glassLiveChat();
+    if (row.showcase && typeof applyShowcase === "function") applyShowcase(ctx.ui, row.showcase);
 
     // a chat from an earlier page: reopened, unless the visitor had closed it
     if (State.getLive(region.id)) { if (SS.get(CLOSED_KEY) !== "1") ctx.ui.open(); else ctx.ui.startTyping(); resume(); }
@@ -319,6 +322,7 @@ function bootDock() {
     if (ctx.shell && ctx.shell.host && ctx.shell.host.parentNode) ctx.shell.host.parentNode.removeChild(ctx.shell.host);
     if (startScreen && startScreen.el.parentNode) startScreen.el.parentNode.removeChild(startScreen.el);
     startScreen = State.getLive(region.id) ? null
+      : ctx.row.showcase && typeof createShowcase === "function" ? createShowcase(ctx.ui.body, ctx.row.showcase, startChat)
       : createStart(ctx.ui.body, ctx.row, SETTINGS.DOCK_LANG[region.id] || "en", promptsFor(ctx.row, region.id), startChat);
     var host = el("div", { id: "spotler-mia-shell" });
     host.style.setProperty("--mia-video-w", ctx.ui.videoWidth + "px");

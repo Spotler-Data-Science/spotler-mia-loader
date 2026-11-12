@@ -81,7 +81,9 @@ function createDock(labels, handlers) {
     var room = window.innerHeight - below - ph - top - 2;
     // the calendar (full) gets up to 800px plus the field's and line's room: HubSpot's page
     // is ~715px, so more would just be empty glass
-    return Math.max(220, Math.min(touch ? room : (full ? 800 : 720), room));
+    // (a page can ask for a taller chat: data-max-h, set by the demo's showcase)
+    var cap = +dock.getAttribute("data-max-h") || 720;
+    return Math.max(220, Math.min(touch ? room : (full ? Math.max(800, cap) : cap), room));
   }
   // While the calendar is open it covers the whole dock: the field and the
   // AI / privacy line give it their room, and come back when it closes.

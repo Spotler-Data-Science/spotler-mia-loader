@@ -14,9 +14,12 @@ const ROOT = join(HERE, "..");
 // 70-hubspot.html is the slide-out's pop-up calendar: the dock always shows it in the chat.
 // 05-config-urls.js is the old loader's GitHub page table: the dock never reads GitHub.
 const SKIP = ["50-slideout.js", "50-slideout.css", "55-embedded.js", "55-embedded.css", "90-main.js", "70-hubspot.html", "05-config-urls.js"];
+// --demo: the staging showcase demo, with glass-dock/demo/ added (staging bot only)
+const DEMO = process.argv.includes("--demo");
 const files = [
   ...readdirSync(join(ROOT, "src")).filter(f => !SKIP.includes(f)).map(f => ({ f, p: join(ROOT, "src", f) })),
-  ...readdirSync(join(HERE, "src")).map(f => ({ f, p: join(HERE, "src", f) }))
+  ...readdirSync(join(HERE, "src")).map(f => ({ f, p: join(HERE, "src", f) })),
+  ...(DEMO ? readdirSync(join(HERE, "demo")).map(f => ({ f, p: join(HERE, "demo", f) })) : [])
 ].sort((a, b) => a.f.localeCompare(b.f));
 
 const key = f => f.replace(/^\d+-/, "").replace(/\.(css|html|js)$/, "");
@@ -83,16 +86,18 @@ const BOTS = {
 const ALL_BOTS = Object.values(BOTS).map(b => b.bot), ALL_CLIENTS = Object.values(BOTS).map(b => b.client);
 mkdirSync(join(HERE, "dist"), { recursive: true });
 for (const [target, t] of Object.entries(BOTS)) {
+  if (DEMO && target !== "staging") continue;
+  const name = DEMO ? "demo-staging" : target;
   let src = body;
   ALL_BOTS.forEach(id => { src = src.split(id).join(t.bot); });
   ALL_CLIENTS.forEach(id => { src = src.split(id).join(t.client); });
-  const banner = `/* Spotler Mia ${version} - ${target} (${t.name}) - built ${stamp} - every region */`;
+  const banner = `/* Spotler Mia ${version}${DEMO ? "-demo" : ""} - ${name} (${t.name}) - built ${stamp} - every region */`;
   const min = await minify(src, { ecma: 5, compress: { passes: 2 }, mangle: true, format: { ascii_only: true } });
   if (!min.code) throw new Error("minify failed");
   if (/[^\x00-\x7e]/.test(banner + min.code)) throw new Error("non-ASCII character in the GTM tag");
   if (/github|jsdelivr/i.test(banner + min.code)) throw new Error("the tag must not reference GitHub");
-  const out = `glass-dock/dist/mia-glass-dock-${ver}.${target}.gtm.html`;
-  writeFileSync(join(HERE, `dist/mia-glass-dock-${ver}.${target}.gtm.html`), `<script>\n${banner}\n${min.code}\n</script>\n`);
-  if (target === "staging") writeFileSync(join(HERE, `dist/mia-glass-dock-${ver}.debug.html`), `<script>\n${banner}\n${src}\n</script>\n`);
+  const out = `glass-dock/dist/mia-glass-dock-${ver}.${name}.gtm.html`;
+  writeFileSync(join(ROOT, out), `<script>\n${banner}\n${min.code}\n</script>\n`);
+  if (target === "staging") writeFileSync(join(HERE, `dist/mia-glass-dock-${ver}${DEMO ? ".demo" : ""}.debug.html`), `<script>\n${banner}\n${src}\n</script>\n`);
   console.log(`built ${files.length} files → ${out} (${(min.code.length / 1024).toFixed(1)} KB)`);
 }
