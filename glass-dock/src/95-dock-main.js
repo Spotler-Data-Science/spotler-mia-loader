@@ -282,7 +282,7 @@ function bootDock() {
     });
     ctx.ui.setPrompts(promptsFor(row, region.id));
     glassLiveChat();
-    if (row.showcase && typeof applyShowcase === "function") applyShowcase(ctx.ui, row.showcase);
+    if (row.showcase && typeof applyShowcase === "function") applyShowcase(ctx.ui, row.showcase, function () { if (!BP.engaged) mountShell(); });
 
     // a chat from an earlier page: reopened, unless the visitor had closed it
     if (State.getLive(region.id)) { if (SS.get(CLOSED_KEY) !== "1") ctx.ui.open(); else ctx.ui.startTyping(); resume(); }
@@ -322,8 +322,8 @@ function bootDock() {
     if (ctx.shell && ctx.shell.host && ctx.shell.host.parentNode) ctx.shell.host.parentNode.removeChild(ctx.shell.host);
     if (startScreen && startScreen.el.parentNode) startScreen.el.parentNode.removeChild(startScreen.el);
     startScreen = State.getLive(region.id) ? null
-      : ctx.row.showcase && typeof createShowcase === "function" ? createShowcase(ctx.ui.body, ctx.row.showcase, startChat)
-      : createStart(ctx.ui.body, ctx.row, SETTINGS.DOCK_LANG[region.id] || "en", promptsFor(ctx.row, region.id), startChat);
+      : (ctx.row.showcase && typeof createShowcase === "function" && createShowcase(ctx.ui.body, ctx.row.showcase, startChat))
+        || createStart(ctx.ui.body, ctx.row, SETTINGS.DOCK_LANG[region.id] || "en", promptsFor(ctx.row, region.id), startChat);
     var host = el("div", { id: "spotler-mia-shell" });
     host.style.setProperty("--mia-video-w", ctx.ui.videoWidth + "px");
     host.style.setProperty("--mia-font", SETTINGS.DOCK_FONT);   // Open Sans, as the rest of the chat

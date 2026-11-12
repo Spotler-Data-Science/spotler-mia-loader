@@ -6,13 +6,15 @@ os.environ.setdefault("DOCK_TAG", os.path.join(ROOT, "glass-dock/dist/mia-glass-
 spec = importlib.util.spec_from_file_location("t", os.path.join(ROOT, "glass-dock/test.py")); t = importlib.util.module_from_spec(spec)
 sys.modules["t"] = t; spec.loader.exec_module(t)   # test.py only defines things until main() runs
 from playwright.async_api import async_playwright
+ADDON = open(os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.11.demo-showcase.gtm.html")).read()
+LATE = "<script>setTimeout(function(){var s=document.createElement('script');s.textContent=" + __import__("json").dumps(ADDON.split("\n", 2)[2].rsplit("</script>", 1)[0]) + ";document.head.appendChild(s);}, 1200)</script>"
 REAL = open(os.path.join(ROOT, "glass-dock/config.json"), encoding="utf-8").read()
 SENT = "() => window.__bpLog.filter(e => e[0] === 'sendMessage').map(e => e[1])"
 check, OUT = t.check, t.OUT
 
-async def page_at(b, path, vp={"width": 1440, "height": 900}, phone=False, ctx=None):
+async def page_at(b, path, vp={"width": 1440, "height": 900}, phone=False, ctx=None, tags=None):
     ctx = ctx or await b.new_context(viewport=vp, **({"is_mobile": True, "has_touch": True} if phone else {}))
-    await t.setup(ctx, [t.POC], phone=phone, mkt=REAL)
+    await t.setup(ctx, tags or [ADDON, t.POC], phone=phone, mkt=REAL)
     page = await ctx.new_page(); logs = []; page.on("console", lambda m: logs.append(m.text))
     await page.goto("https://www.spotler.com" + path); await page.wait_for_timeout(2200)
     return ctx, page, logs
@@ -83,6 +85,21 @@ async def main():
         await page.screenshot(path=f"{OUT}/demo-phone.png")
         check("D14 phones: no auto-open; opened, the showcase fits the screen width", not o and sw, [o, sw])
         await ctx.close()
+        ctx, page, logs = await page_at(b, "/en-gb/services", tags=[t.POC, LATE])
+        await page.wait_for_timeout(800)
+        r = await page.evaluate("[document.getElementById('mia-dock').classList.contains('open'), !!document.getElementById('mia-showcase'), !!document.getElementById('mia-start')]")
+        check("D15 add-on loads late (after the demo tag): the showcase still opens, no start screen left", r == [True, True, False], r)
+        await ctx.close()
+
+        ctx, page, logs = await page_at(b, "/en-gb/services", tags=[t.POC])
+        await page.wait_for_timeout(5500)
+        await page.click("#mia-dock-q"); await page.wait_for_timeout(900)
+        r = await page.evaluate("[!!document.getElementById('mia-start'), !!document.getElementById('mia-showcase')]")
+        check("D16 no add-on: the normal start screen, nothing breaks", r == [True, False] and any("showcase add-on not found" in l for l in logs), [r, [l for l in logs if "showcase" in l]])
+        await ctx.close()
+        for f in ("demo-staging", "demo-showcase"):
+            n = len(open(os.path.join(ROOT, f"glass-dock/dist/mia-glass-dock-1.11.{f}.gtm.html")).read())
+            check(f"D17 {f} tag under GTM's 102,400 characters", n <= 102400, n)
         await b.close()
     print(f"\n{sum(t.results)}/{len(t.results)} passed")
     sys.exit(0 if all(t.results) else 1)

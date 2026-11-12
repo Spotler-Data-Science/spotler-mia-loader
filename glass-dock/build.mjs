@@ -14,7 +14,8 @@ const ROOT = join(HERE, "..");
 // 70-hubspot.html is the slide-out's pop-up calendar: the dock always shows it in the chat.
 // 05-config-urls.js is the old loader's GitHub page table: the dock never reads GitHub.
 const SKIP = ["50-slideout.js", "50-slideout.css", "55-embedded.js", "55-embedded.css", "90-main.js", "70-hubspot.html", "05-config-urls.js"];
-// --demo: the staging showcase demo, with glass-dock/demo/ added (staging bot only)
+// --demo: the staging showcase demo, with glass-dock/demo/ added (staging bot only),
+// plus the showcase itself as a second tag (glass-dock/addon/), for GTM's size limit
 const DEMO = process.argv.includes("--demo");
 const files = [
   ...readdirSync(join(ROOT, "src")).filter(f => !SKIP.includes(f)).map(f => ({ f, p: join(ROOT, "src", f) })),
@@ -101,3 +102,24 @@ for (const [target, t] of Object.entries(BOTS)) {
   if (target === "staging") writeFileSync(join(HERE, `dist/mia-glass-dock-${ver}${DEMO ? ".demo" : ""}.debug.html`), `<script>\n${banner}\n${src}\n</script>\n`);
   console.log(`built ${files.length} files → ${out} (${(min.code.length / 1024).toFixed(1)} KB)`);
 }
+
+// GTM refuses a Custom HTML tag over 102,400 characters
+const LIMIT = 102400;
+for (const f of readdirSync(join(HERE, "dist")).filter(f => f.startsWith(`mia-glass-dock-${ver}.`) && f.endsWith(".gtm.html"))) {
+  const n = readFileSync(join(HERE, "dist", f), "utf8").length;
+  if (n > LIMIT) throw new Error(`${f}: ${n} characters, over GTM's ${LIMIT}`);
+}
+
+if (DEMO) {
+  const src = readFileSync(join(HERE, "addon/showcase.js"), "utf8")
+    .replace('"/*CSS*/"', JSON.stringify(minCss(readFileSync(join(HERE, "addon/showcase.css"), "utf8"))));
+  const es = src.replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, "").replace(/"(?:[^"\\]|\\.)*"/g, '""');
+  if (/(^|[^\w.])(let|const|class)\s|=>|`/m.test(es)) throw new Error("ES6 syntax in the showcase add-on");
+  const min = await minify(src, { ecma: 5, compress: { passes: 2 }, mangle: true, format: { ascii_only: true } });
+  const banner = `/* Spotler Mia ${version}-demo - showcase add-on (fire before the demo tag) - built ${stamp} */`;
+  if (/[^\x00-\x7e]/.test(banner + min.code) || /github|jsdelivr/i.test(min.code)) throw new Error("add-on: non-ASCII or GitHub");
+  const out = `glass-dock/dist/mia-glass-dock-${ver}.demo-showcase.gtm.html`;
+  writeFileSync(join(ROOT, out), `<script>\n${banner}\n${min.code}\n</script>\n`);
+  console.log(`built showcase add-on → ${out} (${(min.code.length / 1024).toFixed(1)} KB)`);
+}
+

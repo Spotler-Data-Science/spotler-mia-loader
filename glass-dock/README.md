@@ -121,8 +121,16 @@ CHROMIUM=/opt/pw-browsers/chromium python3 glass-dock/test.py
 
 ## Showcase demo (staging only)
 
-`node glass-dock/build.mjs --demo` builds `dist/mia-glass-dock-<ver>.demo-staging.gtm.html`
-(mia-dev bot only): the normal tag plus `glass-dock/demo/`. A page row with a `showcase`
+`node glass-dock/build.mjs --demo` builds two GTM tags (mia-dev bot only), split for GTM's
+102,400-character limit on a Custom HTML tag:
+
+- `dist/mia-glass-dock-<ver>.demo-staging.gtm.html`: the normal tag plus a small hook
+  (`glass-dock/demo/`), used in place of the normal staging tag;
+- `dist/mia-glass-dock-<ver>.demo-showcase.gtm.html`: the showcase itself (`glass-dock/addon/`),
+  set to fire before the demo tag (GTM tag sequencing; if it comes late the demo tag waits
+  up to 5s, and without it the page gets the normal start screen).
+
+A page row with a `showcase`
 object (see the `/services` rows in `config.json`) then:
 
 - opens the chat by itself on page load (not on phones unless `autoOpenOnPhones`;
