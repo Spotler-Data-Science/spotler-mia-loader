@@ -5,8 +5,11 @@
 #mia-showcase::-webkit-scrollbar { display: none; }
 #mia-showcase.going { opacity: 0; transform: translateY(-8px); pointer-events: none; }
 #mia-showcase .mia-sc-stage { position: relative; }
-#mia-showcase .mia-sc-slide { display: none; }
-#mia-showcase .mia-sc-slide.on { display: block; }
+#mia-showcase .mia-sc-wrap { flex: 1 0 auto; display: flex; flex-direction: column; }
+/* the slides share one spot, so the box keeps the tallest slide's height: no jump between slides */
+#mia-showcase .mia-sc-track { display: grid; }
+#mia-showcase .mia-sc-slide { grid-area: 1 / 1; visibility: hidden; }
+#mia-showcase .mia-sc-slide.on { visibility: visible; }
 #mia-showcase button { font: inherit; color: inherit; cursor: pointer; }
 #mia-showcase .mia-sc-ico { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
 #mia-showcase .mia-sc-ico svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }

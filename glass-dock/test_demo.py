@@ -110,6 +110,18 @@ async def main():
                 await page.click(".mia-sc-slide.on .mia-sc-cta"); await page.wait_for_timeout(1500)
                 check("D19 built-in: 'Generate my prompt' sends the goal", (await page.evaluate(SENT))[:1] == ["Generate my prompt: I want to build a campaign that nurtures ecommerce leads and recommends the next best action."], await page.evaluate(SENT))
             await ctx.close()
+        # laptops: no scrolling inside the showcase, on any slide, and the box keeps one height between slides
+        for w, h in ((1280, 600), (1366, 657), (1536, 730), (1440, 780), (1920, 960)):
+            ctx, page, logs = await page_at(b, "/en-gb/services", vp={"width": w, "height": h}, cfg=PLAIN)
+            await page.wait_for_timeout(400)
+            res = []
+            for k in range(4):
+                res.append(await page.evaluate("""() => { const s=document.getElementById('mia-showcase'), c=s.querySelector('.mia-sc-card').getBoundingClientRect();
+                    return [s.scrollHeight - s.clientHeight, Math.round(c.height), s.querySelector('.mia-sc-wrap').style.zoom || '1'] }"""))
+                await page.click(".mia-sc-next"); await page.wait_for_timeout(450)
+            await page.screenshot(path=f"{OUT}/demo-{w}x{h}.png")
+            check(f"D20 {w}x{h}: no scrolling on any slide, same height on every slide (scale {res[0][2]})", all(r[0] <= 1 for r in res) and len({r[1] for r in res}) == 1, res)
+            await ctx.close()
         for f in ("demo-staging", "demo-showcase"):
             n = len(open(os.path.join(ROOT, f"glass-dock/dist/mia-glass-dock-1.11.{f}.gtm.html")).read())
             check(f"D17 {f} tag under GTM's 102,400 characters", n <= 102400, n)

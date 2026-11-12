@@ -133,7 +133,9 @@ function createShowcase(parent, sc, onSend) {
   prev.addEventListener("click", function () { stop(); go(cur - 1); });
   next.addEventListener("click", function () { stop(); go(cur + 1); });
   var stage = el("div", { "class": "mia-sc-stage" }, [track, prev, next]);
-  root.appendChild(el("div", { "class": "mia-sc-card" }, [stage, dots]));
+  var wrap = el("div", { "class": "mia-sc-wrap" });
+  root.appendChild(wrap);
+  wrap.appendChild(el("div", { "class": "mia-sc-card" }, [stage, dots]));
   if (slides.length < 2) { prev.style.display = next.style.display = dots.style.display = "none"; }
 
   if (sc.actions && sc.actions.length) {
@@ -144,7 +146,7 @@ function createShowcase(parent, sc, onSend) {
       b.addEventListener("click", function () { send(a.send || a.label); });
       row.appendChild(b);
     });
-    root.appendChild(row);
+    wrap.appendChild(row);
   }
 
   function go(i) {
@@ -160,11 +162,32 @@ function createShowcase(parent, sc, onSend) {
     timer = setInterval(function () { if (!stopped && !root.matches(":hover") && !root.contains(document.activeElement)) go(cur + 1); }, ms);
   }
   parent.appendChild(root);
+
+  // No scrolling: on a short screen the page table's CSS tightens the
+  // spacing first (@media max-height); if it still doesn't fit, the whole
+  // showcase is scaled down to the room there is (not below 60%).
+  function fit() {
+    if (!root.parentNode) return;
+    wrap.style.zoom = "";
+    for (var i = 0, z = 1; i < 4; i++) {
+      var have = root.clientHeight, need = root.scrollHeight;
+      if (!have || need <= have + 1) break;
+      z = Math.max(0.6, z * have / need - 0.005);
+      wrap.style.zoom = z.toFixed(3);
+      if (z === 0.6) break;
+    }
+  }
+  var fitTimer;
+  function refit() { clearTimeout(fitTimer); fitTimer = setTimeout(fit, 60); }
+  window.addEventListener("resize", refit);
+  try { new ResizeObserver(refit).observe(root); } catch (e) {}
+  refit();
   return {
     el: root,
-    fit: function () {},
+    fit: fit,
     hide: function () {
       stop();
+      window.removeEventListener("resize", refit);
       if (!root.parentNode) return;
       root.classList.add("going");
       setTimeout(function () { if (root.parentNode) root.parentNode.removeChild(root); }, 220);
