@@ -18,3 +18,8 @@
 @media (prefers-reduced-motion: reduce) { #mia-showcase { transition: none; } }
 #mia-dock.opening #mia-showcase { top: auto; right: auto; left: calc(50% - var(--mia-open-w) / 2);
   width: var(--mia-open-w); height: var(--mia-open-h); overflow: hidden; }
+#mia-showcase .mia-sc-code { position: relative; }
+#mia-showcase .mia-sc-ghost { visibility: hidden; }
+#mia-showcase .mia-sc-typed { position: absolute; inset: 0; }
+#mia-showcase .mia-sc-art svg { display: block; width: 100%; height: 100%; overflow: visible; }
+#mia-showcase .mia-sc-points { list-style: none; margin: 0; padding: 0; }

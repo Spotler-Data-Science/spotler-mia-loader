@@ -315,6 +315,7 @@ function bootDock() {
   var startScreen = null;
   function startChat(text, source) {
     if (startScreen) { startScreen.hide(); startScreen = null; }
+    if (typeof dropShowcase === "function") dropShowcase();
     engage(text, source);
   }
 

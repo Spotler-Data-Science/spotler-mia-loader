@@ -37,7 +37,14 @@ function applyShowcase(ui, row, remount) {
     if (++tries <= 50) setTimeout(go, 100); else log("showcase add-on not found");
   })();
 }
+function removeShowcases() {
+  var all = document.querySelectorAll("#mia-showcase");
+  for (var i = 0; i < all.length; i++) if (all[i].parentNode) all[i].parentNode.removeChild(all[i]);
+}
 function createShowcase(parent, row, onSend) {
   var a = showcaseAddon(), sc = a && showcaseFor(row, a);
+  if (sc) removeShowcases();   // only ever one
   return sc ? a.create(parent, sc, onSend, SHOWCASE_HELPERS) : null;
 }
+// Once a chat starts, no showcase may stay behind (over the live chat).
+function dropShowcase() { setTimeout(removeShowcases, 300); }

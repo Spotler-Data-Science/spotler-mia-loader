@@ -309,7 +309,7 @@
         "autoplayMs": 0,
         "labels": {
           "goal": "Your goal",
-          "prompt": "Suggested MCP prompt",
+          "prompt": "Suggested prompt",
           "copy": "Copy prompt",
           "previous": "Previous",
           "next": "Next"
@@ -320,32 +320,72 @@
         },
         "slides": [
           {
+            "step": "Meet the MCP",
             "badge": "Spotler MCP",
-            "title": "Tell Mia what you want to achieve.",
-            "text": "Describe your goal and Mia will generate the perfect prompt to run in Spotler MCP.",
-            "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
-            "prompt": "Create a multi-step campaign in Spotler MCP that nurtures ecommerce leads with relevant messaging, and recommends the next best action (e.g., product, content or offer) based on lead behavior and engagement."
+            "art": "connect",
+            "title": "Your AI assistant, working inside Spotler.",
+            "text": "The Spotler MCP connects AI assistants such as Mia, Claude and ChatGPT to your Spotler account, so you can work in plain words.",
+            "points": [
+              "Ask questions about your live account data",
+              "Prepare emails, journeys and surveys as drafts",
+              "Check results without clicking through every screen"
+            ],
+            "cta": {
+              "label": "How does it work?",
+              "send": "What is the Spotler MCP and what can it do for me?"
+            }
           },
           {
-            "badge": "Spotler MCP · Mail+",
-            "title": "Write your next email from a brief.",
-            "text": "Mia turns your idea into a prompt that drafts the email in Mail+, in the style of the newsletters you already send.",
-            "goal": "Create a welcome email for new subscribers, in the style of our recent newsletters.",
-            "prompt": "In Spotler Mail+, create a draft welcome email for new subscribers. Use our three most recent newsletters as the style reference, keep it under 150 words, and leave it as an editable draft."
-          },
-          {
-            "badge": "Spotler MCP · FeedbackPro",
-            "title": "Ask why your scores moved.",
-            "text": "Go from a question to an answer: Mia writes the prompt that digs into your survey results for you.",
-            "goal": "I want to know why our NPS dropped this month.",
-            "prompt": "Using Spotler FeedbackPro, compare this month's NPS with last month's, break it down by segment and region, and summarise the main themes in the open answers that explain the drop."
-          },
-          {
+            "step": "Your goal",
             "badge": "Spotler MCP · Activate",
+            "art": "goal",
+            "title": "Tell Mia what you want to achieve.",
+            "text": "Describe your goal and Mia writes the prompt to run with the Spotler MCP.",
+            "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
+            "prompt": "In Spotler Activate, create a draft journey that nurtures new ecommerce leads with relevant messages, and recommends the next best product, content or offer based on how each lead browses and engages. Show me your plan first and wait for my go-ahead."
+          },
+          {
+            "step": "Emails",
+            "badge": "Spotler MCP · Mail+",
+            "art": "email",
+            "title": "Write your next email from a brief.",
+            "text": "Mia turns your idea into a draft in Mail+, in the style of the emails you already send.",
+            "goal": "Create an invitation for our Q4 webinar, in the style of our last newsletter.",
+            "prompt": "In Spotler Mail+, create a draft invitation for our Q4 webinar in the style of my last newsletter. Keep it under 150 words, suggest two subject lines, and leave it as a draft for me to review."
+          },
+          {
+            "step": "Journeys",
+            "badge": "Spotler MCP · Activate",
+            "art": "journey",
             "title": "Find where your journeys lose people.",
-            "text": "Mia builds the prompt that checks your journeys and shows the step where contacts get stuck.",
+            "text": "Ask why a journey stalls, and see the step where contacts get stuck.",
             "goal": "Why did my abandoned cart journey stop getting new people?",
             "prompt": "In Spotler Activate, show the entries for my abandoned cart journey over the last 30 days, find the step where contacts get stuck, and tell me when new entries dropped."
+          },
+          {
+            "step": "Feedback",
+            "badge": "Spotler MCP · FeedbackPro",
+            "art": "score",
+            "title": "Ask why your scores moved.",
+            "text": "Go from a question to an answer, straight from your survey results.",
+            "goal": "I want to know why our NPS dropped this month.",
+            "prompt": "Using Spotler FeedbackPro, explain why our NPS dropped this month compared with last month, and summarise the main themes in the open answers."
+          },
+          {
+            "step": "You're in charge",
+            "badge": "Spotler MCP",
+            "art": "shield",
+            "title": "You stay in charge.",
+            "text": "The MCP prepares and analyses. You decide what happens next.",
+            "points": [
+              "Drafts only: nothing goes to your audience without you",
+              "The same permissions as your own login",
+              "Ask Mia to show its plan and wait for your go-ahead"
+            ],
+            "cta": {
+              "label": "Book a walkthrough",
+              "send": "I'd like to book a Spotler MCP walkthrough"
+            }
           }
         ],
         "actions": [
@@ -366,19 +406,18 @@
           }
         ],
         "css": [
+          "#mia-showcase .mia-sc-flow{isolation:isolate}",
           "#mia-showcase{padding:8px 28px 14px;color:#002A4D;font-family:var(--mia-font,inherit)}#mia-showcase .mia-sc-wrap{gap:14px}",
-          "#mia-showcase .mia-sc-card{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center;margin-top:auto;padding:26px 30px 18px;border:1px solid rgba(255,255,255,.7);border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(234,242,255,.55));box-shadow:0 10px 36px rgba(0,42,77,.10),inset 0 1px 0 rgba(255,255,255,.8)}",
+          "#mia-showcase .mia-sc-card{flex:1 0 auto;position:relative;display:flex;flex-direction:column;justify-content:center;margin-top:auto;padding:26px 30px 18px;border:1px solid rgba(255,255,255,.75);border-radius:24px;background:radial-gradient(520px 260px at 88% 8%,rgba(47,172,230,.16),transparent 70%),radial-gradient(420px 240px at 8% 100%,rgba(0,98,255,.08),transparent 70%),linear-gradient(135deg,rgba(255,255,255,.76),rgba(234,242,255,.58));box-shadow:0 10px 36px rgba(0,42,77,.10),inset 0 1px 0 rgba(255,255,255,.8)}",
           "#mia-showcase .mia-sc-card{padding-left:64px;padding-right:64px}",
           "#mia-showcase .mia-sc-head{display:flex;align-items:center;gap:28px}",
           "#mia-showcase .mia-sc-words{flex:1 1 auto;min-width:0}",
-          "#mia-showcase .mia-sc-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(0,98,255,.10);color:#0047CC;font-size:13px;font-weight:700}",
-          "#mia-showcase .mia-sc-badge .mia-sc-ico{width:14px;height:14px}",
+          "#mia-showcase .mia-sc-badge{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(0,98,255,.10);color:#0047CC;font-size:13px;font-weight:700;letter-spacing:.01em}",
           "#mia-showcase .mia-sc-title{margin:12px 0 8px;font:inherit;font-size:34px;line-height:40px;font-weight:700;letter-spacing:-.01em;color:#002A4D}",
           "#mia-showcase .mia-sc-text{margin:0;max-width:560px;font-size:17px;line-height:26px;color:#33506B}",
-          "#mia-showcase .mia-sc-img{flex:0 0 auto;width:230px;max-height:170px;object-fit:contain}",
           "#mia-showcase .mia-sc-flow{display:grid;grid-template-columns:minmax(0,1fr) 36px minmax(0,1.25fr);align-items:stretch;gap:12px;margin-top:22px}",
           "#mia-showcase .mia-sc-left{display:flex;flex-direction:column;gap:12px}",
-          "#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:16px 18px;border:1px solid rgba(0,42,77,.10);border-radius:18px;background:rgba(255,255,255,.78)}",
+          "#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{position:relative;padding:16px 18px;border:1px solid rgba(0,42,77,.10);border-radius:18px;background:rgba(255,255,255,.82)}",
           "#mia-showcase .mia-sc-goal{flex:1 1 auto}",
           "#mia-showcase .mia-sc-label{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:700;color:#0047CC}",
           "#mia-showcase .mia-sc-label .mia-sc-ico{width:16px;height:16px}",
@@ -388,24 +427,50 @@
           "#mia-showcase .mia-sc-copy{margin-left:auto;display:inline-flex;width:32px;height:32px;padding:7px;border:0;border-radius:10px;background:rgba(0,98,255,.08);color:#0047CC}",
           "#mia-showcase .mia-sc-copy:hover{background:rgba(0,98,255,.16)}",
           "#mia-showcase .mia-sc-code{margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:22px;color:#1B3A57}",
+          "#mia-showcase .mia-sc-code span{font-family:inherit}",
           "#mia-showcase .mia-sc-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border:0;border-radius:999px;background:#0062FF;color:#fff;font-size:16px;font-weight:700;box-shadow:0 6px 18px rgba(0,98,255,.28);transition:transform .15s ease,background .15s ease}",
           "#mia-showcase .mia-sc-cta:hover{background:#0050D6;transform:translateY(-1px)}",
           "#mia-showcase .mia-sc-cta .mia-sc-ico{width:18px;height:18px}",
           "#mia-showcase .mia-sc-nav{position:absolute;top:50%;width:40px;height:40px;margin-top:-20px;padding:10px;border:1px solid rgba(0,42,77,.10);border-radius:50%;background:rgba(255,255,255,.85);color:#002A4D;box-shadow:0 4px 14px rgba(0,42,77,.10)}",
           "#mia-showcase .mia-sc-prev{left:-50px}#mia-showcase .mia-sc-next{right:-50px}",
           "#mia-showcase .mia-sc-nav .mia-sc-ico{width:20px;height:20px}",
-          "#mia-showcase .mia-sc-dots{display:flex;justify-content:center;gap:8px;margin-top:18px}",
-          "#mia-showcase .mia-sc-dot{width:8px;height:8px;padding:0;border:0;border-radius:999px;background:rgba(0,42,77,.20);transition:width .2s ease,background .2s ease}",
-          "#mia-showcase .mia-sc-dot.on{width:24px;background:#0062FF}",
+          "#mia-showcase .mia-sc-dots{display:flex;justify-content:center;gap:6px;margin-top:18px}",
+          "#mia-showcase .mia-sc-dot{position:relative;display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border:0;border-radius:999px;background:transparent;color:rgba(0,42,77,.5);font-size:13px;font-weight:600;transition:background .2s ease,color .2s ease}#mia-showcase .mia-sc-dot::before{content:\"\";width:8px;height:8px;border-radius:50%;background:rgba(0,42,77,.2);transition:background .2s ease,box-shadow .2s ease}#mia-showcase .mia-sc-dot:hover{color:#002A4D;background:rgba(0,98,255,.06)}#mia-showcase .mia-sc-dot.done::before{background:rgba(0,98,255,.45)}",
+          "#mia-showcase .mia-sc-dot.on{color:#0047CC;background:rgba(0,98,255,.10)}#mia-showcase .mia-sc-dot.on::before{background:#0062FF;box-shadow:0 0 0 4px rgba(0,98,255,.18)}",
           "#mia-showcase .mia-sc-slide.on{animation:mia-sc-in .35s ease}",
           "@keyframes mia-sc-in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}",
           "#mia-showcase .mia-sc-actions{flex:0 0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}",
           "#mia-showcase .mia-sc-action{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(0,98,255,.18);border-radius:999px;background:rgba(234,242,255,.75);color:#002A4D;font-size:15px;font-weight:600}",
           "#mia-showcase .mia-sc-action:hover{background:rgba(214,229,255,.9)}",
           "#mia-showcase .mia-sc-action .mia-sc-ico{width:18px;height:18px;color:#0062FF}",
-          "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-img{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
+          "#mia-showcase .mia-sc-art{flex:0 0 auto;width:250px;height:166px;filter:drop-shadow(0 12px 26px rgba(0,98,255,.20))}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-art{animation:mia-sc-float 6s ease-in-out infinite}",
+          "@keyframes mia-sc-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}",
+          "#mia-showcase .mia-sc-flow-line{stroke-dasharray:5 6;animation:mia-sc-dash 1.4s linear infinite}",
+          "@keyframes mia-sc-dash{to{stroke-dashoffset:-22}}",
+          "#mia-showcase .mia-sc-pulse{transform-box:fill-box;transform-origin:center;animation:mia-sc-ring 2.4s ease-out infinite}",
+          "@keyframes mia-sc-ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}",
+          "#mia-showcase .mia-sc-twinkle{transform-box:fill-box;transform-origin:center;animation:mia-sc-twinkle 2.8s ease-in-out infinite}",
+          "@keyframes mia-sc-twinkle{0%,100%{transform:scale(.8);opacity:.6}50%{transform:scale(1.1);opacity:1}}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-draw{stroke-dasharray:240;stroke-dashoffset:240;animation:mia-sc-draw 1.2s .2s ease forwards}",
+          "@keyframes mia-sc-draw{to{stroke-dashoffset:0}}",
+          "#mia-showcase .mia-sc-prompt{background:#fff;border-color:rgba(0,98,255,.22);box-shadow:0 0 0 4px rgba(0,98,255,.05),0 14px 34px rgba(0,98,255,.16)}",
+          "#mia-showcase .mia-sc-prompt::before{content:\"\";position:absolute;inset:-14px;z-index:-1;border-radius:30px;background:radial-gradient(closest-side,rgba(47,172,230,.30),rgba(0,98,255,.12) 60%,transparent);filter:blur(10px);animation:mia-sc-glow 4s ease-in-out infinite}",
+          "@keyframes mia-sc-glow{0%,100%{opacity:.55}50%{opacity:1}}",
+          "#mia-showcase .mia-sc-slide.typing .mia-sc-typed::after{content:\"\";display:inline-block;width:2px;height:1em;margin-left:1px;vertical-align:-.15em;background:#0062FF;animation:mia-sc-blink .8s steps(1) infinite}",
+          "@keyframes mia-sc-blink{50%{opacity:0}}",
+          "#mia-showcase .mia-sc-points{margin-top:14px;display:grid;gap:8px}",
+          "#mia-showcase .mia-sc-points li{display:flex;align-items:center;gap:10px;font-size:16px;line-height:22px;color:#002A4D}",
+          "#mia-showcase .mia-sc-points .mia-sc-ico{width:22px;height:22px;padding:4px;border-radius:50%;background:rgba(0,98,255,.12);color:#0062FF}",
+          "#mia-showcase .mia-sc-words>.mia-sc-cta{margin-top:18px}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-words>*{animation:mia-sc-up .45s ease both}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(2){animation-delay:.05s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(3){animation-delay:.1s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(4){animation-delay:.15s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(5){animation-delay:.2s}",
+          "@keyframes mia-sc-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}",
+          "@media (prefers-reduced-motion:reduce){#mia-showcase *,#mia-showcase *::before,#mia-showcase *::after{animation:none !important}#mia-showcase .mia-sc-draw{stroke-dashoffset:0 !important}}",
+          "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
           "@media (max-height:860px){#mia-showcase{padding-top:2px;padding-bottom:8px}#mia-showcase .mia-sc-wrap{gap:10px}#mia-showcase .mia-sc-card{padding-top:16px;padding-bottom:12px}#mia-showcase .mia-sc-title{font-size:28px;line-height:34px;margin:8px 0 6px}#mia-showcase .mia-sc-text{font-size:16px;line-height:23px}#mia-showcase .mia-sc-flow{margin-top:14px}#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:12px 16px}#mia-showcase .mia-sc-code{font-size:13px;line-height:20px}#mia-showcase .mia-sc-dots{margin-top:12px}#mia-showcase .mia-sc-cta{padding:11px 20px}#mia-showcase .mia-sc-action{padding:8px 16px}}",
-          "@media (max-height:720px){#mia-showcase .mia-sc-img{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}"
+          "@media (max-height:720px){#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
+          "@media (max-width:1100px){#mia-showcase .mia-sc-dot span{display:none}#mia-showcase .mia-sc-dot{padding:6px}}",
+          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-points li{font-size:15px}}"
         ]
       }
     },
@@ -1144,7 +1209,7 @@
         "autoplayMs": 0,
         "labels": {
           "goal": "Your goal",
-          "prompt": "Suggested MCP prompt",
+          "prompt": "Suggested prompt",
           "copy": "Copy prompt",
           "previous": "Previous",
           "next": "Next"
@@ -1155,32 +1220,72 @@
         },
         "slides": [
           {
+            "step": "Meet the MCP",
             "badge": "Spotler MCP",
-            "title": "Tell Mia what you want to achieve.",
-            "text": "Describe your goal and Mia will generate the perfect prompt to run in Spotler MCP.",
-            "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
-            "prompt": "Create a multi-step campaign in Spotler MCP that nurtures ecommerce leads with relevant messaging, and recommends the next best action (e.g., product, content or offer) based on lead behavior and engagement."
+            "art": "connect",
+            "title": "Your AI assistant, working inside Spotler.",
+            "text": "The Spotler MCP connects AI assistants such as Mia, Claude and ChatGPT to your Spotler account, so you can work in plain words.",
+            "points": [
+              "Ask questions about your live account data",
+              "Prepare emails, journeys and surveys as drafts",
+              "Check results without clicking through every screen"
+            ],
+            "cta": {
+              "label": "How does it work?",
+              "send": "What is the Spotler MCP and what can it do for me?"
+            }
           },
           {
-            "badge": "Spotler MCP · Mail+",
-            "title": "Write your next email from a brief.",
-            "text": "Mia turns your idea into a prompt that drafts the email in Mail+, in the style of the newsletters you already send.",
-            "goal": "Create a welcome email for new subscribers, in the style of our recent newsletters.",
-            "prompt": "In Spotler Mail+, create a draft welcome email for new subscribers. Use our three most recent newsletters as the style reference, keep it under 150 words, and leave it as an editable draft."
-          },
-          {
-            "badge": "Spotler MCP · FeedbackPro",
-            "title": "Ask why your scores moved.",
-            "text": "Go from a question to an answer: Mia writes the prompt that digs into your survey results for you.",
-            "goal": "I want to know why our NPS dropped this month.",
-            "prompt": "Using Spotler FeedbackPro, compare this month's NPS with last month's, break it down by segment and region, and summarise the main themes in the open answers that explain the drop."
-          },
-          {
+            "step": "Your goal",
             "badge": "Spotler MCP · Activate",
+            "art": "goal",
+            "title": "Tell Mia what you want to achieve.",
+            "text": "Describe your goal and Mia writes the prompt to run with the Spotler MCP.",
+            "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
+            "prompt": "In Spotler Activate, create a draft journey that nurtures new ecommerce leads with relevant messages, and recommends the next best product, content or offer based on how each lead browses and engages. Show me your plan first and wait for my go-ahead."
+          },
+          {
+            "step": "Emails",
+            "badge": "Spotler MCP · Mail+",
+            "art": "email",
+            "title": "Write your next email from a brief.",
+            "text": "Mia turns your idea into a draft in Mail+, in the style of the emails you already send.",
+            "goal": "Create an invitation for our Q4 webinar, in the style of our last newsletter.",
+            "prompt": "In Spotler Mail+, create a draft invitation for our Q4 webinar in the style of my last newsletter. Keep it under 150 words, suggest two subject lines, and leave it as a draft for me to review."
+          },
+          {
+            "step": "Journeys",
+            "badge": "Spotler MCP · Activate",
+            "art": "journey",
             "title": "Find where your journeys lose people.",
-            "text": "Mia builds the prompt that checks your journeys and shows the step where contacts get stuck.",
+            "text": "Ask why a journey stalls, and see the step where contacts get stuck.",
             "goal": "Why did my abandoned cart journey stop getting new people?",
             "prompt": "In Spotler Activate, show the entries for my abandoned cart journey over the last 30 days, find the step where contacts get stuck, and tell me when new entries dropped."
+          },
+          {
+            "step": "Feedback",
+            "badge": "Spotler MCP · FeedbackPro",
+            "art": "score",
+            "title": "Ask why your scores moved.",
+            "text": "Go from a question to an answer, straight from your survey results.",
+            "goal": "I want to know why our NPS dropped this month.",
+            "prompt": "Using Spotler FeedbackPro, explain why our NPS dropped this month compared with last month, and summarise the main themes in the open answers."
+          },
+          {
+            "step": "You're in charge",
+            "badge": "Spotler MCP",
+            "art": "shield",
+            "title": "You stay in charge.",
+            "text": "The MCP prepares and analyses. You decide what happens next.",
+            "points": [
+              "Drafts only: nothing goes to your audience without you",
+              "The same permissions as your own login",
+              "Ask Mia to show its plan and wait for your go-ahead"
+            ],
+            "cta": {
+              "label": "Book a walkthrough",
+              "send": "I'd like to book a Spotler MCP walkthrough"
+            }
           }
         ],
         "actions": [
@@ -1201,19 +1306,18 @@
           }
         ],
         "css": [
+          "#mia-showcase .mia-sc-flow{isolation:isolate}",
           "#mia-showcase{padding:8px 28px 14px;color:#002A4D;font-family:var(--mia-font,inherit)}#mia-showcase .mia-sc-wrap{gap:14px}",
-          "#mia-showcase .mia-sc-card{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center;margin-top:auto;padding:26px 30px 18px;border:1px solid rgba(255,255,255,.7);border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(234,242,255,.55));box-shadow:0 10px 36px rgba(0,42,77,.10),inset 0 1px 0 rgba(255,255,255,.8)}",
+          "#mia-showcase .mia-sc-card{flex:1 0 auto;position:relative;display:flex;flex-direction:column;justify-content:center;margin-top:auto;padding:26px 30px 18px;border:1px solid rgba(255,255,255,.75);border-radius:24px;background:radial-gradient(520px 260px at 88% 8%,rgba(47,172,230,.16),transparent 70%),radial-gradient(420px 240px at 8% 100%,rgba(0,98,255,.08),transparent 70%),linear-gradient(135deg,rgba(255,255,255,.76),rgba(234,242,255,.58));box-shadow:0 10px 36px rgba(0,42,77,.10),inset 0 1px 0 rgba(255,255,255,.8)}",
           "#mia-showcase .mia-sc-card{padding-left:64px;padding-right:64px}",
           "#mia-showcase .mia-sc-head{display:flex;align-items:center;gap:28px}",
           "#mia-showcase .mia-sc-words{flex:1 1 auto;min-width:0}",
-          "#mia-showcase .mia-sc-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(0,98,255,.10);color:#0047CC;font-size:13px;font-weight:700}",
-          "#mia-showcase .mia-sc-badge .mia-sc-ico{width:14px;height:14px}",
+          "#mia-showcase .mia-sc-badge{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(0,98,255,.10);color:#0047CC;font-size:13px;font-weight:700;letter-spacing:.01em}",
           "#mia-showcase .mia-sc-title{margin:12px 0 8px;font:inherit;font-size:34px;line-height:40px;font-weight:700;letter-spacing:-.01em;color:#002A4D}",
           "#mia-showcase .mia-sc-text{margin:0;max-width:560px;font-size:17px;line-height:26px;color:#33506B}",
-          "#mia-showcase .mia-sc-img{flex:0 0 auto;width:230px;max-height:170px;object-fit:contain}",
           "#mia-showcase .mia-sc-flow{display:grid;grid-template-columns:minmax(0,1fr) 36px minmax(0,1.25fr);align-items:stretch;gap:12px;margin-top:22px}",
           "#mia-showcase .mia-sc-left{display:flex;flex-direction:column;gap:12px}",
-          "#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:16px 18px;border:1px solid rgba(0,42,77,.10);border-radius:18px;background:rgba(255,255,255,.78)}",
+          "#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{position:relative;padding:16px 18px;border:1px solid rgba(0,42,77,.10);border-radius:18px;background:rgba(255,255,255,.82)}",
           "#mia-showcase .mia-sc-goal{flex:1 1 auto}",
           "#mia-showcase .mia-sc-label{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:700;color:#0047CC}",
           "#mia-showcase .mia-sc-label .mia-sc-ico{width:16px;height:16px}",
@@ -1223,24 +1327,50 @@
           "#mia-showcase .mia-sc-copy{margin-left:auto;display:inline-flex;width:32px;height:32px;padding:7px;border:0;border-radius:10px;background:rgba(0,98,255,.08);color:#0047CC}",
           "#mia-showcase .mia-sc-copy:hover{background:rgba(0,98,255,.16)}",
           "#mia-showcase .mia-sc-code{margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:22px;color:#1B3A57}",
+          "#mia-showcase .mia-sc-code span{font-family:inherit}",
           "#mia-showcase .mia-sc-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border:0;border-radius:999px;background:#0062FF;color:#fff;font-size:16px;font-weight:700;box-shadow:0 6px 18px rgba(0,98,255,.28);transition:transform .15s ease,background .15s ease}",
           "#mia-showcase .mia-sc-cta:hover{background:#0050D6;transform:translateY(-1px)}",
           "#mia-showcase .mia-sc-cta .mia-sc-ico{width:18px;height:18px}",
           "#mia-showcase .mia-sc-nav{position:absolute;top:50%;width:40px;height:40px;margin-top:-20px;padding:10px;border:1px solid rgba(0,42,77,.10);border-radius:50%;background:rgba(255,255,255,.85);color:#002A4D;box-shadow:0 4px 14px rgba(0,42,77,.10)}",
           "#mia-showcase .mia-sc-prev{left:-50px}#mia-showcase .mia-sc-next{right:-50px}",
           "#mia-showcase .mia-sc-nav .mia-sc-ico{width:20px;height:20px}",
-          "#mia-showcase .mia-sc-dots{display:flex;justify-content:center;gap:8px;margin-top:18px}",
-          "#mia-showcase .mia-sc-dot{width:8px;height:8px;padding:0;border:0;border-radius:999px;background:rgba(0,42,77,.20);transition:width .2s ease,background .2s ease}",
-          "#mia-showcase .mia-sc-dot.on{width:24px;background:#0062FF}",
+          "#mia-showcase .mia-sc-dots{display:flex;justify-content:center;gap:6px;margin-top:18px}",
+          "#mia-showcase .mia-sc-dot{position:relative;display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border:0;border-radius:999px;background:transparent;color:rgba(0,42,77,.5);font-size:13px;font-weight:600;transition:background .2s ease,color .2s ease}#mia-showcase .mia-sc-dot::before{content:\"\";width:8px;height:8px;border-radius:50%;background:rgba(0,42,77,.2);transition:background .2s ease,box-shadow .2s ease}#mia-showcase .mia-sc-dot:hover{color:#002A4D;background:rgba(0,98,255,.06)}#mia-showcase .mia-sc-dot.done::before{background:rgba(0,98,255,.45)}",
+          "#mia-showcase .mia-sc-dot.on{color:#0047CC;background:rgba(0,98,255,.10)}#mia-showcase .mia-sc-dot.on::before{background:#0062FF;box-shadow:0 0 0 4px rgba(0,98,255,.18)}",
           "#mia-showcase .mia-sc-slide.on{animation:mia-sc-in .35s ease}",
           "@keyframes mia-sc-in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}",
           "#mia-showcase .mia-sc-actions{flex:0 0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}",
           "#mia-showcase .mia-sc-action{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(0,98,255,.18);border-radius:999px;background:rgba(234,242,255,.75);color:#002A4D;font-size:15px;font-weight:600}",
           "#mia-showcase .mia-sc-action:hover{background:rgba(214,229,255,.9)}",
           "#mia-showcase .mia-sc-action .mia-sc-ico{width:18px;height:18px;color:#0062FF}",
-          "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-img{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
+          "#mia-showcase .mia-sc-art{flex:0 0 auto;width:250px;height:166px;filter:drop-shadow(0 12px 26px rgba(0,98,255,.20))}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-art{animation:mia-sc-float 6s ease-in-out infinite}",
+          "@keyframes mia-sc-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}",
+          "#mia-showcase .mia-sc-flow-line{stroke-dasharray:5 6;animation:mia-sc-dash 1.4s linear infinite}",
+          "@keyframes mia-sc-dash{to{stroke-dashoffset:-22}}",
+          "#mia-showcase .mia-sc-pulse{transform-box:fill-box;transform-origin:center;animation:mia-sc-ring 2.4s ease-out infinite}",
+          "@keyframes mia-sc-ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}",
+          "#mia-showcase .mia-sc-twinkle{transform-box:fill-box;transform-origin:center;animation:mia-sc-twinkle 2.8s ease-in-out infinite}",
+          "@keyframes mia-sc-twinkle{0%,100%{transform:scale(.8);opacity:.6}50%{transform:scale(1.1);opacity:1}}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-draw{stroke-dasharray:240;stroke-dashoffset:240;animation:mia-sc-draw 1.2s .2s ease forwards}",
+          "@keyframes mia-sc-draw{to{stroke-dashoffset:0}}",
+          "#mia-showcase .mia-sc-prompt{background:#fff;border-color:rgba(0,98,255,.22);box-shadow:0 0 0 4px rgba(0,98,255,.05),0 14px 34px rgba(0,98,255,.16)}",
+          "#mia-showcase .mia-sc-prompt::before{content:\"\";position:absolute;inset:-14px;z-index:-1;border-radius:30px;background:radial-gradient(closest-side,rgba(47,172,230,.30),rgba(0,98,255,.12) 60%,transparent);filter:blur(10px);animation:mia-sc-glow 4s ease-in-out infinite}",
+          "@keyframes mia-sc-glow{0%,100%{opacity:.55}50%{opacity:1}}",
+          "#mia-showcase .mia-sc-slide.typing .mia-sc-typed::after{content:\"\";display:inline-block;width:2px;height:1em;margin-left:1px;vertical-align:-.15em;background:#0062FF;animation:mia-sc-blink .8s steps(1) infinite}",
+          "@keyframes mia-sc-blink{50%{opacity:0}}",
+          "#mia-showcase .mia-sc-points{margin-top:14px;display:grid;gap:8px}",
+          "#mia-showcase .mia-sc-points li{display:flex;align-items:center;gap:10px;font-size:16px;line-height:22px;color:#002A4D}",
+          "#mia-showcase .mia-sc-points .mia-sc-ico{width:22px;height:22px;padding:4px;border-radius:50%;background:rgba(0,98,255,.12);color:#0062FF}",
+          "#mia-showcase .mia-sc-words>.mia-sc-cta{margin-top:18px}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-words>*{animation:mia-sc-up .45s ease both}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(2){animation-delay:.05s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(3){animation-delay:.1s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(4){animation-delay:.15s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(5){animation-delay:.2s}",
+          "@keyframes mia-sc-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}",
+          "@media (prefers-reduced-motion:reduce){#mia-showcase *,#mia-showcase *::before,#mia-showcase *::after{animation:none !important}#mia-showcase .mia-sc-draw{stroke-dashoffset:0 !important}}",
+          "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
           "@media (max-height:860px){#mia-showcase{padding-top:2px;padding-bottom:8px}#mia-showcase .mia-sc-wrap{gap:10px}#mia-showcase .mia-sc-card{padding-top:16px;padding-bottom:12px}#mia-showcase .mia-sc-title{font-size:28px;line-height:34px;margin:8px 0 6px}#mia-showcase .mia-sc-text{font-size:16px;line-height:23px}#mia-showcase .mia-sc-flow{margin-top:14px}#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:12px 16px}#mia-showcase .mia-sc-code{font-size:13px;line-height:20px}#mia-showcase .mia-sc-dots{margin-top:12px}#mia-showcase .mia-sc-cta{padding:11px 20px}#mia-showcase .mia-sc-action{padding:8px 16px}}",
-          "@media (max-height:720px){#mia-showcase .mia-sc-img{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}"
+          "@media (max-height:720px){#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
+          "@media (max-width:1100px){#mia-showcase .mia-sc-dot span{display:none}#mia-showcase .mia-sc-dot{padding:6px}}",
+          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-points li{font-size:15px}}"
         ]
       }
     },
@@ -1889,7 +2019,7 @@
         "autoplayMs": 0,
         "labels": {
           "goal": "Your goal",
-          "prompt": "Suggested MCP prompt",
+          "prompt": "Suggested prompt",
           "copy": "Copy prompt",
           "previous": "Previous",
           "next": "Next"
@@ -1900,32 +2030,72 @@
         },
         "slides": [
           {
+            "step": "Meet the MCP",
             "badge": "Spotler MCP",
-            "title": "Tell Mia what you want to achieve.",
-            "text": "Describe your goal and Mia will generate the perfect prompt to run in Spotler MCP.",
-            "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
-            "prompt": "Create a multi-step campaign in Spotler MCP that nurtures ecommerce leads with relevant messaging, and recommends the next best action (e.g., product, content or offer) based on lead behavior and engagement."
+            "art": "connect",
+            "title": "Your AI assistant, working inside Spotler.",
+            "text": "The Spotler MCP connects AI assistants such as Mia, Claude and ChatGPT to your Spotler account, so you can work in plain words.",
+            "points": [
+              "Ask questions about your live account data",
+              "Prepare emails, journeys and surveys as drafts",
+              "Check results without clicking through every screen"
+            ],
+            "cta": {
+              "label": "How does it work?",
+              "send": "What is the Spotler MCP and what can it do for me?"
+            }
           },
           {
-            "badge": "Spotler MCP · Mail+",
-            "title": "Write your next email from a brief.",
-            "text": "Mia turns your idea into a prompt that drafts the email in Mail+, in the style of the newsletters you already send.",
-            "goal": "Create a welcome email for new subscribers, in the style of our recent newsletters.",
-            "prompt": "In Spotler Mail+, create a draft welcome email for new subscribers. Use our three most recent newsletters as the style reference, keep it under 150 words, and leave it as an editable draft."
-          },
-          {
-            "badge": "Spotler MCP · FeedbackPro",
-            "title": "Ask why your scores moved.",
-            "text": "Go from a question to an answer: Mia writes the prompt that digs into your survey results for you.",
-            "goal": "I want to know why our NPS dropped this month.",
-            "prompt": "Using Spotler FeedbackPro, compare this month's NPS with last month's, break it down by segment and region, and summarise the main themes in the open answers that explain the drop."
-          },
-          {
+            "step": "Your goal",
             "badge": "Spotler MCP · Activate",
+            "art": "goal",
+            "title": "Tell Mia what you want to achieve.",
+            "text": "Describe your goal and Mia writes the prompt to run with the Spotler MCP.",
+            "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
+            "prompt": "In Spotler Activate, create a draft journey that nurtures new ecommerce leads with relevant messages, and recommends the next best product, content or offer based on how each lead browses and engages. Show me your plan first and wait for my go-ahead."
+          },
+          {
+            "step": "Emails",
+            "badge": "Spotler MCP · Mail+",
+            "art": "email",
+            "title": "Write your next email from a brief.",
+            "text": "Mia turns your idea into a draft in Mail+, in the style of the emails you already send.",
+            "goal": "Create an invitation for our Q4 webinar, in the style of our last newsletter.",
+            "prompt": "In Spotler Mail+, create a draft invitation for our Q4 webinar in the style of my last newsletter. Keep it under 150 words, suggest two subject lines, and leave it as a draft for me to review."
+          },
+          {
+            "step": "Journeys",
+            "badge": "Spotler MCP · Activate",
+            "art": "journey",
             "title": "Find where your journeys lose people.",
-            "text": "Mia builds the prompt that checks your journeys and shows the step where contacts get stuck.",
+            "text": "Ask why a journey stalls, and see the step where contacts get stuck.",
             "goal": "Why did my abandoned cart journey stop getting new people?",
             "prompt": "In Spotler Activate, show the entries for my abandoned cart journey over the last 30 days, find the step where contacts get stuck, and tell me when new entries dropped."
+          },
+          {
+            "step": "Feedback",
+            "badge": "Spotler MCP · FeedbackPro",
+            "art": "score",
+            "title": "Ask why your scores moved.",
+            "text": "Go from a question to an answer, straight from your survey results.",
+            "goal": "I want to know why our NPS dropped this month.",
+            "prompt": "Using Spotler FeedbackPro, explain why our NPS dropped this month compared with last month, and summarise the main themes in the open answers."
+          },
+          {
+            "step": "You're in charge",
+            "badge": "Spotler MCP",
+            "art": "shield",
+            "title": "You stay in charge.",
+            "text": "The MCP prepares and analyses. You decide what happens next.",
+            "points": [
+              "Drafts only: nothing goes to your audience without you",
+              "The same permissions as your own login",
+              "Ask Mia to show its plan and wait for your go-ahead"
+            ],
+            "cta": {
+              "label": "Book a walkthrough",
+              "send": "I'd like to book a Spotler MCP walkthrough"
+            }
           }
         ],
         "actions": [
@@ -1946,19 +2116,18 @@
           }
         ],
         "css": [
+          "#mia-showcase .mia-sc-flow{isolation:isolate}",
           "#mia-showcase{padding:8px 28px 14px;color:#002A4D;font-family:var(--mia-font,inherit)}#mia-showcase .mia-sc-wrap{gap:14px}",
-          "#mia-showcase .mia-sc-card{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center;margin-top:auto;padding:26px 30px 18px;border:1px solid rgba(255,255,255,.7);border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(234,242,255,.55));box-shadow:0 10px 36px rgba(0,42,77,.10),inset 0 1px 0 rgba(255,255,255,.8)}",
+          "#mia-showcase .mia-sc-card{flex:1 0 auto;position:relative;display:flex;flex-direction:column;justify-content:center;margin-top:auto;padding:26px 30px 18px;border:1px solid rgba(255,255,255,.75);border-radius:24px;background:radial-gradient(520px 260px at 88% 8%,rgba(47,172,230,.16),transparent 70%),radial-gradient(420px 240px at 8% 100%,rgba(0,98,255,.08),transparent 70%),linear-gradient(135deg,rgba(255,255,255,.76),rgba(234,242,255,.58));box-shadow:0 10px 36px rgba(0,42,77,.10),inset 0 1px 0 rgba(255,255,255,.8)}",
           "#mia-showcase .mia-sc-card{padding-left:64px;padding-right:64px}",
           "#mia-showcase .mia-sc-head{display:flex;align-items:center;gap:28px}",
           "#mia-showcase .mia-sc-words{flex:1 1 auto;min-width:0}",
-          "#mia-showcase .mia-sc-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(0,98,255,.10);color:#0047CC;font-size:13px;font-weight:700}",
-          "#mia-showcase .mia-sc-badge .mia-sc-ico{width:14px;height:14px}",
+          "#mia-showcase .mia-sc-badge{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(0,98,255,.10);color:#0047CC;font-size:13px;font-weight:700;letter-spacing:.01em}",
           "#mia-showcase .mia-sc-title{margin:12px 0 8px;font:inherit;font-size:34px;line-height:40px;font-weight:700;letter-spacing:-.01em;color:#002A4D}",
           "#mia-showcase .mia-sc-text{margin:0;max-width:560px;font-size:17px;line-height:26px;color:#33506B}",
-          "#mia-showcase .mia-sc-img{flex:0 0 auto;width:230px;max-height:170px;object-fit:contain}",
           "#mia-showcase .mia-sc-flow{display:grid;grid-template-columns:minmax(0,1fr) 36px minmax(0,1.25fr);align-items:stretch;gap:12px;margin-top:22px}",
           "#mia-showcase .mia-sc-left{display:flex;flex-direction:column;gap:12px}",
-          "#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:16px 18px;border:1px solid rgba(0,42,77,.10);border-radius:18px;background:rgba(255,255,255,.78)}",
+          "#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{position:relative;padding:16px 18px;border:1px solid rgba(0,42,77,.10);border-radius:18px;background:rgba(255,255,255,.82)}",
           "#mia-showcase .mia-sc-goal{flex:1 1 auto}",
           "#mia-showcase .mia-sc-label{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:700;color:#0047CC}",
           "#mia-showcase .mia-sc-label .mia-sc-ico{width:16px;height:16px}",
@@ -1968,24 +2137,50 @@
           "#mia-showcase .mia-sc-copy{margin-left:auto;display:inline-flex;width:32px;height:32px;padding:7px;border:0;border-radius:10px;background:rgba(0,98,255,.08);color:#0047CC}",
           "#mia-showcase .mia-sc-copy:hover{background:rgba(0,98,255,.16)}",
           "#mia-showcase .mia-sc-code{margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:22px;color:#1B3A57}",
+          "#mia-showcase .mia-sc-code span{font-family:inherit}",
           "#mia-showcase .mia-sc-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border:0;border-radius:999px;background:#0062FF;color:#fff;font-size:16px;font-weight:700;box-shadow:0 6px 18px rgba(0,98,255,.28);transition:transform .15s ease,background .15s ease}",
           "#mia-showcase .mia-sc-cta:hover{background:#0050D6;transform:translateY(-1px)}",
           "#mia-showcase .mia-sc-cta .mia-sc-ico{width:18px;height:18px}",
           "#mia-showcase .mia-sc-nav{position:absolute;top:50%;width:40px;height:40px;margin-top:-20px;padding:10px;border:1px solid rgba(0,42,77,.10);border-radius:50%;background:rgba(255,255,255,.85);color:#002A4D;box-shadow:0 4px 14px rgba(0,42,77,.10)}",
           "#mia-showcase .mia-sc-prev{left:-50px}#mia-showcase .mia-sc-next{right:-50px}",
           "#mia-showcase .mia-sc-nav .mia-sc-ico{width:20px;height:20px}",
-          "#mia-showcase .mia-sc-dots{display:flex;justify-content:center;gap:8px;margin-top:18px}",
-          "#mia-showcase .mia-sc-dot{width:8px;height:8px;padding:0;border:0;border-radius:999px;background:rgba(0,42,77,.20);transition:width .2s ease,background .2s ease}",
-          "#mia-showcase .mia-sc-dot.on{width:24px;background:#0062FF}",
+          "#mia-showcase .mia-sc-dots{display:flex;justify-content:center;gap:6px;margin-top:18px}",
+          "#mia-showcase .mia-sc-dot{position:relative;display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border:0;border-radius:999px;background:transparent;color:rgba(0,42,77,.5);font-size:13px;font-weight:600;transition:background .2s ease,color .2s ease}#mia-showcase .mia-sc-dot::before{content:\"\";width:8px;height:8px;border-radius:50%;background:rgba(0,42,77,.2);transition:background .2s ease,box-shadow .2s ease}#mia-showcase .mia-sc-dot:hover{color:#002A4D;background:rgba(0,98,255,.06)}#mia-showcase .mia-sc-dot.done::before{background:rgba(0,98,255,.45)}",
+          "#mia-showcase .mia-sc-dot.on{color:#0047CC;background:rgba(0,98,255,.10)}#mia-showcase .mia-sc-dot.on::before{background:#0062FF;box-shadow:0 0 0 4px rgba(0,98,255,.18)}",
           "#mia-showcase .mia-sc-slide.on{animation:mia-sc-in .35s ease}",
           "@keyframes mia-sc-in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}",
           "#mia-showcase .mia-sc-actions{flex:0 0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}",
           "#mia-showcase .mia-sc-action{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(0,98,255,.18);border-radius:999px;background:rgba(234,242,255,.75);color:#002A4D;font-size:15px;font-weight:600}",
           "#mia-showcase .mia-sc-action:hover{background:rgba(214,229,255,.9)}",
           "#mia-showcase .mia-sc-action .mia-sc-ico{width:18px;height:18px;color:#0062FF}",
-          "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-img{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
+          "#mia-showcase .mia-sc-art{flex:0 0 auto;width:250px;height:166px;filter:drop-shadow(0 12px 26px rgba(0,98,255,.20))}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-art{animation:mia-sc-float 6s ease-in-out infinite}",
+          "@keyframes mia-sc-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}",
+          "#mia-showcase .mia-sc-flow-line{stroke-dasharray:5 6;animation:mia-sc-dash 1.4s linear infinite}",
+          "@keyframes mia-sc-dash{to{stroke-dashoffset:-22}}",
+          "#mia-showcase .mia-sc-pulse{transform-box:fill-box;transform-origin:center;animation:mia-sc-ring 2.4s ease-out infinite}",
+          "@keyframes mia-sc-ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}",
+          "#mia-showcase .mia-sc-twinkle{transform-box:fill-box;transform-origin:center;animation:mia-sc-twinkle 2.8s ease-in-out infinite}",
+          "@keyframes mia-sc-twinkle{0%,100%{transform:scale(.8);opacity:.6}50%{transform:scale(1.1);opacity:1}}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-draw{stroke-dasharray:240;stroke-dashoffset:240;animation:mia-sc-draw 1.2s .2s ease forwards}",
+          "@keyframes mia-sc-draw{to{stroke-dashoffset:0}}",
+          "#mia-showcase .mia-sc-prompt{background:#fff;border-color:rgba(0,98,255,.22);box-shadow:0 0 0 4px rgba(0,98,255,.05),0 14px 34px rgba(0,98,255,.16)}",
+          "#mia-showcase .mia-sc-prompt::before{content:\"\";position:absolute;inset:-14px;z-index:-1;border-radius:30px;background:radial-gradient(closest-side,rgba(47,172,230,.30),rgba(0,98,255,.12) 60%,transparent);filter:blur(10px);animation:mia-sc-glow 4s ease-in-out infinite}",
+          "@keyframes mia-sc-glow{0%,100%{opacity:.55}50%{opacity:1}}",
+          "#mia-showcase .mia-sc-slide.typing .mia-sc-typed::after{content:\"\";display:inline-block;width:2px;height:1em;margin-left:1px;vertical-align:-.15em;background:#0062FF;animation:mia-sc-blink .8s steps(1) infinite}",
+          "@keyframes mia-sc-blink{50%{opacity:0}}",
+          "#mia-showcase .mia-sc-points{margin-top:14px;display:grid;gap:8px}",
+          "#mia-showcase .mia-sc-points li{display:flex;align-items:center;gap:10px;font-size:16px;line-height:22px;color:#002A4D}",
+          "#mia-showcase .mia-sc-points .mia-sc-ico{width:22px;height:22px;padding:4px;border-radius:50%;background:rgba(0,98,255,.12);color:#0062FF}",
+          "#mia-showcase .mia-sc-words>.mia-sc-cta{margin-top:18px}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-words>*{animation:mia-sc-up .45s ease both}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(2){animation-delay:.05s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(3){animation-delay:.1s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(4){animation-delay:.15s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(5){animation-delay:.2s}",
+          "@keyframes mia-sc-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}",
+          "@media (prefers-reduced-motion:reduce){#mia-showcase *,#mia-showcase *::before,#mia-showcase *::after{animation:none !important}#mia-showcase .mia-sc-draw{stroke-dashoffset:0 !important}}",
+          "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
           "@media (max-height:860px){#mia-showcase{padding-top:2px;padding-bottom:8px}#mia-showcase .mia-sc-wrap{gap:10px}#mia-showcase .mia-sc-card{padding-top:16px;padding-bottom:12px}#mia-showcase .mia-sc-title{font-size:28px;line-height:34px;margin:8px 0 6px}#mia-showcase .mia-sc-text{font-size:16px;line-height:23px}#mia-showcase .mia-sc-flow{margin-top:14px}#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:12px 16px}#mia-showcase .mia-sc-code{font-size:13px;line-height:20px}#mia-showcase .mia-sc-dots{margin-top:12px}#mia-showcase .mia-sc-cta{padding:11px 20px}#mia-showcase .mia-sc-action{padding:8px 16px}}",
-          "@media (max-height:720px){#mia-showcase .mia-sc-img{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}"
+          "@media (max-height:720px){#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
+          "@media (max-width:1100px){#mia-showcase .mia-sc-dot span{display:none}#mia-showcase .mia-sc-dot{padding:6px}}",
+          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-points li{font-size:15px}}"
         ]
       }
     },
@@ -2944,7 +3139,7 @@
         "autoplayMs": 0,
         "labels": {
           "goal": "Your goal",
-          "prompt": "Suggested MCP prompt",
+          "prompt": "Suggested prompt",
           "copy": "Copy prompt",
           "previous": "Previous",
           "next": "Next"
@@ -2955,32 +3150,72 @@
         },
         "slides": [
           {
+            "step": "Meet the MCP",
             "badge": "Spotler MCP",
-            "title": "Tell Mia what you want to achieve.",
-            "text": "Describe your goal and Mia will generate the perfect prompt to run in Spotler MCP.",
-            "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
-            "prompt": "Create a multi-step campaign in Spotler MCP that nurtures ecommerce leads with relevant messaging, and recommends the next best action (e.g., product, content or offer) based on lead behavior and engagement."
+            "art": "connect",
+            "title": "Your AI assistant, working inside Spotler.",
+            "text": "The Spotler MCP connects AI assistants such as Mia, Claude and ChatGPT to your Spotler account, so you can work in plain words.",
+            "points": [
+              "Ask questions about your live account data",
+              "Prepare emails, journeys and surveys as drafts",
+              "Check results without clicking through every screen"
+            ],
+            "cta": {
+              "label": "How does it work?",
+              "send": "What is the Spotler MCP and what can it do for me?"
+            }
           },
           {
-            "badge": "Spotler MCP · Mail+",
-            "title": "Write your next email from a brief.",
-            "text": "Mia turns your idea into a prompt that drafts the email in Mail+, in the style of the newsletters you already send.",
-            "goal": "Create a welcome email for new subscribers, in the style of our recent newsletters.",
-            "prompt": "In Spotler Mail+, create a draft welcome email for new subscribers. Use our three most recent newsletters as the style reference, keep it under 150 words, and leave it as an editable draft."
-          },
-          {
-            "badge": "Spotler MCP · FeedbackPro",
-            "title": "Ask why your scores moved.",
-            "text": "Go from a question to an answer: Mia writes the prompt that digs into your survey results for you.",
-            "goal": "I want to know why our NPS dropped this month.",
-            "prompt": "Using Spotler FeedbackPro, compare this month's NPS with last month's, break it down by segment and region, and summarise the main themes in the open answers that explain the drop."
-          },
-          {
+            "step": "Your goal",
             "badge": "Spotler MCP · Activate",
+            "art": "goal",
+            "title": "Tell Mia what you want to achieve.",
+            "text": "Describe your goal and Mia writes the prompt to run with the Spotler MCP.",
+            "goal": "I want to build a campaign that nurtures ecommerce leads and recommends the next best action.",
+            "prompt": "In Spotler Activate, create a draft journey that nurtures new ecommerce leads with relevant messages, and recommends the next best product, content or offer based on how each lead browses and engages. Show me your plan first and wait for my go-ahead."
+          },
+          {
+            "step": "Emails",
+            "badge": "Spotler MCP · Mail+",
+            "art": "email",
+            "title": "Write your next email from a brief.",
+            "text": "Mia turns your idea into a draft in Mail+, in the style of the emails you already send.",
+            "goal": "Create an invitation for our Q4 webinar, in the style of our last newsletter.",
+            "prompt": "In Spotler Mail+, create a draft invitation for our Q4 webinar in the style of my last newsletter. Keep it under 150 words, suggest two subject lines, and leave it as a draft for me to review."
+          },
+          {
+            "step": "Journeys",
+            "badge": "Spotler MCP · Activate",
+            "art": "journey",
             "title": "Find where your journeys lose people.",
-            "text": "Mia builds the prompt that checks your journeys and shows the step where contacts get stuck.",
+            "text": "Ask why a journey stalls, and see the step where contacts get stuck.",
             "goal": "Why did my abandoned cart journey stop getting new people?",
             "prompt": "In Spotler Activate, show the entries for my abandoned cart journey over the last 30 days, find the step where contacts get stuck, and tell me when new entries dropped."
+          },
+          {
+            "step": "Feedback",
+            "badge": "Spotler MCP · FeedbackPro",
+            "art": "score",
+            "title": "Ask why your scores moved.",
+            "text": "Go from a question to an answer, straight from your survey results.",
+            "goal": "I want to know why our NPS dropped this month.",
+            "prompt": "Using Spotler FeedbackPro, explain why our NPS dropped this month compared with last month, and summarise the main themes in the open answers."
+          },
+          {
+            "step": "You're in charge",
+            "badge": "Spotler MCP",
+            "art": "shield",
+            "title": "You stay in charge.",
+            "text": "The MCP prepares and analyses. You decide what happens next.",
+            "points": [
+              "Drafts only: nothing goes to your audience without you",
+              "The same permissions as your own login",
+              "Ask Mia to show its plan and wait for your go-ahead"
+            ],
+            "cta": {
+              "label": "Book a walkthrough",
+              "send": "I'd like to book a Spotler MCP walkthrough"
+            }
           }
         ],
         "actions": [
@@ -3001,19 +3236,18 @@
           }
         ],
         "css": [
+          "#mia-showcase .mia-sc-flow{isolation:isolate}",
           "#mia-showcase{padding:8px 28px 14px;color:#002A4D;font-family:var(--mia-font,inherit)}#mia-showcase .mia-sc-wrap{gap:14px}",
-          "#mia-showcase .mia-sc-card{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center;margin-top:auto;padding:26px 30px 18px;border:1px solid rgba(255,255,255,.7);border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(234,242,255,.55));box-shadow:0 10px 36px rgba(0,42,77,.10),inset 0 1px 0 rgba(255,255,255,.8)}",
+          "#mia-showcase .mia-sc-card{flex:1 0 auto;position:relative;display:flex;flex-direction:column;justify-content:center;margin-top:auto;padding:26px 30px 18px;border:1px solid rgba(255,255,255,.75);border-radius:24px;background:radial-gradient(520px 260px at 88% 8%,rgba(47,172,230,.16),transparent 70%),radial-gradient(420px 240px at 8% 100%,rgba(0,98,255,.08),transparent 70%),linear-gradient(135deg,rgba(255,255,255,.76),rgba(234,242,255,.58));box-shadow:0 10px 36px rgba(0,42,77,.10),inset 0 1px 0 rgba(255,255,255,.8)}",
           "#mia-showcase .mia-sc-card{padding-left:64px;padding-right:64px}",
           "#mia-showcase .mia-sc-head{display:flex;align-items:center;gap:28px}",
           "#mia-showcase .mia-sc-words{flex:1 1 auto;min-width:0}",
-          "#mia-showcase .mia-sc-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(0,98,255,.10);color:#0047CC;font-size:13px;font-weight:700}",
-          "#mia-showcase .mia-sc-badge .mia-sc-ico{width:14px;height:14px}",
+          "#mia-showcase .mia-sc-badge{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(0,98,255,.10);color:#0047CC;font-size:13px;font-weight:700;letter-spacing:.01em}",
           "#mia-showcase .mia-sc-title{margin:12px 0 8px;font:inherit;font-size:34px;line-height:40px;font-weight:700;letter-spacing:-.01em;color:#002A4D}",
           "#mia-showcase .mia-sc-text{margin:0;max-width:560px;font-size:17px;line-height:26px;color:#33506B}",
-          "#mia-showcase .mia-sc-img{flex:0 0 auto;width:230px;max-height:170px;object-fit:contain}",
           "#mia-showcase .mia-sc-flow{display:grid;grid-template-columns:minmax(0,1fr) 36px minmax(0,1.25fr);align-items:stretch;gap:12px;margin-top:22px}",
           "#mia-showcase .mia-sc-left{display:flex;flex-direction:column;gap:12px}",
-          "#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:16px 18px;border:1px solid rgba(0,42,77,.10);border-radius:18px;background:rgba(255,255,255,.78)}",
+          "#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{position:relative;padding:16px 18px;border:1px solid rgba(0,42,77,.10);border-radius:18px;background:rgba(255,255,255,.82)}",
           "#mia-showcase .mia-sc-goal{flex:1 1 auto}",
           "#mia-showcase .mia-sc-label{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:700;color:#0047CC}",
           "#mia-showcase .mia-sc-label .mia-sc-ico{width:16px;height:16px}",
@@ -3023,24 +3257,50 @@
           "#mia-showcase .mia-sc-copy{margin-left:auto;display:inline-flex;width:32px;height:32px;padding:7px;border:0;border-radius:10px;background:rgba(0,98,255,.08);color:#0047CC}",
           "#mia-showcase .mia-sc-copy:hover{background:rgba(0,98,255,.16)}",
           "#mia-showcase .mia-sc-code{margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:22px;color:#1B3A57}",
+          "#mia-showcase .mia-sc-code span{font-family:inherit}",
           "#mia-showcase .mia-sc-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border:0;border-radius:999px;background:#0062FF;color:#fff;font-size:16px;font-weight:700;box-shadow:0 6px 18px rgba(0,98,255,.28);transition:transform .15s ease,background .15s ease}",
           "#mia-showcase .mia-sc-cta:hover{background:#0050D6;transform:translateY(-1px)}",
           "#mia-showcase .mia-sc-cta .mia-sc-ico{width:18px;height:18px}",
           "#mia-showcase .mia-sc-nav{position:absolute;top:50%;width:40px;height:40px;margin-top:-20px;padding:10px;border:1px solid rgba(0,42,77,.10);border-radius:50%;background:rgba(255,255,255,.85);color:#002A4D;box-shadow:0 4px 14px rgba(0,42,77,.10)}",
           "#mia-showcase .mia-sc-prev{left:-50px}#mia-showcase .mia-sc-next{right:-50px}",
           "#mia-showcase .mia-sc-nav .mia-sc-ico{width:20px;height:20px}",
-          "#mia-showcase .mia-sc-dots{display:flex;justify-content:center;gap:8px;margin-top:18px}",
-          "#mia-showcase .mia-sc-dot{width:8px;height:8px;padding:0;border:0;border-radius:999px;background:rgba(0,42,77,.20);transition:width .2s ease,background .2s ease}",
-          "#mia-showcase .mia-sc-dot.on{width:24px;background:#0062FF}",
+          "#mia-showcase .mia-sc-dots{display:flex;justify-content:center;gap:6px;margin-top:18px}",
+          "#mia-showcase .mia-sc-dot{position:relative;display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border:0;border-radius:999px;background:transparent;color:rgba(0,42,77,.5);font-size:13px;font-weight:600;transition:background .2s ease,color .2s ease}#mia-showcase .mia-sc-dot::before{content:\"\";width:8px;height:8px;border-radius:50%;background:rgba(0,42,77,.2);transition:background .2s ease,box-shadow .2s ease}#mia-showcase .mia-sc-dot:hover{color:#002A4D;background:rgba(0,98,255,.06)}#mia-showcase .mia-sc-dot.done::before{background:rgba(0,98,255,.45)}",
+          "#mia-showcase .mia-sc-dot.on{color:#0047CC;background:rgba(0,98,255,.10)}#mia-showcase .mia-sc-dot.on::before{background:#0062FF;box-shadow:0 0 0 4px rgba(0,98,255,.18)}",
           "#mia-showcase .mia-sc-slide.on{animation:mia-sc-in .35s ease}",
           "@keyframes mia-sc-in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}",
           "#mia-showcase .mia-sc-actions{flex:0 0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}",
           "#mia-showcase .mia-sc-action{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(0,98,255,.18);border-radius:999px;background:rgba(234,242,255,.75);color:#002A4D;font-size:15px;font-weight:600}",
           "#mia-showcase .mia-sc-action:hover{background:rgba(214,229,255,.9)}",
           "#mia-showcase .mia-sc-action .mia-sc-ico{width:18px;height:18px;color:#0062FF}",
-          "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-img{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
+          "#mia-showcase .mia-sc-art{flex:0 0 auto;width:250px;height:166px;filter:drop-shadow(0 12px 26px rgba(0,98,255,.20))}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-art{animation:mia-sc-float 6s ease-in-out infinite}",
+          "@keyframes mia-sc-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}",
+          "#mia-showcase .mia-sc-flow-line{stroke-dasharray:5 6;animation:mia-sc-dash 1.4s linear infinite}",
+          "@keyframes mia-sc-dash{to{stroke-dashoffset:-22}}",
+          "#mia-showcase .mia-sc-pulse{transform-box:fill-box;transform-origin:center;animation:mia-sc-ring 2.4s ease-out infinite}",
+          "@keyframes mia-sc-ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}",
+          "#mia-showcase .mia-sc-twinkle{transform-box:fill-box;transform-origin:center;animation:mia-sc-twinkle 2.8s ease-in-out infinite}",
+          "@keyframes mia-sc-twinkle{0%,100%{transform:scale(.8);opacity:.6}50%{transform:scale(1.1);opacity:1}}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-draw{stroke-dasharray:240;stroke-dashoffset:240;animation:mia-sc-draw 1.2s .2s ease forwards}",
+          "@keyframes mia-sc-draw{to{stroke-dashoffset:0}}",
+          "#mia-showcase .mia-sc-prompt{background:#fff;border-color:rgba(0,98,255,.22);box-shadow:0 0 0 4px rgba(0,98,255,.05),0 14px 34px rgba(0,98,255,.16)}",
+          "#mia-showcase .mia-sc-prompt::before{content:\"\";position:absolute;inset:-14px;z-index:-1;border-radius:30px;background:radial-gradient(closest-side,rgba(47,172,230,.30),rgba(0,98,255,.12) 60%,transparent);filter:blur(10px);animation:mia-sc-glow 4s ease-in-out infinite}",
+          "@keyframes mia-sc-glow{0%,100%{opacity:.55}50%{opacity:1}}",
+          "#mia-showcase .mia-sc-slide.typing .mia-sc-typed::after{content:\"\";display:inline-block;width:2px;height:1em;margin-left:1px;vertical-align:-.15em;background:#0062FF;animation:mia-sc-blink .8s steps(1) infinite}",
+          "@keyframes mia-sc-blink{50%{opacity:0}}",
+          "#mia-showcase .mia-sc-points{margin-top:14px;display:grid;gap:8px}",
+          "#mia-showcase .mia-sc-points li{display:flex;align-items:center;gap:10px;font-size:16px;line-height:22px;color:#002A4D}",
+          "#mia-showcase .mia-sc-points .mia-sc-ico{width:22px;height:22px;padding:4px;border-radius:50%;background:rgba(0,98,255,.12);color:#0062FF}",
+          "#mia-showcase .mia-sc-words>.mia-sc-cta{margin-top:18px}",
+          "#mia-showcase .mia-sc-slide.on .mia-sc-words>*{animation:mia-sc-up .45s ease both}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(2){animation-delay:.05s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(3){animation-delay:.1s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(4){animation-delay:.15s}#mia-showcase .mia-sc-slide.on .mia-sc-words>:nth-child(5){animation-delay:.2s}",
+          "@keyframes mia-sc-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}",
+          "@media (prefers-reduced-motion:reduce){#mia-showcase *,#mia-showcase *::before,#mia-showcase *::after{animation:none !important}#mia-showcase .mia-sc-draw{stroke-dashoffset:0 !important}}",
+          "@media (max-width:900px){#mia-showcase .mia-sc-card{padding:20px 18px 14px}#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:26px;line-height:32px}#mia-showcase .mia-sc-flow{grid-template-columns:1fr}#mia-showcase .mia-sc-between{transform:rotate(90deg);height:24px}#mia-showcase .mia-sc-nav{display:none}}",
           "@media (max-height:860px){#mia-showcase{padding-top:2px;padding-bottom:8px}#mia-showcase .mia-sc-wrap{gap:10px}#mia-showcase .mia-sc-card{padding-top:16px;padding-bottom:12px}#mia-showcase .mia-sc-title{font-size:28px;line-height:34px;margin:8px 0 6px}#mia-showcase .mia-sc-text{font-size:16px;line-height:23px}#mia-showcase .mia-sc-flow{margin-top:14px}#mia-showcase .mia-sc-goal,#mia-showcase .mia-sc-prompt{padding:12px 16px}#mia-showcase .mia-sc-code{font-size:13px;line-height:20px}#mia-showcase .mia-sc-dots{margin-top:12px}#mia-showcase .mia-sc-cta{padding:11px 20px}#mia-showcase .mia-sc-action{padding:8px 16px}}",
-          "@media (max-height:720px){#mia-showcase .mia-sc-img{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}"
+          "@media (max-height:720px){#mia-showcase .mia-sc-art{display:none}#mia-showcase .mia-sc-title{font-size:24px;line-height:30px}#mia-showcase .mia-sc-text{font-size:15px;line-height:21px}#mia-showcase .mia-sc-goal-text{font-size:15px;line-height:21px}}",
+          "@media (max-width:1100px){#mia-showcase .mia-sc-dot span{display:none}#mia-showcase .mia-sc-dot{padding:6px}}",
+          "@media (max-height:860px){#mia-showcase .mia-sc-art{width:200px;height:133px}#mia-showcase .mia-sc-points{margin-top:10px;gap:6px}#mia-showcase .mia-sc-points li{font-size:15px}}"
         ]
       }
     },

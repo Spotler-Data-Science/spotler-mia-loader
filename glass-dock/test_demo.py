@@ -35,7 +35,7 @@ async def main():
               ver: (logs => 1)() } }""")
         check("D1 Services page: the chat opens by itself, showing the showcase (not the start screen)", r["open"] and r["show"] and not r["start"], r)
         check("D2 bigger chat: 1100px wide, as tall as the screen allows (to 860)", r["w"] == 1100 and r["h"] >= 900 - 160, [r["w"], r["h"]])
-        check("D3 4 slides, 4 dots, the first slide on", r["slides"] == 4 and r["dots"] == 4 and r["on"] == "Tell Mia what you want to achieve.", r)
+        check("D3 6 slides, 6 steps, the first slide on", r["slides"] == 6 and r["dots"] == 6 and r["on"] == "Your AI assistant, working inside Spotler.", r)
         check("D4 the field's placeholder from the page table", r["ph"] == "Tell Mia what you want to achieve...", r["ph"])
         check("D5 three action buttons, the page table's look applied", r["actions"] == ["See MCP examples", "Explore use cases", "Book a walkthrough"] and r["styled"], r)
         check("D6 the demo version in the log", any("glass dock glass-dock-1.11-demo" in l for l in logs), [l for l in logs if "glass dock" in l])
@@ -44,9 +44,9 @@ async def main():
         a = await page.evaluate("document.querySelector('.mia-sc-slide.on .mia-sc-title').textContent")
         await page.click(".mia-sc-prev"); await page.click(".mia-sc-prev"); await page.wait_for_timeout(400)
         z = await page.evaluate("document.querySelector('.mia-sc-slide.on .mia-sc-title').textContent")
-        check("D7 next / previous move the slides, and wrap round", a == "Write your next email from a brief." and z == "Find where your journeys lose people.", [a, z])
+        check("D7 next / previous move the slides, and wrap round", a == "Tell Mia what you want to achieve." and z == "You stay in charge.", [a, z])
         await page.screenshot(path=f"{OUT}/demo-4.png")
-        await page.click(".mia-sc-dot >> nth=0"); await page.wait_for_timeout(300)
+        await page.click(".mia-sc-dot >> nth=1"); await page.wait_for_timeout(300)
         await page.click(".mia-sc-slide.on .mia-sc-cta"); await page.wait_for_timeout(1500)
         sent = await page.evaluate(SENT)
         check("D8 'Generate my prompt' sends 'Generate my prompt: <goal>' and the showcase gives way to the chat",
@@ -104,9 +104,10 @@ async def main():
         for path, want in (("/en-gb/services", True), ("/services/", True), ("/en-au/services", True), ("/en-gb/pricing", False), ("/nl-nl/services", False)):
             ctx, page, logs = await page_at(b, path, cfg=PLAIN)
             r = await page.evaluate("[document.getElementById('mia-dock').classList.contains('open'), !!document.getElementById('mia-showcase'), document.querySelectorAll('.mia-sc-slide').length, !!document.getElementById('mia-showcase-style')]")
-            check(f"D18 page table without showcase, {path}: built-in showcase {'shown' if want else 'not shown'}", r == ([True, True, 4, True] if want else [False, False, 0, False]), r)
+            check(f"D18 page table without showcase, {path}: built-in showcase {'shown' if want else 'not shown'}", r == ([True, True, 6, True] if want else [False, False, 0, False]), r)
             if path == "/en-gb/services":
                 await page.screenshot(path=f"{OUT}/demo-builtin.png")
+                await page.click(".mia-sc-dot >> nth=1"); await page.wait_for_timeout(300)
                 await page.click(".mia-sc-slide.on .mia-sc-cta"); await page.wait_for_timeout(1500)
                 check("D19 built-in: 'Generate my prompt' sends the goal", (await page.evaluate(SENT))[:1] == ["Generate my prompt: I want to build a campaign that nurtures ecommerce leads and recommends the next best action."], await page.evaluate(SENT))
             await ctx.close()
@@ -115,13 +116,30 @@ async def main():
             ctx, page, logs = await page_at(b, "/en-gb/services", vp={"width": w, "height": h}, cfg=PLAIN)
             await page.wait_for_timeout(400)
             res = []
-            for k in range(4):
+            for k in range(6):
                 res.append(await page.evaluate("""() => { const s=document.getElementById('mia-showcase'), c=s.querySelector('.mia-sc-card').getBoundingClientRect();
                     return [s.scrollHeight - s.clientHeight, Math.round(c.height), s.querySelector('.mia-sc-wrap').style.zoom || '1'] }"""))
                 await page.click(".mia-sc-next"); await page.wait_for_timeout(450)
             await page.screenshot(path=f"{OUT}/demo-{w}x{h}.png")
             check(f"D20 {w}x{h}: no scrolling on any slide, same height on every slide (scale {res[0][2]})", all(r[0] <= 1 for r in res) and len({r[1] for r in res}) == 1, res)
             await ctx.close()
+        ctx, page, logs = await page_at(b, "/en-gb/services")
+        await page.click(".mia-sc-slide.on .mia-sc-cta"); await page.wait_for_timeout(1500)
+        check("D21 first slide's button asks what the MCP is", (await page.evaluate(SENT))[:1] == ["What is the Spotler MCP and what can it do for me?"], await page.evaluate(SENT))
+        await ctx.close()
+        ctx, page, logs = await page_at(b, "/en-gb/services")
+        await page.click(".mia-sc-dot >> nth=2"); await page.wait_for_timeout(200)
+        mid = await page.evaluate("document.querySelector('.mia-sc-slide.on .mia-sc-typed').textContent.length")
+        await page.wait_for_timeout(1500)
+        r = await page.evaluate("""() => { const s=document.querySelector('.mia-sc-slide.on'); return [s.querySelector('.mia-sc-typed').textContent === s.querySelector('.mia-sc-ghost').textContent,
+            !!s.querySelector('.mia-sc-art svg'), !document.querySelector('.mia-sc-badge .mia-sc-ico'), document.querySelector('.mia-sc-dot.on').textContent] }""")
+        check("D22 the prompt types itself out, each slide has a picture, no bolt in the badge, step names", 0 < mid and r == [True, True, True, "Emails"], [mid, r])
+        await page.screenshot(path=f"{OUT}/demo-emails.png")
+        # a showcase left over (e.g. mounted twice) never stays over the live chat
+        await page.evaluate("document.getElementById('mia-dock-chat').querySelector('#mia-showcase').parentNode.appendChild(document.getElementById('mia-showcase').cloneNode(true))")
+        await page.evaluate("document.querySelectorAll('.mia-sc-action')[1].click()"); await page.wait_for_timeout(1500)
+        check("D23 after an action button: no showcase left over the chat", await page.evaluate("document.querySelectorAll('#mia-showcase').length") == 0)
+        await ctx.close()
         for f in ("demo-staging", "demo-showcase"):
             n = len(open(os.path.join(ROOT, f"glass-dock/dist/mia-glass-dock-1.11.{f}.gtm.html")).read())
             check(f"D17 {f} tag under GTM's 102,400 characters", n <= 102400, n)
