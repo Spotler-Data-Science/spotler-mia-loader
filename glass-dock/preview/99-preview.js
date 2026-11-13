@@ -15,7 +15,7 @@
   function goLibrary() {
     var t = document.getElementById("prompt-library");
     if (ui.isOpen()) ui.close();
-    if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 70, behavior: "smooth" });
+    if (t) window.scrollTo({ top: viewRect(t).top + window.pageYOffset - 70, behavior: "smooth" });
   }
   var H = { el: el, SS: SS, addStyle: addStyle, trim: trim };
   var ui, shell = null, show = null, busy = false, lastPrompt = "", lastShort = "";
