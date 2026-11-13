@@ -108,6 +108,38 @@ section.s { padding: 80px 0; }
 .ch p { margin: 0; font-size: 12px; line-height: 1.6; color: var(--muted); font-weight: 300; }
 .cta { text-align: center; }
 .cta p { color: #33495E; font-size: 14px; font-weight: 300; margin: 12px 0 24px; }
+/* prompt library */
+.lib { background: var(--sky2); }
+.anat { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin: 0 0 30px; }
+.anat div { padding: 12px 12px 14px; background: #fff; border: 1.5px solid var(--line); border-radius: 12px; }
+.anat b { display: block; font-size: 22px; font-weight: 600; color: var(--cyan); line-height: 1; margin-bottom: 8px; }
+.anat div:nth-child(5) { background: var(--navy); color: #fff; } .anat div:nth-child(5) span { color: #C9D8E6; }
+.anat i { display: block; font-style: normal; font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.anat span { display: block; font-size: 10.5px; line-height: 1.45; color: var(--muted); font-weight: 300; }
+.lib-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 18px; }
+.lib-bar .seg { display: inline-flex; padding: 4px; gap: 4px; background: #fff; border: 1.5px solid var(--line); border-radius: 999px; }
+.lib-bar .seg button { padding: 7px 14px; border: 0; border-radius: 999px; background: transparent; color: var(--ink); font: 500 12.5px/1 "Lexend", sans-serif; cursor: pointer; }
+.lib-bar .seg button.on { background: var(--navy); color: #fff; }
+.lib-mia { margin-left: auto; }
+.lgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+.lc { background: #fff; border: 1.5px solid var(--line); border-radius: 12px; padding: 16px 16px 14px; display: flex; flex-direction: column; }
+.lc .tg { display: flex; gap: 6px; align-items: center; margin-bottom: 10px; }
+.lc .tg span { padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 600; background: var(--sky); color: var(--cyan-d); }
+.lc .tg span + span { background: transparent; color: var(--muted); padding: 3px 0; font-weight: 500; }
+.lc h4 { margin: 0 0 4px; font-size: 15.5px; font-weight: 600; }
+.lc p.d { margin: 0 0 12px; font-size: 11.5px; line-height: 1.55; color: var(--muted); font-weight: 300; }
+.lc .ac { display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1.5px solid var(--cyan); }
+.lc .ac button { padding: 6px 12px; border-radius: 999px; font: 600 11px/1 "Lexend", sans-serif; cursor: pointer; border: 0; }
+.lc .ac .sh { background: var(--navy); color: #fff; } .lc .ac .cp { background: var(--sky); color: var(--cyan-d); } .lc .ac .cp.done { background: #DDF3E6; color: #1A7F45; }
+.lc .pp { display: none; margin: 12px 0 0; padding: 12px; background: var(--sky2); border-radius: 10px; }
+.lc.open .pp { display: block; }
+.lc .pp div { margin-bottom: 8px; } .lc .pp div:last-child { margin-bottom: 0; }
+.lc .pp em { display: block; font-style: normal; font-size: 9.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--cyan-d); margin-bottom: 2px; }
+.lc .pp q { display: block; quotes: none; font: 400 11.5px/1.55 "Open Sans", sans-serif; color: var(--ink); }
+.lc .pp div.rv { padding: 8px; margin-left: -8px; margin-right: -8px; border-radius: 8px; background: #fff; box-shadow: inset 3px 0 0 var(--navy); }
+.lib-more { text-align: center; margin-top: 22px; }
+.btn.ol { background: #fff; color: var(--navy); box-shadow: inset 0 0 0 1.5px var(--navy); }
+.lib-note { margin: 18px 0 0; text-align: center; font-size: 11px; color: var(--muted); font-weight: 300; }
 footer { background: var(--navy2); color: #B8C8D8; font-size: 11.5px; padding: 46px 0 120px; }
 footer .wrap { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 30px; }
 footer b { display: block; color: #fff; font-weight: 500; margin-bottom: 10px; }
@@ -193,17 +225,20 @@ footer a { display: block; margin-bottom: 6px; }
   </div>
 </div></section>
 
-<section class="s dark"><div class="wrap">
-  <p class="eyebrow">Example prompts</p>
-  <h2 class="h2">Ask in plain words.<span>Get answers from live data.</span></h2>
-  <div class="prompts">
-    <div class="pr"><span>Mail+</span><p>&ldquo;Create a draft webinar invitation for our Q4 webinar, in the style of my last newsletter.&rdquo;</p></div>
-    <div class="pr"><span>Activate</span><p>&ldquo;Why did my abandoned cart journey stop getting new people?&rdquo;</p></div>
-    <div class="pr"><span>FeedbackPro</span><p>&ldquo;Why did our score drop this month?&rdquo;</p></div>
-    <div class="pr"><span>Mail+</span><p>&ldquo;Run a pre-send check on this email and tell me what I must fix.&rdquo;</p></div>
-    <div class="pr"><span>CRM</span><p>&ldquo;What is our pipeline value by stage?&rdquo;</p></div>
-    <div class="pr"><span>Activate</span><p>&ldquo;Give me a health check of this account.&rdquo;</p></div>
+<section class="s lib" id="prompt-library"><div class="wrap">
+  <div class="prods-head">
+    <div><p class="eyebrow">Prompt library</p><h2 class="h2">Ready-made prompts.<span>Copy one, or let Mia write yours.</span></h2></div>
+    <p>Prompts for Mail+ and Activate, each written in the same six parts so the result is consistent and you stay in charge. Copy one as it is, or change the details in brackets to fit your situation.</p>
   </div>
+  <div class="anat" id="lib-anat"></div>
+  <div class="lib-bar">
+    <div class="seg" id="lib-prod"></div>
+    <div class="seg" id="lib-job"></div>
+    <a class="btn ye lib-mia" id="lib-mia">Ask Mia to write yours</a>
+  </div>
+  <div class="lgrid" id="lib-grid"></div>
+  <div class="lib-more"><button type="button" class="btn ol" id="lib-all"></button></div>
+  <p class="lib-note">The use cases are still being checked with Product against what the Spotler MCP and Spot support at launch.</p>
 </div></section>
 
 <section class="s"><div class="wrap">
@@ -228,6 +263,48 @@ footer a { display: block; margin-bottom: 6px; }
   <div><b>Spotler AI</b><a>Spotler MCP</a><a>Spot</a><a>Prompt library</a></div>
   <div><b>Company</b><a>About us</a><a>Contact</a><a>Privacy statement</a></div>
 </div></footer>
+<!--LIBRARY-->
+<script>
+(function () {
+  var L = window.MIA_LIBRARY, P = { mail: "Mail+", activate: "Activate" }, J = L.jobs;
+  var NAMES = { context: "Context", task: "Task", details: "Details", prefs: "Preferences", review: "Review step", output: "Output" };
+  var state = { p: "all", j: "all", all: false };
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  $("lib-anat").innerHTML = ["context", "task", "details", "prefs", "review", "output"].map(function (k, i) {
+    return "<div><b>0" + (i + 1) + "</b><i>" + NAMES[k] + "</i><span>" + esc(L.parts[k].why) + "</span></div>"; }).join("");
+  function seg(id, opts, key) {
+    $(id).innerHTML = opts.map(function (o) { return '<button type="button" data-v="' + o[0] + '">' + o[1] + "</button>"; }).join("");
+    [].forEach.call($(id).children, function (b) { b.addEventListener("click", function () { state[key] = b.getAttribute("data-v"); state.all = false; render(); }); });
+  }
+  seg("lib-prod", [["all", "All products"], ["mail", "Mail+"], ["activate", "Activate"]], "p");
+  seg("lib-job", [["all", "All tasks"], ["campaign", J.campaign], ["audience", J.audience], ["plan", J.plan]], "j");
+  function render() {
+    [].forEach.call($("lib-prod").children, function (b) { b.classList.toggle("on", b.getAttribute("data-v") === state.p); });
+    [].forEach.call($("lib-job").children, function (b) { b.classList.toggle("on", b.getAttribute("data-v") === state.j); });
+    var list = L.items.filter(function (u) { return (state.p === "all" || u.p === state.p) && (state.j === "all" || u.j === state.j); });
+    var shown = state.all ? list : list.slice(0, 6);
+    $("lib-grid").innerHTML = shown.map(function (u, i) {
+      return '<div class="lc" data-i="' + L.items.indexOf(u) + '"><div class="tg"><span>' + P[u.p] + "</span><span>" + J[u.j] + "</span></div><h4>" + esc(u.t) +
+        '</h4><p class="d">' + esc(u.d) + '</p><div class="ac"><button type="button" class="sh">Show prompt</button><button type="button" class="cp">Copy</button></div><div class="pp">' +
+        u.parts.map(function (x) { return '<div class="' + (x[0] === "review" ? "rv" : "") + '"><em>' + NAMES[x[0]] + "</em><q>" + esc(x[1]) + "</q></div>"; }).join("") + "</div></div>";
+    }).join("");
+    $("lib-all").style.display = list.length > 6 ? "" : "none";
+    $("lib-all").textContent = state.all ? "Show fewer" : "Show all " + list.length + " prompts";
+    [].forEach.call($("lib-grid").children, function (c) {
+      var u = L.items[+c.getAttribute("data-i")];
+      c.querySelector(".sh").addEventListener("click", function () { c.classList.toggle("open"); this.textContent = c.classList.contains("open") ? "Hide prompt" : "Show prompt"; });
+      c.querySelector(".cp").addEventListener("click", function () {
+        var b = this, t = u.parts.map(function (x) { return x[1]; }).join("\n\n");
+        try { navigator.clipboard.writeText(t).then(function () { b.textContent = "Copied"; b.classList.add("done"); }, function () {}); } catch (e) {}
+      });
+    });
+  }
+  $("lib-all").addEventListener("click", function () { state.all = !state.all; render(); });
+  $("lib-mia").addEventListener("click", function () { if (window.miaPreview) window.miaPreview.say("Write a prompt for me"); });
+  render();
+})();
+</script>
 <!--BUNDLE-->
 </body>
 </html>

@@ -1,0 +1,787 @@
+{
+ "parts": {
+  "context": {
+   "name": "Context",
+   "why": "which Spotler product and account to work in"
+  },
+  "task": {
+   "name": "Task",
+   "why": "the job itself, in one clear sentence"
+  },
+  "details": {
+   "name": "Details",
+   "why": "the specifics that fit your situation"
+  },
+  "prefs": {
+   "name": "Preferences",
+   "why": "your rules on tone, limits and success"
+  },
+  "review": {
+   "name": "Review step",
+   "why": "a plan first, so you stay in charge"
+  },
+  "output": {
+   "name": "Output",
+   "why": "how the answer is laid out"
+  }
+ },
+ "jobs": {
+  "campaign": "Campaigns",
+  "audience": "Lists and audiences",
+  "plan": "Planning"
+ },
+ "items": [
+  {
+   "p": "mail",
+   "j": "campaign",
+   "t": "Regular newsletter",
+   "d": "Pull your latest news and content into a newsletter.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Create a monthly newsletter for all subscribed customers."
+    ],
+    [
+     "details",
+     "Include these stories or updates: our new webinar, a customer story and a product tip. The main thing I want readers to do is book a demo."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Mail+. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "campaign",
+   "t": "Event or webinar invitation",
+   "d": "Invite people to an event and remind them to register.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Create an invitation campaign for our spring marketing webinar on 12 March, aimed at marketing managers in our customer base."
+    ],
+    [
+     "details",
+     "Send a reminder three days before to people who haven’t registered yet. The registration page is spotler.co.uk/webinar."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Mail+. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "campaign",
+   "t": "Product or service announcement",
+   "d": "Tell contacts about something new and why it matters to them.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Create a campaign announcing our new reporting dashboard to existing customers."
+    ],
+    [
+     "details",
+     "The key benefit for them is they can see results in one place. The call to action is watch the two-minute demo."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Mail+. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "campaign",
+   "t": "Re-engagement campaign",
+   "d": "Win back contacts who have stopped opening your emails.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Create a re-engagement campaign for contacts who haven’t opened or clicked anything in six months."
+    ],
+    [
+     "details",
+     "Give them a reason to come back: a guide to this year’s email trends. Contacts who still don’t engage should be flagged so I can remove them from future sends."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Mail+. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "campaign",
+   "t": "Welcome series",
+   "d": "Greet new subscribers with a short automated series.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Create a welcome series of three emails for new subscribers who join through the newsletter form on our website."
+    ],
+    [
+     "details",
+     "By the end of the series I want them to book a call with our team."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Mail+. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "audience",
+   "t": "Most engaged contacts",
+   "d": "Find the people who open and click the most.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Build a dynamic list of contacts who have opened or clicked any campaign in the last 90 days."
+    ],
+    [
+     "details",
+     "Narrow it to contacts in the UK. I’ll use this list for a customer advocacy invite."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Mail+ without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "audience",
+   "t": "Inactive contacts",
+   "d": "Spot contacts who have gone quiet, for clean-up or re-engagement.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Build a dynamic list of contacts who haven’t opened or clicked anything in six months."
+    ],
+    [
+     "details",
+     "Leave out contacts who joined in the last 30 days."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Mail+ without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "audience",
+   "t": "Contacts by profile details",
+   "d": "Group contacts by fields such as sector, region or job title.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Build a dynamic list of contacts where the sector is retail and the region is the North West."
+    ],
+    [
+     "details",
+     "Only include contacts who are subscribed to our monthly newsletter."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Mail+ without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "audience",
+   "t": "Event attendees and no-shows",
+   "d": "Split registrants into who came and who didn’t, for follow-up.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Build two dynamic lists from last week’s product webinar: people who attended and people who registered but didn’t attend."
+    ],
+    [
+     "details",
+     "The attendance data is in the field “attended_webinar”."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Mail+ without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "audience",
+   "t": "Exclusion list",
+   "d": "Decide who to leave out so you don’t over-mail people.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Build a dynamic list of contacts I should leave out of next week’s promotion, such as people emailed in the last three days and open support tickets."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Mail+ without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "plan",
+   "t": "Review my last campaign",
+   "d": "Understand how a campaign did and what to do next.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Review the performance of our October newsletter and suggest what to do next."
+    ],
+    [
+     "details",
+     "Compare it with our average for the last six newsletters."
+    ],
+    [
+     "review",
+     "Use only data from my Spotler Mail+ account and say which data each point is based on. Don’t create or change anything. I’ll ask if I want to act on a recommendation."
+    ],
+    [
+     "output",
+     "Give me no more than five recommendations in priority order, each with the reason behind it."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "plan",
+   "t": "Find what works across campaigns",
+   "d": "Spot patterns in subject lines, send days and times.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Look at my last 20 campaigns and tell me what’s driving opens and clicks, including subject lines, send days and send times."
+    ],
+    [
+     "review",
+     "Use only data from my Spotler Mail+ account and say which data each point is based on. Don’t create or change anything. I’ll ask if I want to act on a recommendation."
+    ],
+    [
+     "output",
+     "Give me no more than five recommendations in priority order, each with the reason behind it."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "plan",
+   "t": "Plan next month’s emails",
+   "d": "Get a suggested email plan based on what has worked.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Suggest an email plan for December, based on what has worked in my account."
+    ],
+    [
+     "details",
+     "My priorities are promoting our new course and keeping unsubscribes low."
+    ],
+    [
+     "review",
+     "Use only data from my Spotler Mail+ account and say which data each point is based on. Don’t create or change anything. I’ll ask if I want to act on a recommendation."
+    ],
+    [
+     "output",
+     "Give me no more than five recommendations in priority order, each with the reason behind it."
+    ]
+   ]
+  },
+  {
+   "p": "mail",
+   "j": "plan",
+   "t": "List health check",
+   "d": "Check list growth, bounces, unsubscribes and complaints.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Mail+ account."
+    ],
+    [
+     "task",
+     "Check the health of my contact data and sending over the last three months, covering list growth, bounces, unsubscribes and complaints."
+    ],
+    [
+     "review",
+     "Use only data from my Spotler Mail+ account and say which data each point is based on. Don’t create or change anything. I’ll ask if I want to act on a recommendation."
+    ],
+    [
+     "output",
+     "Give me no more than five recommendations in priority order, each with the reason behind it."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "campaign",
+   "t": "Abandoned basket journey",
+   "d": "Remind shoppers about items they left behind.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Create an abandoned basket journey that reminds shoppers about the items they left behind."
+    ],
+    [
+     "details",
+     "Send the first message one hour after they leave. Offer free delivery in the final message."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Activate. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "campaign",
+   "t": "Browse abandonment",
+   "d": "Follow up with shoppers who looked but didn’t add to basket.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Create a journey for shoppers who viewed outdoor furniture products but didn’t add anything to their basket."
+    ],
+    [
+     "details",
+     "Show them the products they viewed and similar best sellers."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Activate. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "campaign",
+   "t": "Post-purchase cross-sell",
+   "d": "Recommend products that go with what someone just bought.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Create a post-purchase journey that recommends products that go well with what a customer has just bought."
+    ],
+    [
+     "details",
+     "Start it seven days after purchase. Focus on accessories and refills."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Activate. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "campaign",
+   "t": "Seasonal promotion",
+   "d": "Promote an offer around a key date in the trading calendar.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Create a campaign for Black Friday, promoting 20% off selected ranges to customers who bought in the last year."
+    ],
+    [
+     "details",
+     "The promotion runs from 27 November to 1 December."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Activate. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "campaign",
+   "t": "Back in stock or price drop alert",
+   "d": "Tell shoppers when something they wanted is available or cheaper.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Create a journey that tells shoppers when a product they showed interest in is back in stock or reduced in price."
+    ],
+    [
+     "review",
+     "Before you build anything, show me your plan, including the audience, the content and the timing. Wait for my go-ahead, then create it as a draft in Spotler Activate. Don’t schedule, activate or send it."
+    ],
+    [
+     "output",
+     "Show me the plan as a short summary I can check quickly."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "audience",
+   "t": "High-value customers",
+   "d": "Find your best customers by how recently, often and much they buy.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Build an audience of my highest-value customers based on how recently, how often and how much they buy."
+    ],
+    [
+     "details",
+     "Define high value as the top 10% by spend in the last 12 months."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Activate without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "audience",
+   "t": "Customers at risk of lapsing",
+   "d": "Catch regular buyers before they drift away.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Build an audience of customers who used to buy regularly but haven’t bought in four months."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Activate without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "audience",
+   "t": "Category fans",
+   "d": "Group shoppers by the categories they browse and buy most.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Build an audience of shoppers with a strong interest in running shoes, based on what they browse and buy."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Activate without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "audience",
+   "t": "First-time buyers",
+   "d": "Find new customers and encourage a second purchase.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Build an audience of customers who made their first purchase in the last 30 days."
+    ],
+    [
+     "details",
+     "I want to encourage their second purchase with a how-to guide for their product."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Activate without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "audience",
+   "t": "Discount-led shoppers",
+   "d": "Find people who mostly buy in sales or with a code.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Build an audience of shoppers who mostly buy when there’s a discount or sale."
+    ],
+    [
+     "details",
+     "Use this definition: more than 70% of orders used a discount code."
+    ],
+    [
+     "review",
+     "Before you build it, show me the rules you’ll use and an estimate of how many contacts match. Wait for my go-ahead, then save it in Spotler Activate without linking it to any campaign or journey."
+    ],
+    [
+     "output",
+     "Show the rules as a simple list, with the estimated size at the end."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "plan",
+   "t": "Review my journeys",
+   "d": "See which live journeys to improve first.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Review how my live journeys performed over the last quarter and tell me which to improve first."
+    ],
+    [
+     "review",
+     "Use only data from my Spotler Activate account and say which data each point is based on. Don’t create or change anything. I’ll ask if I want to act on a recommendation."
+    ],
+    [
+     "output",
+     "Give me no more than five recommendations in priority order, each with the reason behind it."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "plan",
+   "t": "Find my next audience opportunity",
+   "d": "Discover groups of customers you’re not targeting yet.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Look at my customer and behaviour data and suggest audiences I’m not targeting yet that could drive the most revenue."
+    ],
+    [
+     "review",
+     "Use only data from my Spotler Activate account and say which data each point is based on. Don’t create or change anything. I’ll ask if I want to act on a recommendation."
+    ],
+    [
+     "output",
+     "Give me no more than five recommendations in priority order, each with the reason behind it."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "plan",
+   "t": "Personalisation opportunities",
+   "d": "Find where personal content would make the biggest difference.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Suggest where I could add personalisation to my emails, journeys and website, based on my customer data."
+    ],
+    [
+     "details",
+     "My main channel is email."
+    ],
+    [
+     "review",
+     "Use only data from my Spotler Activate account and say which data each point is based on. Don’t create or change anything. I’ll ask if I want to act on a recommendation."
+    ],
+    [
+     "output",
+     "Give me no more than five recommendations in priority order, each with the reason behind it."
+    ]
+   ]
+  },
+  {
+   "p": "activate",
+   "j": "plan",
+   "t": "Plan for peak trading",
+   "d": "Prepare for your busiest period using last year’s results.",
+   "parts": [
+    [
+     "context",
+     "I’m working in my Spotler Activate account."
+    ],
+    [
+     "task",
+     "Help me plan for Black Friday and Christmas, using last year’s performance and current customer behaviour."
+    ],
+    [
+     "details",
+     "My priority is growing repeat purchases, not just discounting."
+    ],
+    [
+     "review",
+     "Use only data from my Spotler Activate account and say which data each point is based on. Don’t create or change anything. I’ll ask if I want to act on a recommendation."
+    ],
+    [
+     "output",
+     "Give me no more than five recommendations in priority order, each with the reason behind it."
+    ]
+   ]
+  }
+ ]
+}

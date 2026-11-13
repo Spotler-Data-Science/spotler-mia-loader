@@ -9,8 +9,16 @@
   var labels = SETTINGS.LABELS["en-GB"];
   labels.calResume = SETTINGS.DOCK_CAL_RESUME.en;
   var sc = window.SpotlerMiaShowcase && window.SpotlerMiaShowcase.builtIn("/services");
+  // the preview page has a prompt library section: a button that closes the chat and goes there
+  var LIB = "See prompt library";
+  if (sc) { sc = JSON.parse(JSON.stringify(sc)); sc.actions.splice(1, 0, { label: LIB, icon: "book", send: LIB }); }
+  function goLibrary() {
+    var t = document.getElementById("prompt-library");
+    if (ui.isOpen()) ui.close();
+    if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 70, behavior: "smooth" });
+  }
   var H = { el: el, SS: SS, addStyle: addStyle, trim: trim };
-  var ui, shell = null, show = null, busy = false, lastPrompt = "";
+  var ui, shell = null, show = null, busy = false, lastPrompt = "", lastShort = "";
 
   var PROMPT_CSS =
     ".pc{position:relative;max-width:560px;padding:14px 16px 12px;border-radius:18px;background:#fff;border:1px solid rgba(0,98,255,.22);" +
@@ -61,13 +69,66 @@
     stand: "Booking calendar opens here, inside the chat", buttons: [] };
   var ASK = { texts: ["Tell me what you want to achieve, in your own words, and I’ll write the prompt for Spot to run."], buttons: [] };
 
+  // --- "Write a prompt for me": the prompt library's guided build -----------
+  // product -> task -> a detail or two -> the prompt, in the library's six parts:
+  // context, task, details, preferences, review step, output.
+  var TASKS = {
+    "Mail+": [["Create a newsletter", "Create a draft monthly newsletter for all subscribers."],
+              ["Win back inactive contacts", "Create a draft re-engagement email for contacts who haven’t opened or clicked anything in the last six months."],
+              ["Review a campaign", "Review the performance of my last campaign and suggest what to do next."]],
+    "Activate": [["Build an audience", "Build a draft audience of my highest-value customers, based on how recently, how often and how much they buy."],
+                 ["Abandoned basket journey", "Create a draft abandoned basket journey that reminds shoppers about the items they left behind."],
+                 ["Review my journeys", "Review how my live journeys performed over the last 30 days and tell me which to improve first."]],
+    "FeedbackPro": [["Create a survey", "Create a short draft survey to get feedback on our onboarding."],
+                    ["Explain a score change", "Explain why our score changed this month compared with last month."],
+                    ["Summarise open answers", "Summarise the main themes in this month’s open answers."]],
+    "CRM": [["See my pipeline", "Show our pipeline value by stage."],
+            ["Show open opportunities", "Show me my open opportunities, sorted by expected close date."],
+            ["Run a saved report", "Run my saved report of open opportunities by owner and summarise what stands out."]]
+  };
+  var flow = null;
+  function startFlow() {
+    flow = { step: "product" };
+    return { texts: ["Let’s write your first prompt for Spot. It takes three quick steps.", "Which product is it for?"], buttons: ["Mail+", "Activate", "FeedbackPro", "CRM"] };
+  }
+  function inFlow(text) {
+    if (!flow) return null;
+    if (flow.step === "product" && TASKS[text]) {
+      flow = { step: "task", product: text };
+      return { texts: ["What do you want to do in " + text + "?"], buttons: TASKS[text].map(function (t) { return t[0]; }) };
+    }
+    if (flow.step === "task") {
+      var list = TASKS[flow.product];
+      for (var i = 0; i < list.length; i++) if (list[i][0] === text) {
+        flow.step = "details"; flow.task = list[i][1];
+        return { texts: ["Good choice. Add a detail or two in the text field, such as the audience, timing or tone. Or skip it, and I’ll keep it general."], buttons: ["Skip"] };
+      }
+    }
+    if (flow.step === "details") {
+      var d = /^skip$/i.test(text) ? "" : trim(text).replace(/[.!]+$/, "");
+      var p = "I’m working in my Spotler " + flow.product + " account. " + flow.task +
+        (d ? " Take this into account: " + d.charAt(0).toLowerCase() + d.slice(1) + "." : "") +
+        " Keep anything you create as a draft. Show me your plan first and wait for my go-ahead, then give me a short summary I can check quickly.";
+      lastPrompt = p; lastShort = flow.task + " Show me your plan first and wait for my go-ahead.";
+      flow = null;
+      return { texts: ["Here’s your prompt. Copy it into Spot:"], prompt: p,
+        after: "It’s built from six parts: context, task, details, preferences, a review step and the output you want back.",
+        buttons: ["Write another prompt", "Make it shorter", "Book a walkthrough"] };
+    }
+    flow = null;   // anything else: leave the guided build
+    return null;
+  }
+
   function answer(text) {
+    if (/^write (a|another) prompt( for me)?$/i.test(text)) return startFlow();
+    var f = inFlow(text);
+    if (f) return f;
     var g = /^generate my prompt:\s*(.+)$/i.exec(text);
     if (g || (/^shorter|make it shorter$/i.test(text) && lastPrompt)) {
-      var p = g ? promptFor(g[1]) : lastPrompt.split(/(?<=\.)\s/)[0] + " Show me your plan first and wait for my go-ahead.";
-      lastPrompt = p;
+      var p = g ? promptFor(g[1]) : lastShort;
+      if (g) { lastPrompt = p; lastShort = p.split(/\.\s/)[0] + ". Show me your plan first and wait for my go-ahead."; }
       return { texts: [g ? "Here’s a prompt for Spot. Copy it into Spot, or any AI tool connected through the Spotler MCP:" : "A shorter version:"],
-        prompt: p, buttons: g ? ["Make it shorter", "Try another goal", "Book a walkthrough"] : ["Try another goal", "Book a walkthrough"] };
+        prompt: p, buttons: g ? ["Make it shorter", "Try another goal", "Book a walkthrough"] : ["Write another prompt", "Book a walkthrough"] };
     }
     if (/what is|how does it work|what('|’)?s an mcp|explain/i.test(text)) return ABOUT;
     if (/example/i.test(text)) return EXAMPLES;
@@ -75,7 +136,7 @@
     if (/safe|secur|privacy|data|permission/i.test(text)) return SAFE;
     if (/price|cost|pay|plan/i.test(text)) return PRICE;
     if (/book|walkthrough|demo|talk to/i.test(text)) return BOOK;
-    if (/write a prompt|another goal|generate/i.test(text)) return ASK;
+    if (/another goal|generate/i.test(text)) return ASK;
     if (text.split(/\s+/).length >= 4) return answer("Generate my prompt: " + text);
     return { texts: ["I can explain the Spotler MCP, show examples, or turn your goal into a prompt for Spot."], buttons: ["What is the Spotler MCP?", "Show me examples", "Write a prompt for me"] };
   }
@@ -83,6 +144,7 @@
   // --- the conversation, in the tag's own glass bubbles ----------------------
   function say(text) {
     text = trim(text);
+    if (text === LIB) { goLibrary(); return; }
     if (!text || busy) return;
     if (show) { show.hide(); show = null; }
     if (!ui.isOpen()) ui.open();
@@ -111,13 +173,17 @@
         var first = g.querySelector(".b");
         first.parentNode.insertBefore(card, first.nextSibling);
       }
+      if (r.after && g) {
+        var pcard = g.querySelector(".pc");
+        pcard.parentNode.insertBefore(el("div", { "class": "b" }, [el("p", { text: r.after })]), pcard.nextSibling);
+      }
       if (r.stand && g) {
         var b0 = g.querySelector(".b");
         b0.parentNode.insertBefore(el("div", { "class": "stand" }, [el("i"), el("span", { text: r.stand })]), b0.nextSibling);
       }
       if (g) [].forEach.call(g.querySelectorAll(".btn"), function (b) {
         b.disabled = false;
-        b.addEventListener("click", function () { say(b.textContent === "Write a prompt for me" ? "Write a prompt for me" : b.textContent); });
+        b.addEventListener("click", function () { say(b.textContent); });
       });
       busy = false;
     }, 1800);
@@ -130,9 +196,9 @@
     ui.body.insertBefore(host, ui.body.firstChild);
     shell = createShell(host, labels, { opener: "", buttons: [] }, { onSend: say, onOpen: function () {}, onQueue: function () {} });
     addStyle(PROMPT_CSS, host.shadowRoot);
-    busy = false; lastPrompt = "";
+    busy = false; lastPrompt = lastShort = ""; flow = null;
     if (show && show.el.parentNode) show.el.parentNode.removeChild(show.el);
-    show = sc ? window.SpotlerMiaShowcase.create(ui.body, sc, function (t) { say(t); }, H) : null;
+    show = sc ? window.SpotlerMiaShowcase.create(ui.body, sc, function (t) { if (t === LIB) goLibrary(); else say(t); }, H) : null;
   }
 
   onDomReady(function () {
@@ -147,5 +213,6 @@
     if (sc) { window.SpotlerMiaShowcase.apply(ui, sc, H); }
     mount();
     ui.startTyping();
+    window.miaPreview = { say: say, open: function () { ui.open(); } };
   });
 })();

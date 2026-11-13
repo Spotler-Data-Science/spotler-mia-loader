@@ -37,7 +37,7 @@ async def main():
         check("D2 bigger chat: 1100px wide, as tall as the screen allows (to 860)", r["w"] == 1100 and r["h"] >= 900 - 160, [r["w"], r["h"]])
         check("D3 6 slides, 6 steps, the first slide on", r["slides"] == 6 and r["dots"] == 6 and r["on"] == "Your AI assistant, working inside Spotler.", r)
         check("D4 the field's placeholder from the page table", r["ph"] == "Tell Mia what you want to achieve...", r["ph"])
-        check("D5 three action buttons, the page table's look applied", r["actions"] == ["See MCP examples", "Explore use cases", "Book a walkthrough"] and r["styled"], r)
+        check("D5 three action buttons, the page table's look applied", r["actions"] == ["Write a prompt for me", "See MCP examples", "Explore use cases", "Book a walkthrough"] and r["styled"], r)
         check("D6 the demo version in the log", any("glass dock glass-dock-1.11-demo" in l for l in logs), [l for l in logs if "glass dock" in l])
         await page.screenshot(path=f"{OUT}/demo-1.png")
         await page.click(".mia-sc-next"); await page.wait_for_timeout(400)
@@ -56,7 +56,7 @@ async def main():
         await ctx.close()
 
         ctx, page, logs = await page_at(b, "/services")
-        await page.click(".mia-sc-action >> nth=2"); await page.wait_for_timeout(1500)
+        await page.click(".mia-sc-action >> nth=3"); await page.wait_for_timeout(1500)
         check("D9 INT /services: an action button sends its message", (await page.evaluate(SENT))[:1] == ["I'd like to book a Spotler MCP walkthrough"], await page.evaluate(SENT))
         await ctx.close()
 
@@ -137,7 +137,7 @@ async def main():
         await page.screenshot(path=f"{OUT}/demo-emails.png")
         # a showcase left over (e.g. mounted twice) never stays over the live chat
         await page.evaluate("document.getElementById('mia-dock-chat').querySelector('#mia-showcase').parentNode.appendChild(document.getElementById('mia-showcase').cloneNode(true))")
-        await page.evaluate("document.querySelectorAll('.mia-sc-action')[1].click()"); await page.wait_for_timeout(1500)
+        await page.evaluate("document.querySelectorAll('.mia-sc-action')[2].click()"); await page.wait_for_timeout(1500)
         check("D23 after an action button: no showcase left over the chat", await page.evaluate("document.querySelectorAll('#mia-showcase').length") == 0)
         await ctx.close()
         # a site with heavy styles of its own (lists, paragraphs, headings): nothing leaks into the slides

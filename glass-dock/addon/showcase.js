@@ -32,7 +32,8 @@ var SHOWCASE_ICONS = {
   calendar: ["M8 3v4", "M16 3v4", "M3 10h18", "M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"],
   chat: ["M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"],
   mail: ["M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z", "m3 7 9 6 9-6"],
-  chart: ["M4 20V10", "M10 20V4", "M16 20v-7", "M22 20H2"]
+  chart: ["M4 20V10", "M10 20V4", "M16 20v-7", "M22 20H2"],
+  book: ["M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z", "M4 19V5", "M8 7h7"]
 };
 function scIcon(name, cls) {
   var span = el("span", { "class": "mia-sc-ico" + (cls ? " " + cls : ""), "aria-hidden": "true" });

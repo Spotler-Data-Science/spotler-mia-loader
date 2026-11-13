@@ -33,7 +33,11 @@ const min = await minify(body, { compress: { passes: 2 }, mangle: true, format: 
 if (!min.code) throw new Error("minify failed");
 // Mia's photo from the plan page itself (a data: URL), so the render needs nothing from outside
 const avatar = readFileSync(join(HERE, "avatar.txt"), "utf8").trim();
-const page = readFileSync(join(HERE, "site.html"), "utf8").replace("<!--BUNDLE-->", () =>
+// the prompt library section's prompts (from the prompt library concept page, filled with its examples)
+const library = readFileSync(join(HERE, "library.json"), "utf8");
+const page = readFileSync(join(HERE, "site.html"), "utf8")
+  .replace("<!--LIBRARY-->", () => `<script>window.MIA_LIBRARY = ${JSON.stringify(JSON.parse(library)).replace(/</g, "\\u003c")};</script>`)
+  .replace("<!--BUNDLE-->", () =>
   `<script>window.MIA_PREVIEW_AVATAR = ${JSON.stringify(avatar)};</script>\n<script>\n${min.code.replace(/<\/script/gi, "<\\/script")}\n</script>`);
 writeFileSync(join(DOCK, "dist/mia-preview.html"), page);
 console.log(`built preview -> glass-dock/dist/mia-preview.html (${(page.length / 1024).toFixed(1)} KB)`);

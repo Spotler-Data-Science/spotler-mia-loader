@@ -390,6 +390,11 @@
         ],
         "actions": [
           {
+            "label": "Write a prompt for me",
+            "icon": "spark",
+            "send": "Write a prompt for me"
+          },
+          {
             "label": "See MCP examples",
             "icon": "layers",
             "send": "Show me examples of what I can do with Spotler MCP"
@@ -1297,6 +1302,11 @@
         ],
         "actions": [
           {
+            "label": "Write a prompt for me",
+            "icon": "spark",
+            "send": "Write a prompt for me"
+          },
+          {
             "label": "See MCP examples",
             "icon": "layers",
             "send": "Show me examples of what I can do with Spotler MCP"
@@ -2113,6 +2123,11 @@
           }
         ],
         "actions": [
+          {
+            "label": "Write a prompt for me",
+            "icon": "spark",
+            "send": "Write a prompt for me"
+          },
           {
             "label": "See MCP examples",
             "icon": "layers",
@@ -3240,6 +3255,11 @@
           }
         ],
         "actions": [
+          {
+            "label": "Write a prompt for me",
+            "icon": "spark",
+            "send": "Write a prompt for me"
+          },
           {
             "label": "See MCP examples",
             "icon": "layers",
