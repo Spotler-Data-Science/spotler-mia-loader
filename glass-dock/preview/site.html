@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spotler MCP | Spotler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --navy: #0B2440; --navy2: #082037; --ink: #0B2440; --cyan: #29ABE2; --cyan-d: #1C8FC4; --yellow: #FFE11A; --sky: #E4F2FB; --sky2: #F2F9FD; --line: #0B2440; --muted: #4D6277; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #fff; color: var(--ink); font-family: "Lexend", "Open Sans", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+/* header */
+.util { background: #fff; font-size: 11px; color: #5B6B7B; }
+.util .wrap { display: flex; justify-content: flex-end; gap: 22px; padding-top: 5px; padding-bottom: 5px; }
+header#header { position: sticky; top: 0; z-index: 50; background: var(--navy); }
+header .wrap { display: flex; align-items: center; gap: 34px; height: 64px; }
+.logo { font-size: 28px; font-weight: 600; letter-spacing: -.04em; color: #fff; }
+.logo b { font-weight: 600; color: var(--cyan); }
+nav { display: flex; gap: 26px; font-size: 13px; font-weight: 500; color: #fff; flex: 1; }
+nav span.dd::after { content: ""; display: inline-block; width: 5px; height: 5px; margin-left: 6px; border-right: 1.5px solid #fff; border-bottom: 1.5px solid #fff; transform: rotate(45deg) translateY(-3px); }
+nav .cur { color: var(--cyan); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; font-size: 14px; font-weight: 600; border: 0; cursor: pointer; font-family: inherit; }
+.btn.cy { background: var(--cyan); color: #fff; padding: 8px 18px; font-size: 13px; }
+.btn.ye { background: var(--yellow); color: var(--navy); }
+.btn.gh { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.55); }
+/* hero */
+.hero { background: radial-gradient(900px 500px at 78% 40%, #123A61 0%, transparent 60%), var(--navy); color: #fff; overflow: hidden; }
+.hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 30px; padding-top: 56px; padding-bottom: 54px; }
+.eyebrow { font-size: 12.5px; font-weight: 500; color: var(--cyan); margin: 0 0 10px; }
+.hero h1 { margin: 0; font-size: 50px; line-height: 1.02; font-weight: 600; letter-spacing: -.025em; }
+.hero h1 span { color: var(--cyan); display: block; }
+.hero p.lede { margin: 18px 0 26px; max-width: 470px; font-size: 15px; line-height: 1.6; color: #D5E2EE; font-weight: 300; }
+.hero .ctas { display: flex; gap: 12px; }
+.badges { display: flex; gap: 8px; margin-top: 46px; }
+.badges span { display: inline-flex; align-items: center; gap: 7px; padding: 6px 10px; border: 1px solid rgba(255,255,255,.45); border-radius: 6px; font-size: 10.5px; line-height: 1.15; color: #fff; }
+.badges svg { width: 15px; height: 15px; fill: none; stroke: #fff; stroke-width: 1.8; }
+.orbit { position: relative; height: 380px; }
+.orbit .ring { position: absolute; left: 50%; top: 50%; border: 1px solid rgba(110,170,220,.28); border-radius: 50%; transform: translate(-50%,-50%); }
+.orbit .core { position: absolute; left: 50%; top: 50%; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4FC3F7, #1565C0 70%); box-shadow: 0 0 80px rgba(41,171,226,.55), 0 0 0 10px rgba(41,171,226,.12); display: flex; align-items: center; justify-content: center; animation: breathe 5s ease-in-out infinite; }
+.orbit .core svg { width: 58px; height: 58px; fill: #fff; }
+@keyframes breathe { 50% { box-shadow: 0 0 110px rgba(41,171,226,.7), 0 0 0 16px rgba(41,171,226,.10); } }
+.orbit .dot { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 12px var(--yellow); }
+.fcard { position: absolute; display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #fff; color: var(--ink); border-radius: 12px; box-shadow: 0 14px 30px rgba(0,0,0,.28); font-size: 11.5px; line-height: 1.35; animation: bob 6s ease-in-out infinite; }
+.fcard b { display: block; font-size: 12px; font-weight: 600; }
+.fcard small { color: #6B7E90; font-size: 10px; }
+.fcard i { width: 26px; height: 26px; border-radius: 8px; background: var(--sky); display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.fcard i svg { width: 15px; height: 15px; fill: none; stroke: var(--cyan-d); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.fcard .ok { color: #1FA35C; font-size: 10px; font-weight: 600; }
+@keyframes bob { 50% { transform: translateY(-8px); } }
+/* sections */
+section.s { padding: 80px 0; }
+.h2 { margin: 0; font-size: 36px; line-height: 1.08; font-weight: 600; letter-spacing: -.02em; }
+.h2 span { display: block; color: var(--cyan); }
+.steps { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.step { display: flex; gap: 22px; padding: 22px 0; border-bottom: 1.5px solid var(--cyan); }
+.step:last-child { border-bottom: 0; }
+.step .n { font-size: 40px; font-weight: 600; color: var(--cyan); line-height: 1; min-width: 56px; }
+.step.dim .n { color: #A9D8EF; }
+.step h3 { margin: 2px 0 6px; font-size: 17px; font-weight: 500; }
+.step p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--muted); font-weight: 300; }
+.mock { background: linear-gradient(160deg, #EAF6FC, #D8EEF9); border: 1px solid #CBE6F5; border-radius: 22px; padding: 26px; }
+.mock .win { background: #fff; border-radius: 14px; box-shadow: 0 16px 36px rgba(11,36,64,.12); padding: 16px 18px; font-size: 12px; }
+.mock .win .bar { display: flex; gap: 5px; margin-bottom: 14px; } .mock .win .bar i { width: 7px; height: 7px; border-radius: 50%; background: #D3DEE8; }
+.mock .u { margin-left: auto; width: fit-content; max-width: 80%; padding: 8px 12px; border-radius: 14px; background: var(--sky); margin-bottom: 10px; }
+.mock .a { padding: 10px 12px; border: 1px solid #E1EBF3; border-radius: 12px; line-height: 1.55; }
+.mock .a b { color: var(--cyan-d); font-weight: 600; }
+.mock .a ol { margin: 6px 0 10px; padding-left: 18px; color: var(--muted); }
+.mock .acts { display: flex; gap: 8px; } .mock .acts span { padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: 11px; }
+.mock .acts .go { background: var(--navy); color: #fff; } .mock .acts .ed { box-shadow: inset 0 0 0 1px #B9CCDC; }
+.tools { text-align: center; padding: 10px 0 70px; }
+.tools h3 { margin: 0 0 26px; font-size: 20px; font-weight: 500; }
+.tools .row { display: flex; justify-content: center; align-items: center; gap: 54px; color: #2C3E50; font-size: 21px; font-weight: 600; letter-spacing: -.02em; }
+.tools .row span { opacity: .8; }
+.tools .row .arr { font-size: 16px; opacity: .6; }
+.sky { background: var(--sky); }
+.split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+.split p { font-size: 13.5px; line-height: 1.7; color: #33495E; font-weight: 300; max-width: 520px; }
+.bubblecirc { position: relative; width: 250px; height: 250px; margin: 0 auto; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #fff, #CFE9F7); border: 3px solid var(--navy); display: flex; align-items: center; justify-content: center; }
+.bubblecirc svg { width: 120px; height: 120px; }
+.tag { position: absolute; padding: 7px 12px; background: #fff; border: 1.5px solid var(--navy); border-radius: 8px; font-size: 11.5px; font-weight: 600; line-height: 1.15; text-align: center; box-shadow: 0 6px 14px rgba(11,36,64,.12); }
+.prods-head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end; margin-bottom: 34px; }
+.prods-head p { font-size: 12.5px; line-height: 1.7; color: var(--muted); font-weight: 300; margin: 0; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.card { border: 1.5px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; display: flex; flex-direction: column; }
+.card .top { height: 92px; background: var(--sky); display: flex; align-items: center; justify-content: center; }
+.card .top svg { width: 70px; height: 54px; }
+.card .in { padding: 14px 14px 12px; display: flex; flex-direction: column; flex: 1; }
+.card .cat { font-size: 10.5px; font-weight: 500; color: var(--cyan-d); }
+.card h4 { margin: 2px 0 6px; font-size: 16px; font-weight: 600; }
+.card p { margin: 0 0 12px; font-size: 11px; line-height: 1.55; color: var(--muted); font-weight: 300; flex: 1; }
+.card .note { padding-top: 8px; border-top: 1.5px solid var(--cyan); font-size: 9.5px; font-weight: 600; }
+.card .lnk { margin-top: 8px; font-size: 10.5px; color: var(--cyan-d); text-decoration: underline; }
+.dark { background: var(--navy); color: #fff; }
+.prompts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 34px; }
+.pr { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 18px; }
+.pr span { font-size: 10.5px; font-weight: 600; color: var(--cyan); }
+.pr p { margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; font-weight: 300; }
+.charge { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
+.ch { border: 1.5px solid var(--line); border-radius: 12px; padding: 22px; }
+.ch i { display: flex; width: 40px; height: 40px; border-radius: 10px; background: var(--sky); align-items: center; justify-content: center; margin-bottom: 14px; }
+.ch i svg { width: 20px; height: 20px; fill: none; stroke: var(--cyan-d); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ch h4 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+.ch p { margin: 0; font-size: 12px; line-height: 1.6; color: var(--muted); font-weight: 300; }
+.cta { text-align: center; }
+.cta p { color: #33495E; font-size: 14px; font-weight: 300; margin: 12px 0 24px; }
+footer { background: var(--navy2); color: #B8C8D8; font-size: 11.5px; padding: 46px 0 120px; }
+footer .wrap { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 30px; }
+footer b { display: block; color: #fff; font-weight: 500; margin-bottom: 10px; }
+footer a { display: block; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="util"><div class="wrap"><a>Contact Sales</a><a>Contact Support</a><a>Help Centers</a><a>Login</a></div></div>
+<header id="header"><div class="wrap">
+  <a class="logo">spotler</a>
+  <nav><span class="dd">Products</span><span>Services</span><span>Success stories</span><span>Pricing</span><span class="dd cur">Resources</span><span class="dd">About us</span></nav>
+  <a class="btn cy">Get a demo</a>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <p class="eyebrow">Spotler AI &middot; Spotler MCP</p>
+    <h1>Your AI assistant.<span>Working inside Spotler.</span></h1>
+    <p class="lede">Connect Claude, ChatGPT or the AI tool you already use to your Spotler account. Ask questions, prepare drafts and check results in plain words, with the same permissions as your own login.</p>
+    <div class="ctas"><a class="btn ye">Book a walkthrough</a><a class="btn gh">How it works</a></div>
+    <div class="badges">
+      <span><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>OAuth 2.1<br>sign-in</span>
+      <span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Your own<br>permissions</span>
+      <span><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>Your approval<br>first</span>
+    </div>
+  </div>
+  <div class="orbit">
+    <div class="ring" style="width:250px;height:250px"></div><div class="ring" style="width:370px;height:370px"></div><div class="ring" style="width:500px;height:500px;border-style:dashed"></div>
+    <div class="core"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/></svg></div>
+    <span class="dot" style="left:16%;top:62%"></span><span class="dot" style="left:83%;top:20%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)"></span>
+    <div class="fcard" style="left:2%;top:12%"><i><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></i><div><b>Draft created</b><small>Mail+ &middot; ready for your review</small></div></div>
+    <div class="fcard" style="right:-2%;top:56%;animation-delay:-2s"><i><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 12h3M14 12h3"/></svg></i><div><b>Journey checked</b><small>Activate &middot; drop-off at step 3</small></div></div>
+    <div class="fcard" style="left:10%;bottom:4%;animation-delay:-4s"><i><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-6M22 19H2"/></svg></i><div><b>Score explained</b><small>FeedbackPro &middot; 3 themes found</small><div class="ok">&#9679; Summary ready</div></div></div>
+  </div>
+</div></section>
+
+<section class="s"><div class="wrap steps">
+  <div>
+    <p class="eyebrow">How it works</p>
+    <div class="step"><span class="n">01</span><div><h3>Connect</h3><p>Add the Spotler connector to your AI assistant and sign in with your own Spotler login. Each product has its own connection.</p></div></div>
+    <div class="step dim"><span class="n">02</span><div><h3>Ask</h3><p>Describe what you want in plain words. Your assistant reads live account data and prepares the work as a draft.</p></div></div>
+    <div class="step dim"><span class="n">03</span><div><h3>Approve</h3><p>Check the plan and the result. Nothing goes to your audience, and nothing is deleted, without you.</p></div></div>
+  </div>
+  <div class="mock"><div class="win">
+    <div class="bar"><i></i><i></i><i></i></div>
+    <div class="u">Why did my abandoned cart journey stop getting new people?</div>
+    <div class="a"><b>Activate &middot; plan</b><ol><li>Check entries over the last 30 days</li><li>Find the step where contacts get stuck</li><li>Show when new entries dropped</li></ol>
+      <div class="acts"><span class="go">Approve</span><span class="ed">Edit plan</span></div></div>
+  </div></div>
+</div></section>
+
+<div class="tools"><div class="wrap">
+  <h3>Works with the AI tools you already use</h3>
+  <div class="row"><span class="arr">&lsaquo;</span><span>Claude</span><span>ChatGPT</span><span>Cursor</span><span>VS Code</span><span>Claude Code</span><span class="arr">&rsaquo;</span></div>
+</div></div>
+
+<section class="s sky"><div class="wrap split">
+  <div>
+    <p class="eyebrow">The problem we solve</p>
+    <h2 class="h2">Your data lives in Spotler.<span>Your AI should work there too.</span></h2>
+    <p>Copying exports into a chat window is slow and risky. The Spotler MCP uses one open standard, the Model Context Protocol, so any assistant that supports it can work with your Spotler products directly, with the same rules for sign-in, permissions and safety everywhere.</p>
+  </div>
+  <div style="position:relative">
+    <div class="bubblecirc"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="34" fill="#1E88E5"/><path d="M60 38l5 17 17 5-17 5-5 17-5-17-17-5 17-5z" fill="#fff"/></svg></div>
+    <span class="tag" style="left:2%;top:8%">Mail+<br>drafts</span><span class="tag" style="right:2%;top:30%">Activate<br>journeys</span><span class="tag" style="left:8%;bottom:6%">FeedbackPro<br>scores</span>
+  </div>
+</div></section>
+
+<section class="s"><div class="wrap">
+  <div class="prods-head">
+    <div><p class="eyebrow">Works with</p><h2 class="h2">Eight products.<span>One open standard.</span></h2></div>
+    <p>Every product has its own MCP server, built on the product's own API, so its rules, validation and limits still apply. Read-only where it should be, drafts where it counts.</p>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="top"><svg viewBox="0 0 70 54"><rect x="6" y="8" width="52" height="34" rx="5" fill="#fff" stroke="#0B2440" stroke-width="1.5"/><rect x="12" y="15" width="40" height="9" rx="3" fill="#29ABE2"/><path d="M12 30h30M12 35h22" stroke="#9FB3C5" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="in"><span class="cat">Email Marketing</span><h4>Spotler Mail+</h4><p>Find messages, report on mailings, and create and update email drafts, lists and test sends.</p><span class="note">Never sends to an audience</span><a class="lnk">Learn about Mail+ MCP</a></div></div>
+    <div class="card"><div class="top"><svg viewBox="0 0 70 54"><path d="M14 27h42" stroke="#0B2440" stroke-width="1.5"/><circle cx="14" cy="27" r="6" fill="#0B2440"/><circle cx="35" cy="27" r="6" fill="#29ABE2"/><circle cx="56" cy="27" r="6" fill="#fff" stroke="#0B2440" stroke-width="1.5"/></svg></div><div class="in"><span class="cat">Customer Data Platform</span><h4>Spotler Activate</h4><p>Check journeys, audiences, popups and product sets. Pause journeys and create drafts.</p><span class="note">No deletes</span><a class="lnk">Learn about Activate MCP</a></div></div>
+    <div class="card"><div class="top"><svg viewBox="0 0 70 54"><rect x="10" y="10" width="50" height="34" rx="5" fill="#fff" stroke="#0B2440" stroke-width="1.5"/><path d="M16 20h38M16 27h38M16 34h24" stroke="#9FB3C5" stroke-width="2.5" stroke-linecap="round"/><circle cx="50" cy="34" r="4" fill="#29ABE2"/></svg></div><div class="in"><span class="cat">CRM</span><h4>Spotler CRM</h4><p>Read and update accounts, contacts and opportunities, and run your saved reports.</p><span class="note">Deletes go to the recycle bin</span><a class="lnk">Learn about CRM MCP</a></div></div>
+    <div class="card"><div class="top"><svg viewBox="0 0 70 54"><rect x="8" y="10" width="54" height="34" rx="6" fill="#fff" stroke="#0B2440" stroke-width="1.5"/><circle cx="20" cy="30" r="4" fill="#D6E9F5"/><circle cx="30" cy="30" r="4" fill="#D6E9F5"/><circle cx="40" cy="30" r="4" fill="#D6E9F5"/><circle cx="50" cy="30" r="5" fill="#0B2440"/></svg></div><div class="in"><span class="cat">Feedback and Surveys</span><h4>Spotler FeedbackPro</h4><p>Build surveys from a plain request and explain why scores moved, with the themes behind them.</p><span class="note">Free of charge</span><a class="lnk">Learn about FeedbackPro MCP</a></div></div>
+    <div class="card"><div class="top"><svg viewBox="0 0 70 54"><rect x="10" y="12" width="22" height="22" rx="4" fill="#FFE11A"/><rect x="24" y="18" width="24" height="24" rx="5" fill="#0B2440"/><rect x="40" y="12" width="20" height="22" rx="4" fill="#29ABE2"/></svg></div><div class="in"><span class="cat">Brand Portal</span><h4>Spotler Brand ID</h4><p>Find images, logos and your brand rules, ready to use in any draft.</p><span class="note">Read-only</span><a class="lnk">Learn about Brand ID MCP</a></div></div>
+    <div class="card"><div class="top"><svg viewBox="0 0 70 54"><rect x="8" y="12" width="54" height="30" rx="5" fill="#fff" stroke="#0B2440" stroke-width="1.5"/><path d="M14 22h22M14 30h14" stroke="#9FB3C5" stroke-width="2.5" stroke-linecap="round"/><path d="m44 28 4 4 8-8" stroke="#1FA35C" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></div><div class="in"><span class="cat">Transactional Email</span><h4>Spotler SendPro</h4><p>Check sending domains, DKIM, delivery reports and flows.</p><span class="note">Changes need your confirmation</span><a class="lnk">Learn about SendPro MCP</a></div></div>
+    <div class="card"><div class="top"><svg viewBox="0 0 70 54"><path d="M12 42V30M24 42V20M36 42V26M48 42V14M58 42H8" stroke="#0B2440" stroke-width="5" stroke-linecap="round"/><path d="M48 42V14" stroke="#29ABE2" stroke-width="5" stroke-linecap="round"/></svg></div><div class="in"><span class="cat">Analytics</span><h4>Spotler Analytics</h4><p>Trends, rankings and charts on engagement, attribution and revenue.</p><span class="note">Read-only</span><a class="lnk">Learn about Analytics MCP</a></div></div>
+    <div class="card"><div class="top"><svg viewBox="0 0 70 54"><rect x="14" y="6" width="42" height="42" rx="5" fill="#fff" stroke="#0B2440" stroke-width="1.5"/><rect x="19" y="11" width="32" height="12" rx="3" fill="#29ABE2"/><rect x="19" y="27" width="15" height="10" rx="2" fill="#D6E9F5"/><rect x="36" y="27" width="15" height="10" rx="2" fill="#D6E9F5"/></svg></div><div class="in"><span class="cat">Email Builder</span><h4>Email Builder</h4><p>Build emails from ready-made components, in your own brand styling.</p><span class="note">Drafts to edit</span><a class="lnk">Learn about Email Builder</a></div></div>
+  </div>
+</div></section>
+
+<section class="s dark"><div class="wrap">
+  <p class="eyebrow">Example prompts</p>
+  <h2 class="h2">Ask in plain words.<span>Get answers from live data.</span></h2>
+  <div class="prompts">
+    <div class="pr"><span>Mail+</span><p>&ldquo;Create a draft webinar invitation for our Q4 webinar, in the style of my last newsletter.&rdquo;</p></div>
+    <div class="pr"><span>Activate</span><p>&ldquo;Why did my abandoned cart journey stop getting new people?&rdquo;</p></div>
+    <div class="pr"><span>FeedbackPro</span><p>&ldquo;Why did our score drop this month?&rdquo;</p></div>
+    <div class="pr"><span>Mail+</span><p>&ldquo;Run a pre-send check on this email and tell me what I must fix.&rdquo;</p></div>
+    <div class="pr"><span>CRM</span><p>&ldquo;What is our pipeline value by stage?&rdquo;</p></div>
+    <div class="pr"><span>Activate</span><p>&ldquo;Give me a health check of this account.&rdquo;</p></div>
+  </div>
+</div></section>
+
+<section class="s"><div class="wrap">
+  <p class="eyebrow">Security and control</p>
+  <h2 class="h2">You stay in charge.<span>Every step of the way.</span></h2>
+  <div class="charge">
+    <div class="ch"><i><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/></svg></i><h4>Drafts only</h4><p>The MCP prepares and analyses. Sending to your audience stays a human action in the product.</p></div>
+    <div class="ch"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></i><h4>Your permissions</h4><p>You sign in with your own login, and the assistant can only do what you can do in the product.</p></div>
+    <div class="ch"><i><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></i><h4>Your go-ahead</h4><p>Changes that can&rsquo;t be undone always need your confirmation. Ask for the plan first, then approve.</p></div>
+  </div>
+</div></section>
+
+<section class="s sky cta"><div class="wrap">
+  <h2 class="h2">See it with your own goals.</h2>
+  <p>A short walkthrough of the Spotler MCP, built around what you want to achieve.</p>
+  <a class="btn ye">Book a walkthrough</a>
+</div></section>
+
+<footer><div class="wrap">
+  <div><span class="logo">spotler</span><p style="margin-top:12px;max-width:260px;line-height:1.6">Connected marketing and customer communications, built in Europe.</p></div>
+  <div><b>Products</b><a>Mail+</a><a>Activate</a><a>FeedbackPro</a><a>SendPro</a></div>
+  <div><b>Spotler AI</b><a>Spotler MCP</a><a>Spot</a><a>Prompt library</a></div>
+  <div><b>Company</b><a>About us</a><a>Contact</a><a>Privacy statement</a></div>
+</div></footer>
+<!--BUNDLE-->
+</body>
+</html>
