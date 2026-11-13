@@ -27,3 +27,4 @@
   float: none; clear: none; height: auto; min-height: 0; max-height: none; transform: none; text-indent: 0; text-transform: none; letter-spacing: normal; }
 #mia-showcase h2, #mia-showcase p { margin: 0; padding: 0; border: 0; background: none; position: static; }
 #mia-showcase h2::before, #mia-showcase h2::after, #mia-showcase p::before, #mia-showcase p::after { content: none; }
+.mia-sc-on > :not(#mia-showcase) { visibility: hidden !important; }

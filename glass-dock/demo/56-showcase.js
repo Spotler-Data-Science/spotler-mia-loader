@@ -39,7 +39,7 @@ function applyShowcase(ui, row, remount) {
 }
 function removeShowcases() {
   var all = document.querySelectorAll("#mia-showcase");
-  for (var i = 0; i < all.length; i++) if (all[i].parentNode) all[i].parentNode.removeChild(all[i]);
+  for (var i = 0; i < all.length; i++) if (all[i].parentNode) { all[i].parentNode.classList.remove("mia-sc-on"); all[i].parentNode.removeChild(all[i]); }
 }
 function createShowcase(parent, row, onSend) {
   var a = showcaseAddon(), sc = a && showcaseFor(row, a);

@@ -174,6 +174,14 @@ async def main():
         check("D28 a restart brings the timer back", await page.evaluate(ON) == 1, await page.evaluate(ON))
         await page.screenshot(path=f"{OUT}/demo-hub.png")
         await ctx.close()
+        # after a restart, the old conversation never shows through the showcase's glass
+        ctx, page, logs = await page_at(b, "/en-gb/services")
+        await page.click(".mia-sc-action >> nth=1"); await page.wait_for_timeout(1500)
+        await page.click("#mia-dock-head button >> nth=0"); await page.wait_for_timeout(300)
+        r = await page.evaluate("[!!document.getElementById('mia-showcase'), getComputedStyle(document.getElementById('bp-embedded-webchat')).visibility, getComputedStyle(document.getElementById('spotler-mia-shell')).visibility]")
+        tops = await page.evaluate("[...document.querySelectorAll('.mia-sc-action')].map(b => Math.round(b.getBoundingClientRect().top))")
+        check("D30 restart: the showcase is back and nothing behind it shows through; the buttons sit on one line", r == [True, "hidden", "hidden"] and len(set(tops)) == 1, [r, tops])
+        await ctx.close()
         for f in ("demo-staging", "demo-showcase"):
             n = len(open(os.path.join(ROOT, f"glass-dock/dist/mia-glass-dock-1.11.{f}.gtm.html")).read())
             check(f"D17 {f} tag under GTM's 102,400 characters", n <= 102400, n)

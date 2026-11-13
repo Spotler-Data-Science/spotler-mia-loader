@@ -294,6 +294,9 @@ function createShowcase(parent, sc, onSend) {
     go(cur + 1);
   }, 250);
   parent.appendChild(root);
+  // while the showcase shows, nothing behind it shows through its glass (an
+  // old conversation, or the live chat after a restart)
+  parent.classList.add("mia-sc-on");
 
   // No scrolling: on a short screen the page table's CSS tightens the
   // spacing first (@media max-height); if it still doesn't fit, the whole
@@ -319,6 +322,7 @@ function createShowcase(parent, sc, onSend) {
     fit: fit,
     hide: function () {
       stop(); clearInterval(typing);
+      if (root.parentNode) root.parentNode.classList.remove("mia-sc-on");
       window.removeEventListener("resize", refit);
       if (!root.parentNode) return;
       root.classList.add("going");
