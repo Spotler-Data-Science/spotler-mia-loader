@@ -265,7 +265,7 @@ footer a { display: block; margin-bottom: 6px; }
 </div></footer>
 <!--LIBRARY-->
 <script>
-(function () {
+try { (function () {
   var L = window.MIA_LIBRARY, P = { mail: "Mail+", activate: "Activate" }, J = L.jobs;
   var NAMES = { context: "Context", task: "Task", details: "Details", prefs: "Preferences", review: "Review step", output: "Output" };
   var state = { p: "all", j: "all", all: false };
@@ -303,7 +303,7 @@ footer a { display: block; margin-bottom: 6px; }
   $("lib-all").addEventListener("click", function () { state.all = !state.all; render(); });
   $("lib-mia").addEventListener("click", function () { if (window.miaPreview) window.miaPreview.say("Write a prompt for me"); });
   render();
-})();
+})(); } catch (e) {}
 </script>
 <!--BUNDLE-->
 </body>

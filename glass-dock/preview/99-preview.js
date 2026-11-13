@@ -201,7 +201,8 @@
     show = sc ? window.SpotlerMiaShowcase.create(ui.body, sc, function (t) { if (t === LIB) goLibrary(); else say(t); }, H) : null;
   }
 
-  onDomReady(function () {
+  onDomReady(function () { try { boot(); } catch (e) { log("preview failed", e); } });
+  function boot() {
     addStyle(CSS.common);
     ui = createDock(labels, {
       onAsk: function (t) { say(t); },
@@ -214,5 +215,7 @@
     mount();
     ui.startTyping();
     window.miaPreview = { say: say, open: function () { ui.open(); } };
-  });
+    // tells the plan page the demo is running (it shows a note instead if not)
+    try { parent.postMessage({ miaPreview: "ready" }, "*"); } catch (e) {}
+  }
 })();
