@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-06.1",
+  "version": "2026-11-17.1",
   "generatedBy": "Glass dock page table for marketing.spotler.com/botpress/config.json (read by the live tag; no GitHub)",
   "rows": [
     {
@@ -2612,6 +2612,293 @@
         "Any guides on email marketing?",
         "Which guide should I read first?",
         "Do you have webinars?"
+      ]
+    },
+    {
+      "url_match": "/sendpro/banking-insurance",
+      "match_type": "exact",
+      "region": "int",
+      "page": "sendpro-banking-insurance",
+      "title": "Hello, I’m Mia",
+      "opener": "I can help you try SendPro with your own policy, claims or payment emails, answer questions about proving delivery, or make sure the right colleague follows up by email.",
+      "buttons": [
+        {
+          "label": "Get a trial account",
+          "send": "Get a trial account",
+          "description": "Test SendPro with your own policy and claims emails",
+          "icon": "product"
+        },
+        {
+          "label": "Talk to an expert",
+          "send": "Talk to an expert",
+          "description": "Walk through your setup with a product specialist",
+          "icon": "chat"
+        },
+        {
+          "label": "See pricing",
+          "send": "See pricing",
+          "description": "Compare SendPro Basic and Premium",
+          "icon": "pricing"
+        },
+        {
+          "label": "Get support",
+          "send": "Get support",
+          "description": "Already a customer? Reach out to support.",
+          "icon": "support"
+        }
+      ],
+      "prompts": [
+        "Can I keep copies of claims emails for audits and complaints?",
+        "How do I prove a customer received a renewal notice?",
+        "Can SendPro also send SMS alerts, such as unusual activity notices?",
+        "Is SendPro hosted in the EU?",
+        "What happens when a customer replies to an email?"
+      ]
+    },
+    {
+      "url_match": "/en-gb/sendpro/banking-insurance",
+      "match_type": "exact",
+      "region": "en-GB",
+      "page": "sendpro-banking-insurance",
+      "title": "Hello, I’m Mia",
+      "opener": "I can help you try SendPro with your own policy, claims or payment emails, answer questions about proving delivery, or make sure the right colleague follows up by email.",
+      "buttons": [
+        {
+          "label": "Get a trial account",
+          "send": "Get a trial account",
+          "description": "Test SendPro with your own policy and claims emails",
+          "icon": "product"
+        },
+        {
+          "label": "Talk to an expert",
+          "send": "Talk to an expert",
+          "description": "Walk through your setup with a product specialist",
+          "icon": "chat"
+        },
+        {
+          "label": "See pricing",
+          "send": "See pricing",
+          "description": "Compare SendPro Basic and Premium",
+          "icon": "pricing"
+        },
+        {
+          "label": "Get support",
+          "send": "Get support",
+          "description": "Already a customer? Reach out to support.",
+          "icon": "support"
+        }
+      ],
+      "prompts": [
+        "Can I keep copies of claims emails for audits and complaints?",
+        "How do I prove a customer received a renewal notice?",
+        "Can SendPro also send SMS alerts, such as unusual activity notices?",
+        "Is SendPro hosted in the EU?",
+        "What happens when a customer replies to an email?"
+      ]
+    },
+    {
+      "url_match": "/productguides/spotler-sendpro-banking-insurance",
+      "match_type": "exact",
+      "region": "int",
+      "page": "sendpro-productguide",
+      "title": "Hello, I’m Mia",
+      "opener": "Questions about the SendPro guide for banks and insurers? I can answer them, help you try SendPro with your own policy, claims or payment emails, or make sure the right colleague follows up by email.",
+      "buttons": [
+        {
+          "label": "Get a trial account",
+          "send": "Get a trial account",
+          "description": "Test SendPro with your own policy and claims emails",
+          "icon": "product"
+        },
+        {
+          "label": "Talk to an expert",
+          "send": "Talk to an expert",
+          "description": "Walk through your setup with a product specialist",
+          "icon": "chat"
+        },
+        {
+          "label": "See pricing",
+          "send": "See pricing",
+          "description": "Compare SendPro Basic and Premium",
+          "icon": "pricing"
+        },
+        {
+          "label": "Get support",
+          "send": "Get support",
+          "description": "Already a customer? Reach out to support.",
+          "icon": "support"
+        }
+      ],
+      "prompts": [
+        "Can I keep copies of claims emails for audits and complaints?",
+        "How do I prove a customer received a renewal notice?",
+        "Can SendPro also send SMS alerts, such as unusual activity notices?",
+        "Is SendPro hosted in the EU?",
+        "What happens when a customer replies to an email?"
+      ]
+    },
+    {
+      "url_match": "/en-gb/productguides/spotler-sendpro-banking-insurance",
+      "match_type": "exact",
+      "region": "en-GB",
+      "page": "sendpro-productguide",
+      "title": "Hello, I’m Mia",
+      "opener": "Questions about the SendPro guide for banks and insurers? I can answer them, help you try SendPro with your own policy, claims or payment emails, or make sure the right colleague follows up by email.",
+      "buttons": [
+        {
+          "label": "Get a trial account",
+          "send": "Get a trial account",
+          "description": "Test SendPro with your own policy and claims emails",
+          "icon": "product"
+        },
+        {
+          "label": "Talk to an expert",
+          "send": "Talk to an expert",
+          "description": "Walk through your setup with a product specialist",
+          "icon": "chat"
+        },
+        {
+          "label": "See pricing",
+          "send": "See pricing",
+          "description": "Compare SendPro Basic and Premium",
+          "icon": "pricing"
+        },
+        {
+          "label": "Get support",
+          "send": "Get support",
+          "description": "Already a customer? Reach out to support.",
+          "icon": "support"
+        }
+      ],
+      "prompts": [
+        "Can I keep copies of claims emails for audits and complaints?",
+        "How do I prove a customer received a renewal notice?",
+        "Can SendPro also send SMS alerts, such as unusual activity notices?",
+        "Is SendPro hosted in the EU?",
+        "What happens when a customer replies to an email?"
+      ]
+    },
+    {
+      "url_match": "/guides/sent-or-delivered-for-insurers",
+      "match_type": "exact",
+      "region": "int",
+      "page": "sendpro-sent-or-delivered",
+      "title": "Hello, I’m Mia",
+      "opener": "Need to prove a customer email arrived? I can explain how SendPro shows delivery, help you try it with your own policy, claims or payment emails, or make sure the right colleague follows up by email.",
+      "buttons": [
+        {
+          "label": "Get a trial account",
+          "send": "Get a trial account",
+          "description": "Test SendPro with your own policy and claims emails",
+          "icon": "product"
+        },
+        {
+          "label": "Talk to an expert",
+          "send": "Talk to an expert",
+          "description": "Walk through your setup with a product specialist",
+          "icon": "chat"
+        },
+        {
+          "label": "See pricing",
+          "send": "See pricing",
+          "description": "Compare SendPro Basic and Premium",
+          "icon": "pricing"
+        },
+        {
+          "label": "Get support",
+          "send": "Get support",
+          "description": "Already a customer? Reach out to support.",
+          "icon": "support"
+        }
+      ],
+      "prompts": [
+        "How do I prove a customer received a renewal notice?",
+        "Can I keep copies of claims emails for audits and complaints?",
+        "What happens when a customer replies to an email?",
+        "Is SendPro hosted in the EU?",
+        "Can SendPro also send SMS alerts, such as unusual activity notices?"
+      ]
+    },
+    {
+      "url_match": "/en-gb/guides/sent-or-delivered-for-insurers",
+      "match_type": "exact",
+      "region": "en-GB",
+      "page": "sendpro-sent-or-delivered",
+      "title": "Hello, I’m Mia",
+      "opener": "Need to prove a customer email arrived? I can explain how SendPro shows delivery, help you try it with your own policy, claims or payment emails, or make sure the right colleague follows up by email.",
+      "buttons": [
+        {
+          "label": "Get a trial account",
+          "send": "Get a trial account",
+          "description": "Test SendPro with your own policy and claims emails",
+          "icon": "product"
+        },
+        {
+          "label": "Talk to an expert",
+          "send": "Talk to an expert",
+          "description": "Walk through your setup with a product specialist",
+          "icon": "chat"
+        },
+        {
+          "label": "See pricing",
+          "send": "See pricing",
+          "description": "Compare SendPro Basic and Premium",
+          "icon": "pricing"
+        },
+        {
+          "label": "Get support",
+          "send": "Get support",
+          "description": "Already a customer? Reach out to support.",
+          "icon": "support"
+        }
+      ],
+      "prompts": [
+        "How do I prove a customer received a renewal notice?",
+        "Can I keep copies of claims emails for audits and complaints?",
+        "What happens when a customer replies to an email?",
+        "Is SendPro hosted in the EU?",
+        "Can SendPro also send SMS alerts, such as unusual activity notices?"
+      ]
+    },
+    {
+      "url_match": "/en-gb/discover/sendpro-for-insurance",
+      "match_type": "exact",
+      "region": "en-GB",
+      "page": "sendpro-insurance-summit",
+      "title": "Hello, I’m Mia",
+      "opener": "Here from the insurance summit? I can help you try SendPro with your own policy, claims or payment emails, answer questions about proving delivery, or make sure the right colleague follows up by email.",
+      "buttons": [
+        {
+          "label": "Get a trial account",
+          "send": "Get a trial account",
+          "description": "Test SendPro with your own policy and claims emails",
+          "icon": "product"
+        },
+        {
+          "label": "Talk to an expert",
+          "send": "Talk to an expert",
+          "description": "Walk through your setup with a product specialist",
+          "icon": "chat"
+        },
+        {
+          "label": "See pricing",
+          "send": "See pricing",
+          "description": "Compare SendPro Basic and Premium",
+          "icon": "pricing"
+        },
+        {
+          "label": "Get support",
+          "send": "Get support",
+          "description": "Already a customer? Reach out to support.",
+          "icon": "support"
+        }
+      ],
+      "prompts": [
+        "How do I prove a customer received a renewal notice?",
+        "Can I keep copies of claims emails for audits and complaints?",
+        "Can SendPro also send SMS alerts, such as unusual activity notices?",
+        "Is SendPro hosted in the EU?",
+        "What happens when a customer replies to an email?"
       ]
     }
   ]
