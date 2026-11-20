@@ -5,7 +5,7 @@ from playwright.async_api import async_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # the staging build (mia-dev) unless DOCK_TAG names another file
-DOCK_FILE = os.environ.get("DOCK_TAG") or os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.11.staging.gtm.html")
+DOCK_FILE = os.environ.get("DOCK_TAG") or os.path.join(ROOT, "glass-dock/dist/mia-glass-dock-1.12.staging.gtm.html")
 POC = open(DOCK_FILE).read()
 EXPECT_BOT = ("7fd567ab-816f-4219-9588-ef0fbe77a342", "877f50a2-6eee-4e43-99bd-eb9548fdf9c3") if ".live." in DOCK_FILE else ("76065f80-2d7f-43a4-9217-26d320157352", "dadbe1bf-4b11-49a4-ab85-3e9dd59f3254")
 PROD = open(os.path.join(ROOT, "dist/mia-loader.gtm.html")).read()
